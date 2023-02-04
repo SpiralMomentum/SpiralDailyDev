@@ -6,16 +6,27 @@
   <component name="ChangeListManager">
     <list default="true" id="3d3d17ad-f50d-4d34-981d-efe9fb11ae43" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/daily_memo/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/apps/daily_memo/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/daily_memo/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/daily_memo/lib/main.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/daily_memo/lib/presentation/app_routes.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/daily_memo/lib/presentation/core/route/app_routes.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/daily_memo/lib/presentation/routes_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/daily_memo/lib/presentation/core/route/routes_controller.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/daily_memo/lib/presentation/routes_controller_impl/routes_controller_go_router_impl.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/daily_memo/lib/presentation/core/route/routes_controller_impl/routes_controller_go_router_impl.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/daily_memo/lib/presentation/routes_controller_impl/routes_controller_modular_impl.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/daily_memo/lib/presentation/core/route/routes_controller_impl/routes_controller_modular_impl.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/daily_memo/lib/presentation/routes_impl/app_routes_go_router.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/daily_memo/lib/presentation/core/route/routes_impl/app_routes_go_router.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/daily_memo/lib/presentation/routes_impl/app_routes_modular.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/daily_memo/lib/presentation/core/route/routes_impl/app_routes_modular.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/daily_memo/lib/presentation/view/home/home_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/daily_memo/lib/presentation/view/home/home_page.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/spiral_map/test/widget_test.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/daily_memo/android/app/src/main/res/mipmap-hdpi/ic_launcher.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/daily_memo/android/app/src/main/res/mipmap-mdpi/ic_launcher.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/daily_memo/android/app/src/main/res/mipmap-xhdpi/ic_launcher.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/daily_memo/android/app/src/main/res/mipmap-xxhdpi/ic_launcher.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/daily_memo/android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/daily_memo/ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/daily_memo/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-1024x1024@1x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/daily_memo/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-20x20@1x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/daily_memo/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-20x20@2x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/daily_memo/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-20x20@3x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/daily_memo/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-29x29@1x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/daily_memo/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-29x29@2x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/daily_memo/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-29x29@3x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/daily_memo/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-40x40@1x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/daily_memo/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-40x40@2x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/daily_memo/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-40x40@3x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/daily_memo/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-60x60@2x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/daily_memo/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-60x60@3x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/daily_memo/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-76x76@1x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/daily_memo/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-76x76@2x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/daily_memo/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-83.5x83.5@2x.png" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -66,20 +77,20 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.cidr.known.project.marker": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "cidr.known.project.marker": "true",
-    "dart.analysis.tool.window.visible": "false",
-    "io.flutter.reload.alreadyRun": "true",
-    "last_opened_file_path": "/Users/gyubinhwang/AndroidStudioProjects/spiral_dev/apps/daily_memo/lib/presentation/routes_controller_impl",
-    "settings.editor.selected.configurable": "preferences.toDoOptions",
-    "show.migrate.to.gradle.popup": "false"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
+    &quot;io.flutter.reload.alreadyRun&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/gyubinhwang/AndroidStudioProjects/spiral_dev/apps/daily_memo/lib/presentation/routes_controller_impl&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.toDoOptions&quot;,
+    &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/apps/daily_memo/lib/presentation/routes_controller_impl" />
@@ -87,11 +98,11 @@
       <recent name="$PROJECT_DIR$/apps/daily_memo/lib/presentation/view/login" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/apps/daily_memo/android/app/src/main/res" />
+      <recent name="$PROJECT_DIR$/apps/daily_memo/ios/Runner/Assets.xcassets/AppIcon.appiconset" />
       <recent name="$PROJECT_DIR$/apps/daily_memo/lib/presentation/core/route" />
       <recent name="$PROJECT_DIR$/apps/daily_memo/lib/presentation/core" />
       <recent name="$PROJECT_DIR$/apps/daily_memo/lib/presentation/view_model/home" />
-      <recent name="$PROJECT_DIR$/apps/daily_memo/lib/presentation/routes_controller_impl" />
-      <recent name="$PROJECT_DIR$/apps/daily_memo/lib/presentation/routes_impl" />
     </key>
   </component>
   <component name="RunManager" selected="Flutter.main.dart (1)">
