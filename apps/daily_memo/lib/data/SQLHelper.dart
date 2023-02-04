@@ -40,16 +40,16 @@ class SQLHelper {
   }
 
   // Read all items (journals)
-  static Future<List<Map<String, dynamic>>> getItems() async {
+  static Future<List<MemoEntity>> getItems() async {
     final db = await SQLHelper.db();
-    return db.query('memos', orderBy: "id");
+    return (await db.query('memos', orderBy: "id")).map(MemoEntity.fromJson).toList();
   }
 
   // Read a single item by id
   // The app doesn't use this method but I put here in case you want to see it
-  static Future<List<Map<String, dynamic>>> getItem(int id) async {
+  static Future<MemoEntity> getItem(int id) async {
     final db = await SQLHelper.db();
-    return db.query('memos', where: "id = ?", whereArgs: [id], limit: 1);
+    return (await db.query('memos', orderBy: "id")).where((e) => e["id"] == id).map(MemoEntity.fromJson).first;
   }
 
   // Update an item by id
