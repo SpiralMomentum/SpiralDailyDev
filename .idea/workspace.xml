@@ -7,18 +7,18 @@
     <list default="true" id="3d3d17ad-f50d-4d34-981d-efe9fb11ae43" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/daily_memo/.dart_tool/package_config.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/daily_memo/.dart_tool/package_config.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/daily_memo/.dart_tool/package_config_subset" beforeDir="false" afterPath="$PROJECT_DIR$/apps/daily_memo/.dart_tool/package_config_subset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/daily_memo/android/app/src/main/java/io/flutter/plugins/GeneratedPluginRegistrant.java" beforeDir="false" afterPath="$PROJECT_DIR$/apps/daily_memo/android/app/src/main/java/io/flutter/plugins/GeneratedPluginRegistrant.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/daily_memo/ios/Flutter/Debug.xcconfig" beforeDir="false" afterPath="$PROJECT_DIR$/apps/daily_memo/ios/Flutter/Debug.xcconfig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/daily_memo/ios/Flutter/Release.xcconfig" beforeDir="false" afterPath="$PROJECT_DIR$/apps/daily_memo/ios/Flutter/Release.xcconfig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/daily_memo/ios/Runner/GeneratedPluginRegistrant.m" beforeDir="false" afterPath="$PROJECT_DIR$/apps/daily_memo/ios/Runner/GeneratedPluginRegistrant.m" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/daily_memo/lib/data/SQLHelper.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/daily_memo/lib/data/sql_helper.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/daily_memo/lib/data/entity/memo_entiry.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/daily_memo/lib/data/entity/memo_entiry.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/daily_memo/lib/data/repository_impl/MemoRepositoryImpl.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/daily_memo/lib/data/repository_impl/memo_repository_impl.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/daily_memo/lib/domain/model/home/memo_list_item.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/daily_memo/lib/domain/model/home/memo_list_item.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/daily_memo/lib/domain/repository_interface/memo_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/daily_memo/lib/domain/repository_interface/memo_repository.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/daily_memo/lib/domain/usecase/memo_usecase.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/daily_memo/lib/domain/usecase/memo_usecase.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/daily_memo/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/daily_memo/lib/main.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/daily_memo/macos/Flutter/Flutter-Debug.xcconfig" beforeDir="false" afterPath="$PROJECT_DIR$/apps/daily_memo/macos/Flutter/Flutter-Debug.xcconfig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/daily_memo/macos/Flutter/Flutter-Release.xcconfig" beforeDir="false" afterPath="$PROJECT_DIR$/apps/daily_memo/macos/Flutter/Flutter-Release.xcconfig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/daily_memo/macos/Flutter/GeneratedPluginRegistrant.swift" beforeDir="false" afterPath="$PROJECT_DIR$/apps/daily_memo/macos/Flutter/GeneratedPluginRegistrant.swift" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/daily_memo/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/apps/daily_memo/pubspec.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/daily_memo/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/apps/daily_memo/pubspec.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/daily_memo/lib/presentation/core/route/app_routes.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/daily_memo/lib/presentation/core/route/app_routes.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/daily_memo/lib/presentation/core/route/routes_impl/app_routes_go_router.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/daily_memo/lib/presentation/core/route/routes_impl/app_routes_go_router.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/daily_memo/lib/presentation/core/route/routes_impl/app_routes_modular.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/daily_memo/lib/presentation/core/route/routes_impl/app_routes_modular.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/daily_memo/lib/presentation/view/home/home_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/daily_memo/lib/presentation/view/home/home_page.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/daily_memo/lib/presentation/view_model/home/home_viewmodel.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/daily_memo/lib/presentation/view_model/home/home_viewmodel.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -69,22 +69,23 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
-    &quot;io.flutter.reload.alreadyRun&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/gyubinhwang/AndroidStudioProjects/spiral_dev/apps/daily_memo/lib/presentation/routes_controller_impl&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.toDoOptions&quot;,
-    &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "cidr.known.project.marker": "true",
+    "dart.analysis.tool.window.visible": "false",
+    "io.flutter.reload.alreadyRun": "true",
+    "last_opened_file_path": "/Users/gyubinhwang/AndroidStudioProjects/spiral_dev/apps/daily_memo",
+    "settings.editor.selected.configurable": "preferences.toDoOptions",
+    "show.migrate.to.gradle.popup": "false"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/apps/daily_memo" />
       <recent name="$PROJECT_DIR$/apps/daily_memo/lib/presentation/routes_controller_impl" />
       <recent name="$PROJECT_DIR$/apps/daily_memo/lib/presentation" />
       <recent name="$PROJECT_DIR$/apps/daily_memo/lib/presentation/view/login" />

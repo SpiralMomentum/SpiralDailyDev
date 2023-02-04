@@ -1,15 +1,19 @@
 import 'package:apps.daily_memo/domain/model/home/memo_list_item.dart';
 import 'package:apps.daily_memo/domain/repository_interface/memo_repository.dart';
 import 'package:apps.daily_memo/domain/usecase/memo_usecase.dart';
+import 'package:apps.daily_memo/presentation/core/route/app_routes.dart';
+import 'package:apps.daily_memo/presentation/core/route/routes_controller.dart';
+import 'package:apps.daily_memo/presentation/core/route/routes_controller_impl/routes_controller_modular_impl.dart';
+import 'package:flutter/cupertino.dart';
 
 class HomeViewModel {
-  late final MemoRepository _memoRepository;
   late final MemoUsecase _memoUsecase;
+  final RoutesController routesController = RoutesControllerModularImpl();
 
-  HomeViewModel({required MemoRepository memoRepository}){
-    _memoRepository = memoRepository;
-    _memoUsecase = MemoUsecase(_memoRepository);
+  HomeViewModel({required MemoRepository memoRepository}) {
+    _memoUsecase = MemoUsecase(memoRepository);
   }
+
   /* TODO: bind 공통 ? 비동기
   * 1. 로컬 DB 데이터 불러오기
   * 2. SharedPreference 데이터 불러오기
@@ -20,4 +24,7 @@ class HomeViewModel {
   *
   */
   Future<List<MemoListItem>> get getMemos => _memoUsecase.getMemoList;
+
+  void navigateToAddMemo(BuildContext context) =>
+      routesController.toPushNamed(context, AppRoutes.MEMO.path);
 }

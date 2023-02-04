@@ -1,4 +1,4 @@
-import 'package:apps.daily_memo/data/repository_impl/MemoRepositoryImpl.dart';
+import 'package:apps.daily_memo/data/repository_impl/memo_repository_impl.dart';
 import 'package:apps.daily_memo/presentation/core/route/app_routes.dart';
 import 'package:apps.daily_memo/presentation/view/home/home_page.dart';
 import 'package:apps.daily_memo/presentation/view/login/login_page.dart';
