@@ -1,4 +1,4 @@
-import 'package:apps.daily_memo/presentation/app_routes.dart';
+import 'package:apps.daily_memo/presentation/core/route/app_routes.dart';
 import 'package:apps.daily_memo/presentation/view/home/home_page.dart';
 import 'package:apps.daily_memo/presentation/view/login/login_page.dart';
 import 'package:apps.daily_memo/presentation/view/splash/splash_page.dart';

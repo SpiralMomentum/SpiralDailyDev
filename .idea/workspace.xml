@@ -5,31 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3d3d17ad-f50d-4d34-981d-efe9fb11ae43" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/daily_memo/android/gradlew" beforeDir="false" afterPath="$PROJECT_DIR$/apps/daily_memo/android/gradlew" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/daily_memo/linux/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/apps/daily_memo/linux/CMakeLists.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/daily_memo/windows/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/apps/daily_memo/windows/CMakeLists.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/daily_memo/windows/runner/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/apps/daily_memo/windows/runner/CMakeLists.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/spiral_map/.dart_tool/package_config.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/spiral_map/.dart_tool/package_config.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/spiral_map/.dart_tool/package_config_subset" beforeDir="false" afterPath="$PROJECT_DIR$/apps/spiral_map/.dart_tool/package_config_subset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/spiral_map/.dart_tool/version" beforeDir="false" afterPath="$PROJECT_DIR$/apps/spiral_map/.dart_tool/version" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/spiral_map/android/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/apps/spiral_map/android/app/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/spiral_map/android/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/apps/spiral_map/android/app/src/main/AndroidManifest.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/spiral_map/android/app/src/main/java/io/flutter/plugins/GeneratedPluginRegistrant.java" beforeDir="false" afterPath="$PROJECT_DIR$/apps/spiral_map/android/app/src/main/java/io/flutter/plugins/GeneratedPluginRegistrant.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/spiral_map/android/gradlew" beforeDir="false" afterPath="$PROJECT_DIR$/apps/spiral_map/android/gradlew" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/spiral_map/android/local.properties" beforeDir="false" afterPath="$PROJECT_DIR$/apps/spiral_map/android/local.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/spiral_map/ios/Flutter/Debug.xcconfig" beforeDir="false" afterPath="$PROJECT_DIR$/apps/spiral_map/ios/Flutter/Debug.xcconfig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/spiral_map/ios/Flutter/Release.xcconfig" beforeDir="false" afterPath="$PROJECT_DIR$/apps/spiral_map/ios/Flutter/Release.xcconfig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/spiral_map/ios/Runner/GeneratedPluginRegistrant.m" beforeDir="false" afterPath="$PROJECT_DIR$/apps/spiral_map/ios/Runner/GeneratedPluginRegistrant.m" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/spiral_map/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/spiral_map/lib/main.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/spiral_map/linux/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/apps/spiral_map/linux/CMakeLists.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/spiral_map/macos/Flutter/Flutter-Debug.xcconfig" beforeDir="false" afterPath="$PROJECT_DIR$/apps/spiral_map/macos/Flutter/Flutter-Debug.xcconfig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/spiral_map/macos/Flutter/Flutter-Release.xcconfig" beforeDir="false" afterPath="$PROJECT_DIR$/apps/spiral_map/macos/Flutter/Flutter-Release.xcconfig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/spiral_map/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/apps/spiral_map/pubspec.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/spiral_map/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/apps/spiral_map/pubspec.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/spiral_map/windows/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/apps/spiral_map/windows/CMakeLists.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/spiral_map/windows/runner/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/apps/spiral_map/windows/runner/CMakeLists.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/daily_memo/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/apps/daily_memo/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/daily_memo/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/daily_memo/lib/main.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/daily_memo/lib/presentation/app_routes.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/daily_memo/lib/presentation/core/route/app_routes.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/daily_memo/lib/presentation/routes_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/daily_memo/lib/presentation/core/route/routes_controller.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/daily_memo/lib/presentation/routes_controller_impl/routes_controller_go_router_impl.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/daily_memo/lib/presentation/core/route/routes_controller_impl/routes_controller_go_router_impl.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/daily_memo/lib/presentation/routes_controller_impl/routes_controller_modular_impl.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/daily_memo/lib/presentation/core/route/routes_controller_impl/routes_controller_modular_impl.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/daily_memo/lib/presentation/routes_impl/app_routes_go_router.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/daily_memo/lib/presentation/core/route/routes_impl/app_routes_go_router.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/daily_memo/lib/presentation/routes_impl/app_routes_modular.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/daily_memo/lib/presentation/core/route/routes_impl/app_routes_modular.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/daily_memo/lib/presentation/view/home/home_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/daily_memo/lib/presentation/view/home/home_page.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/spiral_map/test/widget_test.dart" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -80,20 +66,20 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
-    &quot;io.flutter.reload.alreadyRun&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/gyubinhwang/AndroidStudioProjects/spiral_dev/apps/daily_memo/lib/presentation/routes_controller_impl&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;editor.preferences.fonts.default&quot;,
-    &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "cidr.known.project.marker": "true",
+    "dart.analysis.tool.window.visible": "false",
+    "io.flutter.reload.alreadyRun": "true",
+    "last_opened_file_path": "/Users/gyubinhwang/AndroidStudioProjects/spiral_dev/apps/daily_memo/lib/presentation/routes_controller_impl",
+    "settings.editor.selected.configurable": "preferences.toDoOptions",
+    "show.migrate.to.gradle.popup": "false"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/apps/daily_memo/lib/presentation/routes_controller_impl" />
@@ -101,9 +87,11 @@
       <recent name="$PROJECT_DIR$/apps/daily_memo/lib/presentation/view/login" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/apps/daily_memo/lib/presentation/core/route" />
+      <recent name="$PROJECT_DIR$/apps/daily_memo/lib/presentation/core" />
+      <recent name="$PROJECT_DIR$/apps/daily_memo/lib/presentation/view_model/home" />
       <recent name="$PROJECT_DIR$/apps/daily_memo/lib/presentation/routes_controller_impl" />
       <recent name="$PROJECT_DIR$/apps/daily_memo/lib/presentation/routes_impl" />
-      <recent name="$PROJECT_DIR$/apps/daily_memo/lib/presentation/view/splash" />
     </key>
   </component>
   <component name="RunManager" selected="Flutter.main.dart (1)">
