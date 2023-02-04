@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:apps.daily_memo/presentation/routes_controller.dart';
+import 'package:apps.daily_memo/presentation/core/route/routes_controller.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 

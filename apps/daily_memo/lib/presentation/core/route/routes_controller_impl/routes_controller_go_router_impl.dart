@@ -1,8 +1,8 @@
 import 'dart:io';
 
-import 'package:apps.daily_memo/presentation/app_routes.dart';
-import 'package:apps.daily_memo/presentation/routes_controller.dart';
-import 'package:apps.daily_memo/presentation/routes_impl/app_routes_go_router.dart';
+import 'package:apps.daily_memo/presentation/core/route/app_routes.dart';
+import 'package:apps.daily_memo/presentation/core/route/routes_controller.dart';
+import 'package:apps.daily_memo/presentation/core/route/routes_impl/app_routes_go_router.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:go_router/go_router.dart';
 
