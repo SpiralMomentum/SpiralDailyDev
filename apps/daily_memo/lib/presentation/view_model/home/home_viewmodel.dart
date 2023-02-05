@@ -8,10 +8,12 @@ import 'package:flutter/cupertino.dart';
 
 class HomeViewModel {
   late final MemoUsecase _memoUsecase;
+  late final Stream<List<MemoListItem>> _memoList;
   final RoutesController routesController = RoutesControllerModularImpl();
 
   HomeViewModel({required MemoRepository memoRepository}) {
     _memoUsecase = MemoUsecase(memoRepository);
+    _memoList = _memoUsecase.getMemoList.asStream();
   }
 
   /* TODO: bind 공통 ? 비동기
@@ -23,7 +25,7 @@ class HomeViewModel {
   * 1. 서버에서 데이터 불러오기
   *
   */
-  Future<List<MemoListItem>> get getMemos => _memoUsecase.getMemoList;
+  Stream<List<MemoListItem>> get getMemos => _memoList;
 
   void navigateToAddMemo(BuildContext context) =>
       routesController.toPushNamed(context, AppRoutes.MEMO.path);

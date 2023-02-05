@@ -33,17 +33,25 @@ class HomePage extends StatelessWidget {
       ),
       body: SafeArea(
         child: StreamBuilder<List<MemoListItem>>(
-          stream: homeViewModel.getMemos.asStream(),
+          stream: homeViewModel.getMemos,
           builder: (context, snapshot) {
             return (snapshot.hasData && snapshot.data!.isNotEmpty)
                 ? Container(
                     color: Colors.white,
-                    child: ListView.builder(
-                        itemCount: snapshot.data!.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          return HomeListItemView(
-                              memoListItem: snapshot.data![index]);
-                        }),
+                    child: ListView.separated(
+                      itemCount: snapshot.data!.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return HomeListItemView(
+                          memoListItem: snapshot.data![index],
+                        );
+                      },
+                      separatorBuilder: (BuildContext context, int index) {
+                        return const Divider(
+                          thickness: 2.0,
+                          color: Colors.black12,
+                        );
+                      },
+                    ),
                   )
                 : Text("데이터가 없습니다.");
           },
