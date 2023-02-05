@@ -6,13 +6,11 @@ import 'package:apps.daily_memo/presentation/core/route/routes_controller.dart';
 import 'package:apps.daily_memo/presentation/core/route/routes_controller_impl/routes_controller_modular_impl.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class MemoViewModel {
   late final MemoUsecase _memoUsecase;
   late final MemoModel? _existedMemo;
   final RoutesController routesController = RoutesControllerModularImpl();
-  final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
 
   MemoViewModel(
       {MemoModel? memoModel, required MemoRepository memoRepository}) {

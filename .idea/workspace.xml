@@ -7,18 +7,13 @@
     <list default="true" id="3d3d17ad-f50d-4d34-981d-efe9fb11ae43" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/daily_memo/lib/data/SQLHelper.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/daily_memo/lib/data/sql_helper.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/daily_memo/lib/data/entity/memo_entiry.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/daily_memo/lib/data/entity/memo_entiry.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/daily_memo/lib/data/repository_impl/MemoRepositoryImpl.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/daily_memo/lib/data/repository_impl/memo_repository_impl.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/daily_memo/lib/data/repository_impl/memo_repository_impl.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/daily_memo/lib/data/repository_impl/memo_repository_impl.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/daily_memo/lib/domain/model/home/memo_list_item.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/daily_memo/lib/domain/model/home/memo_list_item.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/daily_memo/lib/domain/repository_interface/memo_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/daily_memo/lib/domain/repository_interface/memo_repository.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/daily_memo/lib/domain/usecase/memo_usecase.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/daily_memo/lib/domain/usecase/memo_usecase.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/daily_memo/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/daily_memo/lib/main.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/daily_memo/lib/presentation/core/route/app_routes.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/daily_memo/lib/presentation/core/route/app_routes.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/daily_memo/lib/presentation/core/route/routes_impl/app_routes_go_router.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/daily_memo/lib/presentation/core/route/routes_impl/app_routes_go_router.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/daily_memo/lib/presentation/core/route/routes_impl/app_routes_modular.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/daily_memo/lib/presentation/core/route/routes_impl/app_routes_modular.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/daily_memo/lib/presentation/view/home/home_list_item_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/daily_memo/lib/presentation/view/home/home_list_item_view.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/daily_memo/lib/presentation/view/home/home_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/daily_memo/lib/presentation/view/home/home_page.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/daily_memo/lib/presentation/view_model/home/home_viewmodel.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/daily_memo/lib/presentation/view_model/home/home_viewmodel.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/daily_memo/lib/presentation/view_model/memo/memo_viewmodel.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/daily_memo/lib/presentation/view_model/memo/memo_viewmodel.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/daily_memo/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/apps/daily_memo/pubspec.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -43,6 +38,10 @@
             <RecentBranchesForRepo>
               <option name="branches">
                 <list>
+                  <RecentBranch>
+                    <option name="branchName" value="feature/listItemDesign" />
+                    <option name="lastUsedInstant" value="1675577123" />
+                  </RecentBranch>
                   <RecentBranch>
                     <option name="branchName" value="develop" />
                     <option name="lastUsedInstant" value="1675499057" />

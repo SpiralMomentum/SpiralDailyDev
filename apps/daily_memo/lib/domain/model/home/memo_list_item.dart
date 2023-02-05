@@ -1,5 +1,6 @@
 class MemoListItem {
   final String title;
+  final String content;
   final String summaryHeaderContent;
   final String summaryFooterContent;
   final String madeDateTime;
@@ -7,6 +8,7 @@ class MemoListItem {
 
   MemoListItem({
     required this.title,
+    required this.content,
     required this.summaryHeaderContent,
     required this.summaryFooterContent,
     required this.madeDateTime,

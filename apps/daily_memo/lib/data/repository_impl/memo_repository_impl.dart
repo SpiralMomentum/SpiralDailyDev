@@ -21,6 +21,7 @@ class MemoRepositoryImpl extends MemoRepository {
   MemoListItem _mapperMemoEntityToMemoListItem(MemoEntity memoEntity) {
     return MemoListItem(
       title: memoEntity.title ?? '',
+      content: memoEntity.content ?? "",
       summaryHeaderContent: memoEntity.content ?? "",
       summaryFooterContent: memoEntity.content ?? "",
       madeDateTime: memoEntity.madeDateTime ?? "",
