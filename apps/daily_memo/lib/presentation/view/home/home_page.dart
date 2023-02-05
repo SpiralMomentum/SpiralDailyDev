@@ -12,20 +12,26 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(32.0),
+        preferredSize: Size.fromHeight(48.0),
         child: AppBar(
           backgroundColor: Colors.amber,
+          automaticallyImplyLeading: false,
           actions: [
             Row(
               children: [
                 IconButton(
                   onPressed: () => homeViewModel.navigateToAddMemo(context),
-                  icon: Text("1"),
+                  icon: Text(
+                    "추가",
+                    maxLines: 1,
+                    style: TextStyle(
+                      fontSize: 16.0,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ),
-                IconButton(
-                  onPressed: () {},
-                  icon: Text("2"),
-                ),
+                const SizedBox(width: 16.0),
               ],
             )
           ],
@@ -41,8 +47,36 @@ class HomePage extends StatelessWidget {
                     child: ListView.separated(
                       itemCount: snapshot.data!.length,
                       itemBuilder: (BuildContext context, int index) {
-                        return HomeListItemView(
-                          memoListItem: snapshot.data![index],
+                        return GestureDetector(
+                          behavior: HitTestBehavior.opaque,
+                          onLongPress: () => showDialog(
+                            context: context,
+                            builder: (context) => AlertDialog(
+                              content: Container(
+                                child: Text(snapshot.data![index].title.isEmpty
+                                    ? "(빈 제목)"
+                                    : snapshot.data![index].title),
+                              ),
+                              actions: [
+                                GestureDetector(
+                                  onTap: () =>
+                                      homeViewModel.navigateToModifyMemo(
+                                          context,
+                                          snapshot.data![index].memoId),
+                                  child: Text("수정하기"),
+                                ),
+                                const SizedBox(width: 8.0),
+                                GestureDetector(
+                                  onTap: () => homeViewModel.deleteMemo(
+                                      snapshot.data![index].memoId, context),
+                                  child: Text("삭제하기"),
+                                ),
+                              ],
+                            ),
+                          ),
+                          child: HomeListItemView(
+                            memoListItem: snapshot.data![index],
+                          ),
                         );
                       },
                       separatorBuilder: (BuildContext context, int index) {

@@ -1,4 +1,5 @@
-import 'package:apps.daily_memo/data/entity/memo_entiry.dart';
+import 'package:apps.daily_memo/data/entity/add_memo_entity.dart';
+import 'package:apps.daily_memo/data/entity/saved_memo_entity.dart';
 import 'package:flutter/foundation.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
@@ -20,57 +21,64 @@ class SQLHelper {
 
   static Future<void> _createTables(Database database) async {
     await database.execute(
-        "CREATE TABLE memos(id INTEGER PRIMARY KEY autoincrement, title TEXT, author TEXT, content TEXT, madeDateTime TEXT, modifiedDateTime TEXT)");
+        "CREATE TABLE memos(memoId INTEGER PRIMARY KEY autoincrement, title TEXT, author TEXT, content TEXT, madeDateTime TEXT, modifiedDateTime TEXT)");
   }
 
   // Create new item (journal)
-  static Future<MemoEntity> createItem(MemoEntity memo) async {
+  static Future<int> createItem(AddMemoEntity memo) async {
     final db = await SQLHelper.db();
 
-    final int id = await db.insert(
+    final int insertResult = await db.insert(
       'memos',
       memo.toJson(),
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
-    memo.copyWith(id: id);
 
-    return memo;
+    return insertResult;
   }
 
   // Read all items (journals)
-  static Future<List<MemoEntity>> getItems() async {
+  static Future<List<SavedMemoEntity>> getItems() async {
     final db = await SQLHelper.db();
-    return (await db.query('memos', orderBy: "id"))
-        .map(MemoEntity.fromJson)
+    return (await db.query('memos', orderBy: "memoId"))
+        .map(SavedMemoEntity.fromJson)
         .toList();
   }
 
   // Read a single item by id
   // The app doesn't use this method but I put here in case you want to see it
-  static Future<MemoEntity> getItem(int id) async {
+  static Future<SavedMemoEntity> getItem(int memoId) async {
     final db = await SQLHelper.db();
-    return (await db.query('memos', orderBy: "id"))
-        .where((e) => e["id"] == id)
-        .map(MemoEntity.fromJson)
+    return (await db.query('memos', orderBy: "memoId"))
+        .where((e) => e["memoId"] == memoId)
+        .map(SavedMemoEntity.fromJson)
         .first;
   }
 
   // Update an item by id
-  static Future<int> updateItem(int dbId, MemoEntity memo) async {
+  static Future<int> updateItem(SavedMemoEntity memo) async {
     final db = await SQLHelper.db();
 
-    final result = await db
-        .update('items', memo.toJson(), where: "id = ?", whereArgs: [dbId]);
+    final result = await db.update(
+      'memos',
+      memo.toJson(),
+      where: "memoId = ?",
+      whereArgs: [memo.memoId],
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
+
     return result;
   }
 
   // Delete
-  static Future<void> deleteItem(int dbId) async {
+  static Future<bool> deleteItem(int dbId) async {
     final db = await SQLHelper.db();
     try {
-      await db.delete("memos", where: "id = ?", whereArgs: [dbId]);
+      await db.delete("memos", where: "memoId = ?", whereArgs: [dbId]);
+      return true;
     } catch (err) {
       debugPrint("Something went wrong when deleting an item: $err");
+      return false;
     }
   }
 }
