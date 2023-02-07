@@ -4,8 +4,7 @@ Fltter 기반의 Mono Repo 베이스, Clean Architecture 룰을 따르는 프로
 
 # Structure
 
-![Flutter_MonoRepo_CleanArchitecture](https://user-images.githubusercontent.com/50985133/216967101-5709ef9a-9bb5-450e-94c8-ca013d3234f9.svg)
-
+![Flutter_MonoRepo_CleanArchitecture (1)](https://user-images.githubusercontent.com/50985133/217288717-f01c7bef-c035-43e6-9470-47a26572d4a4.svg)
 
 app 목록
 - Daily Memo App
