@@ -5,6 +5,7 @@ import 'package:apps.daily_memo/presentation/core/route/app_routes.dart';
 import 'package:apps.daily_memo/presentation/core/route/routes_controller.dart';
 import 'package:apps.daily_memo/presentation/core/route/routes_controller_impl/routes_controller_modular_impl.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 class HomeViewModel {
   late final MemoUsecase _memoUsecase;
@@ -29,4 +30,34 @@ class HomeViewModel {
 
   void navigateToAddMemo(BuildContext context) =>
       routesController.toPushNamed(context, AppRoutes.MEMO.path);
+
+  void navigateToModifyMemo(BuildContext context, int memoId) {
+    routesController.toPushNamed(
+      context,
+      AppRoutes.MEMO.path,
+      extra: {
+        "memoId": memoId,
+      },
+    );
+  }
+
+  Future<void> deleteMemo(
+      int memoId,
+      BuildContext context,
+      ) async {
+    final bool result = await _memoUsecase.deleteMemo(memoId);
+
+    if (result) {
+      routesController.toPushNamed(context, AppRoutes.HOME.path);
+    } else {
+      showDialog(
+        context: context,
+        builder: (_) => AlertDialog(
+          content: Container(
+            child: Text("실패"),
+          ),
+        ),
+      );
+    }
+  }
 }

@@ -1,4 +1,6 @@
 import 'package:apps.daily_memo/data/repository_impl/memo_repository_impl.dart';
+import 'package:apps.daily_memo/domain/model/home/memo_list_item.dart';
+import 'package:apps.daily_memo/domain/usecase/memo_usecase.dart';
 import 'package:apps.daily_memo/presentation/core/route/app_routes.dart';
 import 'package:apps.daily_memo/presentation/view/home/home_page.dart';
 import 'package:apps.daily_memo/presentation/view/login/login_page.dart';
@@ -34,9 +36,20 @@ extension AppRoutesModularExtension on AppRoutes {
       case AppRoutes.MEMO:
         return ChildRoute(
           AppRoutes.MEMO.path,
-          child: (context, args) => MemoView(
-            memoViewModel: MemoViewModel(memoRepository: MemoRepositoryImpl()),
-          ),
+          child: (context, args) {
+            int? memoId;
+            try{
+              memoId = args.data["memoId"];
+            }catch(e){
+              memoId = null;
+            }
+            return MemoView(
+              memoViewModel: MemoViewModel(
+                memoId: memoId,
+                memoRepository: MemoRepositoryImpl(),
+              ),
+            );
+          },
         );
       default:
         return ChildRoute(

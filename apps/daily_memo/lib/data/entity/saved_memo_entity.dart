@@ -1,13 +1,13 @@
-class MemoEntity {
-  final int? id;
+class SavedMemoEntity {
+  final int memoId;
   final String? title;
   final String? author;
   final String? content;
   final String? madeDateTime;
   final String? modifiedDateTime;
 
-  MemoEntity({
-    this.id,
+  SavedMemoEntity({
+    required this.memoId,
     this.title,
     this.author,
     this.content,
@@ -15,8 +15,9 @@ class MemoEntity {
     this.modifiedDateTime,
   });
 
-  factory MemoEntity.fromJson(Map<String, dynamic> json) => MemoEntity(
-        id: json['id'],
+  factory SavedMemoEntity.fromJson(Map<String, dynamic> json) =>
+      SavedMemoEntity(
+        memoId: json['memoId'],
         title: json['title'],
         author: json['author'],
         content: json['content'],
@@ -24,16 +25,16 @@ class MemoEntity {
         modifiedDateTime: json['modifiedDateTime'],
       );
 
-  MemoEntity copyWith({
-    int? id,
+  SavedMemoEntity copyWith({
+    int? memoId,
     String? title,
     String? author,
     String? content,
     String? madeDateTime,
     String? modifiedDateTime,
   }) =>
-      MemoEntity(
-        id: id ?? this.id,
+      SavedMemoEntity(
+        memoId: memoId ?? this.memoId,
         title: title ?? this.title,
         author: author ?? this.author,
         content: content ?? this.content,
@@ -41,8 +42,9 @@ class MemoEntity {
         modifiedDateTime: modifiedDateTime ?? this.modifiedDateTime,
       );
 
-  Map<String, dynamic> toJson() => {
-        'id': id,
+  Map<String, dynamic> toJson() =>
+      {
+        'memoId' : memoId,
         'title': title,
         'author': author,
         'content': content,
