@@ -19,19 +19,7 @@ class _MemoViewState extends State<MemoView> {
     TextEditingController contentTextController = TextEditingController();
 
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(32.0),
-        child: AppBar(
-          title: StreamBuilder<MemoListItem?>(
-              stream: widget.memoViewModel.existedMemo,
-              builder: (context, snapshot) {
-                return Text(
-                  (snapshot.hasData && snapshot.data != null) ? "수정" : "추가",
-                );
-              }),
-          backgroundColor: Colors.amber,
-        ),
-      ),
+      appBar: _appBar(context),
       body: SafeArea(
         child: SingleChildScrollView(
           child: StreamBuilder<MemoListItem?>(
@@ -45,15 +33,11 @@ class _MemoViewState extends State<MemoView> {
                 return Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Container(
-                      child: Text("제목"),
-                    ),
+                    const Text("제목"),
                     TextField(
                       controller: titleTextController,
                     ),
-                    Container(
-                      child: Text("내용"),
-                    ),
+                    const Text("내용"),
                     TextField(
                       controller: contentTextController,
                     ),
@@ -79,4 +63,18 @@ class _MemoViewState extends State<MemoView> {
       ),
     );
   }
+
+  PreferredSizeWidget _appBar (BuildContext context) => PreferredSize(
+    preferredSize: const Size.fromHeight(32.0),
+    child: AppBar(
+      title: StreamBuilder<MemoListItem?>(
+          stream: widget.memoViewModel.existedMemo,
+          builder: (context, snapshot) {
+            return Text(
+              (snapshot.hasData && snapshot.data != null) ? "수정" : "추가",
+            );
+          }),
+      backgroundColor: Colors.amber,
+    ),
+  );
 }
