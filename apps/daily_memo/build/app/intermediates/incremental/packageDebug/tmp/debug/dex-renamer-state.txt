@@ -1,4 +1,0 @@
-#Wed Jan 25 01:52:16 KST 2023
-base.0=/Users/gyubinhwang/AndroidStudioProjects/spiral_dev/apps/daily_memo/build/app/intermediates/dex/debug/mergeDexDebug/classes.dex
-renamed.0=classes.dex
-path.0=classes.dex

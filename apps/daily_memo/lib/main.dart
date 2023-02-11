@@ -1,14 +1,20 @@
+import 'package:apps.daily_memo/data/sql_helper.dart';
 import 'package:apps.daily_memo/presentation/core/route/app_routes.dart';
+import 'package:apps.daily_memo/presentation/core/route/routes_impl/app_routes_modular.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:go_router/go_router.dart';
 
-void main() {
-  // Modular Main Setting
-  // runApp(ModularApp(module: AppRoutesModuler(), child: const MyApp()));
+void main() async {
 
   // Default Main Setting
-  runApp(const MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  await SQLHelper.db();
+  // runApp(const MyApp());
+
+  // Modular Main Setting
+  runApp(ModularApp(module: AppRoutesModular(), child: const MyApp()));
+
 }
 
 class MyApp extends StatelessWidget {

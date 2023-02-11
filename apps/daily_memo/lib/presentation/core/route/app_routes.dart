@@ -7,6 +7,7 @@ enum AppRoutes {
   HOME,
   SPLASH,
   LOGIN,
+  MEMO,
 }
 
 extension AppRoutesPath on AppRoutes {
@@ -18,6 +19,8 @@ extension AppRoutesPath on AppRoutes {
         return '/splash';
       case AppRoutes.LOGIN:
         return '/login';
+      case AppRoutes.MEMO:
+        return '/memo';
       default:
         return '/';
     }
