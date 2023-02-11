@@ -43,6 +43,7 @@ class _MemoViewState extends State<MemoView> {
                           memoListItem.memoId,
                           titleTextController.text,
                           contentTextController.text,
+                          memoListItem.madeDateTime,
                           context,
                         ),
                   child: Padding(

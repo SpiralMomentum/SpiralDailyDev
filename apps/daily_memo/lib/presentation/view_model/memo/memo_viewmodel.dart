@@ -50,10 +50,12 @@ class MemoViewModel {
     int memoId,
     String title,
     String content,
+    String madeDateTime,
     BuildContext context,
   ) async {
     try {
-      await _memoUsecase.modifyMemo(ModifyMemoModel(memoId, title, content));
+      await _memoUsecase
+          .modifyMemo(ModifyMemoModel(memoId, title, content, madeDateTime));
       _routesController.popAllAndPush(context, AppRoutes.HOME.path);
     } catch (e) {}
   }

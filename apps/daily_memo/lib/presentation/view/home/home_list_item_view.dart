@@ -14,7 +14,7 @@ class HomeListItemView extends StatelessWidget {
   Widget build(BuildContext context) {
     // TODO: 디자인 수정
     return Container(
-      height: 96.0,
+      height: 120.0,
       padding: const EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 0.0),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -51,14 +51,17 @@ class HomeListItemView extends StatelessWidget {
                   ),
                 );
               }),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Text("수정일 " + memoListItem.modifiedDateTime),
-              const SizedBox(width: 16.0),
-              Text("생성일 " + memoListItem.madeDateTime),
-            ],
-          )
+          const SizedBox(height: 16.0),
+          Align(
+              alignment: Alignment.centerRight,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Text("수정일 " + memoListItem.modifiedDateTime),
+                  const SizedBox(height: 2.0),
+                  Text("생성일 " + memoListItem.madeDateTime)
+                ],
+              )),
         ],
       ),
     );

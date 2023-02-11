@@ -5,6 +5,7 @@ import 'package:apps.daily_memo/domain/model/home/memo_list_item.dart';
 import 'package:apps.daily_memo/domain/model/memo/add_memo_model.dart';
 import 'package:apps.daily_memo/domain/model/memo/modify_memo_model.dart';
 import 'package:apps.daily_memo/domain/repository_interface/memo/memo_repository.dart';
+import 'package:intl/intl.dart';
 
 class MemoRepositoryImpl extends MemoRepository {
   @override
@@ -52,8 +53,8 @@ class MemoRepositoryImpl extends MemoRepository {
       title: memoModel.title,
       author: "local",
       content: memoModel.content,
-      modifiedDateTime: "test",
-      madeDateTime: "test",
+      modifiedDateTime: DateFormat("yyyy-MM-dd hh:mm:ss").format(DateTime.now()),
+      madeDateTime: DateFormat("yyyy-MM-dd hh:mm:ss").format(DateTime.now()),
     );
   }
 
@@ -63,8 +64,8 @@ class MemoRepositoryImpl extends MemoRepository {
       title: memoModel.title,
       author: "local",
       content: memoModel.content,
-      modifiedDateTime: "test",
-      madeDateTime: "test",
+      modifiedDateTime: DateFormat("yyyy-MM-dd hh:mm:ss").format(DateTime.now()),
+      madeDateTime: memoModel.madeDateTime,
     );
   }
 

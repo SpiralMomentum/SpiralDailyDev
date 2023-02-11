@@ -8,20 +8,25 @@ import 'package:flutter/material.dart';
 
 class HomeViewModel {
   late final MemoUsecase _memoUsecase;
-  late final Stream<List<MemoListItem>> _memoList;
   final RoutesController _routesController = RoutesControllerModularImpl();
 
   HomeViewModel({required MemoRepository memoRepository}) {
     _memoUsecase = MemoUsecase(memoRepository: memoRepository);
-    _memoList = _memoUsecase.getMemoList.asStream();
   }
-
 
   /* TODO: bind 로그인 연동이 되어있을 경우 ? 비동기
   * 1. 서버에서 데이터 불러오기
   *
   */
-  Stream<List<MemoListItem>> get getMemos => _memoList;
+  Stream<List<MemoListItem>> get getMemos async* {
+    final List<MemoListItem> memoList = await _memoUsecase.getMemoList;
+    memoList.sort(
+      (a, b) => DateTime.parse(b.modifiedDateTime).compareTo(
+        DateTime.parse(a.modifiedDateTime),
+      ),
+    );
+    yield memoList;
+  }
 
   void navigateToAddMemo(BuildContext context) =>
       _routesController.toPushNamed(context, AppRoutes.MEMO.path);
