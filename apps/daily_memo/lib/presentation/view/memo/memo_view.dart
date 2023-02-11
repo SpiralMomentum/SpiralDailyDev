@@ -67,7 +67,7 @@ class _MemoViewState extends State<MemoView> {
             body: SafeArea(
               child: SingleChildScrollView(
                 child: Container(
-                  padding: const EdgeInsets.fromLTRB(16.0, 32.0, 16.0, 56.0),
+                  padding: const EdgeInsets.fromLTRB(16.0, 32.0, 16.0, 96.0),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,

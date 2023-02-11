@@ -36,7 +36,7 @@ class MemoViewModel {
   ) async {
     try {
       await _memoUsecase.addMemo(AddMemoModel(title, content));
-      _routesController.toNavigate(context, AppRoutes.HOME.path);
+      _routesController.popAllAndPush(context, AppRoutes.HOME.path);
     } catch (e) {
       showDialog(
           context: context,
@@ -52,7 +52,9 @@ class MemoViewModel {
     String content,
     BuildContext context,
   ) async {
-    await _memoUsecase.modifyMemo(ModifyMemoModel(memoId, title, content));
-    _routesController.toNavigate(context, AppRoutes.HOME.path);
+    try {
+      await _memoUsecase.modifyMemo(ModifyMemoModel(memoId, title, content));
+      _routesController.popAllAndPush(context, AppRoutes.HOME.path);
+    } catch (e) {}
   }
 }

@@ -1,7 +1,4 @@
 import 'package:apps.daily_memo/domain/model/home/memo_list_item.dart';
-import 'package:apps.daily_memo/presentation/core/route/app_routes.dart';
-import 'package:apps.daily_memo/presentation/core/route/routes_controller.dart';
-import 'package:apps.daily_memo/presentation/core/route/routes_controller_impl/routes_controller_modular_impl.dart';
 import 'package:apps.daily_memo/presentation/view/home/home_list_item_view.dart';
 import 'package:apps.daily_memo/presentation/view_model/home/home_viewmodel.dart';
 import 'package:flutter/material.dart';
@@ -83,7 +80,11 @@ class HomePage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(listItem.title.isEmpty ? "(빈 제목)" : listItem.title),
+                  Text(
+                    listItem.title.isEmpty ? "(빈 제목)" : listItem.title,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                   Text(
                     listItem.content.isEmpty ? "(빈 내용)" : listItem.content,
                     maxLines: 1,
