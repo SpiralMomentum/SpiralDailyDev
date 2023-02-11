@@ -4,7 +4,7 @@ import 'package:apps.daily_memo/data/sql_helper.dart';
 import 'package:apps.daily_memo/domain/model/home/memo_list_item.dart';
 import 'package:apps.daily_memo/domain/model/memo/add_memo_model.dart';
 import 'package:apps.daily_memo/domain/model/memo/modify_memo_model.dart';
-import 'package:apps.daily_memo/domain/repository_interface/memo_repository.dart';
+import 'package:apps.daily_memo/domain/repository_interface/memo/memo_repository.dart';
 
 class MemoRepositoryImpl extends MemoRepository {
   @override
