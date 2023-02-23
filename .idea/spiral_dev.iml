@@ -9,6 +9,9 @@
       <excludeFolder url="file://$MODULE_DIR$/apps/daily_memo/.pub" />
       <excludeFolder url="file://$MODULE_DIR$/apps/daily_memo/.dart_tool" />
       <excludeFolder url="file://$MODULE_DIR$/apps/daily_memo/build" />
+      <excludeFolder url="file://$MODULE_DIR$/apps/exchange_rate_calculator/build" />
+      <excludeFolder url="file://$MODULE_DIR$/apps/exchange_rate_calculator/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/apps/exchange_rate_calculator/.pub" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
