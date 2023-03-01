@@ -1,9 +1,12 @@
+import 'package:exchange_rate_calculator/data/repository_impl/exchange/exchange_repository_impl.dart';
 import 'package:exchange_rate_calculator/presentation/core/navigation/routes/app_routes.dart';
 import 'package:exchange_rate_calculator/presentation/core/navigation/routes/app_routes_go_router.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-void main() {
+void main() async {
+  await ExchangeRepositoryImpl().loadAllExchangeInfo();
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
 

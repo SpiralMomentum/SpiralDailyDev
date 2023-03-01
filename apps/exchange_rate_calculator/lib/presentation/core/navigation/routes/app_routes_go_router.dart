@@ -1,4 +1,5 @@
 import 'package:exchange_rate_calculator/presentation/core/navigation/routes/app_routes.dart';
+import 'package:exchange_rate_calculator/presentation/view/home/home_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
 
@@ -9,11 +10,7 @@ extension AppRoutesGoRouter on AppRoutes {
         return GoRoute(
           path: AppRoutes.HOME.path,
           builder: (BuildContext context, GoRouterState state) {
-            // return HomePage(
-            //   homeViewModel:
-            //       HomeViewModel(memoRepository: MemoRepositoryImpl()),
-            // );
-            return Container();
+            return HomeView();
           },
         );
       default:
