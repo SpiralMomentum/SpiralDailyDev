@@ -18,10 +18,18 @@ class RoutesControllerModularImpl extends RoutesController {
   }
 
   @override
-  void popUntil<T>(BuildContext context, String path) {
+  void popUntil<T>(BuildContext context, String path, {T? result}) {
     if (Modular.to.canPop()) {
       Modular.to.popUntil((predictRoute) => predictRoute.settings.name == path);
     }
+  }
+
+  @override
+  void popAllAndPush<T>(BuildContext context, String path, {T? result}) {
+    if (Modular.to.canPop()) {
+      Modular.to.pop();
+    }
+    Modular.to.pushNamed(path);
   }
 
   @override

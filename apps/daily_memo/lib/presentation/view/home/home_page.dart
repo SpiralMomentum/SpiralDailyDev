@@ -1,7 +1,4 @@
 import 'package:apps.daily_memo/domain/model/home/memo_list_item.dart';
-import 'package:apps.daily_memo/presentation/core/route/app_routes.dart';
-import 'package:apps.daily_memo/presentation/core/route/routes_controller.dart';
-import 'package:apps.daily_memo/presentation/core/route/routes_controller_impl/routes_controller_modular_impl.dart';
 import 'package:apps.daily_memo/presentation/view/home/home_list_item_view.dart';
 import 'package:apps.daily_memo/presentation/view_model/home/home_viewmodel.dart';
 import 'package:flutter/material.dart';
@@ -74,12 +71,43 @@ class HomePage extends StatelessWidget {
         onLongPress: () => showDialog(
           context: context,
           builder: (context) => AlertDialog(
-            content: Text(listItem.title.isEmpty ? "(빈 제목)" : listItem.title),
+            actionsPadding: const EdgeInsets.all(16.0),
+            shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(10.0))),
+            content: Container(
+              height: 67.0,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    listItem.title.isEmpty ? "(빈 제목)" : listItem.title,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  Text(
+                    listItem.content.isEmpty ? "(빈 내용)" : listItem.content,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  )
+                ],
+              ),
+            ),
             actions: [
               GestureDetector(
                 onTap: () => homeViewModel.navigateToModifyMemo(
                   context,
                   listItem.memoId,
+                ),
+                child: Container(
+                  decoration: const BoxDecoration(
+                    color: Colors.amber,
+                    borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                  ),
+                  child: const Padding(
+                    padding: EdgeInsets.all(16.0),
+                    child: Text("수정하기"),
+                  ),
                 ),
               ),
               const SizedBox(width: 8.0),
@@ -88,7 +116,16 @@ class HomePage extends StatelessWidget {
                   listItem.memoId,
                   context,
                 ),
-                child: const Text("삭제하기"),
+                child: Container(
+                  decoration: const BoxDecoration(
+                    color: Colors.amber,
+                    borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                  ),
+                  child: const Padding(
+                    padding: EdgeInsets.all(16.0),
+                    child: Text("삭제하기"),
+                  ),
+                ),
               ),
             ],
           ),

@@ -21,8 +21,15 @@ abstract class RoutesController {
 
   void popUntil<T>(
     BuildContext context,
-    String path,
-  );
+    String path, {
+    T? result,
+  });
+
+  void popAllAndPush<T>(
+    BuildContext context,
+    String path, {
+    T? result,
+  });
 
   void exitApp({int code});
 }
