@@ -5,23 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3d3d17ad-f50d-4d34-981d-efe9fb11ae43" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/spiral_dev.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/spiral_dev.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/daily_memo/lib/data/entity/memo_entiry.dart" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/daily_memo/lib/data/repository_impl/memo_repository_impl.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/daily_memo/lib/data/repository_impl/memo_repository_impl.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/daily_memo/lib/data/sql_helper.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/daily_memo/lib/data/sql_helper.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/daily_memo/lib/domain/model/home/memo_list_item.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/daily_memo/lib/domain/model/home/memo_list_item.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/daily_memo/lib/domain/model/memo/memo_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/daily_memo/lib/domain/model/memo/add_memo_model.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/daily_memo/lib/domain/repository_interface/memo_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/daily_memo/lib/domain/repository_interface/memo_repository.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/daily_memo/lib/domain/usecase/memo_usecase.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/daily_memo/lib/domain/usecase/memo_usecase.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/daily_memo/lib/presentation/core/route/routes_controller.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/daily_memo/lib/presentation/core/route/routes_controller.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/daily_memo/lib/presentation/core/route/routes_impl/app_routes_modular.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/daily_memo/lib/presentation/core/route/routes_impl/app_routes_modular.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/daily_memo/lib/presentation/view/home/home_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/daily_memo/lib/presentation/view/home/home_page.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/daily_memo/lib/presentation/view/memo/memo_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/daily_memo/lib/presentation/view/memo/memo_view.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/daily_memo/lib/presentation/view_model/home/home_viewmodel.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/daily_memo/lib/presentation/view_model/home/home_viewmodel.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/daily_memo/lib/presentation/view_model/memo/memo_viewmodel.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/daily_memo/lib/presentation/view_model/memo/memo_viewmodel.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/spiral_map/.dart_tool/package_config.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/spiral_map/.dart_tool/package_config.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/spiral_map/ios/Flutter/Generated.xcconfig" beforeDir="false" afterPath="$PROJECT_DIR$/apps/spiral_map/ios/Flutter/Generated.xcconfig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/spiral_map/ios/Flutter/flutter_export_environment.sh" beforeDir="false" afterPath="$PROJECT_DIR$/apps/spiral_map/ios/Flutter/flutter_export_environment.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/daily_memo/ios/Runner.xcodeproj/project.pbxproj" beforeDir="false" afterPath="$PROJECT_DIR$/apps/daily_memo/ios/Runner.xcodeproj/project.pbxproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/daily_memo/ios/Runner.xcworkspace/contents.xcworkspacedata" beforeDir="false" afterPath="$PROJECT_DIR$/apps/daily_memo/ios/Runner.xcworkspace/contents.xcworkspacedata" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/exchange_rate_calculator/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/exchange_rate_calculator/lib/main.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/exchange_rate_calculator/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/apps/exchange_rate_calculator/pubspec.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,6 +37,10 @@
               <option name="branches">
                 <list>
                   <RecentBranch>
+                    <option name="branchName" value="exchange_rate_calculator" />
+                    <option name="lastUsedInstant" value="1676998314" />
+                  </RecentBranch>
+                  <RecentBranch>
                     <option name="branchName" value="feature/memoUpdateDelete" />
                     <option name="lastUsedInstant" value="1675580822" />
                   </RecentBranch>
@@ -71,6 +65,20 @@
       </RecentBranches>
     </option>
   </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/apps/daily_memo/lib/data/repository_impl/memo_repository_impl.dart" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/apps/daily_memo/lib/domain/model/home/memo_list_item.dart" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/apps/daily_memo/lib/domain/model/memo/add_memo_model.dart" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/apps/daily_memo/lib/domain/usecase/memo/memo_usecase.dart" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/apps/daily_memo/lib/presentation/core/route/routes_controller_impl/routes_controller_modular_impl.dart" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/apps/daily_memo/lib/presentation/view/home/home_list_item_view.dart" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/apps/daily_memo/lib/presentation/view/home/home_page.dart" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/apps/daily_memo/lib/presentation/view_model/home/home_viewmodel.dart" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/apps/spiral_map/lib/main.dart" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$USER_HOME$/flutter/.pub-cache/hosted/pub.dartlang.org/google_maps_flutter-2.2.3/lib/src/google_map.dart" root0="SKIP_INSPECTION" />
+    <setting file="file://$USER_HOME$/flutter/packages/flutter/lib/src/services/message_codecs.dart" root0="SKIP_INSPECTION" />
+    <setting file="file://$USER_HOME$/flutter/packages/flutter/lib/src/services/platform_views.dart" root0="SKIP_INSPECTION" />
+  </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
@@ -89,30 +97,34 @@
     "cidr.known.project.marker": "true",
     "dart.analysis.tool.window.visible": "false",
     "io.flutter.reload.alreadyRun": "true",
-    "last_opened_file_path": "/Users/gyubinhwang/AndroidStudioProjects/spiral_dev/apps/daily_memo/lib/domain/model/memo",
+    "last_opened_file_path": "/Users/gyubinhwang/AndroidStudioProjects/spiral_dev/apps/exchange_rate_calculator/lib/presentation/core/navigation/routes_controller",
     "settings.editor.selected.configurable": "preferences.toDoOptions",
     "show.migrate.to.gradle.popup": "false"
   }
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/apps/exchange_rate_calculator/lib/presentation/core/navigation/routes_controller" />
+      <recent name="$PROJECT_DIR$/apps/exchange_rate_calculator/lib/presentation/core/navigation/routes" />
+      <recent name="$PROJECT_DIR$/apps/exchange_rate_calculator/lib/presentation/core" />
+      <recent name="$PROJECT_DIR$/apps/exchange_rate_calculator" />
       <recent name="$PROJECT_DIR$/apps/daily_memo/lib/domain/model/memo" />
-      <recent name="$PROJECT_DIR$/apps/daily_memo/lib/data/entity" />
-      <recent name="$PROJECT_DIR$/apps/daily_memo" />
-      <recent name="$PROJECT_DIR$/apps/daily_memo/lib/presentation/routes_controller_impl" />
-      <recent name="$PROJECT_DIR$/apps/daily_memo/lib/presentation" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/apps/exchange_rate_calculator/lib/presentation/core/navigation/routes_controller" />
+      <recent name="$PROJECT_DIR$/apps/exchange_rate_calculator/lib/presentation/core/navigation/routes" />
+      <recent name="$PROJECT_DIR$/apps/exchange_rate_calculator/lib/presentation/core/navigation" />
       <recent name="$PROJECT_DIR$/apps/daily_memo/android/app/src/main/res" />
       <recent name="$PROJECT_DIR$/apps/daily_memo/ios/Runner/Assets.xcassets/AppIcon.appiconset" />
-      <recent name="$PROJECT_DIR$/apps/daily_memo/lib/presentation/core/route" />
-      <recent name="$PROJECT_DIR$/apps/daily_memo/lib/presentation/core" />
-      <recent name="$PROJECT_DIR$/apps/daily_memo/lib/presentation/view_model/home" />
     </key>
   </component>
-  <component name="RunManager" selected="Flutter.main.dart">
+  <component name="RunManager" selected="Flutter.main.dart (2)">
     <configuration name="main.dart (1)" type="FlutterRunConfigurationType" factoryName="Flutter" temporary="true" nameIsGenerated="true">
       <option name="filePath" value="$PROJECT_DIR$/apps/spiral_map/lib/main.dart" />
+      <method v="2" />
+    </configuration>
+    <configuration name="main.dart (2)" type="FlutterRunConfigurationType" factoryName="Flutter" temporary="true" nameIsGenerated="true">
+      <option name="filePath" value="$PROJECT_DIR$/apps/exchange_rate_calculator/lib/main.dart" />
       <method v="2" />
     </configuration>
     <configuration name="main.dart" type="FlutterRunConfigurationType" factoryName="Flutter">
@@ -121,10 +133,12 @@
     </configuration>
     <list>
       <item itemvalue="Flutter.main.dart" />
+      <item itemvalue="Flutter.main.dart (2)" />
       <item itemvalue="Flutter.main.dart (1)" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Flutter.main.dart (2)" />
         <item itemvalue="Flutter.main.dart (1)" />
       </list>
     </recent_temporary>
