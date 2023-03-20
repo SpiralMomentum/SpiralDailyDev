@@ -1,20 +1,24 @@
+import 'dart:async';
+
 import 'package:apps.daily_memo/data/sql_helper.dart';
-import 'package:apps.daily_memo/presentation/core/route/app_routes.dart';
 import 'package:apps.daily_memo/presentation/core/route/routes_impl/app_routes_modular.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:go_router/go_router.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 void main() async {
+  runZonedGuarded<Future<void>>(() async {
+    WidgetsFlutterBinding.ensureInitialized();
+    await SQLHelper.db();
+    await Firebase.initializeApp();
+    FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
 
-  // Default Main Setting
-  WidgetsFlutterBinding.ensureInitialized();
-  await SQLHelper.db();
-  // runApp(const MyApp());
+    // runApp(const MyApp());
 
-  // Modular Main Setting
-  runApp(ModularApp(module: AppRoutesModular(), child: const MyApp()));
-
+    // Modular Main Setting
+    runApp(ModularApp(module: AppRoutesModular(), child: const MyApp()));
+  }, (error, stack) => FirebaseCrashlytics.instance.recordError(error, stack, fatal: true));
 }
 
 class MyApp extends StatelessWidget {
