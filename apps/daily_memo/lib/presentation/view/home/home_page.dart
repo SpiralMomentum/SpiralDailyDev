@@ -20,19 +20,90 @@ class HomePage extends StatelessWidget {
             builder: (context, snapshot) {
               final List<MemoListItem>? memoList = snapshot.data;
               return (memoList != null && memoList.isNotEmpty)
-                  ? Container(
-                      color: Colors.white,
-                      child: ListView.separated(
-                        itemCount: memoList.length,
-                        itemBuilder: (BuildContext context, int index) =>
-                            _listItem(context, memoList[index]),
-                        separatorBuilder: (BuildContext context, int index) =>
-                            _listDivider,
-                      ),
-                    )
-                  : const Text("데이터가 없습니다.");
+                  ? _getMemoListWidget(memoList)
+                  : _getDefaultContentWidget();
             },
           ),
+        ),
+      ),
+    );
+  }
+
+  Widget _getMemoListWidget(List<MemoListItem> memoItems) {
+    return Container(
+      color: Colors.white,
+      child: ListView.separated(
+        itemCount: memoItems.length,
+        itemBuilder: (BuildContext context, int index) =>
+            _listItem(context, memoItems[index]),
+        separatorBuilder: (BuildContext context, int index) => _listDivider,
+      ),
+    );
+  }
+
+  Widget _listItem(BuildContext context, MemoListItem listItem) =>
+      GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: () => homeViewModel.navigateToModifyMemo(
+          context,
+          listItem.memoId,
+        ),
+        onLongPress: () => showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            actionsPadding: const EdgeInsets.all(16.0),
+            shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(10.0))),
+            content: Container(
+              height: 67.0,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    listItem.title.isEmpty ? "(빈 제목)" : listItem.title,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  Text(
+                    listItem.content.isEmpty ? "(빈 내용)" : listItem.content,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  )
+                ],
+              ),
+            ),
+            actions: [
+              GestureDetector(
+                onTap: () => homeViewModel.deleteMemo(
+                  listItem.memoId,
+                  context,
+                ),
+                child: Container(
+                  decoration: const BoxDecoration(
+                    color: Colors.amber,
+                    borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                  ),
+                  child: const Padding(
+                    padding: EdgeInsets.all(16.0),
+                    child: Text("삭제하기"),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        child: HomeListItemView(
+          memoListItem: listItem,
+        ),
+      );
+
+  Widget _getDefaultContentWidget() {
+    return const Center(
+      child: Text(
+        "데이터가 없습니다.",
+        style: TextStyle(
+          fontSize: 28.0,
         ),
       ),
     );
@@ -62,76 +133,6 @@ class HomePage extends StatelessWidget {
               ],
             )
           ],
-        ),
-      );
-
-  Widget _listItem(BuildContext context, MemoListItem listItem) =>
-      GestureDetector(
-        behavior: HitTestBehavior.opaque,
-        onLongPress: () => showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
-            actionsPadding: const EdgeInsets.all(16.0),
-            shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(10.0))),
-            content: Container(
-              height: 67.0,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    listItem.title.isEmpty ? "(빈 제목)" : listItem.title,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  Text(
-                    listItem.content.isEmpty ? "(빈 내용)" : listItem.content,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  )
-                ],
-              ),
-            ),
-            actions: [
-              GestureDetector(
-                onTap: () => homeViewModel.navigateToModifyMemo(
-                  context,
-                  listItem.memoId,
-                ),
-                child: Container(
-                  decoration: const BoxDecoration(
-                    color: Colors.amber,
-                    borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                  ),
-                  child: const Padding(
-                    padding: EdgeInsets.all(16.0),
-                    child: Text("수정하기"),
-                  ),
-                ),
-              ),
-              const SizedBox(width: 8.0),
-              GestureDetector(
-                onTap: () => homeViewModel.deleteMemo(
-                  listItem.memoId,
-                  context,
-                ),
-                child: Container(
-                  decoration: const BoxDecoration(
-                    color: Colors.amber,
-                    borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                  ),
-                  child: const Padding(
-                    padding: EdgeInsets.all(16.0),
-                    child: Text("삭제하기"),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-        child: HomeListItemView(
-          memoListItem: listItem,
         ),
       );
 
