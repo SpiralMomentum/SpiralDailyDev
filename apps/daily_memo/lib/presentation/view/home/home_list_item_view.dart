@@ -14,7 +14,6 @@ class HomeListItemView extends StatelessWidget {
   Widget build(BuildContext context) {
     // TODO: 디자인 수정
     return Container(
-      height: 120.0,
       padding: const EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 0.0),
       child: Column(
         mainAxisSize: MainAxisSize.min,
