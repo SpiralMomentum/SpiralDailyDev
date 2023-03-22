@@ -47,9 +47,12 @@ class _MemoViewState extends State<MemoView> {
                           context,
                         ),
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    padding: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 48.0),
                     child: Container(
-                      color: Colors.amber,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8.0),
+                        color: Colors.amber,
+                      ),
                       alignment: Alignment.center,
                       height: 56.0,
                       width: double.infinity,
@@ -121,6 +124,15 @@ class _MemoViewState extends State<MemoView> {
         preferredSize: const Size.fromHeight(48.0),
         child: AppBar(
           automaticallyImplyLeading: false,
+          leading: InkWell(
+            onTap: () {
+              Navigator.pop(context);
+            },
+            child: const Icon(
+              Icons.arrow_back_ios,
+              color: Colors.black,
+            ),
+          ),
           title: StreamBuilder<MemoListItem?>(
               stream: widget.memoViewModel.existedMemo,
               builder: (context, snapshot) {
@@ -128,6 +140,7 @@ class _MemoViewState extends State<MemoView> {
                   (snapshot.hasData && snapshot.data != null) ? "수정" : "추가",
                   style: TextStyle(
                     color: Colors.black,
+                    fontWeight: FontWeight.bold,
                   ),
                 );
               }),
