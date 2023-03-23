@@ -6,12 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="3d3d17ad-f50d-4d34-981d-efe9fb11ae43" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/spiral_dev.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/spiral_dev.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/daily_memo/ios/Runner.xcodeproj/project.pbxproj" beforeDir="false" afterPath="$PROJECT_DIR$/apps/daily_memo/ios/Runner.xcodeproj/project.pbxproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/daily_memo/ios/Runner.xcworkspace/contents.xcworkspacedata" beforeDir="false" afterPath="$PROJECT_DIR$/apps/daily_memo/ios/Runner.xcworkspace/contents.xcworkspacedata" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/exchange_rate_calculator/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/exchange_rate_calculator/lib/main.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/exchange_rate_calculator/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/apps/exchange_rate_calculator/pubspec.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/daily_memo/android/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/apps/daily_memo/android/app/build.gradle" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,6 +33,10 @@
               <option name="branches">
                 <list>
                   <RecentBranch>
+                    <option name="branchName" value="master" />
+                    <option name="lastUsedInstant" value="1679571030" />
+                  </RecentBranch>
+                  <RecentBranch>
                     <option name="branchName" value="exchange_rate_calculator" />
                     <option name="lastUsedInstant" value="1676998314" />
                   </RecentBranch>
@@ -51,10 +51,6 @@
                   <RecentBranch>
                     <option name="branchName" value="feature/listItemDesign" />
                     <option name="lastUsedInstant" value="1675577123" />
-                  </RecentBranch>
-                  <RecentBranch>
-                    <option name="branchName" value="master" />
-                    <option name="lastUsedInstant" value="1674649650" />
                   </RecentBranch>
                 </list>
               </option>
@@ -88,20 +84,20 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.cidr.known.project.marker": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "cidr.known.project.marker": "true",
-    "dart.analysis.tool.window.visible": "false",
-    "io.flutter.reload.alreadyRun": "true",
-    "last_opened_file_path": "/Users/gyubinhwang/AndroidStudioProjects/spiral_dev/apps/exchange_rate_calculator/lib/presentation/core/navigation/routes_controller",
-    "settings.editor.selected.configurable": "preferences.toDoOptions",
-    "show.migrate.to.gradle.popup": "false"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
+    &quot;io.flutter.reload.alreadyRun&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/gyubinhwang/AndroidStudioProjects/spiral_dev/apps/exchange_rate_calculator/lib/presentation/core/navigation/routes_controller&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.toDoOptions&quot;,
+    &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/apps/exchange_rate_calculator/lib/presentation/core/navigation/routes_controller" />
@@ -132,9 +128,14 @@
       <method v="2" />
     </configuration>
     <list>
+      <item itemvalue="Flutter.Flutter Run -&gt; 'apps.daily_memo'" />
+      <item itemvalue="Flutter.Flutter Run -&gt; 'exchange_rate_calculator'" />
+      <item itemvalue="Flutter.Flutter Run -&gt; 'spiral_map'" />
       <item itemvalue="Flutter.main.dart" />
       <item itemvalue="Flutter.main.dart (2)" />
       <item itemvalue="Flutter.main.dart (1)" />
+      <item itemvalue="Shell Script.Melos -&gt; Bootstrap Workspace" />
+      <item itemvalue="Shell Script.Melos -&gt; Clean Workspace" />
     </list>
     <recent_temporary>
       <list>
