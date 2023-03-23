@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="NONE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="3d3d17ad-f50d-4d34-981d-efe9fb11ae43" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/spiral_dev.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/spiral_dev.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/daily_memo/ios/Runner.xcodeproj/project.pbxproj" beforeDir="false" afterPath="$PROJECT_DIR$/apps/daily_memo/ios/Runner.xcodeproj/project.pbxproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/daily_memo/ios/Runner.xcworkspace/contents.xcworkspacedata" beforeDir="false" afterPath="$PROJECT_DIR$/apps/daily_memo/ios/Runner.xcworkspace/contents.xcworkspacedata" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/exchange_rate_calculator/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/exchange_rate_calculator/lib/main.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/exchange_rate_calculator/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/apps/exchange_rate_calculator/pubspec.yaml" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Dart File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitToolBoxStore">
+    <option name="recentBranches">
+      <RecentBranches>
+        <option name="branchesForRepo">
+          <list>
+            <RecentBranchesForRepo>
+              <option name="branches">
+                <list>
+                  <RecentBranch>
+                    <option name="branchName" value="exchange_rate_calculator" />
+                    <option name="lastUsedInstant" value="1676998314" />
+                  </RecentBranch>
+                  <RecentBranch>
+                    <option name="branchName" value="feature/memoUpdateDelete" />
+                    <option name="lastUsedInstant" value="1675580822" />
+                  </RecentBranch>
+                  <RecentBranch>
+                    <option name="branchName" value="develop" />
+                    <option name="lastUsedInstant" value="1675580739" />
+                  </RecentBranch>
+                  <RecentBranch>
+                    <option name="branchName" value="feature/listItemDesign" />
+                    <option name="lastUsedInstant" value="1675577123" />
+                  </RecentBranch>
+                  <RecentBranch>
+                    <option name="branchName" value="master" />
+                    <option name="lastUsedInstant" value="1674649650" />
+                  </RecentBranch>
+                </list>
+              </option>
+              <option name="repositoryRootUrl" value="file://$PROJECT_DIR$" />
+            </RecentBranchesForRepo>
+          </list>
+        </option>
+      </RecentBranches>
+    </option>
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/apps/daily_memo/lib/data/repository_impl/memo_repository_impl.dart" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/apps/daily_memo/lib/domain/model/home/memo_list_item.dart" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/apps/daily_memo/lib/domain/model/memo/add_memo_model.dart" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/apps/daily_memo/lib/domain/usecase/memo/memo_usecase.dart" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/apps/daily_memo/lib/presentation/core/route/routes_controller_impl/routes_controller_modular_impl.dart" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/apps/daily_memo/lib/presentation/view/home/home_list_item_view.dart" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/apps/daily_memo/lib/presentation/view/home/home_page.dart" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/apps/daily_memo/lib/presentation/view_model/home/home_viewmodel.dart" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/apps/spiral_map/lib/main.dart" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$USER_HOME$/flutter/.pub-cache/hosted/pub.dartlang.org/google_maps_flutter-2.2.3/lib/src/google_map.dart" root0="SKIP_INSPECTION" />
+    <setting file="file://$USER_HOME$/flutter/packages/flutter/lib/src/services/message_codecs.dart" root0="SKIP_INSPECTION" />
+    <setting file="file://$USER_HOME$/flutter/packages/flutter/lib/src/services/platform_views.dart" root0="SKIP_INSPECTION" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2KSGjDM2Eiodlnkerw1QiJZyyCH" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "cidr.known.project.marker": "true",
+    "dart.analysis.tool.window.visible": "false",
+    "io.flutter.reload.alreadyRun": "true",
+    "last_opened_file_path": "/Users/gyubinhwang/AndroidStudioProjects/spiral_dev/apps/exchange_rate_calculator/lib/presentation/core/navigation/routes_controller",
+    "settings.editor.selected.configurable": "preferences.toDoOptions",
+    "show.migrate.to.gradle.popup": "false"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/apps/exchange_rate_calculator/lib/presentation/core/navigation/routes_controller" />
+      <recent name="$PROJECT_DIR$/apps/exchange_rate_calculator/lib/presentation/core/navigation/routes" />
+      <recent name="$PROJECT_DIR$/apps/exchange_rate_calculator/lib/presentation/core" />
+      <recent name="$PROJECT_DIR$/apps/exchange_rate_calculator" />
+      <recent name="$PROJECT_DIR$/apps/daily_memo/lib/domain/model/memo" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/apps/exchange_rate_calculator/lib/presentation/core/navigation/routes_controller" />
+      <recent name="$PROJECT_DIR$/apps/exchange_rate_calculator/lib/presentation/core/navigation/routes" />
+      <recent name="$PROJECT_DIR$/apps/exchange_rate_calculator/lib/presentation/core/navigation" />
+      <recent name="$PROJECT_DIR$/apps/daily_memo/android/app/src/main/res" />
+      <recent name="$PROJECT_DIR$/apps/daily_memo/ios/Runner/Assets.xcassets/AppIcon.appiconset" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Flutter.main.dart (2)">
+    <configuration name="main.dart (1)" type="FlutterRunConfigurationType" factoryName="Flutter" temporary="true" nameIsGenerated="true">
+      <option name="filePath" value="$PROJECT_DIR$/apps/spiral_map/lib/main.dart" />
+      <method v="2" />
+    </configuration>
+    <configuration name="main.dart (2)" type="FlutterRunConfigurationType" factoryName="Flutter" temporary="true" nameIsGenerated="true">
+      <option name="filePath" value="$PROJECT_DIR$/apps/exchange_rate_calculator/lib/main.dart" />
+      <method v="2" />
+    </configuration>
+    <configuration name="main.dart" type="FlutterRunConfigurationType" factoryName="Flutter">
+      <option name="filePath" value="$PROJECT_DIR$/apps/daily_memo/lib/main.dart" />
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Flutter.main.dart" />
+      <item itemvalue="Flutter.main.dart (2)" />
+      <item itemvalue="Flutter.main.dart (1)" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Flutter.main.dart (2)" />
+        <item itemvalue="Flutter.main.dart (1)" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="3d3d17ad-f50d-4d34-981d-efe9fb11ae43" name="Changes" comment="" />
+      <created>1673960705922</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1673960705922</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="Dart">
+          <url>file://$PROJECT_DIR$/apps/daily_memo/lib/data/sql_helper.dart</url>
+          <line>69</line>
+          <option name="timeStamp" value="13" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="Dart">
+          <url>file://$PROJECT_DIR$/apps/daily_memo/lib/data/sql_helper.dart</url>
+          <line>61</line>
+          <option name="timeStamp" value="14" />
+        </line-breakpoint>
+      </breakpoints>
+      <default-breakpoints>
+        <breakpoint enabled="true" type="java-exception" />
+        <breakpoint enabled="true" type="CidrExceptionBreakpoint" />
+      </default-breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>

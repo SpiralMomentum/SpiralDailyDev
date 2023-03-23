@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.spiral_daily_dev.daily_memo">
+    package="com.example.exchange_rate_calculator">
    <application
-        android:label="미, 메모"
+        android:label="exchange_rate_calculator"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
