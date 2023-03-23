@@ -5,9 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3d3d17ad-f50d-4d34-981d-efe9fb11ae43" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/daily_memo/android/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/apps/daily_memo/android/app/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/daily_memo/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/apps/daily_memo/pubspec.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
