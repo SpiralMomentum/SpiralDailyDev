@@ -1,12 +1,18 @@
 import 'package:apps.daily_memo/domain/model/home/memo_list_item.dart';
+import 'package:apps.daily_memo/presentation/view/bottom_bar/bottom_bar.dart';
 import 'package:apps.daily_memo/presentation/view/home/home_list_item_view.dart';
+import 'package:apps.daily_memo/presentation/view_model/bottom_bar/bottom_bar_viewmodel.dart';
 import 'package:apps.daily_memo/presentation/view_model/home/home_viewmodel.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatelessWidget {
   final HomeViewModel homeViewModel;
+  final BottomBar bottomBar;
 
-  const HomePage({super.key, required this.homeViewModel});
+  const HomePage(
+      {super.key,
+      required this.homeViewModel,
+      required this.bottomBar});
 
   @override
   Widget build(BuildContext context) {
@@ -14,6 +20,7 @@ class HomePage extends StatelessWidget {
       onWillPop: () async => false,
       child: Scaffold(
         appBar: _homeAppBar(context),
+        bottomNavigationBar: bottomBar,
         body: SafeArea(
           child: StreamBuilder<List<MemoListItem>>(
             stream: homeViewModel.getMemos,
