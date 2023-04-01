@@ -39,6 +39,7 @@ class MyApp extends StatelessWidget {
 
     // Modular Setting
     return MaterialApp.router(
+      debugShowCheckedModeBanner:false,
       routeInformationParser: Modular.routeInformationParser,
       routerDelegate: Modular.routerDelegate,
     );

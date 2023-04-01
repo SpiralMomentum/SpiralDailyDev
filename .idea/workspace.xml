@@ -5,8 +5,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3d3d17ad-f50d-4d34-981d-efe9fb11ae43" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/apps/daily_memo/ios/Runner/Assets.xcassets/Contents.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/daily_memo/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/apps/daily_memo/pubspec.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/daily_memo/ios/Runner.xcodeproj/project.pbxproj" beforeDir="false" afterPath="$PROJECT_DIR$/apps/daily_memo/ios/Runner.xcodeproj/project.pbxproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/daily_memo/ios/Runner.xcodeproj/xcshareddata/xcschemes/Runner.xcscheme" beforeDir="false" afterPath="$PROJECT_DIR$/apps/daily_memo/ios/Runner.xcodeproj/xcshareddata/xcschemes/Runner.xcscheme" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/daily_memo/ios/Runner/Assets.xcassets/AppIcon.appiconset/114.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/daily_memo/ios/Runner/Assets.xcassets/AppIcon.appiconset/120.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/daily_memo/ios/Runner/Assets.xcassets/AppIcon.appiconset/180.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/daily_memo/ios/Runner/Assets.xcassets/AppIcon.appiconset/29.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/daily_memo/ios/Runner/Assets.xcassets/AppIcon.appiconset/40.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/daily_memo/ios/Runner/Assets.xcassets/AppIcon.appiconset/57.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/daily_memo/ios/Runner/Assets.xcassets/AppIcon.appiconset/58.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/daily_memo/ios/Runner/Assets.xcassets/AppIcon.appiconset/60.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/daily_memo/ios/Runner/Assets.xcassets/AppIcon.appiconset/80.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/daily_memo/ios/Runner/Assets.xcassets/AppIcon.appiconset/87.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/daily_memo/ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/daily_memo/ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/daily_memo/ios/Runner/Info.plist" beforeDir="false" afterPath="$PROJECT_DIR$/apps/daily_memo/ios/Runner/Info.plist" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/daily_memo/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/daily_memo/lib/main.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -113,7 +128,7 @@
       <recent name="$PROJECT_DIR$/apps/daily_memo/ios/Runner/Assets.xcassets/AppIcon.appiconset" />
     </key>
   </component>
-  <component name="RunManager" selected="Flutter.main.dart (2)">
+  <component name="RunManager" selected="Flutter.main.dart">
     <configuration name="main.dart (1)" type="FlutterRunConfigurationType" factoryName="Flutter" temporary="true" nameIsGenerated="true">
       <option name="filePath" value="$PROJECT_DIR$/apps/spiral_map/lib/main.dart" />
       <method v="2" />
