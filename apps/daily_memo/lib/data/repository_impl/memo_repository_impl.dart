@@ -1,82 +1,63 @@
 import 'package:apps.daily_memo/data/entity/add_memo_entity.dart';
 import 'package:apps.daily_memo/data/entity/saved_memo_entity.dart';
+import 'package:apps.daily_memo/data/mapper/saved_memo_entity_mapper.dart';
 import 'package:apps.daily_memo/data/sql_helper.dart';
-import 'package:apps.daily_memo/domain/model/home/memo_list_item.dart';
-import 'package:apps.daily_memo/domain/model/memo/add_memo_model.dart';
-import 'package:apps.daily_memo/domain/model/memo/modify_memo_model.dart';
+import 'package:apps.daily_memo/domain/model/home/memo_info.dart';
+import 'package:apps.daily_memo/domain/model/home/memo_info_list.dart';
 import 'package:apps.daily_memo/domain/repository_interface/memo/memo_repository.dart';
-import 'package:intl/intl.dart';
 
 class MemoRepositoryImpl extends MemoRepository {
   @override
-  Future<List<MemoListItem>> get getMemoList async {
+  Future<MemoInfoList> get getAllMemoInfo async {
     final List<SavedMemoEntity> memoEntities = await SQLHelper.getItems();
-    return memoEntities
-        .map((e) => _mapperSavedMemoEntityToMemoListItem(e))
-        .toList();
+
+    return MemoInfoList(
+        values: memoEntities.map((e) => e.transferToMemoInfo!).toList());
   }
 
   @override
-  Future<AddMemoModel> addMemo(AddMemoModel memoModel) async {
-    await SQLHelper.createItem(_mapperMemoModelToAddMemoEntity(memoModel));
-    return memoModel;
+  Future<MemoInfo?> getMemoInfoById(int memoId) async {
+    final List<SavedMemoEntity> memoEntities = await SQLHelper.getItems();
+
+    return memoEntities
+        .firstWhere((e) => e.memoId == memoId)
+        .transferToMemoInfo;
   }
 
-  Future<ModifyMemoModel> modifyMemo(ModifyMemoModel memoModel) async {
-    await SQLHelper.updateItem(_mapperMemoModelToSavedMemoEntity(memoModel));
-    return memoModel;
+  @override
+  Future<bool> addMemo({
+    required String title,
+    required String content,
+  }) async {
+    final int result = await SQLHelper.createItem(
+      AddMemoEntity(
+          title: title,
+          content: content,
+          madeDateTime: DateTime.now().toString(),
+          modifiedDateTime: DateTime.now().toString()),
+    );
+    return result == -1 ? false : true;
+  }
+
+  Future<MemoInfo?> modifyMemo({
+    required int memoId,
+    required String title,
+    required String content,
+    required String madeDateTime,
+  }) async {
+    final SavedMemoEntity entity = SavedMemoEntity(
+      memoId: memoId,
+      title: title,
+      content: content,
+      madeDateTime: madeDateTime,
+      modifiedDateTime: DateTime.now().toString(),
+    );
+    final int result = await SQLHelper.updateItem(entity);
+    return result == -1 ? null : entity.transferToMemoInfo;
   }
 
   @override
   Future<bool> deleteMemo(int memoId) async {
     return await SQLHelper.deleteItem(memoId);
   }
-
-  // TODO: summary get logic add
-  MemoListItem _mapperSavedMemoEntityToMemoListItem(
-      SavedMemoEntity memoEntity) {
-    return MemoListItem(
-      memoId: memoEntity.memoId,
-      title: memoEntity.title ?? '',
-      content: memoEntity.content ?? "",
-      summaryHeaderContent: memoEntity.content ?? "",
-      summaryFooterContent: memoEntity.content ?? "",
-      madeDateTime: memoEntity.madeDateTime ?? "",
-      modifiedDateTime: memoEntity.modifiedDateTime ?? "",
-    );
-  }
-
-
-  // TODO: made date time, modified date time add
-  AddMemoEntity _mapperMemoModelToAddMemoEntity(AddMemoModel memoModel) {
-    return AddMemoEntity(
-      title: memoModel.title,
-      author: "local",
-      content: memoModel.content,
-      modifiedDateTime: DateFormat("yyyy-MM-dd hh:mm:ss").format(DateTime.now()),
-      madeDateTime: DateFormat("yyyy-MM-dd hh:mm:ss").format(DateTime.now()),
-    );
-  }
-
-  SavedMemoEntity _mapperMemoModelToSavedMemoEntity(ModifyMemoModel memoModel) {
-    return SavedMemoEntity(
-      memoId: memoModel.memoId,
-      title: memoModel.title,
-      author: "local",
-      content: memoModel.content,
-      modifiedDateTime: DateFormat("yyyy-MM-dd hh:mm:ss").format(DateTime.now()),
-      madeDateTime: memoModel.madeDateTime,
-    );
-  }
-
-  // TODO: 만약 없을때?
-  @override
-  Future<MemoListItem> getMemoById(int memoId) async {
-    final List<SavedMemoEntity> memoEntities = await SQLHelper.getItems();
-    return memoEntities
-        .where((element) => element.memoId == memoId)
-        .map((e) => _mapperSavedMemoEntityToMemoListItem(e))
-        .first;
-  }
-
 }

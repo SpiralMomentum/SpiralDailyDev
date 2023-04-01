@@ -1,14 +1,14 @@
-import 'package:apps.daily_memo/domain/model/home/memo_list_item.dart';
+import 'package:apps.daily_memo/domain/model/home/memo_info.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 
-class HomeListItemView extends StatelessWidget {
-  final MemoListItem memoListItem;
+class MemoListItemView extends StatelessWidget {
+  final MemoInfo memoInfo;
   final BehaviorSubject<bool> _isShowFullContent =
       BehaviorSubject.seeded(false);
 
-  HomeListItemView({super.key, required this.memoListItem});
+  MemoListItemView({super.key, required this.memoInfo});
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +20,7 @@ class HomeListItemView extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            memoListItem.title.isEmpty ? "(빈 제목)" : memoListItem.title,
+            memoInfo.title.isEmpty ? "(빈 제목)" : memoInfo.title,
             maxLines: 1,
             style: const TextStyle(
               fontSize: 20.0,
@@ -36,12 +36,11 @@ class HomeListItemView extends StatelessWidget {
                   onTap: () =>
                       _isShowFullContent.add(!_isShowFullContent.value),
                   child: Text(
-                    memoListItem.content.isEmpty
+                    memoInfo.content.isEmpty
                         ? "(빈 내용)"
                         : (_isShowFullContent.value
-                            ? memoListItem.content
-                            : memoListItem.summaryHeaderContent +
-                                memoListItem.summaryFooterContent),
+                            ? memoInfo.content
+                            : memoInfo.content),
                     maxLines: 1,
                     style: const TextStyle(
                       fontSize: 16.0,
@@ -56,9 +55,9 @@ class HomeListItemView extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  Text("수정일 " + memoListItem.modifiedDateTime),
+                  Text("수정일 " + memoInfo.memoModifiedDateTime.toString()),
                   const SizedBox(height: 2.0),
-                  Text("생성일 " + memoListItem.madeDateTime)
+                  Text("생성일 " + memoInfo.memoMadeDateTime.toString())
                 ],
               )),
         ],
