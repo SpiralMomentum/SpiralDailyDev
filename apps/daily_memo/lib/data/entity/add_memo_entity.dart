@@ -1,46 +1,17 @@
-class AddMemoEntity {
-  final String? title;
-  final String? author;
-  final String? content;
-  final String? madeDateTime;
-  final String? modifiedDateTime;
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-  AddMemoEntity({
-    this.title,
-    this.author,
-    this.content,
-    this.madeDateTime,
-    this.modifiedDateTime,
-  });
+part 'add_memo_entity.freezed.dart';
+part 'add_memo_entity.g.dart';
 
-  factory AddMemoEntity.fromJson(Map<String, dynamic> json) => AddMemoEntity(
-        title: json['title'],
-        author: json['author'],
-        content: json['content'],
-        madeDateTime: json['madeDateTime'],
-        modifiedDateTime: json['modifiedDateTime'],
-      );
-
-  AddMemoEntity copyWith({
+@freezed
+class AddMemoEntity with _$AddMemoEntity {
+  factory AddMemoEntity({
     String? title,
     String? author,
     String? content,
     String? madeDateTime,
     String? modifiedDateTime,
-  }) =>
-      AddMemoEntity(
-        title: title ?? this.title,
-        author: author ?? this.author,
-        content: content ?? this.content,
-        madeDateTime: madeDateTime ?? this.madeDateTime,
-        modifiedDateTime: modifiedDateTime ?? this.modifiedDateTime,
-      );
+  }) = _AddMemoEntity;
 
-  Map<String, dynamic> toJson() => {
-        'title': title,
-        'author': author,
-        'content': content,
-        'madeDateTime': madeDateTime,
-        'modifiedDateTime': modifiedDateTime,
-      };
+  factory AddMemoEntity.fromJson(Map<String, dynamic> json) => _$AddMemoEntityFromJson(json);
 }

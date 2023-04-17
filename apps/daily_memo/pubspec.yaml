@@ -17,8 +17,12 @@ dependencies:
   sqflite:
   path:
   rxdart: ^0.27.7
-  intl: ^0.17.0
+  intl: ^0.18.0
   firebase_crashlytics: ^3.0.17
+  table_calendar: ^3.0.9
+  flutter_riverpod: ^2.1.1
+  freezed_annotation:
+  json_serializable:
 
 dev_dependencies:
   flutter_test:
@@ -26,6 +30,8 @@ dev_dependencies:
   flutter_lints: ^2.0.0
   build_runner: ^2.2.0 # For generating code (Mocks, etc)
   mockito: ^5.2.0
+  json_serializable:
+  freezed:
 
 flutter:
   uses-material-design: true

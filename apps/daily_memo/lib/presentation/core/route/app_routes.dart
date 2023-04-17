@@ -5,8 +5,6 @@ import 'package:flutter/cupertino.dart';
 
 enum AppRoutes {
   HOME,
-  SPLASH,
-  LOGIN,
   MEMO,
 }
 
@@ -15,10 +13,6 @@ extension AppRoutesPath on AppRoutes {
     switch (this) {
       case AppRoutes.HOME:
         return '/';
-      case AppRoutes.SPLASH:
-        return '/splash';
-      case AppRoutes.LOGIN:
-        return '/login';
       case AppRoutes.MEMO:
         return '/memo';
       default:
