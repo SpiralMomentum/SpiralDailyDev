@@ -1,31 +1,29 @@
-import 'package:apps.daily_memo/domain/model/home/memo_list_item.dart';
-import 'package:apps.daily_memo/domain/model/memo/add_memo_model.dart';
-import 'package:apps.daily_memo/domain/model/memo/modify_memo_model.dart';
-import 'package:apps.daily_memo/domain/repository_interface/memo/memo_repository.dart';
+import 'package:apps.daily_memo/domain/model/home/memo_info.dart';
+import 'package:apps.daily_memo/domain/model/home/memo_info_list.dart';
 import 'package:apps.daily_memo/domain/usecase/memo/memo_usecase.dart';
 import 'package:apps.daily_memo/presentation/core/route/app_routes.dart';
 import 'package:apps.daily_memo/presentation/core/route/routes_controller.dart';
-import 'package:apps.daily_memo/presentation/core/route/routes_controller_impl/routes_controller_modular_impl.dart';
+import 'package:apps.daily_memo/presentation/core/route/routes_controller_impl/routes_controller_go_router_impl.dart';
+import 'package:apps.daily_memo/presentation/state/common_state.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:rxdart/rxdart.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class MemoViewModel {
-  late final MemoUsecase _memoUsecase;
-  final BehaviorSubject<MemoListItem?> existedMemo =
-      BehaviorSubject.seeded(null);
-  final RoutesController _routesController = RoutesControllerModularImpl();
+class MemoViewModel extends StateNotifier<CommonState<MemoInfoList?>> {
+  final MemoUsecase memoUsecase;
+  final RoutesController _routesController = RoutesControllerGoRouterImpl();
 
   MemoViewModel({
     int? memoId,
-    required MemoRepository memoRepository,
-  }) {
-    _memoUsecase = MemoUsecase(memoRepository: memoRepository);
+    required this.memoUsecase,
+  }) : super(const CommonState.loading());
+
+  Future<void> getMemoInfoById(int? memoId) async {
+    MemoInfo? memoInfo;
     if (memoId != null) {
-      _memoUsecase.getMemoById(memoId).asStream().listen((event) {
-        existedMemo.add(event);
-      });
+      memoInfo = await memoUsecase.getMemoById(memoId);
     }
+    final memoInfoList = MemoInfoList(values: memoInfo == null ? [] : [memoInfo]);
+    state = CommonState.success(memoInfoList);
   }
 
   // TODO: SharedPreference
@@ -35,16 +33,22 @@ class MemoViewModel {
     BuildContext context,
   ) async {
     try {
-      await _memoUsecase.addMemo(AddMemoModel(title, content)).then(
-            (_) =>
-                _routesController.popAllAndPush(context, AppRoutes.HOME.path),
-          );
-    } catch (e) {
-      showDialog(
-          context: context,
-          builder: (_) => Container(
-                child: Text("실패"),
-              ));
+      if (!state.isLoading) {
+        state = const CommonState.loading();
+      }
+      final bool isSuccess = await memoUsecase.addMemo(
+        title: title,
+        content: content,
+      );
+      if (!isSuccess) {
+        state = CommonState.error(Exception());
+        return;
+      }
+      final MemoInfoList memoList = await memoUsecase.getAllMemoInfo;
+      state = CommonState.success(memoList);
+      _routesController.popAllAndPush(context, AppRoutes.HOME.path);
+    } on Exception catch (e) {
+      state = CommonState.error(e);
     }
   }
 
@@ -56,10 +60,21 @@ class MemoViewModel {
     BuildContext context,
   ) async {
     try {
-      await _memoUsecase
-          .modifyMemo(ModifyMemoModel(memoId, title, content, madeDateTime))
-          .then((_) =>
-              _routesController.popAllAndPush(context, AppRoutes.HOME.path));
-    } catch (e) {}
+      state = CommonState.loading();
+      final MemoInfo? modifiedMemoInfo = await memoUsecase.modifyMemo(
+        memoId: memoId,
+        title: title,
+        content: content,
+        madeDateTime: madeDateTime,
+      );
+      if (modifiedMemoInfo == null) {
+        state = CommonState.error(Exception());
+        return;
+      }
+      state = CommonState.success(MemoInfoList(values: [modifiedMemoInfo]));
+      _routesController.popAllAndPush(context, AppRoutes.HOME.path);
+    } on Exception catch (e) {
+      state = CommonState.error(e);
+    }
   }
 }

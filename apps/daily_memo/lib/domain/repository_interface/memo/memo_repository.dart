@@ -1,13 +1,26 @@
-import 'package:apps.daily_memo/domain/model/home/memo_list_item.dart';
-import 'package:apps.daily_memo/domain/model/memo/add_memo_model.dart';
-import 'package:apps.daily_memo/domain/model/memo/modify_memo_model.dart';
+import 'package:apps.daily_memo/domain/model/home/memo_info.dart';
+import 'package:apps.daily_memo/domain/model/home/memo_info_list.dart';
 
 abstract class MemoRepository {
-  Future<List<MemoListItem>> get getMemoList;
-  Future<MemoListItem> getMemoById (int memoId);
+  // Future<List<MemoListItem>> get getMemoList;
+  Future<MemoInfoList> get getAllMemoInfo;
 
-  Future<AddMemoModel> addMemo(AddMemoModel memoModel);
-  Future<ModifyMemoModel> modifyMemo(ModifyMemoModel memoModel);
+  Future<MemoInfo?> getMemoInfoById(int memoId);
+
+  // Future<List<CalendarEvent>> getEvents(DateTime dateTime);
+  // Future<Map<DateTime, List<CalendarEvent>>> get getAllEvents;
+
+  Future<bool> addMemo({
+    required String title,
+    required String content,
+  });
+
+  Future<MemoInfo?> modifyMemo({
+    required int memoId,
+    required String title,
+    required String content,
+    required String madeDateTime,
+  });
 
   Future<bool> deleteMemo(int memoId);
 }

@@ -1,32 +1,29 @@
-import 'package:apps.daily_memo/presentation/view_model/bottom_bar/bottom_bar_viewmodel.dart';
+import 'package:apps.daily_memo/presentation/core/route/routes_impl/app_routes_go_router.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class BottomBar extends StatelessWidget {
-  late final BottomBarViewModel _bottomBarViewModel;
-
-  BottomBar({
-    super.key,
-    required List<BottomNavigationBarItem> navigationItems,
-  }) {
-    _bottomBarViewModel = BottomBarViewModel(items: navigationItems);
-  }
-
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<int>(
-      stream: _bottomBarViewModel.currentIndexStream,
-      builder: (context, snapshot) {
-        final int? currentIndex = snapshot.data;
-        return currentIndex == null
-            ? const CircularProgressIndicator()
-            : BottomNavigationBar(
-                items: _bottomBarViewModel.navigationItems,
-                currentIndex: currentIndex,
-                onTap: (tappedIndex) {
-                  if(tappedIndex == currentIndex) return;
-                  _bottomBarViewModel.navigationItemOnTap(tappedIndex, context);
-                },
-              );
+    return Consumer(builder: (context, ref, widget) {
+      final state = ref.watch(bottomBarViewModelProvider);
+      return state.maybeWhen(
+        init: (content) => _buildBottomNavigation(content, ref),
+        success: (content) => _buildBottomNavigation(content, ref),
+        orElse: () => const CircularProgressIndicator(),
+      );
+    });
+  }
+
+  _buildBottomNavigation(int index, WidgetRef ref) {
+    return BottomNavigationBar(
+      items: ref.watch(bottomBarViewModelProvider.notifier).navigationItems,
+      currentIndex: index,
+      onTap: (tappedIndex) {
+        if (tappedIndex == index) return;
+        ref
+            .watch(bottomBarViewModelProvider.notifier)
+            .navigationItemOnTap(tappedIndex);
       },
     );
   }
