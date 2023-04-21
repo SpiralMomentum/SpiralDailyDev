@@ -1,4 +1,3 @@
-import 'package:apps.daily_memo/domain/model/memo/add_memo_model.dart';
 import 'package:apps.daily_memo/domain/repository_interface/memo/memo_repository.dart';
 import 'package:apps.daily_memo/domain/usecase/memo/memo_usecase.dart';
 import 'package:flutter_test/flutter_test.dart';
