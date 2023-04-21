@@ -25,15 +25,21 @@ class _CalendarPageState extends ConsumerState<CalendarPage> {
 
     return state.maybeWhen(
       success: (content) => TableCalendar(
+        headerStyle: const HeaderStyle(
+          leftChevronVisible: false,
+          rightChevronVisible: false,
+          headerPadding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+          formatButtonVisible: false,
+        ),
         focusedDay: DateTime.now(),
-        firstDay: DateTime(2023, 03, 01),
+        firstDay: getFirstDatetime(content.keys.toList()),
         lastDay: DateTime.now(),
         eventLoader: (day) {
           DateTime result =
               DateTime.parse(DateFormat("yyyy-MM-dd").format(day));
           return content[result] ?? [];
         },
-        calendarStyle: CalendarStyle(
+        calendarStyle: const CalendarStyle(
           markerSize: 10.0,
           markerDecoration:
               BoxDecoration(color: Colors.red, shape: BoxShape.circle),
@@ -43,4 +49,17 @@ class _CalendarPageState extends ConsumerState<CalendarPage> {
       orElse: () => CircularProgressIndicator(),
     );
   }
+  
+  DateTime getFirstDatetime(List<DateTime> times){
+    if(times.isEmpty) return DateTime.now().subtract(const Duration(days: 31));
+    DateTime result = times.first;
+    for(DateTime time in times){
+      if(result.compareTo(time) < 0){
+        result = time;
+      }
+    }
+
+    return result;
+  }
+
 }
