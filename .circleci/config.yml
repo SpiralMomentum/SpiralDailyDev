@@ -5,7 +5,8 @@ jobs:
       - image: cirrusci/flutter:3.3.10
     steps:
       - checkout
-      - run: export PATH="$PATH":"$HOME/.pub-cache/bin"
+      - run: echo $PATH
+      - run: export PATH="$PATH:/opt/flutter/bin"
       - run: sudo flutter pub cache clean
       - run: flutter pub global activate melos 2.9.0
       - run: flutter pub global run melos bs
