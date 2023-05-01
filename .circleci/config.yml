@@ -3,7 +3,7 @@ jobs:
   build:
     working_directory: ~/app
     docker:
-      - image: circleci/flutter:3.3.10
+      - image: cirrusci/flutter:3.3.10
     steps:
       - checkout
       - run: melos daily memo pub get
