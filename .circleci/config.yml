@@ -2,6 +2,7 @@ version: 2.1
 
 orbs:
   flutter: circleci/flutter@2.0.2
+  flutter-sdk-setup: circleci/flutter-sdk-setup@1.1.0
 
 jobs:
   ci:
@@ -9,7 +10,7 @@ jobs:
       xcode: 12.5.1
     steps:
       - checkout
-      - flutter/install
+      - flutter-sdk-setup/install
       - run: flutter pub global activate melos 2.9.0
       - run: flutter pub global run melos run bs
       - run: flutter pub global run melos run daily_memo_pub_get
