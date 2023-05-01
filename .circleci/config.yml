@@ -9,18 +9,10 @@ jobs:
       xcode: 12.5.1
     steps:
       - checkout
-#      - run: flutter 3.3.10
+      - flutter/install
       - run: flutter pub global activate melos 2.9.0
       - run: flutter pub global run melos run bs
       - run: flutter pub global run melos run daily_memo_pub_get
-#      - run: export PATH="$PATH:/path/to/flutter/bin"
-#      - run: export PATH="$PATH":"$HOME/.pub-cache/bin"
-#      - run: echo which flutter
-#      - run: flutter clean
-#      - run: flutter pub upgrade
-#      - run: flutter pub get
-#
-
 
 workflows:
   version: 2
