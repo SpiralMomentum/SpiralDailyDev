@@ -5,8 +5,16 @@ orbs:
 
 
 workflows:
-  test:
-    jobs:
-        - run: flutter pub global activate melos 2.9.0
-        - run: flutter pub global run melos bs
-        - run: flutter pub global run melos daily_memo_pub_get
+  ci:
+    name: CI
+    instance_type: mac_mini
+    max_build_duration: 15
+    environment:
+      flutter: 3.3.10
+    scripts:
+        - name: Melos activate
+          script: flutter pub global activate melos 2.9.0
+        - name: Melos bs
+          script: melos bs
+        - name: Melos pub get
+          script: melos daily_memo_pub_get
