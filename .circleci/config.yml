@@ -2,10 +2,9 @@ version: 2
 jobs:
   build:
     docker:
-      - image: cirrusci/flutter:3.3.10
+      - image: cirrusci/flutter:stable
     steps:
       - checkout
-      - run: export PATH="$PATH:/path/to/flutter/bin"
-      - run: /path/to/flutter/bin/flutter pub global activate melos 2.9.0
-      - run: /path/to/flutter/bin/flutter pub global run melos bs
-      - run: /path/to/flutter/bin/flutter pub global run melos daily_memo_pub_get
+      - run: flutter pub global activate melos 2.9.0
+      - run: flutter pub global run melos bs
+      - run: flutter pub global run melos daily_memo_pub_get
