@@ -1,15 +1,12 @@
-version: 2
+version: '2.1'
 
 orbs:
   flutter: circleci/flutter@2.0.2
 
-jobs:
-  build:
-    steps:
-      - checkout
-      - run: echo $PATH
-      - run: export PATH="$PATH:/opt/flutter/bin"
-      - run: sudo flutter pub cache clean
-      - run: flutter pub global activate melos 2.9.0
-      - run: flutter pub global run melos bs
-      - run: flutter pub global run melos daily_memo_pub_get
+
+workflows:
+  test:
+    jobs:
+        - run: flutter pub global activate melos 2.9.0
+        - run: flutter pub global run melos bs
+        - run: flutter pub global run melos daily_memo_pub_get
