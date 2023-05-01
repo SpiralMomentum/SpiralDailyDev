@@ -1,7 +1,7 @@
 version: 2
 jobs:
   build:
-    working_directory: ~/spiralDev
+    working_directory: ~/app
     docker:
       - image: cirrusci/flutter:3.3.10
     steps:
