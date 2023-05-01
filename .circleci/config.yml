@@ -6,7 +6,6 @@ jobs:
     steps:
       - checkout
       - run: export PATH="$PATH:/path/to/flutter/bin"
-      - run: sudo flutter pub cache clean
-      - run: flutter pub global activate melos 2.9.0
-      - run: flutter pub global run melos bs
-      - run: flutter pub global run melos daily_memo_pub_get
+      - run: /path/to/flutter/bin/flutter pub global activate melos 2.9.0
+      - run: /path/to/flutter/bin/flutter pub global run melos bs
+      - run: /path/to/flutter/bin/flutter pub global run melos daily_memo_pub_get
