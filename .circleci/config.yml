@@ -6,5 +6,6 @@ jobs:
     steps:
       - checkout
       - run: flutter pub global activate melos 2.9.0
+      - run: export PATH="$PATH":"$HOME/.pub-cache/bin"
       - run: flutter pub global run melos bs
       - run: flutter pub global run melos daily_memo_pub_get
