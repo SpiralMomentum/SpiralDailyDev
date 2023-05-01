@@ -5,23 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3d3d17ad-f50d-4d34-981d-efe9fb11ae43" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/apps/daily_memo/ios/Runner/Assets.xcassets/Contents.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.circleci/config.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.circleci/config.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/daily_memo/ios/Runner.xcodeproj/project.pbxproj" beforeDir="false" afterPath="$PROJECT_DIR$/apps/daily_memo/ios/Runner.xcodeproj/project.pbxproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/daily_memo/ios/Runner.xcodeproj/xcshareddata/xcschemes/Runner.xcscheme" beforeDir="false" afterPath="$PROJECT_DIR$/apps/daily_memo/ios/Runner.xcodeproj/xcshareddata/xcschemes/Runner.xcscheme" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/daily_memo/ios/Runner/Assets.xcassets/AppIcon.appiconset/114.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/daily_memo/ios/Runner/Assets.xcassets/AppIcon.appiconset/120.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/daily_memo/ios/Runner/Assets.xcassets/AppIcon.appiconset/180.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/daily_memo/ios/Runner/Assets.xcassets/AppIcon.appiconset/29.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/daily_memo/ios/Runner/Assets.xcassets/AppIcon.appiconset/40.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/daily_memo/ios/Runner/Assets.xcassets/AppIcon.appiconset/57.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/daily_memo/ios/Runner/Assets.xcassets/AppIcon.appiconset/58.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/daily_memo/ios/Runner/Assets.xcassets/AppIcon.appiconset/60.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/daily_memo/ios/Runner/Assets.xcassets/AppIcon.appiconset/80.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/daily_memo/ios/Runner/Assets.xcassets/AppIcon.appiconset/87.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/daily_memo/ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/daily_memo/ios/Runner/Assets.xcassets/AppIcon.appiconset/Contents.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/daily_memo/ios/Runner/Info.plist" beforeDir="false" afterPath="$PROJECT_DIR$/apps/daily_memo/ios/Runner/Info.plist" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/daily_memo/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/apps/daily_memo/lib/main.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/melos.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/melos.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,7 +35,11 @@
                 <list>
                   <RecentBranch>
                     <option name="branchName" value="master" />
-                    <option name="lastUsedInstant" value="1679571030" />
+                    <option name="lastUsedInstant" value="1682928732" />
+                  </RecentBranch>
+                  <RecentBranch>
+                    <option name="branchName" value="develop" />
+                    <option name="lastUsedInstant" value="1682088237" />
                   </RecentBranch>
                   <RecentBranch>
                     <option name="branchName" value="exchange_rate_calculator" />
@@ -57,10 +48,6 @@
                   <RecentBranch>
                     <option name="branchName" value="feature/memoUpdateDelete" />
                     <option name="lastUsedInstant" value="1675580822" />
-                  </RecentBranch>
-                  <RecentBranch>
-                    <option name="branchName" value="develop" />
-                    <option name="lastUsedInstant" value="1675580739" />
                   </RecentBranch>
                   <RecentBranch>
                     <option name="branchName" value="feature/listItemDesign" />
@@ -77,13 +64,9 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/apps/daily_memo/lib/data/repository_impl/memo_repository_impl.dart" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/apps/daily_memo/lib/domain/model/home/memo_list_item.dart" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/apps/daily_memo/lib/domain/model/memo/add_memo_model.dart" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/apps/daily_memo/lib/domain/usecase/memo/memo_usecase.dart" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/apps/daily_memo/lib/presentation/core/route/routes_controller_impl/routes_controller_modular_impl.dart" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/apps/daily_memo/lib/presentation/view/home/home_list_item_view.dart" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/apps/daily_memo/lib/presentation/view/home/home_page.dart" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/apps/daily_memo/lib/presentation/view_model/home/home_viewmodel.dart" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/apps/spiral_map/lib/main.dart" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$USER_HOME$/flutter/.pub-cache/hosted/pub.dartlang.org/google_maps_flutter-2.2.3/lib/src/google_map.dart" root0="SKIP_INSPECTION" />
     <setting file="file://$USER_HOME$/flutter/packages/flutter/lib/src/services/message_codecs.dart" root0="SKIP_INSPECTION" />
@@ -121,11 +104,11 @@
       <recent name="$PROJECT_DIR$/apps/daily_memo/lib/domain/model/memo" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/.circleci" />
       <recent name="$PROJECT_DIR$/apps/exchange_rate_calculator/lib/presentation/core/navigation/routes_controller" />
       <recent name="$PROJECT_DIR$/apps/exchange_rate_calculator/lib/presentation/core/navigation/routes" />
       <recent name="$PROJECT_DIR$/apps/exchange_rate_calculator/lib/presentation/core/navigation" />
       <recent name="$PROJECT_DIR$/apps/daily_memo/android/app/src/main/res" />
-      <recent name="$PROJECT_DIR$/apps/daily_memo/ios/Runner/Assets.xcassets/AppIcon.appiconset" />
     </key>
   </component>
   <component name="RunManager" selected="Flutter.main.dart">
@@ -142,12 +125,13 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Flutter.Flutter Run -&gt; 'apps.daily_memo'" />
+      <item itemvalue="Flutter.Flutter Run -&gt; 'apps_daily_memo'" />
       <item itemvalue="Flutter.Flutter Run -&gt; 'exchange_rate_calculator'" />
       <item itemvalue="Flutter.Flutter Run -&gt; 'spiral_map'" />
       <item itemvalue="Flutter.main.dart" />
       <item itemvalue="Flutter.main.dart (2)" />
       <item itemvalue="Flutter.main.dart (1)" />
+      <item itemvalue="Shell Script.Melos Run -&gt; 'daily_memo_pub_get'" />
       <item itemvalue="Shell Script.Melos -&gt; Bootstrap Workspace" />
       <item itemvalue="Shell Script.Melos -&gt; Clean Workspace" />
     </list>

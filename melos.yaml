@@ -12,3 +12,7 @@ scripts:
   daily_memo_pub_get:
     run: melos exec --scope="apps.daily_memo" -- flutter clean && melos exec --scope="apps.daily_memo" -- flutter pub get
     description: daily memo pub get
+
+  exchange_cal_pub_get:
+    run: melos exec --scope="exchange_rate_calculator" -- flutter clean && melos exec --scope="exchange_rate_calculator" -- flutter pub get
+    description: exchange rate calculator pub get

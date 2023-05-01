@@ -8,6 +8,7 @@ jobs:
       - checkout
       - run: export PATH="$PATH:/path/to/flutter/bin"
       - run: flutter pub global activate melos
+      - run: export PATH="$PATH":"$HOME/.pub-cache/bin"
       - run: melos bootstrap
       - run: melos daily_memo_pub_get
       - run: melos exec -- flutter test
