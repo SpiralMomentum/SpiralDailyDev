@@ -1,7 +1,7 @@
 version: 2
 jobs:
   build:
-    working_directory: ~/app
+    working_directory: /Users/gyubinhwang/AndroidStudioProjects/spiral_dev
     docker:
       - image: cirrusci/flutter:3.3.10
     steps:
