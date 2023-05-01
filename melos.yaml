@@ -4,6 +4,9 @@ packages:
   - "apps/*"
   - "packages/**"
 
+ignore:
+  - "apps/exchange_rate_calculator"
+
 command:
   bootstrap:
     usePubspecOverrides: true
