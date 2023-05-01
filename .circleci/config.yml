@@ -1,8 +1,10 @@
 version: 2
+
+orbs:
+  flutter: circleci/flutter@2.0.2
+
 jobs:
   build:
-    docker:
-      - image: cirrusci/flutter:3.3.10
     steps:
       - checkout
       - run: echo $PATH
