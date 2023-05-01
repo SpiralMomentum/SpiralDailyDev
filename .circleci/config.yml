@@ -6,4 +6,5 @@ jobs:
     steps:
       - checkout
       - run: flutter pub global activate melos 2.9.0
+      - run: flutter pub global run melos bs
       - run: flutter pub global run melos daily_memo_pub_get
