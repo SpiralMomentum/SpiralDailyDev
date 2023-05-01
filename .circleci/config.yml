@@ -6,4 +6,7 @@ jobs:
       - image: cirrusci/flutter:3.3.10
     steps:
       - checkout
+      - run: flutter packages get
+      - run: flutter pub global activate melos
+      - run: melos bootstrap
       - run: melos daily memo pub get
