@@ -11,5 +11,4 @@ command:
 scripts:
   daily_memo_pub_get:
     run: melos exec --scope="apps.daily_memo" -- flutter clean && melos exec --scope="apps.daily_memo" -- flutter pub get
-    workingDirectory: ~/app
     description: daily memo pub get
