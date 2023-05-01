@@ -22,6 +22,8 @@ jobs:
       xcode: 12.5.1
     steps:
       - checkout
+      - flutter/install_sdk:
+          version: 3.3.10
       - run: flutter pub global activate melos 2.9.0
       - run: flutter pub global run melos run bs
       - run: flutter pub global run melos run daily_memo_pub_get
@@ -30,7 +32,4 @@ workflows:
   version: 2
   main:
     jobs:
-      - flutter_setup
       - ci
-        requires:
-          - flutter_setup
