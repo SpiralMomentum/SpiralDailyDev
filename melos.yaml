@@ -4,6 +4,8 @@ packages:
   - "apps/*"
   - "packages/**"
 
-# TODO: add pbr
+script:
+  daily memo pub get:
+    run: flutter clean && flutter pub get
+    description: daily memo pub get
 
-# TODO: add build method

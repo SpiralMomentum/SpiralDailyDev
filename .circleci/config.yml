@@ -6,6 +6,4 @@ jobs:
       - image: circleci/flutter:3.3.10
     steps:
       - checkout
-      - run: flutter pub get
-      - run: flutter test
-      - run: flutter build apk
+      - run: melos daily memo pub get
