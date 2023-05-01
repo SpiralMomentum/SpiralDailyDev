@@ -4,9 +4,22 @@ orbs:
   flutter: circleci/flutter@2.0.2
 
 jobs:
-  build:
+  distribute:
+    macos:
+      xcode: 12.5.1
+    steps:
+      - flutter/install_sdk_and_pub:
+          version: 3.0.3
+      - flutter/install_ios_pod
+      - flutter/install_ios_gem
+      - run:
+          command: bundle exec fastlane distribute
+          working_directory: ios
+  ci:
     steps:
       - checkout
+      - flutter/install_sdk_and_pub:
+            version: 3.3.10
       - run: export PATH="$PATH:/path/to/flutter/bin"
       - run: flutter pub global activate melos 2.9.0
       - run: export PATH="$PATH":"$HOME/.pub-cache/bin"
@@ -16,3 +29,10 @@ jobs:
 #      - run: flutter pub get
 #      - run: flutter pub global run melos bs
 #      - run: flutter pub global run melos daily_memo_pub_get
+
+
+  workflows:
+    distribute:
+      jobs:
+        - distribute
+        - ci
