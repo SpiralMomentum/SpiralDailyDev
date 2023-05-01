@@ -12,11 +12,11 @@ jobs:
     steps:
       - flutter/install_sdk:
           version: 3.3.10
-      - flutter/install_ios_pod
-      - flutter/install_ios_gem
-      - run:
-          command: bundle exec fastlane distribute
-          working_directory: ios
+#      - flutter/install_ios_pod
+#      - flutter/install_ios_gem
+#      - run:
+#          command: bundle exec fastlane distribute
+#          working_directory: ios
   ci:
     macos:
       xcode: 12.5.1
