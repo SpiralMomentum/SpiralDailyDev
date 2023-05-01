@@ -2,15 +2,26 @@ version: 2.1
 
 orbs:
   flutter: circleci/flutter@2.0.2
-  flutter-sdk-setup: circleci/flutter-sdk-setup@1.1.0
+
+
 
 jobs:
+  flutter_setup:
+    macos:
+      xcode: 12.5.1
+    steps:
+      - flutter/install_sdk_and_pub:
+          version: 3.0.3
+      - flutter/install_ios_pod
+      - flutter/install_ios_gem
+      - run:
+          command: bundle exec fastlane distribute
+          working_directory: ios
   ci:
     macos:
       xcode: 12.5.1
     steps:
       - checkout
-      - flutter-sdk-setup/install
       - run: flutter pub global activate melos 2.9.0
       - run: flutter pub global run melos run bs
       - run: flutter pub global run melos run daily_memo_pub_get
@@ -19,4 +30,5 @@ workflows:
   version: 2
   main:
     jobs:
+      - flutter_setup
       - ci
