@@ -4,8 +4,11 @@ packages:
   - "apps/*"
   - "packages/**"
 
-script:
-  daily memo pub get:
-    run: flutter clean && flutter pub get
-    description: daily memo pub get
+command:
+  bootstrap:
+    usePubspecOverrides: true
 
+scripts:
+  daily_memo_pub_get:
+    run: melos exec --scope="apps.daily_memo" -- flutter clean && melos exec --scope="apps.daily_memo" -- flutter pub get
+    description: daily memo pub get
