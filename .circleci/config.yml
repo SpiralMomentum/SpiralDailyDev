@@ -9,7 +9,4 @@ jobs:
       - run: flutter packages get
       - run: flutter pub global activate melos
       - run: melos bootstrap
-      - run:
-          name: melos daily memo pub get
-          command: melos daily memo pub get
-          working_directory: ~/app
+      - run: melos daily memo pub get
