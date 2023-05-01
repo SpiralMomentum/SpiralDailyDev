@@ -1,7 +1,7 @@
 version: 2
 jobs:
   build:
-    working_directory: ~/app
+    working_directory: /home/circleci/app
     docker:
       - image: cirrusci/flutter:3.3.10
     steps:
@@ -10,4 +10,4 @@ jobs:
       - run: flutter pub global activate melos
       - run: melos bootstrap
       - run: melos daily memo pub get
-          working_directory: ~/app
+          working_directory: /home/circleci/app
