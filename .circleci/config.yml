@@ -130,5 +130,5 @@ workflows:
             apps/daily_memo/.*
             apps/exchange_rate_calculator/.*
             apps/spiral_map/.*
-          base-revision: master
+          base-revision: origin/master
           config-path: .circleci/dynamic_config.yml
