@@ -14,6 +14,8 @@ jobs:
       - run: flutter pub global run melos run spiral_map_pub_get
 
 workflows:
+  macos:
+    xcode: 14.2.0
   main:
     jobs:
       - ci
