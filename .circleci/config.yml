@@ -14,7 +14,7 @@ jobs:
     steps:
       - checkout
       - path-filtering/set-parameters:
-          base-revision: main
+          base-revision: master
           # .* config ".circleci/common_config.yml"
           mapping: |
             apps/daily_memo/.* config "apps/daily_memo/.circleci/config.yml"
