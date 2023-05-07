@@ -6,6 +6,35 @@ orbs:
   path-filtering: circleci/path-filtering@0.1.4
   continuation: circleci/continuation@0.3.1
 
+commands:
+  set-continued-config:
+    parameters:
+      pipeline-parameters-json-file:
+        type: string
+        default: /tmp/pipeline-parameters.json
+      configuration-path:
+        type: string
+        default: .circleci/continue.yml
+      lookup-key:
+        type: string
+        description: key to look up the filepath for the next config
+    steps:
+      - run:
+          name: Set next config as << parameters.configuration-path >>
+          command: |
+            cp $(jq -r '.<< parameters.lookup-key >>' << parameters.pipeline-parameters-json-file >>) << parameters.configuration-path >>
+
+            # debug: confirm next config
+            cat << parameters.configuration-path >>
+      - run:
+          name: Pop << parameters.lookup-key >> key from << parameters.pipeline-parameters-json-file >>
+          command: |
+            jq 'del(.<< parameters.lookup-key >>)' << parameters.pipeline-parameters-json-file >> > params.json
+            rm << parameters.pipeline-parameters-json-file >>
+            cp params.json << parameters.pipeline-parameters-json-file >>
+
+            # debug: confirm contents
+            jq '.' << parameters.pipeline-parameters-json-file >>
 
 jobs:
   filtered-ci:
@@ -13,23 +42,20 @@ jobs:
     resource_class: small
     steps:
       - checkout
-      - path-filtering/filter:
+      - path-filtering/set-parameters:
           base-revision: master
           # .* config ".circleci/dynamic_config.yml"
           mapping: |
             apps/daily_memo/.* config "apps/daily_memo/.circleci/config.yml"
             apps/exchange_rate_calculator/.* config "apps/exchange_rate_calculator/.circleci/config.yml"
             apps/spiral_map/.* config "apps/spiral_map/.circleci/config.yml"
-
+      - set-continued-config:
+          lookup-key: config
+      - continuation/continue:
+          configuration_path: .circleci/continue.yml
+          parameters: /tmp/pipeline-parameters.json
 
 workflows:
   ci:
     jobs:
-#      - filtered-ci
-      - path-filtering/filter:
-          base-revision: master
-          # .* config ".circleci/dynamic_config.yml"
-          mapping: |
-            apps/daily_memo/.* config "apps/daily_memo/.circleci/config.yml"
-            apps/exchange_rate_calculator/.* config "apps/exchange_rate_calculator/.circleci/config.yml"
-            apps/spiral_map/.* config "apps/spiral_map/.circleci/config.yml"
+      - filtered-ci
