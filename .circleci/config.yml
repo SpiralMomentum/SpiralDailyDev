@@ -9,9 +9,6 @@ orbs:
 commands:
   set-continued-config:
     parameters:
-      pipeline-parameters-json-file:
-        type: string
-        default: /tmp/pipeline-parameters.json
       configuration-path:
         type: string
         default: .circleci/continue.yml
@@ -22,19 +19,10 @@ commands:
       - run:
           name: Set next config as << parameters.configuration-path >>
           command: |
-            cp $(jq -r '.<< parameters.lookup-key >>' << parameters.pipeline-parameters-json-file >>) << parameters.configuration-path >>
+            cp $(jq -r '.<< parameters.lookup-key >>') << parameters.configuration-path >>
 
             # debug: confirm next config
             cat << parameters.configuration-path >>
-      - run:
-          name: Pop << parameters.lookup-key >> key from << parameters.pipeline-parameters-json-file >>
-          command: |
-            jq 'del(.<< parameters.lookup-key >>)' << parameters.pipeline-parameters-json-file >> > params.json
-            rm << parameters.pipeline-parameters-json-file >>
-            cp params.json << parameters.pipeline-parameters-json-file >>
-
-            # debug: confirm contents
-            jq '.' << parameters.pipeline-parameters-json-file >>
 
 jobs:
   filtered-ci:
@@ -53,7 +41,6 @@ jobs:
           lookup-key: config
       - continuation/continue:
           configuration_path: .circleci/continue.yml
-          parameters: /tmp/pipeline-parameters.json
 
 workflows:
   ci:
