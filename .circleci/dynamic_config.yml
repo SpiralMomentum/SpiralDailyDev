@@ -100,13 +100,16 @@ workflows:
 #    jobs:
   daily_memo_ci:
     when: << pipeline.parameters.daily_memo >>
-    jobs: daily-memo-ci-job
+    jobs:
+      - daily-memo-ci-job
 
   exchange_rate_calculator_ci:
     when: << pipeline.parameters.exchange_rate_calculator >>
-    jobs: exchange-rate-calculator-ci-job
+    jobs:
+      - exchange-rate-calculator-ci-job
 
   spiral_map_ci:
     when: << pipeline.parameters.spiral_map >>
-    jobs: spiral-daily-ci-job
+    jobs:
+      - spiral-daily-ci-job
 
