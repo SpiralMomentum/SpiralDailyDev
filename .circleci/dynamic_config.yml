@@ -1,44 +1,109 @@
+##version: 2.1
+##
+##parameters:
+##  is_daily_memo:
+##    type: boolean
+##    default: false
+##  is_exchange_rate_calculator:
+##    type: boolean
+##    default: false
+##  is_spiral_map:
+##    type: boolean
+##    default: false
+##
+##jobs:
+##  common_pbr:
+##
+##workflows:
+##  common_ci:
+##    jobs:
+##      - common_pbr
+#
 #version: 2.1
 #
 #parameters:
-#  is_daily_memo:
-#    type: boolean
-#    default: false
-#  is_exchange_rate_calculator:
-#    type: boolean
-#    default: false
-#  is_spiral_map:
-#    type: boolean
-#    default: false
+#
+#orbs:
+#  flutter: circleci/flutter@2.0.2
 #
 #jobs:
-#  common_pbr:
+#  ci:
+#    macos:
+#      xcode: 14.2.0
+#    steps:
+#      - checkout
+#      - flutter/install_sdk:
+#          version: 3.3.10
+#      - run: flutter pub global activate melos 2.9.0
+#      - run: flutter pub global run melos bootstrap
+#      - run: flutter pub global run melos run daily_memo_pub_get
 #
 #workflows:
-#  common_ci:
+#  main:
 #    jobs:
-#      - common_pbr
+#      - ci
+
 
 version: 2.1
 
 parameters:
+  common:
+    type: boolean
+    default: false
 
-orbs:
-  flutter: circleci/flutter@2.0.2
+  daily_memo:
+    type: boolean
+    default: false
+
+  exchange_rate_calculator:
+    type: boolean
+    default: false
+
+  spiral_map:
+    type: boolean
+    default: false
+
 
 jobs:
-  ci:
-    macos:
-      xcode: 14.2.0
+  daily-memo-ci-job:
+    executor: path-filtering/default
+    resource_class: small
     steps:
       - checkout
-      - flutter/install_sdk:
-          version: 3.3.10
-      - run: flutter pub global activate melos 2.9.0
-      - run: flutter pub global run melos bootstrap
-      - run: flutter pub global run melos run daily_memo_pub_get
+      - continuation/continue:
+          configuration_path: apps/daily_memo/.circleci/config.yml
+
+  exchange-rate-calculator-ci-job:
+    executor: path-filtering/default
+    resource_class: small
+    steps:
+      - checkout
+      - continuation/continue:
+          configuration_path: apps/exchange_rate_calculator/.circleci/config.yml
+
+  spiral-daily-ci-job:
+    executor: path-filtering/default
+    resource_class: small
+    steps:
+      - checkout
+      - continuation/continue:
+          configuration_path: apps/spiral_map/.circleci/config.yml
+
+
 
 workflows:
-  main:
-    jobs:
-      - ci
+#  common_ci:
+#    when: << pipeline.parameters.common >>
+#    jobs:
+  daily_memo_ci:
+    when: << pipeline.parameters.daily_memo >>
+    jobs: daily-memo-ci-job
+
+  exchange_rate_calculator_ci:
+    when: << pipeline.parameters.exchange_rate_calculator >>
+    jobs: exchange-rate-calculator-ci-job
+
+  spiral_map_ci:
+    when: << pipeline.parameters.spiral_map >>
+    jobs: spiral-daily-ci-job
+
