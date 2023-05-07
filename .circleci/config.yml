@@ -126,9 +126,9 @@ workflows:
       - path-filtering/filter:
           name: check-updated-files
           mapping: |
-            .* 
-            apps/daily_memo/.*
-            apps/exchange_rate_calculator/.*
-            apps/spiral_map/.*
+            .* common true
+            apps/daily_memo/.* daily_memo true 
+            apps/exchange_rate_calculator/.* exchange_rate_calculator true
+            apps/spiral_map/.* spiral_map  true
           base-revision: origin/master
           config-path: .circleci/dynamic_config.yml
