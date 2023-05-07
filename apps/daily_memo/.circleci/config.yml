@@ -1,0 +1,21 @@
+version: 2.1
+
+parameters:
+
+orbs:
+  flutter: circleci/flutter@2.0.2
+
+jobs:
+  ci:
+    steps:
+      - checkout
+      - flutter/install_sdk:
+          version: 3.3.10
+      - run: flutter pub global activate melos 2.9.0
+      - run: flutter pub global run melos bootstrap
+      - run: flutter pub global run melos run daily_memo_pub_get
+
+workflows:
+  main:
+    jobs:
+      - ci

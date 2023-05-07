@@ -4,15 +4,21 @@ packages:
   - "apps/*"
   - "packages/**"
 
-ignore:
-  - "apps/exchange_rate_calculator"
-
 command:
   bootstrap:
     usePubspecOverrides: true
 
 scripts:
+  # TODO: packages pbr
+
   daily_memo_pub_get:
     run: flutter pub global run melos exec --scope="apps.daily_memo" -- flutter clean && flutter pub global run melos exec --scope="apps.daily_memo" -- flutter pub get
     description: daily memo pub get
 
+  exchange_rate_calculator_pub_get:
+    run: flutter pub global run melos exec --scope="exchange_rate_calculator" -- flutter clean && flutter pub global run melos exec --scope="apps.daily_memo" -- flutter pub get
+    description: exchange rate calculator pub get
+
+  spiral_map_pub_get:
+    run: flutter pub global run melos exec --scope="spiral_map" -- flutter clean && flutter pub global run melos exec --scope="apps.daily_memo" -- flutter pub get
+    description: spiral map pub get

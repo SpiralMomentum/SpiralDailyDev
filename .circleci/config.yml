@@ -1,35 +1,30 @@
 version: 2.1
 
-orbs:
-  flutter: circleci/flutter@2.0.2
+setup: true
 
+orbs:
+  path-filtering: circleci/path-filtering@0.1.4
+  continuation: circleci/continuation@0.3.1
 
 
 jobs:
-  flutter_setup:
-    macos:
-      xcode: 12.5.1
-    steps:
-      - flutter/install_sdk:
-          version: 3.3.10
-#      - flutter/install_ios_pod
-#      - flutter/install_ios_gem
-#      - run:
-#          command: bundle exec fastlane distribute
-#          working_directory: ios
-  ci:
-    macos:
-      xcode: 12.5.1
+  filtered-ci:
+    executor: path-filtering/default
+    resource_class: small
     steps:
       - checkout
-      - flutter/install_sdk:
-          version: 3.3.10
-      - run: flutter pub global activate melos 2.9.0
-      - run: flutter pub global run melos bootstrap
-      - run: flutter pub global run melos run daily_memo_pub_get
+      - path-filtering/set-parameters:
+          base-revision: main
+          # .* config ".circleci/common_config.yml"
+          mapping: |
+            apps/daily_memo/.* config "apps/daily_memo/.circleci/config.yml"
+            apps/exchange_rate_calculator/.* config "apps/exchange_rate_calculator/.circleci/config.yml"
+            apps/spiral_map/.* config "apps/spiral_map/.circleci/config.yml"
+      - continuation/continue:
+          configuration_path: .circleci/continue.yml
+
 
 workflows:
-  version: 2
-  main:
+  ci:
     jobs:
-      - ci
+      - filtered-ci
