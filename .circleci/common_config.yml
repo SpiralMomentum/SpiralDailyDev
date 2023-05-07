@@ -1,9 +1,0 @@
-#version: 2.1
-#
-#jobs:
-#  common_pbr:
-#
-#workflows:
-#  common_ci:
-#    jobs:
-#      - common_pbr

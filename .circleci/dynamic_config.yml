@@ -1,0 +1,20 @@
+#version: 2.1
+#
+#parameters:
+#  is_daily_memo:
+#    type: boolean
+#    default: false
+#  is_exchange_rate_calculator:
+#    type: boolean
+#    default: false
+#  is_spiral_map:
+#    type: boolean
+#    default: false
+#
+#jobs:
+#  common_pbr:
+#
+#workflows:
+#  common_ci:
+#    jobs:
+#      - common_pbr

@@ -13,15 +13,13 @@ jobs:
     resource_class: small
     steps:
       - checkout
-      - path-filtering/set-parameters:
+      - path-filtering/filter:
           base-revision: master
-          # .* config ".circleci/common_config.yml"
+          # .* config ".circleci/dynamic_config.yml"
           mapping: |
             apps/daily_memo/.* config "apps/daily_memo/.circleci/config.yml"
             apps/exchange_rate_calculator/.* config "apps/exchange_rate_calculator/.circleci/config.yml"
             apps/spiral_map/.* config "apps/spiral_map/.circleci/config.yml"
-      - continuation/continue:
-          configuration_path: .circleci/continue.yml
 
 
 workflows:
