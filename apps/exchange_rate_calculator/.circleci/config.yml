@@ -6,6 +6,8 @@ orbs:
 
 jobs:
   ci:
+    macos:
+      xcode: 14.2.0
     steps:
       - checkout
       - flutter/install_sdk:
@@ -15,8 +17,6 @@ jobs:
       - run: flutter pub global run melos run exchange_rate_calculator_pub_get
 
 workflows:
-  macos:
-    xcode: 14.2.0
   main:
     jobs:
       - ci

@@ -57,8 +57,6 @@ jobs:
           parameters: /tmp/pipeline-parameters.json
 
 workflows:
-  macos:
-    xcode: 14.2.0
   ci:
     jobs:
       - filtered-ci
