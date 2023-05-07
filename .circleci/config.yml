@@ -37,7 +37,23 @@ commands:
             jq '.' << parameters.pipeline-parameters-json-file >>
 
 jobs:
-  filtered-ci:
+  common-ci:
+    executor: path-filtering/default
+    resource_class: small
+    steps:
+      - checkout
+      - path-filtering/set-parameters:
+          base-revision: master
+          # .* config ".circleci/dynamic_config.yml"
+          mapping: |
+            .* config ".circleci/dynamic_config.yml"
+      - set-continued-config:
+          lookup-key: config
+      - continuation/continue:
+          configuration_path: .circleci/continue.yml
+          parameters: /tmp/pipeline-parameters.json
+
+  daily-memo-ci:
     executor: path-filtering/default
     resource_class: small
     steps:
@@ -56,7 +72,45 @@ jobs:
           configuration_path: .circleci/continue.yml
           parameters: /tmp/pipeline-parameters.json
 
+  exchange-rate-calculator-ci:
+    executor: path-filtering/default
+    resource_class: small
+    steps:
+      - checkout
+      - path-filtering/set-parameters:
+          base-revision: master
+          # .* config ".circleci/dynamic_config.yml"
+          mapping: |
+            apps/exchange_rate_calculator/.* config "apps/exchange_rate_calculator/.circleci/config.yml"
+      - set-continued-config:
+          lookup-key: config
+      - continuation/continue:
+          configuration_path: .circleci/continue.yml
+          parameters: /tmp/pipeline-parameters.json
+
+
+  spiral-map-ci:
+    executor: path-filtering/default
+    resource_class: small
+    steps:
+      - checkout
+      - path-filtering/set-parameters:
+          base-revision: master
+          # .* config ".circleci/dynamic_config.yml"
+          mapping: |
+            apps/spiral_map/.* config "apps/spiral_map/.circleci/config.yml"
+      - set-continued-config:
+          lookup-key: config
+      - continuation/continue:
+          configuration_path: .circleci/continue.yml
+          parameters: /tmp/pipeline-parameters.json
+
+
+
 workflows:
   ci:
     jobs:
-      - filtered-ci
+      - common-ci
+      - daily-memo-ci
+      - exchange-rate-calculator-ci
+      - spiral-map-ci
