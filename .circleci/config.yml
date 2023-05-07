@@ -62,10 +62,7 @@ jobs:
           base-revision: master
           # .* config ".circleci/dynamic_config.yml"
           mapping: |
-            .* config ".circleci/dynamic_config.yml"
             apps/daily_memo/.* config "apps/daily_memo/.circleci/config.yml"
-            apps/exchange_rate_calculator/.* config "apps/exchange_rate_calculator/.circleci/config.yml"
-            apps/spiral_map/.* config "apps/spiral_map/.circleci/config.yml"
       - set-continued-config:
           lookup-key: config
       - continuation/continue:
