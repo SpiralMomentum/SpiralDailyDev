@@ -24,7 +24,7 @@ workflows:
             apps/daily_memo/.* ci_run true
           base-revision: develop
           config-path: apps/daily_memo/.circleci/config.yml
-       - path-filtering/filter:
+      - path-filtering/filter:
            name: exchange_rate_calculator_ci
            mapping: |
              apps/exchange_rate_calculator/.* ci_run true
