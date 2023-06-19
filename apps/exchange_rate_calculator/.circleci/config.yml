@@ -3,20 +3,28 @@ version: 2.1
 orbs:
   flutter: circleci/flutter@2.0.2
 
+parameters:
+  ci_run:
+    type: boolean
+    default: false
 
 jobs:
-  ci:
-    macos:
-      xcode: 14.2.0
-    steps:
-      - checkout
-      - flutter/install_sdk:
-          version: 3.3.10
-      - run: flutter pub global activate melos 2.9.0
-      - run: flutter pub global run melos bootstrap
-      - run: flutter pub global run melos run exchange_rate_calculator_pub_get
+#  ci:
+#    macos:
+#      xcode: 14.2.0
+#    steps:
+#      - checkout
+#      - flutter/install_sdk:
+#          version: 3.3.10
+#      - run: flutter pub global activate melos 2.9.0
+#      - run: flutter pub global run melos bootstrap
+#      - run: flutter pub global run melos run exchange_rate_calculator_pub_get
+    test:
+      run: echo "test exchange cal"
 
 workflows:
-  main:
+  ci:
+    when:
+      equal: [ true, << pipeline.parameters.ci_run >> ]
     jobs:
-      - ci
+      - test

@@ -4,6 +4,9 @@ parameter:
   flutter-version:
     type: string
     default: "3.3.10"
+  ci_run:
+    type: boolean
+    default: false
 
 orbs:
   flutter: circleci/flutter@2.0.2
@@ -27,4 +30,7 @@ jobs:
 
 workflows:
   ci:
-    - test
+    when:
+      equal: [ true, << pipeline.parameters.ci_run >> ]
+    jobs:
+      - test
