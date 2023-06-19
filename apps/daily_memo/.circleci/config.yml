@@ -1,5 +1,7 @@
 version: 2.1
 
+setup: true
+
 parameter:
   flutter-version:
     type: string

@@ -3,6 +3,8 @@ version: 2.1
 orbs:
   flutter: circleci/flutter@2.0.2
 
+setup: true
+
 parameters:
   ci_run:
     type: boolean
