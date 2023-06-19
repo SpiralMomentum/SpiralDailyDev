@@ -2,14 +2,6 @@ version: 2.1
 
 setup: true
 
-parameter:
-  flutter-version:
-    type: string
-    default: "3.3.10"
-  ci_run:
-    type: boolean
-    default: false
-
 orbs:
   flutter: circleci/flutter@2.0.2
 
