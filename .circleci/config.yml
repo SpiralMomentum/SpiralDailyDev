@@ -16,7 +16,7 @@ parameters:
 
 
 workflows:
-  ci:
+  setup:
     jobs:
       - path-filtering/filter:
           name: daily_memo_ci
