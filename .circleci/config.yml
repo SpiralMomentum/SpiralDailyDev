@@ -1,118 +1,3 @@
-#version: 2.1
-#
-#setup: true
-#
-#orbs:
-#  path-filtering: circleci/path-filtering@0.1.4
-#  continuation: circleci/continuation@0.3.1
-#
-#commands:
-#  set-continued-config:
-#    parameters:
-#      pipeline-parameters-json-file:
-#        type: string
-#        default: /tmp/pipeline-parameters.json
-#      configuration-path:
-#        type: string
-#        default: .circleci/continue.yml
-#      lookup-key:
-#        type: string
-#        description: key to look up the filepath for the next config
-#    steps:
-#      - run:
-#          name: Set next config as << parameters.configuration-path >>
-#          command: |
-#            cp $(jq -r '.<< parameters.lookup-key >>' << parameters.pipeline-parameters-json-file >>) << parameters.configuration-path >>
-#
-#            # debug: confirm next config
-#            cat << parameters.configuration-path >>
-#      - run:
-#          name: Pop << parameters.lookup-key >> key from << parameters.pipeline-parameters-json-file >>
-#          command: |
-#            jq 'del(.<< parameters.lookup-key >>)' << parameters.pipeline-parameters-json-file >> > params.json
-#            rm << parameters.pipeline-parameters-json-file >>
-#            cp params.json << parameters.pipeline-parameters-json-file >>
-#
-#            # debug: confirm contents
-#            jq '.' << parameters.pipeline-parameters-json-file >>
-#
-#jobs:
-#  common-ci:
-#    executor: path-filtering/default
-#    resource_class: small
-#    steps:
-#      - checkout
-#      - path-filtering/set-parameters:
-#          base-revision: master
-#          # .* config ".circleci/dynamic_config.yml"
-#          mapping: |
-#            .* config ".circleci/dynamic_config.yml"
-#      - set-continued-config:
-#          lookup-key: config
-#      - continuation/continue:
-#          configuration_path: .circleci/continue.yml
-#          parameters: /tmp/pipeline-parameters.json
-#
-#  daily-memo-ci:
-#    executor: path-filtering/default
-#    resource_class: small
-#    steps:
-#      - checkout
-#      - path-filtering/set-parameters:
-#          base-revision: master
-#          # .* config ".circleci/dynamic_config.yml"
-#          mapping: |
-#            apps/daily_memo/.* config "apps/daily_memo/.circleci/config.yml"
-#      - set-continued-config:
-#          lookup-key: config
-#      - continuation/continue:
-#          configuration_path: .circleci/continue.yml
-#          parameters: /tmp/pipeline-parameters.json
-#
-#  exchange-rate-calculator-ci:
-#    executor: path-filtering/default
-#    resource_class: small
-#    steps:
-#      - checkout
-#      - path-filtering/set-parameters:
-#          base-revision: master
-#          # .* config ".circleci/dynamic_config.yml"
-#          mapping: |
-#            apps/exchange_rate_calculator/.* config "apps/exchange_rate_calculator/.circleci/config.yml"
-#      - set-continued-config:
-#          lookup-key: config
-#      - continuation/continue:
-#          configuration_path: .circleci/continue.yml
-#          parameters: /tmp/pipeline-parameters.json
-#
-#
-#  spiral-map-ci:
-#    executor: path-filtering/default
-#    resource_class: small
-#    steps:
-#      - checkout
-#      - path-filtering/set-parameters:
-#          base-revision: master
-#          # .* config ".circleci/dynamic_config.yml"
-#          mapping: |
-#            apps/spiral_map/.* config "apps/spiral_map/.circleci/config.yml"
-#      - set-continued-config:
-#          lookup-key: config
-#      - continuation/continue:
-#          configuration_path: .circleci/continue.yml
-#          parameters: /tmp/pipeline-parameters.json
-#
-#
-#
-#workflows:
-#  ci:
-#    jobs:
-#      - common-ci
-#      - daily-memo-ci
-#      - exchange-rate-calculator-ci
-#      - spiral-map-ci
-
-
 version: 2.1
 
 setup: true
@@ -120,15 +5,44 @@ setup: true
 orbs:
   path-filtering: circleci/path-filtering@0.1.4
 
+
+parameters:
+  daily-memo-deploy:
+    type: boolean
+    default: false
+  exchange-calculator-deploy:
+    type: boolean
+    default: false
+
+
 workflows:
-  set-filters:
+  ci:
     jobs:
       - path-filtering/filter:
-          name: check-updated-files
+          name: daily_memo_ci
           mapping: |
-            .* common true
-            apps/daily_memo/.* daily_memo true 
-            apps/exchange_rate_calculator/.* exchange_rate_calculator true
-            apps/spiral_map/.* spiral_map  true
-          base-revision: origin/master
-          config-path: .circleci/dynamic_config.yml
+            apps/daily_memo/.* ci_run true
+          base-revision: develop
+          config-path: apps/daily_memo/.circleci/config.yml
+       - path-filtering/filter:
+           name: exchange_rate_calculator_ci
+           mapping: |
+             apps/exchange_rate_calculator/.* ci_run true
+           base-revision: develop
+           config-path: apps/exchange_rate_calculator/.circleci/config.yml
+  daily-memo-cd:
+    when:
+      equal: [ true, << pipeline.daily-memo-deploy >> ]
+    jobs:
+      - path-filtering/filter:
+          name: daily_memo_cd
+          base-revision: master
+          config-path: apps/daily_memo/.circleci/deploy_config.yml
+  exchange-calculator-cd:
+    when:
+      equal: [ true, << pipeline.exchange-calculator-deploy >> ]
+    jobs:
+      - path-filtering/filter:
+          name: exchange-calculator-cd
+          base-revision: master
+          config-path: apps/exchange_rate_calculator/.circleci/deploy_config.yml
