@@ -25,10 +25,14 @@ jobs:
   #      - run: flutter pub global run melos bootstrap
   #      - run: flutter pub global run melos run exchange_rate_calculator_pub_get
     test:
+      macos:
+        xcode: 14.2.0
       steps:
         - run: echo "test daily memo"
 
     test2:
+      macos:
+        xcode: 14.2.0
       steps:
         - run: echo "test exchange cal"
 
