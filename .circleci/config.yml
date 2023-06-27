@@ -19,12 +19,12 @@ workflows:
     jobs:
       - path-filtering/filter:
           name: root_ci
+          config-path: .circleci/continue-config.yml
           mapping: |
             apps/daily_memo/.* daily_memo_ci_run true
             apps/exchange_rate_calculator/.* exchange_calculator_ci_run true
           base-revision: develop
 #          config-path: apps/daily_memo/.circleci/config.yml
-          config-path: .circleci/continue-config.yml
 #      - path-filtering/filter:
 #           name: exchange_rate_calculator_ci
 #           mapping: |
