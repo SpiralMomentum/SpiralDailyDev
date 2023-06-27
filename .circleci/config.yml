@@ -32,19 +32,19 @@ workflows:
 #             apps/exchange_rate_calculator/.* ci_run true
 #           base-revision: develop
 #           config-path: apps/exchange_rate_calculator/.circleci/config.yml
-  daily-memo-cd:
-    when:
-      equal: [ true, << pipeline.parameters.daily-memo-deploy >> ]
-    jobs:
-      - path-filtering/filter:
-          name: daily_memo_cd
-          base-revision: master
-          config-path: apps/daily_memo/.circleci/deploy_config.yml
-  exchange-calculator-cd:
-    when:
-      equal: [ true, << pipeline.parameters.exchange-calculator-deploy >> ]
-    jobs:
-      - path-filtering/filter:
-          name: exchange-calculator-cd
-          base-revision: master
-          config-path: apps/exchange_rate_calculator/.circleci/deploy_config.yml
+#  daily-memo-cd:
+#    when:
+#      equal: [ true, << pipeline.parameters.daily-memo-deploy >> ]
+#    jobs:
+#      - path-filtering/filter:
+#          name: daily_memo_cd
+#          base-revision: master
+#          config-path: apps/daily_memo/.circleci/deploy_config.yml
+#  exchange-calculator-cd:
+#    when:
+#      equal: [ true, << pipeline.parameters.exchange-calculator-deploy >> ]
+#    jobs:
+#      - path-filtering/filter:
+#          name: exchange-calculator-cd
+#          base-revision: master
+#          config-path: apps/exchange_rate_calculator/.circleci/deploy_config.yml
