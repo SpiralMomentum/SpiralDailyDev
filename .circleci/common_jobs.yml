@@ -5,6 +5,7 @@ setup: true
 orbs:
   path-filtering: circleci/path-filtering@0.1.4
   flutter: circleci/flutter@2.0.2
+  continuation: circleci/continuation@0.4.0
 
 parameters:
   daily_memo_ci_run:
