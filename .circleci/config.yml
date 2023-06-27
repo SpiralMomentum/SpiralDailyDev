@@ -17,18 +17,27 @@ parameters:
 
 workflows:
   ci:
-    - path-filtering/filter:
-        name: daily_memo_ci
-        mapping: |
-          apps/daily_memo/.* ci_run true
-        base-revision: develop
-        config-path: apps/daily_memo/.circleci/config.yml
-    - path-filtering/filter:
-         name: exchange_rate_calculator_ci
-         mapping: |
-           apps/exchange_rate_calculator/.* ci_run true
-         base-revision: develop
-         config-path: apps/exchange_rate_calculator/.circleci/config.yml
+    jobs:
+      - path-filtering/filter:
+          name: daily_memo_ci
+          mapping: |
+            apps/daily_memo/.* ci_run true
+          base-revision: develop
+          config-path: apps/daily_memo/.circleci/config.yml
+  ci2:
+    jobs:
+#      - path-filtering/filter:
+#          name: daily_memo_ci
+#          mapping: |
+#            apps/daily_memo/.* ci_run true
+#          base-revision: develop
+#          config-path: apps/daily_memo/.circleci/config.yml
+      - path-filtering/filter:
+           name: exchange_rate_calculator_ci
+           mapping: |
+             apps/exchange_rate_calculator/.* ci_run true
+           base-revision: develop
+           config-path: apps/exchange_rate_calculator/.circleci/config.yml
   daily-memo-cd:
     when:
       equal: [ true, << pipeline.parameters.daily-memo-deploy >> ]
