@@ -24,11 +24,13 @@ jobs:
   #      - run: flutter pub global activate melos 2.9.0
   #      - run: flutter pub global run melos bootstrap
   #      - run: flutter pub global run melos run exchange_rate_calculator_pub_get
-    - test:
-      run: echo "test daily memo"
+    test:
+      steps:
+        - run: echo "test daily memo"
 
-    - test2:
-      run: echo "test exchange cal"
+    test2:
+      steps:
+        - run: echo "test exchange cal"
 
 
 workflows:
