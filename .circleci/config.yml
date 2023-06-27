@@ -1,11 +1,7 @@
-version: 2.1
-
-setup: true
+version: '2.1'
 
 orbs:
   path-filtering: circleci/path-filtering@0.1.4
-  continuation: circleci/continuation@0.4.0
-
 
 parameters:
   daily-memo-deploy:
@@ -26,7 +22,7 @@ workflows:
             apps/exchange_rate_calculator/.* exchange_calculator_ci_run true
           base-revision: develop
 #          config-path: apps/daily_memo/.circleci/config.yml
-          config-path: .circleci/common_jobs.yml
+          config-path: .circleci/continue-config.yml
 #      - path-filtering/filter:
 #           name: exchange_rate_calculator_ci
 #           mapping: |
