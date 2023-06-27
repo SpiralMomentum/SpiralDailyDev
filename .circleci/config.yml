@@ -16,10 +16,10 @@ parameters:
 
 
 workflows:
-  setup-workflow:
+  generate-config:
     jobs:
       - path-filtering/filter:
-          name: daily_memo_ci
+          name: root_ci
           mapping: |
             apps/daily_memo/.* daily_memo_ci_run true
             apps/exchange_rate_calculator/.* exchange_calculator_ci_run true
