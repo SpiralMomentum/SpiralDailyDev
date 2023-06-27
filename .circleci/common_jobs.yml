@@ -1,5 +1,7 @@
 version: '2.1'
 
+setup: true
+
 orbs:
   flutter: circleci/flutter@2.0.2
 
