@@ -24,14 +24,6 @@ workflows:
             apps/daily_memo/.* ci_run true
           base-revision: develop
           config-path: apps/daily_memo/.circleci/config.yml
-  ci2:
-    jobs:
-#      - path-filtering/filter:
-#          name: daily_memo_ci
-#          mapping: |
-#            apps/daily_memo/.* ci_run true
-#          base-revision: develop
-#          config-path: apps/daily_memo/.circleci/config.yml
       - path-filtering/filter:
            name: exchange_rate_calculator_ci
            mapping: |

@@ -5,6 +5,11 @@ setup: true
 orbs:
   flutter: circleci/flutter@2.0.2
 
+parameters:
+  ci_run:
+    type: boolean
+    default: false
+
 executor:
   flutter_executor:
     macos:
