@@ -1,7 +1,5 @@
 version: '2.1'
 
-setup: true
-
 orbs:
   flutter: circleci/flutter@2.0.2
 
@@ -28,23 +26,23 @@ jobs:
       macos:
         xcode: 14.2.0
       steps:
-        - run: echo "test daily memo"
+        - run:
+            command: echo "test daily memo"
 
     test2:
       macos:
         xcode: 14.2.0
       steps:
-        - run: echo "test exchange cal"
+        - run:
+            command: echo "test exchange cal"
 
 
 workflows:
   ci:
-    when:
-      equal: [ true, << pipeline.parameters.daily_memo_ci_run >> ]
+    when: << pipeline.parameters.daily_memo_ci_run >>
     jobs:
       - test
   ci2:
-    when:
-      equal: [ true, << pipeline.parameters.exchange_calculator_ci_run >> ]
+    when: << pipeline.parameters.exchange_calculator_ci_run >>
     jobs:
       - test2

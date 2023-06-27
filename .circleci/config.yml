@@ -15,7 +15,7 @@ parameters:
 
 
 workflows:
-  generate-config:
+  always-run:
     jobs:
       - path-filtering/filter:
           name: root_ci
