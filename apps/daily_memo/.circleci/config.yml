@@ -1,19 +1,9 @@
 version: 2.1
 
-setup: true
-
-orbs:
-  flutter: circleci/flutter@2.0.2
-
 parameters:
   cd_run:
     type: boolean
     default: false
-
-executor:
-  flutter_executor:
-    macos:
-      xcode: 14.2.0
 
 jobs:
   test:
