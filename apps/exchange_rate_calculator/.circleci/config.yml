@@ -1,6 +1,9 @@
 version: 2.1
 
 parameters:
+  exchange-calculator-deploy:
+    type: boolean
+    default: false
   cd_run:
     type: boolean
     default: false

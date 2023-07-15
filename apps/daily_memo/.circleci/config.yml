@@ -24,7 +24,7 @@ jobs:
           command: echo "test daily memo deploy2"
 
 workflows:
-  ci:
+  memo-deploy:
     when:
       equal: [ true, << pipeline.parameters.cd_run >> ]
     jobs:
