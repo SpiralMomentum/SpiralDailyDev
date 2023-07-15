@@ -4,6 +4,7 @@ setup: true
 
 orbs:
   path-filtering: circleci/path-filtering@0.1.4
+  continuation: circleci/continuation@1.0.0
 
 parameters:
   daily-memo-deploy:
