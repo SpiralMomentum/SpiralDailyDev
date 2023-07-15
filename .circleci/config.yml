@@ -10,11 +10,9 @@ parameters:
   daily-memo-deploy:
     type: boolean
     default: false
-    description: "메모 앱 배포"
   exchange-calculator-deploy:
     type: boolean
     default: false
-    description: "환율 계산기 앱 배포"
 
 
 workflows:
@@ -30,7 +28,7 @@ workflows:
             apps/daily_memo/.* daily_memo_ci_run true
             apps/exchange_rate_calculator/.* exchange_calculator_ci_run true
 
-  daily-memo-deploy:
+  daily-memo-deploy-job:
     when:
       equal: [ true, << pipeline.parameters.daily-memo-deploy >> ]
     jobs:
@@ -42,7 +40,7 @@ workflows:
                 command: |
                   echo '{ "cd_run": << pipeline.parameters.daily-memo-deploy >> }' >> /tmp/pipeline-parameters.json
 
-  exchange-calculator-cd:
+  exchange-calculator-cd-job:
     when:
       equal: [ true, << pipeline.parameters.exchange-calculator-deploy >> ]
     jobs:
