@@ -6,7 +6,7 @@ orbs:
   flutter: circleci/flutter@2.0.2
 
 parameters:
-  ci_run:
+  cd_run:
     type: boolean
     default: false
 
@@ -27,6 +27,6 @@ jobs:
 workflows:
   ci:
     when:
-      equal: [ true, << pipeline.parameters.ci_run >> ]
+      equal: [ true, << pipeline.parameters.cd_run >> ]
     jobs:
       - test
