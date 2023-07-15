@@ -16,14 +16,14 @@ jobs:
       xcode: 14.2.0
     steps:
       - run:
-          command: echo "test daily memo deploy"
+          command: echo "test exchange cal deploy1"
 
   test2:
     macos:
       xcode: 14.2.0
     steps:
       - run:
-          command: echo "test exchange cal deploy"
+          command: echo "test exchange cal deploy2"
 
 workflows:
   ci:

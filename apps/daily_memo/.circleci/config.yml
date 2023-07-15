@@ -16,16 +16,19 @@ executor:
       xcode: 14.2.0
 
 jobs:
-#    executor: flutter_executor
-#    steps:
-##      - checkout
-##      - flutter/install_sdk:
-##          version: << pipeline.parameters.flutter-version >>
-##      - run: flutter pub global activate melos
-##      - run: flutter pub global run melos bootstrap
-##      - run: flutter pub global run melos run daily_memo_pub_get
   test:
-    run: echo "test daily memo"
+    macos:
+      xcode: 14.2.0
+    steps:
+      - run:
+          command: echo "test daily memo deploy1"
+
+  test2:
+    macos:
+      xcode: 14.2.0
+    steps:
+      - run:
+          command: echo "test daily memo deploy2"
 
 workflows:
   ci:
