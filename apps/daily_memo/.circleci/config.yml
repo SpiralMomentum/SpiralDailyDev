@@ -4,6 +4,9 @@ parameters:
   cd_run:
     type: boolean
     default: false
+  daily-memo-deploy:
+    type: boolean
+    default: false
 
 jobs:
   test:
