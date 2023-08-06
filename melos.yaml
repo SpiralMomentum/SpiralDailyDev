@@ -9,10 +9,24 @@ command:
     usePubspecOverrides: true
 
 scripts:
-  # TODO: packages pbr
-
   daily_memo_pub_get:
     run: flutter pub global run melos exec --scope="apps.daily_memo" -- flutter clean && flutter pub global run melos exec --scope="apps.daily_memo" -- flutter pub get
+    description: daily memo pub get
+
+  daily_memo_test:
+    run: flutter pub global run melos exec --scope="apps.daily_memo" -- flutter clean && flutter pub global run melos exec --scope="apps.daily_memo" -- flutter test
+    description: daily memo pub get
+
+  daily_memo_build_apk:
+    run: flutter pub global run melos exec --scope="apps.daily_memo" -- flutter clean && flutter pub global run melos exec --scope="apps.daily_memo" -- flutter build apk --release
+    description: daily memo pub get
+
+  daily_memo_build_aab:
+    run: flutter pub global run melos exec --scope="apps.daily_memo" -- flutter clean && flutter pub global run melos exec --scope="apps.daily_memo" -- flutter build aab --release
+    description: daily memo pub get
+
+  daily_memo_build_ipa:
+    run: flutter pub global run melos exec --scope="apps.daily_memo" -- flutter clean && flutter pub global run melos exec --scope="apps.daily_memo" -- flutter build ipa --release
     description: daily memo pub get
 
   exchange_rate_calculator_pub_get:

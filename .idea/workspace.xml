@@ -5,8 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3d3d17ad-f50d-4d34-981d-efe9fb11ae43" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.circleci/config.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.circleci/config.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.circleci/continue-config.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.circleci/continue-config.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/melos.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/melos.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -123,12 +124,15 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Flutter.Flutter Run -&gt; 'apps_daily_memo'" />
+      <item itemvalue="Flutter.Flutter Run -&gt; 'apps.daily_memo'" />
       <item itemvalue="Flutter.Flutter Run -&gt; 'exchange_rate_calculator'" />
       <item itemvalue="Flutter.Flutter Run -&gt; 'spiral_map'" />
       <item itemvalue="Flutter.main.dart" />
       <item itemvalue="Flutter.main.dart (2)" />
       <item itemvalue="Flutter.main.dart (1)" />
+      <item itemvalue="Shell Script.Melos Run -&gt; 'daily_memo_test'" />
+      <item itemvalue="Shell Script.Melos Run -&gt; 'exchange_rate_calculator_pub_get'" />
+      <item itemvalue="Shell Script.Melos Run -&gt; 'spiral_map_pub_get'" />
       <item itemvalue="Shell Script.Melos Run -&gt; 'daily_memo_pub_get'" />
       <item itemvalue="Shell Script.Melos -&gt; Bootstrap Workspace" />
       <item itemvalue="Shell Script.Melos -&gt; Clean Workspace" />
