@@ -39,7 +39,6 @@ class MyApp extends StatelessWidget {
       routeInformationParser: router.routeInformationParser,
       routerDelegate: router.routerDelegate,
     );
-
     // Modular Setting
     // return MaterialApp.router(
     //   routeInformationParser: Modular.routeInformationParser,
