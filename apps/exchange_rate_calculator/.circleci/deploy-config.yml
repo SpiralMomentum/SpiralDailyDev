@@ -28,4 +28,4 @@ workflows:
     when:
       equal: [ true, << pipeline.parameters.cd_run >> ]
     jobs:
-      - test
+      - deploy-test

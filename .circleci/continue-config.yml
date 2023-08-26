@@ -10,54 +10,43 @@ parameters:
   exchange_calculator_ci_run:
     type: boolean
     default: false
+  service-root-path:
+    type: string
+    default: ""
 
 jobs:
-  daily-memo-flutter-test:
+  flutter-unit-test:
     macos:
       xcode: 14.2.0
     steps:
       - checkout
       - flutter/install_sdk:
           version: 3.3.10
-      - run: flutter pub global activate melos 2.9.0
-      - run: flutter pub global run melos bootstrap
-      - run: flutter pub global run melos run daily_memo_test
-      - run: flutter pub global run melos run daily_memo_build_apk
-      - run: flutter pub global run melos run daily_memo_build_ipa
+      - run: cd << parameters.service-root-path >>
+      - run: flutter test
+      # TODO: add step to check test coverage
+      # TODO: make all steps as shell command
 
-  daily-memo-build:
+  flutter-linter:
     macos:
       xcode: 14.2.0
     steps:
       - checkout
       - flutter/install_sdk:
           version: 3.3.10
-      - run: flutter pub global activate melos 2.9.0
-      - run: flutter pub global run melos bootstrap
-      - run: flutter pub global run melos daily_memo_pub_get
-      - run: flutter pub global run melos run daily_memo_build_apk
-      - run: flutter pub global run melos run daily_memo_build_ipa
-
-  exchange-rate-cal-flutter-test:
-    macos:
-      xcode: 14.2.0
-    steps:
-      - checkout
-      - flutter/install_sdk:
-          version: 3.3.10
-      - run: flutter pub global activate melos 2.9.0
-      - run: flutter pub global run melos bootstrap
-      - run: flutter pub global run melos run exchange_rate_calculator_pub_get
-
+      - run: cd << parameters.service-root-path >>
+      # TODO: add step to check flutter analyze
+      # TODO: make all steps as shell command
 
 workflows:
   daily-memo-app-ci-workflow:
     when: << pipeline.parameters.daily_memo_ci_run >>
     jobs:
-      - daily-memo-flutter-test
-      - daily-memo-build
+      - flutter-unit-test
+      - flutter-linter
 
   exchange-cal-app-ci-workflow:
     when: << pipeline.parameters.exchange_calculator_ci_run >>
     jobs:
-      - test2
+      - flutter-unit-test
+      - flutter-linter
