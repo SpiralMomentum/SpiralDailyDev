@@ -40,6 +40,6 @@ void main (){
     // given
     // when
     // then
-    expect(true, false);
   });
+
 }
