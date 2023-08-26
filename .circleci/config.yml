@@ -26,9 +26,9 @@ workflows:
           base-revision: master
           mapping: |
             apps/daily_memo/.* daily_memo_ci_run true
-            apps/daily_memo/.* service-root-path apps/daily_memo
+            apps/daily_memo/.* service-root-path "apps/daily_memo"
             apps/exchange_rate_calculator/.* exchange_calculator_ci_run true
-            apps/exchange_rate_calculator/.* service-root-path apps/exchange_rate_calculator
+            apps/exchange_rate_calculator/.* service-root-path "apps/exchange_rate_calculator"
 
   daily-memo-cd-flow:
     when:

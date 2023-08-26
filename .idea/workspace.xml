@@ -5,9 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3d3d17ad-f50d-4d34-981d-efe9fb11ae43" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.circleci/continue-config.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.circleci/continue-config.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.circleci/config.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.circleci/config.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/melos.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/melos.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,11 +33,11 @@
                 <list>
                   <RecentBranch>
                     <option name="branchName" value="master" />
-                    <option name="lastUsedInstant" value="1682928732" />
+                    <option name="lastUsedInstant" value="1693050539" />
                   </RecentBranch>
                   <RecentBranch>
                     <option name="branchName" value="develop" />
-                    <option name="lastUsedInstant" value="1682088237" />
+                    <option name="lastUsedInstant" value="1691307416" />
                   </RecentBranch>
                   <RecentBranch>
                     <option name="branchName" value="exchange_rate_calculator" />
