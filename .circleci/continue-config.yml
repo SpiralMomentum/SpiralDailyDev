@@ -22,7 +22,7 @@ jobs:
       - checkout
       - flutter/install_sdk:
           version: 3.3.10
-      - run: cd << parameters.service-root-path >>
+      - run: cd << pipeline.parameters.service-root-path >>
       - run: flutter test
       # TODO: add step to check test coverage
       # TODO: make all steps as shell command
@@ -34,7 +34,7 @@ jobs:
       - checkout
       - flutter/install_sdk:
           version: 3.3.10
-      - run: cd << parameters.service-root-path >>
+      - run: cd << pipeline.parameters.service-root-path >>
       # TODO: add step to check flutter analyze
       # TODO: make all steps as shell command
 
