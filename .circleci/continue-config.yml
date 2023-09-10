@@ -2,12 +2,14 @@ version: '2.1'
 
 orbs:
   flutter: circleci/flutter@2.0.2
+  continuation: circleci/continuation@1.0.0
+  android: circleci/android@1.0.3
 
 parameters:
-  daily_memo_ci_run:
+  daily_memo_trigger:
     type: boolean
     default: false
-  exchange_calculator_ci_run:
+  exchange_calculator_trigger:
     type: boolean
     default: false
   service-root-path:
@@ -22,31 +24,53 @@ jobs:
       - checkout
       - flutter/install_sdk:
           version: 3.3.10
-      - run: cd << pipeline.parameters.service-root-path >> && flutter test
+      - run:
+          command: flutter test
+          working_directory: << pipeline.parameters.service-root-path >>
 
-      # TODO: add step to check test coverage
-      # TODO: make all steps as shell command
-
-  flutter-linter:
+  flutter-static-analysis:
     macos:
       xcode: 14.2.0
     steps:
       - checkout
       - flutter/install_sdk:
           version: 3.3.10
-      - run: cd << pipeline.parameters.service-root-path >>
-      # TODO: add step to check flutter analyze
-      # TODO: make all steps as shell command
+      - run:
+          name: Lint
+          command: dart analyze
+          working_directory: << pipeline.parameters.service-root-path >>
+
+  flutter-build-apk:
+    executor:
+      name: android/android-machine
+    steps:
+      - checkout
+      - flutter/install_sdk:
+          version: 3.3.10
+      - run:
+          command: echo -n $GOOGLE_SERVICE_JSON | base64 --decode > android/app/google-services.json
+          working_directory: << pipeline.parameters.service-root-path >>
+      - run:
+          command: flutter clean && flutter build appbundle --release
+          working_directory: << pipeline.parameters.service-root-path >>
+
+  flutter-build-ipa:
+    macos:
+      xcode: 14.2.0
+    steps:
+      - checkout
+      - flutter/install_sdk:
+          version: 3.3.10
+      - run:
+          command: echo -n $GOOGLE_SERVICE_JSON | base64 --decode > android/app/google-services.json
+          working_directory: << pipeline.parameters.service-root-path >>
+      - run:
+          command: flutter clean && flutter build ipa
+          working_directory: << pipeline.parameters.service-root-path >>
 
 workflows:
-  daily-memo-app-ci-workflow:
-    when: << pipeline.parameters.daily_memo_ci_run >>
+  ci-flow:
     jobs:
       - flutter-unit-test
-      - flutter-linter
-
-  exchange-cal-app-ci-workflow:
-    when: << pipeline.parameters.exchange_calculator_ci_run >>
-    jobs:
-      - flutter-unit-test
-      - flutter-linter
+#      - flutter-static-analysis
+      - flutter-build-apk
