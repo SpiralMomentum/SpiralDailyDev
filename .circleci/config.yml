@@ -6,50 +6,33 @@ orbs:
   path-filtering: circleci/path-filtering@0.1.4
   continuation: circleci/continuation@1.0.0
 
-parameters:
-  daily-memo-deploy:
-    type: boolean
-    default: false
-  exchange-calculator-deploy:
-    type: boolean
-    default: false
 
+#jobs:
+#  build-release-aab:
+#  build-release-ipa:
+#  flutter-smoke-test:
+#  flutter-integration-test:
+#  deploy-to-google-play-store:
+#  deploy-to-app-store:
+
+
+parameters:
+  daily-memo-manual-deploy:
+    type: boolean
+    default: false
+  exchange-calculator-manual-deploy:
+    type: boolean
+    default: false
 
 workflows:
-  always-run:
-    unless:
-      or: [ << pipeline.parameters.daily-memo-deploy >>, << pipeline.parameters.exchange-calculator-deploy >> ]
+  setup-ci-cd:
     jobs:
       - path-filtering/filter:
-          name: root_ci
+          name: Setup CI/CD
           config-path: .circleci/continue-config.yml
-          base-revision: master
+          base-revision: develop
           mapping: |
-            apps/daily_memo/.* daily_memo_ci_run true
             apps/daily_memo/.* service-root-path "apps/daily_memo"
-            apps/exchange_rate_calculator/.* exchange_calculator_ci_run true
             apps/exchange_rate_calculator/.* service-root-path "apps/exchange_rate_calculator"
-
-  daily-memo-cd-flow:
-    when:
-      equal: [ true, << pipeline.parameters.daily-memo-deploy >> ]
-    jobs:
-      - continuation/continue:
-          configuration_path: apps/daily_memo/.circleci/config.yml
-          parameters: /tmp/pipeline-parameters.json
-          pre-steps:
-            - run:
-                command: |
-                  echo '{ "cd_run": << pipeline.parameters.daily-memo-deploy >> }' >> /tmp/pipeline-parameters.json
-
-  exchange-calculator-cd-flow:
-    when:
-      equal: [ true, << pipeline.parameters.exchange-calculator-deploy >> ]
-    jobs:
-      - continuation/continue:
-          configuration_path: apps/exchange_rate_calculator/.circleci/config.yml
-          parameters: /tmp/pipeline-parameters.json
-          pre-steps:
-            - run:
-                command: |
-                  echo '{ "cd_run": << pipeline.parameters.exchange-calculator-deploy >> }' >> /tmp/pipeline-parameters.json
+            /.* daily_memo_trigger <<pipeline.parameters.daily-memo-manual-deploy >>
+            /.* exchange_calculator_trigger <<pipeline.parameters.exchange-calculator-manual-deploy >>
