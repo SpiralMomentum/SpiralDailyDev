@@ -14,42 +14,61 @@ parameters:
     type: boolean
     default: false
 
+jobs:
+  set-continuation-key:
+    macos:
+      xcode: 14.2.0
+    steps:
+      - run: echo ${CIRCLE_BRANCH}
+      - run:
+          command: |
+            if [ -z "$CIRCLE_PR_NUMBER" ]; then
+                if [[ $CIRCLE_BRANCH =~ .*pull.* ]]; then
+                    PR_NUMBER=$(echo $CIRCLE_BRANCH | sed 's/[^0-9]//g')
+                    echo "export CIRCLE_PR_NUMBER=$PR_NUMBER" >> $BASH_ENV
+                fi
+            fi
+      - run:
+          command: echo ${CIRCLE_PR_NUMBER}
+            
 
 workflows:
-  always-run:
-    unless:
-      or: [ << pipeline.parameters.daily-memo-deploy >>, << pipeline.parameters.exchange-calculator-deploy >> ]
+  setup-ci-cd:
+#    unless:
+#      or: [ << pipeline.parameters.daily-memo-deploy >>, << pipeline.parameters.exchange-calculator-deploy >> ]
     jobs:
+      - set-continuation-key
       - path-filtering/filter:
-          name: root_ci
+          name: Setup CI/CD
           config-path: .circleci/continue-config.yml
           base-revision: master
           mapping: |
-            apps/daily_memo/.* daily_memo_ci_run true
             apps/daily_memo/.* service-root-path "apps/daily_memo"
-            apps/exchange_rate_calculator/.* exchange_calculator_ci_run true
             apps/exchange_rate_calculator/.* service-root-path "apps/exchange_rate_calculator"
+#            * continuation-key $CIRCLE_CONTINUATION_KEY
+#            apps/daily_memo/.* daily_memo_ci_run true
+#                     apps/exchange_rate_calculator/.* exchange_calculator_ci_run true
 
-  daily-memo-cd-flow:
-    when:
-      equal: [ true, << pipeline.parameters.daily-memo-deploy >> ]
-    jobs:
-      - continuation/continue:
-          configuration_path: apps/daily_memo/.circleci/config.yml
-          parameters: /tmp/pipeline-parameters.json
-          pre-steps:
-            - run:
-                command: |
-                  echo '{ "cd_run": << pipeline.parameters.daily-memo-deploy >> }' >> /tmp/pipeline-parameters.json
-
-  exchange-calculator-cd-flow:
-    when:
-      equal: [ true, << pipeline.parameters.exchange-calculator-deploy >> ]
-    jobs:
-      - continuation/continue:
-          configuration_path: apps/exchange_rate_calculator/.circleci/config.yml
-          parameters: /tmp/pipeline-parameters.json
-          pre-steps:
-            - run:
-                command: |
-                  echo '{ "cd_run": << pipeline.parameters.exchange-calculator-deploy >> }' >> /tmp/pipeline-parameters.json
+#  daily-memo-cd-flow:
+#    when:
+#      equal: [ true, << pipeline.parameters.daily-memo-deploy >> ]
+#    jobs:
+#      - continuation/continue:
+#          configuration_path: apps/daily_memo/.circleci/config.yml
+#          parameters: /tmp/pipeline-parameters.json
+#          pre-steps:
+#            - run:
+#                command: |
+#                  echo '{ "cd_run": << pipeline.parameters.daily-memo-deploy >> }' >> /tmp/pipeline-parameters.json
+#
+#  exchange-calculator-cd-flow:
+#    when:
+#      equal: [ true, << pipeline.parameters.exchange-calculator-deploy >> ]
+#    jobs:
+#      - continuation/continue:
+#          configuration_path: apps/exchange_rate_calculator/.circleci/config.yml
+#          parameters: /tmp/pipeline-parameters.json
+#          pre-steps:
+#            - run:
+#                command: |
+#                  echo '{ "cd_run": << pipeline.parameters.exchange-calculator-deploy >> }' >> /tmp/pipeline-parameters.json

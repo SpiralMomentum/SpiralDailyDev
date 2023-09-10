@@ -6,11 +6,11 @@ part 'add_memo_entity.g.dart';
 @freezed
 class AddMemoEntity with _$AddMemoEntity {
   factory AddMemoEntity({
-    String? title,
-    String? author,
-    String? content,
-    String? madeDateTime,
-    String? modifiedDateTime,
+    final String? title,
+    final String? author,
+    final String? content,
+    final String? madeDateTime,
+    final String? modifiedDateTime,
   }) = _AddMemoEntity;
 
   factory AddMemoEntity.fromJson(Map<String, dynamic> json) => _$AddMemoEntityFromJson(json);

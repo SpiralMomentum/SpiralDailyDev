@@ -2,17 +2,24 @@ version: '2.1'
 
 orbs:
   flutter: circleci/flutter@2.0.2
+  continuation: circleci/continuation@1.0.0
 
 parameters:
-  daily_memo_ci_run:
+  daily_memo_trigger:
     type: boolean
     default: false
-  exchange_calculator_ci_run:
+  exchange_calculator_trigger:
     type: boolean
     default: false
   service-root-path:
     type: string
     default: ""
+  is-pr:
+    type: string
+    default: ""
+#  continuation-key:
+#    type: string
+#    default: ""
 
 jobs:
   flutter-unit-test:
@@ -27,7 +34,7 @@ jobs:
       # TODO: add step to check test coverage
       # TODO: make all steps as shell command
 
-  flutter-linter:
+  flutter-static-analysis:
     macos:
       xcode: 14.2.0
     steps:
@@ -38,15 +45,70 @@ jobs:
       # TODO: add step to check flutter analyze
       # TODO: make all steps as shell command
 
-workflows:
-  daily-memo-app-ci-workflow:
-    when: << pipeline.parameters.daily_memo_ci_run >>
-    jobs:
-      - flutter-unit-test
-      - flutter-linter
+  flutter-build-binary:
+    macos:
+      xcode: 14.2.0
+    steps:
+      - checkout
+      - flutter/install_sdk:
+          version: 3.3.10
+      - run: flutter pub global activate melos 2.9.0
+      - run: flutter pub global run melos bootstrap
+      - run: cd << pipeline.parameters.service-root-path >> && flutter pub global run melos exec -- flutter clean && flutter pub global run melos exec -- flutter build aab --release
+      - run: cd << pipeline.parameters.service-root-path >> && flutter pub global run melos exec -- flutter clean && flutter pub global run melos exec -- flutter build ipa --release
 
-  exchange-cal-app-ci-workflow:
-    when: << pipeline.parameters.exchange_calculator_ci_run >>
+  set-continuation-key:
+    macos:
+      xcode: 14.2.0
+    steps:
+      - run: echo ${CIRCLE_PULL_REQUEST}
+#      - run:
+#          command: |
+#            if [ -z "${CIRCLE_PULL_REQUEST##*/}" ]
+#            then
+#              IS_PR=false
+#            else
+#              IS_PR=true
+#            fi
+#            echo '$IS_PR'
+#            echo '$IS_PR' >> << pipeline.parameters.is-pr >>
+
+workflows:
+  #  daily-memo-app-ci-workflow:
+  #    when: << pipeline.parameters.daily_memo_ci_run >>
+  #    jobs:
+  #      - flutter-unit-test
+  #      - flutter-linter
+  #
+  #  exchange-cal-app-ci-workflow:
+  #    when: << pipeline.parameters.exchange_calculator_ci_run >>
+  #    jobs:
+  #      - flutter-unit-test
+  #      - flutter-linter
+
+#  - continuation/continue:
+#      configuration_path: << pipeline.parameters.service-root-path >>/.circleci/config.yml
+#      parameters: /tmp/pipeline-parameters.json
+#      pre-steps:
+#        - run:
+#            command: |
+#              if [ -z "${CIRCLE_PULL_REQUEST##*/}" ]
+#              then
+#                IS_PR=false
+#              else
+#                IS_PR=true
+#              fi
+#              echo '{ "is-pr": '$IS_PR', "service-root-path":<< pipeline.parameters.service-root-path >>}' >> /tmp/pipeline-parameters.json
+
+  ci-cd-flow:
     jobs:
+      - set-continuation-key
       - flutter-unit-test
-      - flutter-linter
+      - flutter-static-analysis
+      - flutter-build-binary:
+          requires:
+#            - not:
+#                - equal: [ << pipeline.parameters.is-pr >>, "" ]
+            - flutter-unit-test
+            - flutter-static-analysis
+#"cd_run": << pipeline.parameters.exchange-calculator-deploy >>,
