@@ -22,7 +22,7 @@ scripts:
     description: daily memo pub get
 
   daily_memo_build_aab:
-    run: flutter pub global run melos exec --scope="apps.daily_memo" -- flutter clean && flutter pub global run melos exec --scope="apps.daily_memo" -- flutter build aab --release
+    run: flutter pub global run melos exec --scope="apps.daily_memo" -- flutter clean && flutter pub global run melos exec --scope="apps.daily_memo" -- flutter build appbundle --release
     description: daily memo pub get
 
   daily_memo_build_ipa:

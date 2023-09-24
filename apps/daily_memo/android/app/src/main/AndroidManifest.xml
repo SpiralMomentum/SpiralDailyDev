@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.spiral_daily_dev.daily_memo">
+    package="com.spiral_daily_dev.apps.daily_memo">
    <application
         android:label="미, 메모"
         android:name="${applicationName}"
