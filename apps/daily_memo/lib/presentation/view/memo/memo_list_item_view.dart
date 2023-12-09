@@ -1,10 +1,10 @@
-import 'package:apps.daily_memo/domain/model/home/memo_info.dart';
+import 'package:apps.daily_memo/domain/entity/memo/memo_info_entity.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 
 class MemoListItemView extends StatelessWidget {
-  final MemoInfo memoInfo;
+  final MemoInfoEntity memoInfo;
   final BehaviorSubject<bool> _isShowFullContent =
       BehaviorSubject.seeded(false);
 
@@ -12,7 +12,6 @@ class MemoListItemView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: 디자인 수정
     return Container(
       padding: const EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 0.0),
       child: Column(

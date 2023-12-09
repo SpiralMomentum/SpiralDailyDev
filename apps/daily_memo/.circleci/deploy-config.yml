@@ -1,0 +1,31 @@
+version: 2.1
+
+parameters:
+  cd_run:
+    type: boolean
+    default: false
+  daily-memo-deploy:
+    type: boolean
+    default: false
+
+jobs:
+  test:
+    macos:
+      xcode: 14.2.0
+    steps:
+      - run:
+          command: echo "test daily memo deploy1"
+
+  test2:
+    macos:
+      xcode: 14.2.0
+    steps:
+      - run:
+          command: echo "test daily memo deploy2"
+
+workflows:
+  memo-deploy:
+    when:
+      equal: [ true, << pipeline.parameters.cd_run >> ]
+    jobs:
+      - test
