@@ -1,66 +1,105 @@
-import 'package:apps.daily_memo/presentation/core/route/app_routes.dart';
-import 'package:apps.daily_memo/presentation/core/route/routes_controller.dart';
-import 'package:apps.daily_memo/presentation/core/route/routes_controller_impl/routes_controller_go_router_impl.dart';
-import 'package:apps.daily_memo/presentation/core/route/routes_impl/app_routes_go_router.dart';
-import 'package:apps.daily_memo/presentation/view/bottom_bar/bottom_bar.dart';
-import 'package:apps.daily_memo/presentation/view/calendar/calendar_page.dart';
-import 'package:apps.daily_memo/presentation/view/home/home_app_bar.dart';
+import 'package:apps.daily_memo/core/route/app_routes.dart';
+import 'package:apps.daily_memo/core/route/routes_controller.dart';
+import 'package:apps.daily_memo/core/route/routes_controller_impl/routes_controller_go_router_impl.dart';
+import 'package:apps.daily_memo/domain/bloc/home/home_bloc.dart';
+import 'package:apps.daily_memo/domain/bloc/home/home_event.dart';
+import 'package:apps.daily_memo/domain/bloc/home/home_state.dart';
+import 'package:apps.daily_memo/domain/bloc/memo/memo_bloc.dart';
+import 'package:apps.daily_memo/domain/bloc/memo/memo_event.dart';
+import 'package:apps.daily_memo/domain/bloc/memo/memo_state.dart';
+import 'package:apps.daily_memo/presentation/view/app_bar/custom_app_bar.dart';
 import 'package:apps.daily_memo/presentation/view/memo/memo_list_page.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomePage extends StatelessWidget {
-  final BottomBar bottomBar;
-  final RoutesController _routesController = RoutesControllerGoRouterImpl();
-
-  final MemoListPage memoListPage;
-  final CalendarPage calendarPage;
-
-  HomePage({
+  const HomePage({
     super.key,
-    required this.bottomBar,
-    required this.memoListPage,
-    required this.calendarPage,
   });
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async => false,
-      child: Scaffold(
-        appBar: PreferredSize(
-          preferredSize: const Size.fromHeight(48.0),
-          child: homeAppBar(context),
-        ),
-        body: Consumer(
-          builder: (BuildContext context, WidgetRef ref, Widget? child) {
-            final state = ref.watch(bottomBarViewModelProvider);
+    return MultiBlocProvider(providers: [
+      BlocProvider<HomeBloc>(create: (context) => HomeBloc()),
+    ], child: HomeView());
+  }
+}
 
-            return state.maybeWhen(
-              success: (content) => getCurrentPage(content),
-              init: (content) => getCurrentPage(content),
-              orElse: () => const SizedBox.shrink(),
-            );
-          },
-        ),
-        bottomNavigationBar: bottomBar,
-      ),
+class HomeView extends StatelessWidget {
+  final RoutesController routesController = RoutesControllerGoRouterImpl();
+
+  HomeView({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<HomeBloc, HomeState>(
+      builder: (BuildContext context, state) {
+        return WillPopScope(
+            onWillPop: () async => false,
+            child: Scaffold(
+              appBar: PreferredSize(
+                preferredSize: const Size.fromHeight(48.0),
+                child: BlocBuilder<MemoBloc, MemoState>(
+                  builder: (context, state) {
+                    return CustomAppBar(
+                      appBarItems: [
+                        CustomAppBarItem(
+                          leadingText: "추가",
+                          onTap: () => routesController.toPushNamed(
+                              context, AppRoutes.memo.path,
+                              extra: {"bloc": context.read<MemoBloc>()}),
+                        ),
+                      ],
+                    );
+                  },
+                ),
+              ),
+              body: switch (BlocProvider.of<HomeBloc>(context).state.index) {
+                0 => BlocConsumer<MemoBloc, MemoState>(
+                    builder: (context, state) {
+                      return MemoListPage(memos: state.memos);
+                    },
+                    listenWhen: (_, state) =>
+                        state.status == MemoStatus.addMemoSuccess,
+                    listener: (_, state) {
+                      BlocProvider.of<MemoBloc>(context).add(GetAllMemos());
+                    },
+                  ),
+                _ => BlocConsumer<MemoBloc, MemoState>(
+                    builder: (context, state) =>
+                        MemoListPage(memos: state.memos),
+                    listenWhen: (_, state) =>
+                        state.status == MemoStatus.addMemoSuccess,
+                    listener: (_, state) =>
+                        BlocProvider.of<MemoBloc>(context).add(GetAllMemos()),
+                  ),
+              },
+              // body: widgets[0],
+              bottomNavigationBar: bottomBar(context),
+            ));
+      },
     );
   }
 
-  Widget homeAppBar(BuildContext context){
-    return HomeAppBar(
-      homeAppBarItems: [
-        HomeAppBarItem(
-          leadingText: "추가",
-          onTap: () =>
-              _routesController.toPushNamed(context, AppRoutes.MEMO.path),
-        )
-      ],
-    );
+  Widget bottomBar(BuildContext context) {
+    return NavigationBar(
+        onDestinationSelected: (int index) =>
+            context.read<HomeBloc>().add(MoveTab(index)),
+        indicatorColor: Colors.amber,
+        selectedIndex: context.read<HomeBloc>().state.index,
+        destinations: const <Widget>[
+          NavigationDestination(
+            selectedIcon: Icon(Icons.home),
+            icon: Icon(Icons.home_outlined),
+            label: 'Home',
+          ),
+          NavigationDestination(
+            icon: Badge(child: Icon(Icons.notifications_sharp)),
+            label: 'Notifications',
+          ),
+        ]);
   }
 
-  Widget getCurrentPage(int index){
-    return index == 0 ? memoListPage : calendarPage;
-  }
 }

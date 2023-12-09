@@ -4,7 +4,7 @@ description: A new Flutter project.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
 environment:
-  sdk: '>=2.18.0 <3.0.0'
+  sdk: '>=3.0.6 <4.0.0'
 
 dependencies:
   flutter:
@@ -18,9 +18,10 @@ dependencies:
   intl: ^0.18.0
   firebase_crashlytics: ^3.0.17
   table_calendar: ^3.0.9
-  flutter_riverpod: ^2.1.1
   freezed_annotation:
   json_serializable:
+  equatable: ^2.0.3
+  flutter_bloc: ^8.1.1
 
 dev_dependencies:
   flutter_test:
