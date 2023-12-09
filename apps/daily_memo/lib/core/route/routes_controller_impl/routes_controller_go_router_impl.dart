@@ -18,9 +18,9 @@ class RoutesControllerGoRouterImpl extends RoutesController {
 
   @override
   void popUntil<T>(BuildContext context, String path, {T? result}) {
-    final GoRouter _temp =
+    final GoRouter temp =
         GoRouter(routes: AppRoutes.values.map((e) => e.getRouter).toList());
-    while (_temp.canPop() && _temp.location != path) {
+    while (temp.canPop() && temp.location != path) {
       context.pop();
     }
   }

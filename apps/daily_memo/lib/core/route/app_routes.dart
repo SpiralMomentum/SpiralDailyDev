@@ -28,7 +28,7 @@ extension AppRoutesGoRouter on AppRoutes {
         return GoRoute(
           path: AppRoutes.home.path,
           builder: (BuildContext context, GoRouterState state) {
-            return HomePage();
+            return const HomePage();
           },
         );
       case AppRoutes.memo:
@@ -45,7 +45,7 @@ extension AppRoutesGoRouter on AppRoutes {
           builder: (BuildContext context, GoRouterState state) {
             // const CalendarPage calendarPage = CalendarPage();
 
-            return HomePage();
+            return const HomePage();
           },
         );
     }

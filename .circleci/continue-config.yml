@@ -6,10 +6,10 @@ orbs:
   android: circleci/android@1.0.3
 
 parameters:
-  daily_memo_trigger:
+  daily_memo_ci_run:
     type: boolean
     default: false
-  exchange_calculator_trigger:
+  exchange_calculator_ci_run:
     type: boolean
     default: false
   service-root-path:
@@ -23,7 +23,7 @@ jobs:
     steps:
       - checkout
       - flutter/install_sdk:
-          version: 3.3.10
+          version: 3.10.6
       - run:
           command: flutter test
           working_directory: << pipeline.parameters.service-root-path >>
@@ -34,9 +34,9 @@ jobs:
     steps:
       - checkout
       - flutter/install_sdk:
-          version: 3.3.10
+          version: 3.10.6
       - run:
-          command: dart analyze
+          command: flutter analyze
           working_directory: << pipeline.parameters.service-root-path >>
 
   flutter-build-apk:
