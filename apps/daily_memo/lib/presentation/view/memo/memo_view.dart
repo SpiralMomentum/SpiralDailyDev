@@ -1,6 +1,4 @@
-import 'package:apps.daily_memo/core/route/app_routes.dart';
 import 'package:apps.daily_memo/core/route/routes_controller_impl/routes_controller_go_router_impl.dart';
-import 'package:apps.daily_memo/data/repository_interface/memo/memo_repository.dart';
 import 'package:apps.daily_memo/domain/bloc/memo/memo_bloc.dart';
 import 'package:apps.daily_memo/domain/bloc/memo/memo_event.dart';
 import 'package:apps.daily_memo/domain/bloc/memo/memo_state.dart';
@@ -176,7 +174,7 @@ class MemoView extends StatelessWidget {
             color: Colors.black,
           ),
         ),
-        title: Text(
+        title: const Text(
           "수정",
           style: TextStyle(
             color: Colors.black,
@@ -199,7 +197,7 @@ class MemoView extends StatelessWidget {
             color: Colors.black,
           ),
         ),
-        title: Text(
+        title: const Text(
           "추가",
           style: TextStyle(
             color: Colors.black,
@@ -209,9 +207,4 @@ class MemoView extends StatelessWidget {
         backgroundColor: Colors.amber,
       ));
 
-  _saveMemo(
-    TextEditingController titleTextController,
-    TextEditingController contentTextController,
-    BuildContext context,
-  ) {}
 }

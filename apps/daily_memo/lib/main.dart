@@ -2,8 +2,6 @@ import 'dart:async';
 
 import 'package:apps.daily_memo/app.dart';
 import 'package:apps.daily_memo/app_bloc_observer.dart';
-import 'package:apps.daily_memo/core/route/routes_controller.dart';
-import 'package:apps.daily_memo/core/route/routes_controller_impl/routes_controller_go_router_impl.dart';
 import 'package:apps.daily_memo/data/repository_impl/memo/memo_repository_impl.dart';
 import 'package:apps.daily_memo/data/repository_interface/memo/memo_repository.dart';
 import 'package:apps.daily_memo/data/sql_helper.dart';

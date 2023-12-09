@@ -54,9 +54,9 @@ class MemoListItemView extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  Text("수정일 " + memoInfo.memoModifiedDateTime.toString()),
+                  Text("수정일 ${memoInfo.memoModifiedDateTime}"),
                   const SizedBox(height: 2.0),
-                  Text("생성일 " + memoInfo.memoMadeDateTime.toString())
+                  Text("생성일 ${memoInfo.memoMadeDateTime}")
                 ],
               )),
         ],
