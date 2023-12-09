@@ -9,18 +9,18 @@ extension SaveMemoModelMapperToEntity on SavedMemoModel {
         title == null ||
         content == null) return null;
     try {
-      final DateTime _calendarDateTime =
+      final DateTime calendarTime =
           DateFormat("yyyy-MM-dd").parse(modifiedDateTime!);
-      final DateTime _madeDateTime =
+      final DateTime madeTime =
           DateFormat("yyyy-MM-dd hh:mm:ss").parse(madeDateTime!);
-      final DateTime _modifiedDateTime =
+      final DateTime modifiedTime =
           DateFormat("yyyy-MM-dd hh:mm:ss").parse(modifiedDateTime!);
 
       return MemoInfoEntity(
         uniqueId: memoId,
-        calendarDateTime: _calendarDateTime,
-        memoMadeDateTime: _madeDateTime,
-        memoModifiedDateTime: _modifiedDateTime,
+        calendarDateTime: calendarTime,
+        memoMadeDateTime: madeTime,
+        memoModifiedDateTime: modifiedTime,
         title: title!,
         content: content!,
       );
