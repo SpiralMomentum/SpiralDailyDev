@@ -28,7 +28,7 @@ jobs:
           command: flutter test
           working_directory: << pipeline.parameters.service-root-path >>
 
-  flutter-static-analysis:
+  flutter-linter:
     macos:
       xcode: 14.2.0
     steps:
@@ -36,7 +36,6 @@ jobs:
       - flutter/install_sdk:
           version: 3.3.10
       - run:
-          name: Lint
           command: dart analyze
           working_directory: << pipeline.parameters.service-root-path >>
 
@@ -67,10 +66,10 @@ jobs:
       - run:
           command: flutter clean && flutter build ipa
           working_directory: << pipeline.parameters.service-root-path >>
+      - run: cd << parameters.service-root-path >>
 
 workflows:
   ci-flow:
     jobs:
       - flutter-unit-test
-#      - flutter-static-analysis
-      - flutter-build-apk
+      - flutter-linter
