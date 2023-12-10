@@ -7,14 +7,14 @@ final class GetAllMemos extends MemoEvent {
   List<Object?> get props => [];
 }
 
-final class GetMemo extends MemoEvent {
-  final int memoId;
-
-  GetMemo(this.memoId);
-
-  @override
-  List<Object?> get props => [];
-}
+// final class GetMemo extends MemoEvent {
+//   final int memoId;
+//
+//   GetMemo(this.memoId);
+//
+//   @override
+//   List<Object?> get props => [];
+// }
 
 final class AddMemo extends MemoEvent {
   final String? title;

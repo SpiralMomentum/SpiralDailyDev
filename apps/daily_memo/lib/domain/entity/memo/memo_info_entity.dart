@@ -1,7 +1,8 @@
+import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 
 @immutable
-class MemoInfoEntity {
+class MemoInfoEntity extends Equatable {
   final int uniqueId;
   final DateTime calendarDateTime;
   final DateTime memoMadeDateTime;
@@ -18,5 +19,13 @@ class MemoInfoEntity {
     required this.content,
   });
 
-  
+  @override
+  List<Object?> get props => [
+        uniqueId,
+        calendarDateTime,
+        memoMadeDateTime,
+        memoModifiedDateTime,
+        title,
+        content,
+      ];
 }

@@ -22,8 +22,8 @@ class MemoRepositoryImpl extends MemoRepository {
 
       List<MemoInfoEntity> nonNullMemoEntities = [];
 
-      for(MemoInfoEntity? i in memoEntities){
-        if(i != null) nonNullMemoEntities.add(i);
+      for (MemoInfoEntity? i in memoEntities) {
+        if (i != null) nonNullMemoEntities.add(i);
       }
 
       return nonNullMemoEntities;
@@ -38,10 +38,9 @@ class MemoRepositoryImpl extends MemoRepository {
       final items = await _databaseHelper.getItem(memoId);
       if (items == null || items.isEmpty) return null;
 
-      final result =
-          items.firstWhere((e) => e.memoId == memoId).transferToMemoInfo;
+      final SavedMemoModel savedModel = SavedMemoModel.fromJson(items.firstOrNull);
 
-      return result;
+      return savedModel.transferToMemoInfo;
     } catch (e) {
       throw Exception(e);
     }
