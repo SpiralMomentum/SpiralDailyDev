@@ -1,6 +1,4 @@
 lane :beta do
-  flutter(build: 'build appbundle')
-
   upload_to_play_store(
     track: 'beta',
     aab: 'build/app/outputs/bundle/release/app-release.aab',
