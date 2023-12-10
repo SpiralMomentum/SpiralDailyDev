@@ -8,6 +8,7 @@ import 'package:apps.daily_memo/domain/bloc/memo/memo_bloc.dart';
 import 'package:apps.daily_memo/domain/bloc/memo/memo_event.dart';
 import 'package:apps.daily_memo/domain/bloc/memo/memo_state.dart';
 import 'package:apps.daily_memo/presentation/view/app_bar/custom_app_bar.dart';
+import 'package:apps.daily_memo/presentation/view/calendar/calendar_page.dart';
 import 'package:apps.daily_memo/presentation/view/memo/memo_list_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -58,15 +59,27 @@ class HomeView extends StatelessWidget {
               ),
               body: switch (BlocProvider.of<HomeBloc>(context).state.index) {
                 0 => BlocConsumer<MemoBloc, MemoState>(
+                    buildWhen: (_, state) => state.status == MemoStatus.getAllMemosSuccess,
                     builder: (context, state) {
                       return MemoListPage(memos: state.memos);
                     },
                     listenWhen: (_, state) =>
-                        state.status == MemoStatus.addMemoSuccess,
+                        state.status == MemoStatus.addMemoSuccess || state.status == MemoStatus.updateMemoSuccess || state.status == MemoStatus.removeMemoSuccess,
                     listener: (_, state) {
                       BlocProvider.of<MemoBloc>(context).add(GetAllMemos());
                     },
                   ),
+                1 => BlocConsumer<MemoBloc, MemoState>(
+                  buildWhen: (_, state) => state.status == MemoStatus.getAllMemosSuccess,
+                  builder: (context, state) {
+                    return CalendarPage();
+                  },
+                  listenWhen: (_, state) =>
+                  state.status == MemoStatus.addMemoSuccess || state.status == MemoStatus.updateMemoSuccess || state.status == MemoStatus.removeMemoSuccess,
+                  listener: (_, state) {
+                    BlocProvider.of<MemoBloc>(context).add(GetAllMemos());
+                  },
+                ),
                 _ => BlocConsumer<MemoBloc, MemoState>(
                     builder: (context, state) =>
                         MemoListPage(memos: state.memos),
@@ -101,5 +114,4 @@ class HomeView extends StatelessWidget {
           ),
         ]);
   }
-
 }

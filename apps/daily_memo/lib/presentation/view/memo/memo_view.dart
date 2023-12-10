@@ -16,16 +16,6 @@ class MemoPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // return BlocProvider<MemoBloc>(
-    //   create: (_) => MemoBloc(
-    //     context.read<MemoRepository>(),
-    //   ),
-    //   child: MemoView(memoInfo: memoInfo),
-    // );
-    // // return BlocProvider.value(
-    // //   value: BlocProvider.of<MemoBloc>(context),
-    // //   child: MemoView(memoInfo: memoInfo),
-    // // );
     return MemoView(
       memoInfo: memoInfo,
     );
@@ -45,10 +35,14 @@ class MemoView extends StatelessWidget {
   Widget build(BuildContext context) {
     TextEditingController titleTextController = TextEditingController();
     TextEditingController contentTextController = TextEditingController();
+    if(isEditMode){
+      titleTextController.text = memoInfo!.title;
+      contentTextController.text = memoInfo!.content;
+    }
 
     return BlocListener<MemoBloc, MemoState>(
         listener: (context, state) {
-          if (state.status == MemoStatus.addMemoSuccess) {
+          if (state.status == MemoStatus.addMemoSuccess || state.status == MemoStatus.updateMemoSuccess) {
             // bloc?.add(GetAllMemos());
             RoutesControllerGoRouterImpl().pop(context);
             // .toPushNamed(context, AppRoutes.home.path);

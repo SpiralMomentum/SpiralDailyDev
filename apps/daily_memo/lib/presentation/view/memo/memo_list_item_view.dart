@@ -28,26 +28,18 @@ class MemoListItemView extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 20.0),
-          StreamBuilder<bool>(
-              stream: _isShowFullContent,
-              builder: (context, snapshot) {
-                return GestureDetector(
-                  onTap: () =>
-                      _isShowFullContent.add(!_isShowFullContent.value),
-                  child: Text(
-                    memoInfo.content.isEmpty
-                        ? "(빈 내용)"
-                        : (_isShowFullContent.value
-                            ? memoInfo.content
-                            : memoInfo.content),
-                    maxLines: 1,
-                    style: const TextStyle(
-                      fontSize: 16.0,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                );
-              }),
+          Text(
+            memoInfo.content.isEmpty
+                ? "(빈 내용)"
+                : (_isShowFullContent.value
+                    ? memoInfo.content
+                    : memoInfo.content),
+            maxLines: 1,
+            style: const TextStyle(
+              fontSize: 16.0,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
           const SizedBox(height: 16.0),
           Align(
               alignment: Alignment.centerRight,

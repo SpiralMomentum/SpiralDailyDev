@@ -12,7 +12,7 @@ class MemoBloc extends Bloc<MemoEvent, MemoState> {
           const MemoState(),
         ) {
     on<GetAllMemos>(_onGetAllMemos);
-    on<GetMemo>(_onGetMemo);
+    // on<GetMemo>(_onGetMemo);
     on<AddMemo>(_onAddMemo);
     on<UpdateMemo>(_onUpdateMemo);
     on<RemoveMemo>(_onRemoveMemo);
@@ -32,24 +32,24 @@ class MemoBloc extends Bloc<MemoEvent, MemoState> {
     }
   }
 
-  void _onGetMemo(
-    GetMemo event,
-    Emitter<MemoState> emit,
-  ) async {
-    emit(state.copyWith(status: MemoStatus.loading));
-    try {
-      final MemoInfoEntity? result =
-          await _memoRepository.getMemoInfoById(event.memoId);
-
-      if (result == null) {
-        emit(state.copyWith(status: MemoStatus.failure));
-      } else {
-        emit(state.copyWith(memos: [result], status: MemoStatus.getMemoSuccess));
-      }
-    } catch (e) {
-      emit(state.copyWith(status: MemoStatus.failure));
-    }
-  }
+  // void _onGetMemo(
+  //   GetMemo event,
+  //   Emitter<MemoState> emit,
+  // ) async {
+  //   emit(state.copyWith(status: MemoStatus.loading));
+  //   try {
+  //     final MemoInfoEntity? result =
+  //         await _memoRepository.getMemoInfoById(event.memoId);
+  //
+  //     if (result == null) {
+  //       emit(state.copyWith(status: MemoStatus.failure));
+  //     } else {
+  //       emit(state.copyWith(memos: [result], status: MemoStatus.getMemoSuccess));
+  //     }
+  //   } catch (e) {
+  //     emit(state.copyWith(status: MemoStatus.failure));
+  //   }
+  // }
 
   void _onAddMemo(
     AddMemo event,
@@ -86,7 +86,7 @@ class MemoBloc extends Bloc<MemoEvent, MemoState> {
       if (result == false) {
         emit(state.copyWith(status: MemoStatus.failure));
       } else {
-        emit(state.copyWith(status: MemoStatus.changeMemoSuccess));
+        emit(state.copyWith(status: MemoStatus.updateMemoSuccess));
       }
     } catch (e) {
       emit(state.copyWith(status: MemoStatus.failure));
@@ -103,7 +103,7 @@ class MemoBloc extends Bloc<MemoEvent, MemoState> {
       if (result == false) {
         emit(state.copyWith(status: MemoStatus.failure));
       } else {
-        emit(state.copyWith(status: MemoStatus.changeMemoSuccess));
+        emit(state.copyWith(status: MemoStatus.removeMemoSuccess));
       }
     } catch (e) {
       emit(state.copyWith(status: MemoStatus.failure));
