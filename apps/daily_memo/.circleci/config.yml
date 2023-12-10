@@ -11,6 +11,7 @@ parameters:
     type: string
     default: ""
 
+jobs:
   android-deploy:
     macos:
       xcode: 14.2.0
