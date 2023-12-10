@@ -4,9 +4,9 @@ orbs:
   flutter: circleci/flutter@2.0.2
 
 parameters:
-#  daily_memo_deploy:
-#    type: boolean
-#    default: true
+  daily_memo_deploy:
+    type: boolean
+    default: true
   service-root-path:
     type: string
     default: ""
