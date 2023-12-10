@@ -40,7 +40,7 @@ workflows:
 
   daily-memo-cd-flow:
     when:
-      equal: [ true, << pipeline.parameters.daily-memo-deploy >> ]
+      equal: [ true, << pipeline.parameters.daily_memo_deploy >> ]
     jobs:
       - continuation/continue:
           configuration_path: apps/daily_memo/.circleci/config.yml
