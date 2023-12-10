@@ -36,7 +36,7 @@ extension AppRoutesGoRouter on AppRoutes {
           path: AppRoutes.memo.path,
           builder: (BuildContext context, GoRouterState state) {
             final Map? params = state.extra as Map?;
-            return MemoPage(params?["memoId"]);
+            return MemoPage(params?["memoInfo"]);
           },
         );
       default:
