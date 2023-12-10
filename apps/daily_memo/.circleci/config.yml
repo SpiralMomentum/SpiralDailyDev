@@ -32,7 +32,7 @@ jobs:
           working_directory: << pipeline.parameters.service-root-path >>
       - run:
           name: Build and Deploy to Google Play
-          command: fastlane beta
+          command: fastlane supply --aab build/app/outputs/bundle/release/app-release.aab --track beta
           working_directory: << pipeline.parameters.service-root-path >>/android
 
 workflows:
