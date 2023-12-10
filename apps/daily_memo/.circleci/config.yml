@@ -25,10 +25,10 @@ jobs:
           name: Install Fastlane
           command: gem install fastlane
       - run:
-          command: flutter build appbundle
+          command: echo -n $GOOGLE_SERVICE_JSON | base64 --decode > android/app/google-services.json
           working_directory: << pipeline.parameters.service-root-path >>
       - run:
-          command: echo -n $GOOGLE_SERVICE_JSON | base64 --decode > android/app/google-services.json
+          command: flutter build appbundle
           working_directory: << pipeline.parameters.service-root-path >>
       - run:
           name: Build and Deploy to Google Play
