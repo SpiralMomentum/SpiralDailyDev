@@ -33,7 +33,7 @@ jobs:
       - run:
           name: Build and Deploy to Google Play
           command: fastlane beta
-          working_directory: << pipeline.parameters.service-root-path >>
+          working_directory: << pipeline.parameters.service-root-path >>/android
 
 workflows:
   daily-memo-deploy-workflow:
