@@ -1,0 +1,35 @@
+version: '2.1'
+
+orbs:
+  flutter: circleci/flutter@2.0.2
+
+parameters:
+#  daily_memo_deploy:
+#    type: boolean
+#    default: true
+  service-root-path:
+    type: string
+    default: ""
+
+  android-deploy:
+    macos:
+      xcode: 14.2.0
+    steps:
+      - checkout
+      - flutter/install_sdk:
+          version: 3.10.6
+      - run:
+          name: Install Fastlane
+          command: gem install fastlane
+      - run:
+          command: flutter build appbundle
+          working_directory: << pipeline.parameters.service-root-path >>
+      - run:
+          name: Build and Deploy to Google Play
+          command: fastlane beta
+          working_directory: << pipeline.parameters.service-root-path >>
+
+workflows:
+  daily-memo-deploy-workflow:
+    jobs:
+      - android-deploy

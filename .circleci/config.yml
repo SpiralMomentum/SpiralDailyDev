@@ -17,7 +17,7 @@ orbs:
 
 
 parameters:
-  daily-memo-deploy:
+  daily_memo_deploy:
     type: boolean
     default: false
   exchange-calculator-deploy:
@@ -48,7 +48,7 @@ workflows:
           pre-steps:
             - run:
                 command: |
-                  echo '{ "cd_run": << pipeline.parameters.daily-memo-deploy >> }' >> /tmp/pipeline-parameters.json
+                  echo '{  "service-root-path" : "apps/daily_memo" }' >> /tmp/pipeline-parameters.json
 
   exchange-calculator-cd-flow:
     when:
