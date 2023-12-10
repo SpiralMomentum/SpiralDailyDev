@@ -26,6 +26,8 @@ parameters:
 
 workflows:
   setup-ci-cd:
+    when:
+      equal: [ false, << pipeline.parameters.daily_memo_deploy >> ]
     jobs:
       - path-filtering/filter:
           name: Setup CI/CD
