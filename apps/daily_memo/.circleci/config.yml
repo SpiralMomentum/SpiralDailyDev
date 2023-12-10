@@ -13,8 +13,9 @@ parameters:
 
 jobs:
   android-deploy:
-    macos:
-      xcode: 14.2.0
+    executor:
+      name: android/android-machine
+      resource-class: medium
     steps:
       - checkout
       - flutter/install_sdk:
