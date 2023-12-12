@@ -32,8 +32,7 @@ jobs:
           working_directory: << pipeline.parameters.service-root-path >>
       - run:
           name: Build and Deploy to Google Play
-          command: fastlane supply aab:../build/app/outputs/bundle/release/app-release.aab track:beta json_key:app/google-services.json
-          working_directory: << pipeline.parameters.service-root-path >>/android
+          command: cd  << pipeline.parameters.service-root-path >>/android && fastlane supply aab:../build/app/outputs/bundle/release/app-release.aab track:production json_key:app/google-services.json
 
 workflows:
   daily-memo-deploy-workflow:
