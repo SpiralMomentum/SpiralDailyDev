@@ -382,8 +382,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
-				DEVELOPMENT_TEAM = BXMP99D98Z;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = BXMP99D98Z;
 				ENABLE_BITCODE = NO;
 				FLUTTER_BUILD_NAME = 1.0.4;
 				FLUTTER_BUILD_NUMBER = 4;
@@ -395,6 +397,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.spiraldailydev.dailyMemo;
 				PRODUCT_NAME = "Me, Memo";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Daily Memo Deploy Profiles";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
