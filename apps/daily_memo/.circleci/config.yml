@@ -43,10 +43,12 @@ jobs:
           command: fastlane run supply aab:apps/daily_memo/build/app/outputs/bundle/release/app-release.aab track:production json_key:apps/daily_memo/android/google_playstore_api_key.json package_name:com.spiral_daily_dev.apps.daily_memo
 
   ios-deploy:
-    executor:
-      name: flutter/with_flutter
+    macos:
+      xcode: 14.2.0
     steps:
       - checkout
+      - flutter/install_sdk:
+          version: 3.10.6
       - run:
           name: Install Fastlane
           command: gem install fastlane
