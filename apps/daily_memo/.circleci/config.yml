@@ -25,8 +25,7 @@ jobs:
           name: Install Fastlane
           command: gem install fastlane
       - run:
-          command: echo -n $GOOGLE_SERVICE_JSON | base64 --decode > apps/daily_memo/android/google_playstore_api_key.json
-          working_directory: << pipeline.parameters.service-root-path >>
+          command: pwd && echo -n $GOOGLE_SERVICE_JSON | base64 --decode > apps/daily_memo/android/google_playstore_api_key.json
 #      - run:
 #          command: flutter build appbundle
 #          working_directory: << pipeline.parameters.service-root-path >>
