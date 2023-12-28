@@ -32,7 +32,7 @@ jobs:
       - run:
           command: echo -n $GOOGLE_PLAYSTORE_API_KEY_JSON	 | base64 --decode > apps/daily_memo/android/google_playstore_api_key.json
       - run:
-          command: fastlane run supply aab:apps/daily_memo/build/app/outputs/bundle/release/app-release.aab track:production json_key:apps/daily_memo/android/google_playstore_api_key.json
+          command: fastlane run supply aab:apps/daily_memo/build/app/outputs/bundle/release/app-release.aab track:production json_key:apps/daily_memo/android/google_playstore_api_key.json package_name:com.spiral_daily_dev.apps.daily_memo
 
 workflows:
   daily-memo-deploy-workflow:
