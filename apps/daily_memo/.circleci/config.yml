@@ -61,7 +61,7 @@ jobs:
           working_directory: << pipeline.parameters.service-root-path >>
       - run:
           name:
-          command: pod clean cache --all && pod install
+          command: pod cache clean --all && pod install
           working_directory: << pipeline.parameters.service-root-path >>/ios
       - run:
           name:
