@@ -56,6 +56,8 @@ jobs:
           name: Install Fastlane
           command: gem install cocoapods
       - run:
+          command: fastlane run match type:"appstore" app_identifier:"com.spiraldailydev.dailyMemo" git_url:"https://github.com/GBbStar/iOS-Cert.git" username:"SpiralDailyDev@gmail.com"
+      - run:
           name:
           command: flutter clean && flutter pub get
           working_directory: << pipeline.parameters.service-root-path >>
@@ -75,5 +77,5 @@ jobs:
 workflows:
   daily-memo-deploy-workflow:
     jobs:
-#      - android-deploy
+      #      - android-deploy
       - ios-deploy
