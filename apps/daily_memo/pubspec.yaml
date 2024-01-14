@@ -16,7 +16,6 @@ dependencies:
   path:
   rxdart: ^0.27.7
   intl: ^0.18.0
-  firebase_crashlytics: ^3.0.17
   table_calendar: ^3.0.9
   freezed_annotation:
   json_serializable:
