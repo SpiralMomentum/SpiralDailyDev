@@ -56,6 +56,8 @@ jobs:
           name: Install Fastlane
           command: gem install cocoapods
       - run:
+          command: echo $GIT_PRIVATE_KEY | base64 --decode > ~/.ssh/id_rsa
+      - run:
           command: fastlane run match type:"appstore" app_identifier:"com.spiraldailydev.dailyMemo" git_url:"git@github.com:GBbStar/iOS-Cert.git" username:"SpiralDailyDev@gmail.com" git_private_key:$GIT_PRIVATE_KEY
       - run:
           name:
