@@ -58,7 +58,7 @@ jobs:
 #      - run:
 #          command: echo $GIT_PRIVATE_KEY | base64 --decode > ~/.ssh/id_rsa && ssh-add ~/.ssh/id_rsa
       - run:
-          command: fastlane run match type:"appstore" app_identifier:"com.spiraldailydev.dailyMemo" username:"SpiralDailyDev@gmail.com" git_url:"git@github.com:GBbStar/iOS-Cert.git" git_private_key$GIT_PRIVATE_KEY:--verbose
+          command: fastlane run match type:"appstore" app_identifier:"com.spiraldailydev.dailyMemo" username:"SpiralDailyDev@gmail.com" git_url:"git@github.com:GBbStar/iOS-Cert.git" git_private_key:$GIT_PRIVATE_KEY --verbose
       - run:
           name:
           command: flutter clean && flutter pub get
