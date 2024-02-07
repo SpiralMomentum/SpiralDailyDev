@@ -132,25 +132,25 @@ lane :release do
 #         }
 #     )
 end
-
-after_all do |lane|
-  slack_after_lane(
-    message: "",
-    payload: {
-      "Version" => lane_context[SharedValues::VERSION_NUMBER],
-      "Build number" => lane_context[SharedValues::BUILD_NUMBER],
-      "Date" => Time.new.to_s
-      }
-    )
-end
-
-error do |lane, exception|
-  slack_when_error_occured(
-    message: "",
-    payload: {
-      "Version" => lane_context[SharedValues::VERSION_NUMBER],
-      "Build number" => lane_context[SharedValues::BUILD_NUMBER],
-      "Date" => Time.new.to_s,
-      "Error Info" => exception.message
-      }
-    )
+#
+# after_all do |lane|
+#   slack_after_lane(
+#     message: "",
+#     payload: {
+#       "Version" => lane_context[SharedValues::VERSION_NUMBER],
+#       "Build number" => lane_context[SharedValues::BUILD_NUMBER],
+#       "Date" => Time.new.to_s
+#       }
+#     )
+# end
+#
+# error do |lane, exception|
+#   slack_when_error_occured(
+#     message: "",
+#     payload: {
+#       "Version" => lane_context[SharedValues::VERSION_NUMBER],
+#       "Build number" => lane_context[SharedValues::BUILD_NUMBER],
+#       "Date" => Time.new.to_s,
+#       "Error Info" => exception.message
+#       }
+#     )
