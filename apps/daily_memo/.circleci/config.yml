@@ -64,9 +64,12 @@ jobs:
           working_directory: << pipeline.parameters.service-root-path >>
       #      - run:
       #          command: echo $SSH_ID | base64 --decode > id_ed25519.pub && sudo ssh-add id_ed25519.pub
+#      - run:
+#          command: fastlane run match type:"appstore" app_identifier:"com.spiraldailydev.dailyMemo" username:"SpiralDailyDev@gmail.com" git_url:"git@github.com:GBbStar/iOS-Cert.git" git_private_key:$GIT_PRIVATE_KEY keychain_name:$MATCH_KEYCHAIN_NAME keychain_password:$MATCH_KEYCHAIN_PASSWORD --verbose
+#          working_directory: << pipeline.parameters.service-root-path >>
       - run:
-          command: fastlane run match type:"appstore" app_identifier:"com.spiraldailydev.dailyMemo" username:"SpiralDailyDev@gmail.com" git_url:"git@github.com:GBbStar/iOS-Cert.git" git_private_key:$GIT_PRIVATE_KEY keychain_name:$MATCH_KEYCHAIN_NAME keychain_password:$MATCH_KEYCHAIN_PASSWORD --verbose
-          working_directory: << pipeline.parameters.service-root-path >>
+          command: fastlane run release
+          working_directory: << pipeline.parameters.service-root-path >>/ios
       - run:
           name:
           command: flutter clean && flutter pub get
