@@ -68,7 +68,7 @@ jobs:
 #          command: fastlane run match type:"appstore" app_identifier:"com.spiraldailydev.dailyMemo" username:"SpiralDailyDev@gmail.com" git_url:"git@github.com:GBbStar/iOS-Cert.git" git_private_key:$GIT_PRIVATE_KEY keychain_name:$MATCH_KEYCHAIN_NAME keychain_password:$MATCH_KEYCHAIN_PASSWORD --verbose
 #          working_directory: << pipeline.parameters.service-root-path >>
       - run:
-          command: fastlane run release
+          command: fastlane release
           working_directory: << pipeline.parameters.service-root-path >>/ios
       - run:
           name:
