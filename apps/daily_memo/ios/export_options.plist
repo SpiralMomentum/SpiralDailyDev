@@ -7,10 +7,10 @@
   <key>provisioningProfiles</key>
   <dict>
     <key>com.spiraldailydev.dailyMemo</key>
-    <string>Daily Memo Deploy Profiles</string>
+    <string>match AppStore com.spiraldailydev.dailyMemo</string>
   </dict>
   <key>signingCertificate</key>
-  <string>Apple Distribution</string>
+  <string>Apple Distribution: GyuBin Hwang</string>
   <key>signingStyle</key>
   <string>manual</string>
   <key>teamID</key>
