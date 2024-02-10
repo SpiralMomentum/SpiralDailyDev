@@ -15,7 +15,6 @@
 			dependencies = (
 			);
 			name = Flutter;
-			productName = Flutter;
 		};
 /* End PBXAggregateTarget section */
 
@@ -83,11 +82,11 @@
 /* Begin PBXFileReference section */
 		01C735B8B2AF43125C7A18F25645976B /* SqfliteDarwinDatabase.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SqfliteDarwinDatabase.m; path = "../../../../../../../../../../.pub-cache/hosted/pub.dev/sqflite-2.3.2/darwin/Classes/SqfliteDarwinDatabase.m"; sourceTree = "<group>"; };
 		074CB30B2B141D5CE31D8658D4D4B252 /* SqflitePlugin.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SqflitePlugin.h; path = "../../../../../../../../../../.pub-cache/hosted/pub.dev/sqflite-2.3.2/darwin/Classes/SqflitePlugin.h"; sourceTree = "<group>"; };
-		0BAFEADA01DDBFFAAA090E0CDC273AAE /* Flutter.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; path = Flutter.podspec; sourceTree = "<group>"; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		0BAFEADA01DDBFFAAA090E0CDC273AAE /* Flutter.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; path = Flutter.podspec; sourceTree = "<group>"; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		13747F5EEB0D70C91C23ECEE042B9779 /* ResourceBundle-sqflite_darwin_privacy-sqflite-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "ResourceBundle-sqflite_darwin_privacy-sqflite-Info.plist"; sourceTree = "<group>"; };
 		151064E6C97E6231D1824E4D427AA57F /* SqfliteDarwinDatabaseAdditions.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SqfliteDarwinDatabaseAdditions.m; path = "../../../../../../../../../../.pub-cache/hosted/pub.dev/sqflite-2.3.2/darwin/Classes/SqfliteDarwinDatabaseAdditions.m"; sourceTree = "<group>"; };
-		1657F05B7C8160DDCD2C2261951755CA /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xml; name = PrivacyInfo.xcprivacy; path = "../../../../../../../../../../.pub-cache/hosted/pub.dev/sqflite-2.3.2/darwin/Resources/PrivacyInfo.xcprivacy"; sourceTree = "<group>"; };
-		17DD787A75698418BE141401D2BF82D1 /* sqflite.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; name = sqflite.podspec; path = "../../../../../../../../../.pub-cache/hosted/pub.dev/sqflite-2.3.2/darwin/sqflite.podspec"; sourceTree = "<group>"; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		1657F05B7C8160DDCD2C2261951755CA /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; name = PrivacyInfo.xcprivacy; path = "../../../../../../../../../../.pub-cache/hosted/pub.dev/sqflite-2.3.2/darwin/Resources/PrivacyInfo.xcprivacy"; sourceTree = "<group>"; };
+		17DD787A75698418BE141401D2BF82D1 /* sqflite.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; name = sqflite.podspec; path = "../../../../../../../../../.pub-cache/hosted/pub.dev/sqflite-2.3.2/darwin/sqflite.podspec"; sourceTree = "<group>"; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		19F26EB07A9317E92776BCD56E0F5880 /* SqfliteDarwinImport.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SqfliteDarwinImport.h; path = "../../../../../../../../../../.pub-cache/hosted/pub.dev/sqflite-2.3.2/darwin/Classes/SqfliteDarwinImport.h"; sourceTree = "<group>"; };
 		1FC59EF840CB705E658E5578FC58335B /* SqfliteDarwinDB.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SqfliteDarwinDB.h; path = "../../../../../../../../../../.pub-cache/hosted/pub.dev/sqflite-2.3.2/darwin/Classes/SqfliteDarwinDB.h"; sourceTree = "<group>"; };
 		228AE0B64E8AE5CB7892427B190E6E87 /* sqflite.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = sqflite.modulemap; sourceTree = "<group>"; };
@@ -110,9 +109,9 @@
 		86A9780CC24A90206A04D378644AF4D8 /* Flutter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Flutter.release.xcconfig; sourceTree = "<group>"; };
 		90BAC35BF2E7532D382BDF3E4EC5C55B /* SqfliteDatabase.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SqfliteDatabase.m; path = "../../../../../../../../../../.pub-cache/hosted/pub.dev/sqflite-2.3.2/darwin/Classes/SqfliteDatabase.m"; sourceTree = "<group>"; };
 		96BF45FBE2BC9AD7B2D7E56D01B5EE46 /* Pods-Runner-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-Runner-umbrella.h"; sourceTree = "<group>"; };
-		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		9F79F8269DC34AC56BB3D1D9652C0D86 /* Pods-Runner.profile.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Runner.profile.xcconfig"; sourceTree = "<group>"; };
-		AD55B581891BD982D5E96162D556DBE5 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = "../../../../../../../../../.pub-cache/hosted/pub.dev/sqflite-2.3.2/darwin/README.md"; sourceTree = "<group>"; };
+		AD55B581891BD982D5E96162D556DBE5 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; name = README.md; path = "../../../../../../../../../.pub-cache/hosted/pub.dev/sqflite-2.3.2/darwin/README.md"; sourceTree = "<group>"; };
 		B5C644FD36A0AAE3236197CDF3D6C8B3 /* sqflite-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "sqflite-dummy.m"; sourceTree = "<group>"; };
 		B799BFFEC5B11F90F501202080A57F37 /* sqflite */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = sqflite; path = sqflite.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BE0A7DA4A517D1DB522EB22217092AED /* SqfliteDarwinDatabaseQueue.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SqfliteDarwinDatabaseQueue.m; path = "../../../../../../../../../../.pub-cache/hosted/pub.dev/sqflite-2.3.2/darwin/Classes/SqfliteDarwinDatabaseQueue.m"; sourceTree = "<group>"; };
@@ -125,7 +124,7 @@
 		D898D7F2B9DAF1BA262440EE930543FD /* SqfliteDarwinResultSet.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SqfliteDarwinResultSet.m; path = "../../../../../../../../../../.pub-cache/hosted/pub.dev/sqflite-2.3.2/darwin/Classes/SqfliteDarwinResultSet.m"; sourceTree = "<group>"; };
 		D9F2B4CB813B4BDC4D164C6E0868930A /* Pods-Runner-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-Runner-acknowledgements.plist"; sourceTree = "<group>"; };
 		DDBABC26E5BC3180F56F2BFEC943A09E /* SqfliteOperation.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SqfliteOperation.h; path = "../../../../../../../../../../.pub-cache/hosted/pub.dev/sqflite-2.3.2/darwin/Classes/SqfliteOperation.h"; sourceTree = "<group>"; };
-		E6FE77FCDED57F8677ADBD03C940937A /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = "../../../../../../../../../.pub-cache/hosted/pub.dev/sqflite-2.3.2/LICENSE"; sourceTree = "<group>"; };
+		E6FE77FCDED57F8677ADBD03C940937A /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; name = LICENSE; path = "../../../../../../../../../.pub-cache/hosted/pub.dev/sqflite-2.3.2/LICENSE"; sourceTree = "<group>"; };
 		EDFE2D1922BDF53FF14FEA81E5378623 /* SqfliteDarwinResultSet.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SqfliteDarwinResultSet.h; path = "../../../../../../../../../../.pub-cache/hosted/pub.dev/sqflite-2.3.2/darwin/Classes/SqfliteDarwinResultSet.h"; sourceTree = "<group>"; };
 		F1E062C28F588C229B4C94D64753D07D /* SqfliteDarwinDatabaseQueue.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SqfliteDarwinDatabaseQueue.h; path = "../../../../../../../../../../.pub-cache/hosted/pub.dev/sqflite-2.3.2/darwin/Classes/SqfliteDarwinDatabaseQueue.h"; sourceTree = "<group>"; };
 		F49C32B3B8CF59AB437BFD7314674868 /* Pods-Runner.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-Runner.modulemap"; sourceTree = "<group>"; };
@@ -164,6 +163,7 @@
 			children = (
 				3821FA273CEF6450C92D67A5BAA1EC2C /* .. */,
 			);
+			name = ..;
 			path = ..;
 			sourceTree = "<group>";
 		};
@@ -172,6 +172,7 @@
 			children = (
 				5BB9653FF70FE0BE48889D47F6B51171 /* .. */,
 			);
+			name = ..;
 			path = ..;
 			sourceTree = "<group>";
 		};
@@ -180,6 +181,7 @@
 			children = (
 				64D5B34CC21EB63EC95445B72750F1A9 /* sqflite */,
 			);
+			name = plugins;
 			path = plugins;
 			sourceTree = "<group>";
 		};
@@ -197,6 +199,7 @@
 			children = (
 				1CDB01E2613A9A8A0CE40982A0E2D5E8 /* .. */,
 			);
+			name = ..;
 			path = ..;
 			sourceTree = "<group>";
 		};
@@ -213,6 +216,7 @@
 			children = (
 				F4FE97A6A294A6B1695EB0A33427D989 /* AndroidStudioProjects */,
 			);
+			name = ..;
 			path = ..;
 			sourceTree = "<group>";
 		};
@@ -221,6 +225,7 @@
 			children = (
 				E6EE8EF7667E92EB4E13807E79BC2E7E /* darwin */,
 			);
+			name = sqflite;
 			path = sqflite;
 			sourceTree = "<group>";
 		};
@@ -229,6 +234,7 @@
 			children = (
 				1657F05B7C8160DDCD2C2261951755CA /* PrivacyInfo.xcprivacy */,
 			);
+			name = Resources;
 			path = Resources;
 			sourceTree = "<group>";
 		};
@@ -302,6 +308,7 @@
 				074CB30B2B141D5CE31D8658D4D4B252 /* SqflitePlugin.h */,
 				6E4339B52201C7B775CB97684AAF551A /* SqflitePlugin.m */,
 			);
+			name = Classes;
 			path = Classes;
 			sourceTree = "<group>";
 		};
@@ -320,6 +327,7 @@
 			children = (
 				1ECEBEF8C1A778DB8B60C42E1021C9E5 /* plugins */,
 			);
+			name = .symlinks;
 			path = .symlinks;
 			sourceTree = "<group>";
 		};
@@ -337,6 +345,7 @@
 			children = (
 				B1CEE54FDAAE9C425775F1179A7F9210 /* .symlinks */,
 			);
+			name = ios;
 			path = ios;
 			sourceTree = "<group>";
 		};
@@ -345,6 +354,7 @@
 			children = (
 				C12573983E81B4683228B4EE5AEF8D82 /* ios */,
 			);
+			name = daily_memo;
 			path = daily_memo;
 			sourceTree = "<group>";
 		};
@@ -364,6 +374,7 @@
 			children = (
 				1BB84E937724A6E4A391098FEA9B5F6B /* .. */,
 			);
+			name = ..;
 			path = ..;
 			sourceTree = "<group>";
 		};
@@ -398,6 +409,7 @@
 			children = (
 				CA1129E2BC4789F864B46EDC9104CF7F /* daily_memo */,
 			);
+			name = apps;
 			path = apps;
 			sourceTree = "<group>";
 		};
@@ -407,6 +419,7 @@
 				9FB1750D16F691F68C6A25B34C4DA198 /* Classes */,
 				755AF9CDE1A52E73BB9E7C83DA4E81EA /* Resources */,
 			);
+			name = darwin;
 			path = darwin;
 			sourceTree = "<group>";
 		};
@@ -441,6 +454,7 @@
 			children = (
 				DB298B34AE8B5AB65F1F26972CD5F2FE /* apps */,
 			);
+			name = spiral_dev;
 			path = spiral_dev;
 			sourceTree = "<group>";
 		};
@@ -449,6 +463,7 @@
 			children = (
 				F4C5D3217BE8E81EAD863979E771CB49 /* spiral_dev */,
 			);
+			name = AndroidStudioProjects;
 			path = AndroidStudioProjects;
 			sourceTree = "<group>";
 		};
@@ -549,7 +564,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1300;
-				LastUpgradeCheck = 1420;
+				LastUpgradeCheck = 1300;
 			};
 			buildConfigurationList = 4821239608C13582E20E6DA73FD5F1F9 /* Build configuration list for PBXProject "Pods" */;
 			compatibilityVersion = "Xcode 12.0";
@@ -687,7 +702,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ENABLE_OBJC_WEAK = NO;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -841,7 +856,6 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
-				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -930,7 +944,6 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
-				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -993,7 +1006,6 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
-				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -1136,7 +1148,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ENABLE_OBJC_WEAK = NO;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1154,7 +1166,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ENABLE_OBJC_WEAK = NO;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
