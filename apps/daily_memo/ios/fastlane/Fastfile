@@ -104,6 +104,7 @@ lane :upload_binary_release do
         automatic_release: false,
         skip_screenshots: true,
         skip_metadata: true,
+        precheck_include_in_app_purchases: false,
         app_version: "1.0.5"
     )
 end
