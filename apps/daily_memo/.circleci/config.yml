@@ -55,13 +55,13 @@ jobs:
       - run:
           name: Install Fastlane
           command: gem install cocoapods
-      - run:
-          name: Install dotenv
-          command: sudo gem install dotenv
-      - run:
-          name: set fastlane env
-          command: cd ios/fastlane/ && echo "APPLE_ID=$APPLE_ID\nFASTLANE_PASSWORD=$APPLE_PW\nFASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD=$APPLE_APPLICATION_SPECIFIC_PASSWORD"
-          working_directory: << pipeline.parameters.service-root-path >>
+#      - run:
+#          name: Install dotenv
+#          command: sudo gem install dotenv
+#      - run:
+#          name: set fastlane env
+#          command: cd ios/fastlane/ && echo "APPLE_ID=$APPLE_ID\nFASTLANE_PASSWORD=$APPLE_PW\nFASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD=$APPLE_APPLICATION_SPECIFIC_PASSWORD"
+#          working_directory: << pipeline.parameters.service-root-path >>
       #      - run:
       #          command: echo $SSH_ID | base64 --decode > id_ed25519.pub && sudo ssh-add id_ed25519.pub
       #      - run:
@@ -94,5 +94,5 @@ jobs:
 workflows:
   daily-memo-deploy-workflow:
     jobs:
-      #      - android-deploy
+      - android-deploy
       - ios-deploy
