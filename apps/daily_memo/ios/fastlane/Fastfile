@@ -105,8 +105,7 @@ lane :upload_binary_release do
         skip_screenshots: true,
         skip_metadata: true,
         precheck_include_in_app_purchases: false,
-        app_version: "1.0.6",
-        build_number: "8"
+        app_version: "1.0.6"
     )
 end
 
