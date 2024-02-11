@@ -85,7 +85,7 @@ jobs:
       #      - run:
       #          command: fastlane run appstore
       - run:
-          command: fastlane pilot upload
+          command: fastlane upload_binary
           working_directory: << pipeline.parameters.service-root-path >>
 
 

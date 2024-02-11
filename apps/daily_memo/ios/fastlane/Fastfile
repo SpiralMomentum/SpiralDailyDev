@@ -76,6 +76,13 @@
 #       "Error Info" => exception.message
 #       }
 #     )
+lane :upload_binary do
+    upload_to_testflight(
+      username: "SpiralDailyDev@gmail.com",
+      app_identifier: "com.spiraldailydev.dailyMemo",
+    )
+end
+
 lane :release do
     create_keychain(
         name: "test",
