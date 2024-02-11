@@ -80,6 +80,7 @@ lane :upload_binary do
     upload_to_testflight(
       username: "SpiralDailyDev@gmail.com",
       app_identifier: "com.spiraldailydev.dailyMemo",
+      ipa: "../build/ios/ipa/apps.daily_memo.ipa"
     )
 end
 
