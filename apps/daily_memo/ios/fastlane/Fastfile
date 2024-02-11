@@ -96,9 +96,9 @@ lane :upload_binary_release do
         key_content: "-----BEGIN PRIVATE KEY-----\nMIGTAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBHkwdwIBAQQgUFL/Cj/8LNLgqQCb1d8xsqo0BVf1YO1RcP4i73LyAtSgCgYIKoZIzj0DAQehRANCAARbDYJ+fTij/ZQXnmBDwsNBY/qOUKh4lJMralZ4mRALaVg3fe34ryNS8ST/8Z+LLFkJn6KuMLtMbH0bGM7sfByf\n-----END PRIVATE KEY-----"
     )
     upload_to_app_store(
-      username: "SpiralDailyDev@gmail.com",
-      app_identifier: "com.spiraldailydev.dailyMemo",
-      ipa: "../build/ios/ipa/apps.daily_memo.ipa"
+        username: "SpiralDailyDev@gmail.com",
+        app_identifier: "com.spiraldailydev.dailyMemo",
+        ipa: "../build/ios/ipa/apps.daily_memo.ipa"
     )
 end
 
