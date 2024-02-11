@@ -103,7 +103,7 @@ lane :upload_binary_release do
         force: true,
         automatic_release: false,
         skip_screenshots: true,
-        skip_metadata: true
+        skip_metadata: true,
         app_version: "1.0.5"
     )
 end
