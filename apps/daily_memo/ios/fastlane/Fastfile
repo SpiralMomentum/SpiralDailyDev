@@ -98,7 +98,8 @@ lane :upload_binary_release do
     upload_to_app_store(
         username: "SpiralDailyDev@gmail.com",
         app_identifier: "com.spiraldailydev.dailyMemo",
-        ipa: "../build/ios/ipa/apps.daily_memo.ipa"
+        ipa: "../build/ios/ipa/apps.daily_memo.ipa",
+        app_version: "1.0.5"
     )
 end
 
