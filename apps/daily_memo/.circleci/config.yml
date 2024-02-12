@@ -88,7 +88,7 @@ jobs:
 #          command: fastlane upload_binary --verbose
 #          working_directory: << pipeline.parameters.service-root-path >>/ios
       - run:
-          command: fastlane upload_binary_release --verbose
+          command: fastlane upload_binary --verbose
           working_directory: << pipeline.parameters.service-root-path >>/ios
 
 
