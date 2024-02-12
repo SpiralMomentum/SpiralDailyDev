@@ -44,7 +44,7 @@ jobs:
 
   ios-deploy:
     macos:
-      xcode: 14.2.0
+      xcode: 15.2.0
     steps:
       - checkout
       - flutter/install_sdk:
