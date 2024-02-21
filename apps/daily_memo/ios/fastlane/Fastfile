@@ -90,7 +90,7 @@ lane :upload_binary do
 
     ios_version += 1
 
-    sh("sed -i '' -e \"s/version: .*/version: #{}ios_version}/\" pubspec.yaml")
+    sh("sed -i '' -e \"s/version: .*/version: #{ios_version}/\" ../pubspec.yaml")
 
     build_app(
         scheme: "Release",
