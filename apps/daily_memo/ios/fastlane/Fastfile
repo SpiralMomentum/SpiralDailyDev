@@ -92,7 +92,6 @@ lane :increase_version do
     ios_bundle_version = data["version"]
     ios_bundle_version = ios_bundle_version.split("+")[0]
 
-    ios_bundle_version += 1
     ios_bundle_version_detail += 1
 
     sh("sed -i '' -e \"s/version: .*/version: #{ios_bundle_version}+#{ios_bundle_version_detail}/\" /Users/distiller/project/apps/daily_memo/pubspec.yaml")
