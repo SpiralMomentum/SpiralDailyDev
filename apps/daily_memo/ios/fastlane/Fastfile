@@ -83,14 +83,17 @@ lane :upload_binary do
         key_content: "-----BEGIN PRIVATE KEY-----\nMIGTAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBHkwdwIBAQQgUFL/Cj/8LNLgqQCb1d8xsqo0BVf1YO1RcP4i73LyAtSgCgYIKoZIzj0DAQehRANCAARbDYJ+fTij/ZQXnmBDwsNBY/qOUKh4lJMralZ4mRALaVg3fe34ryNS8ST/8Z+LLFkJn6KuMLtMbH0bGM7sfByf\n-----END PRIVATE KEY-----"
     )
 
-    ios_version = app_store_build_number(
+    ios_bundle_version_detail = app_store_build_number(
         username: "SpiralDailyDev@gmail.com",
         app_identifier: "com.spiraldailydev.dailyMemo",
     )
 
-    ios_version += 1
+    data = YAML.load_file("apps/daily_memo/pubspec.yaml")
+    ios_bundle_version = data["version"]
+    ios_bundle_version = ios_bundle_version.split("+")[0]
+    ios_bundle_version_detail += 1
 
-    sh("sed -i '' -e \"s/version: .*/version: #{ios_version}/\" ../pubspec.yaml")
+    sh("sed -i '' -e \"s/version: .*/version: #{ios_bundle_version}+#{ios_bundle_version_detail}/\" apps/daily_memo/pubspec.yaml")
 
     build_app(
         scheme: "Release",
