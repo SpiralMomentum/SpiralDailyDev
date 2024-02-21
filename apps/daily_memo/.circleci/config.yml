@@ -79,10 +79,6 @@ jobs:
           command: pod cache clean --all && pod install
           working_directory: << pipeline.parameters.service-root-path >>/ios
       - run:
-          name: increase version number
-          command: fastlane run increment_version_number
-          working_directory: << pipeline.parameters.service-root-path >>/ios
-      - run:
           name:
           command: flutter build ipa --release --export-options-plist=ios/export_options.plist
           working_directory: << pipeline.parameters.service-root-path >>

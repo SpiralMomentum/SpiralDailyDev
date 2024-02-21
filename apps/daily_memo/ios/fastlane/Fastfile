@@ -77,6 +77,12 @@
 #       }
 #     )
 lane :upload_binary do
+    build_app(
+      scheme: "Release",
+      export_method: "app-store",
+      export_options:  "export_options.plist"
+    )
+
     app_store_connect_api_key(
         key_id: "WSF227H5U3",
         issuer_id: "f42e9e12-3482-46c6-9e4d-d4e11d33de60",
