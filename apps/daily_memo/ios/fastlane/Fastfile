@@ -76,7 +76,7 @@
 #       "Error Info" => exception.message
 #       }
 #     )
-lane :upload_binary do
+lane :increase_version do
     app_store_connect_api_key(
         key_id: "WSF227H5U3",
         issuer_id: "f42e9e12-3482-46c6-9e4d-d4e11d33de60",
@@ -95,11 +95,31 @@ lane :upload_binary do
 
     sh("sed -i '' -e \"s/version: .*/version: #{ios_bundle_version}+#{ios_bundle_version_detail}/\" /Users/distiller/project/apps/daily_memo/pubspec.yaml")
 
-    build_app(
-        scheme: "Release",
-        export_method: "app-store",
-        export_options:  "export_options.plist"
-    )
+end
+lane :upload_binary do
+#     app_store_connect_api_key(
+#         key_id: "WSF227H5U3",
+#         issuer_id: "f42e9e12-3482-46c6-9e4d-d4e11d33de60",
+#         key_content: "-----BEGIN PRIVATE KEY-----\nMIGTAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBHkwdwIBAQQgUFL/Cj/8LNLgqQCb1d8xsqo0BVf1YO1RcP4i73LyAtSgCgYIKoZIzj0DAQehRANCAARbDYJ+fTij/ZQXnmBDwsNBY/qOUKh4lJMralZ4mRALaVg3fe34ryNS8ST/8Z+LLFkJn6KuMLtMbH0bGM7sfByf\n-----END PRIVATE KEY-----"
+#     )
+#
+#     ios_bundle_version_detail = app_store_build_number(
+#         username: "SpiralDailyDev@gmail.com",
+#         app_identifier: "com.spiraldailydev.dailyMemo",
+#     )
+#
+#     data = YAML.load_file("/Users/distiller/project/apps/daily_memo/pubspec.yaml")
+#     ios_bundle_version = data["version"]
+#     ios_bundle_version = ios_bundle_version.split("+")[0]
+#     ios_bundle_version_detail += 1
+#
+#     sh("sed -i '' -e \"s/version: .*/version: #{ios_bundle_version}+#{ios_bundle_version_detail}/\" /Users/distiller/project/apps/daily_memo/pubspec.yaml")
+
+#     build_app(
+#         scheme: "Release",
+#         export_method: "app-store",
+#         export_options:  "export_options.plist"
+#     )
 
     app_store_connect_api_key(
         key_id: "WSF227H5U3",
