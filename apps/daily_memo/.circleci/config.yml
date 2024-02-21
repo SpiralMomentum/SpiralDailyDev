@@ -78,10 +78,10 @@ jobs:
           name:
           command: pod cache clean --all && pod install
           working_directory: << pipeline.parameters.service-root-path >>/ios
-      - run:
-          name:
-          command: flutter build ipa --release --export-options-plist=ios/export_options.plist
-          working_directory: << pipeline.parameters.service-root-path >>
+#      - run:
+#          name:
+#          command: flutter build ipa --release --export-options-plist=ios/export_options.plist
+#          working_directory: << pipeline.parameters.service-root-path >>
       #      - run:
       #          command: fastlane run appstore
 #      - run:
