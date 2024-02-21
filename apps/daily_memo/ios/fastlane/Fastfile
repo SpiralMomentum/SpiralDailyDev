@@ -88,12 +88,12 @@ lane :upload_binary do
         app_identifier: "com.spiraldailydev.dailyMemo",
     )
 
-    data = YAML.load_file("spiral_dev/apps/daily_memo/pubspec.yaml")
+    data = YAML.load_file("/Users/distiller/project/apps/daily_memo/pubspec.yaml")
     ios_bundle_version = data["version"]
     ios_bundle_version = ios_bundle_version.split("+")[0]
     ios_bundle_version_detail += 1
 
-    sh("sed -i '' -e \"s/version: .*/version: #{ios_bundle_version}+#{ios_bundle_version_detail}/\" spiral_dev/apps/daily_memo/pubspec.yaml")
+    sh("sed -i '' -e \"s/version: .*/version: #{ios_bundle_version}+#{ios_bundle_version_detail}/\" /Users/distiller/project/apps/daily_memo/pubspec.yaml")
 
     build_app(
         scheme: "Release",
