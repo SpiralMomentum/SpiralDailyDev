@@ -11,6 +11,6 @@ lane :increase_version do
     android_version_detail = android_version_detail[0].to_i
     android_version_detail += 1
 
-    sh("sed -i '' -e \"s/version: .*/version: #{android_version}+#{android_version_detail}/\" /home/circleci/project/apps/daily_memo/pubspec.yaml")
+    sh("sed -i -e \"s/version: .*/version: #{android_version}+#{android_version_detail}/\" /home/circleci/project/apps/daily_memo/pubspec.yaml")
 
 end
