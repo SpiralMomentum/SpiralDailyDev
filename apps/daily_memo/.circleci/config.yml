@@ -28,6 +28,13 @@ jobs:
           name: Google Service Json Parse(For Firebase)
           command: echo -n $GOOGLE_SERVICE_JSON | base64 --decode > apps/daily_memo/android/app/google-services.json
       - run:
+          name: Google Playstore API Json Parse
+          command: echo -n $GOOGLE_PLAYSTORE_API_KEY_JSON | base64 --decode > apps/daily_memo/android/google_playstore_api_key.json
+      - run:
+          name: Increase build version
+          command: fastlane increase_version --verbose
+          working_directory: << pipeline.parameters.service-root-path >>/android
+      - run:
           name: Build AAB Binary
           command: flutter build appbundle
           working_directory: << pipeline.parameters.service-root-path >>
@@ -36,9 +43,6 @@ jobs:
           command: echo -n $PLAYSTORE_KEY_STORE | base64 --decode > apps/daily_memo/keystore.jks
       - run:
           command: jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore apps/daily_memo/keystore.jks -storepass MorethanMore1! -keypass MorethanMore1! apps/daily_memo/build/app/outputs/bundle/release/app-release.aab spiral
-      - run:
-          name: Google Playstore API Json Parse
-          command: echo -n $GOOGLE_PLAYSTORE_API_KEY_JSON | base64 --decode > apps/daily_memo/android/google_playstore_api_key.json
       - run:
           command: fastlane run supply aab:apps/daily_memo/build/app/outputs/bundle/release/app-release.aab track:production json_key:apps/daily_memo/android/google_playstore_api_key.json package_name:com.spiral_daily_dev.apps.daily_memo
 
