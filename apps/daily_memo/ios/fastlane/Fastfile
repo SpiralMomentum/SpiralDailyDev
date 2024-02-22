@@ -83,7 +83,7 @@ lane :increase_version do
         key_content: "-----BEGIN PRIVATE KEY-----\nMIGTAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBHkwdwIBAQQgUFL/Cj/8LNLgqQCb1d8xsqo0BVf1YO1RcP4i73LyAtSgCgYIKoZIzj0DAQehRANCAARbDYJ+fTij/ZQXnmBDwsNBY/qOUKh4lJMralZ4mRALaVg3fe34ryNS8ST/8Z+LLFkJn6KuMLtMbH0bGM7sfByf\n-----END PRIVATE KEY-----"
     )
 
-    ios_bundle_version_detail = app_store_build_number(
+    ios_bundle_version_detail = latest_testflight_build_number(
         username: "SpiralDailyDev@gmail.com",
         app_identifier: "com.spiraldailydev.dailyMemo",
     )
