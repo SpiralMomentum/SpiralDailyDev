@@ -1,0 +1,236 @@
+# lane :release do
+#     create_keychain(
+#         name: ENV["KEYCHAIN_NAME"],
+#         password: ENV["KEYCHAIN_PASSWORD"],
+#         timeout: 1800,
+#         default_keychain: true,
+#         unlock: true,
+#         lock_when_sleeps: false
+#     )
+#
+#     app_store_connect_api_key(
+#         key_id: ENV["APP_STORE_CONNECT_API_KEY_ID"],
+#         issuer_id: ENV["APP_STORE_CONNECT_API_ISSUER_ID"],
+#         key_content: ENV["APP_STORE_CONNECT_API_KEY_CONTENT"]
+#     )
+#
+#     match(
+#         git_url: "git@github.com:ORGANIZATION/REPOSITORY.git",
+#         storage_mode: "git",
+#         type: "appstore",
+#         readonly: true,
+#         keychain_name: ENV["KEYCHAIN_NAME"],
+#         keychain_password: ENV["KEYCHAIN_PASSWORD"]
+#     )
+#
+#     gym(
+#         workspace: ENV["XCWORKSPACE"],
+#         scheme: ENV["PRODUCTION_SCHEME"],
+#         configuration: "Release",
+#         export_options: {
+#             method: "app-store",
+#             signingStyle: "manual"
+#         }
+#     )
+#
+#     deliver(
+#         submit_for_review: true,
+#         force: true,
+#         skip_screenshots: true,
+#         automatic_release: true,
+#         precheck_include_in_app_purchases: false,
+#         copyright: "© #{Time.now.year} COMPANY-NAME, Inc.",
+#         release_notes: {
+#             "en-US" => "WHATS NEW"
+#         },
+#         app_review_information: {
+#             demo_user: "demo@user.net",
+#             demo_password: "DEMO-PASSWORD"
+#         },
+#         submission_information: {
+#             export_compliance_encryption_updated: false,
+#             export_compliance_uses_encryption: false,
+#             add_id_info_uses_idfa: false
+#         }
+#     )
+# end
+#
+# after_all do |lane|
+#   slack_after_lane(
+#     message: "",
+#     payload: {
+#       "Version" => lane_context[SharedValues::VERSION_NUMBER],
+#       "Build number" => lane_context[SharedValues::BUILD_NUMBER],
+#       "Date" => Time.new.to_s
+#       }
+#     )
+# end
+#
+# error do |lane, exception|
+#   slack_when_error_occured(
+#     message: "",
+#     payload: {
+#       "Version" => lane_context[SharedValues::VERSION_NUMBER],
+#       "Build number" => lane_context[SharedValues::BUILD_NUMBER],
+#       "Date" => Time.new.to_s,
+#       "Error Info" => exception.message
+#       }
+#     )
+lane :increase_version do
+    app_store_connect_api_key(
+        key_id: "WSF227H5U3",
+        issuer_id: "f42e9e12-3482-46c6-9e4d-d4e11d33de60",
+        key_content: "-----BEGIN PRIVATE KEY-----\nMIGTAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBHkwdwIBAQQgUFL/Cj/8LNLgqQCb1d8xsqo0BVf1YO1RcP4i73LyAtSgCgYIKoZIzj0DAQehRANCAARbDYJ+fTij/ZQXnmBDwsNBY/qOUKh4lJMralZ4mRALaVg3fe34ryNS8ST/8Z+LLFkJn6KuMLtMbH0bGM7sfByf\n-----END PRIVATE KEY-----"
+    )
+
+    ios_bundle_version_detail = latest_testflight_build_number(
+        username: "SpiralDailyDev@gmail.com",
+        app_identifier: "com.spiraldailydev.dailyMemo",
+    )
+
+    data = YAML.load_file("/Users/distiller/project/apps/daily_memo/pubspec.yaml")
+    ios_bundle_version = data["version"]
+    ios_bundle_version = ios_bundle_version.split("+")[0]
+
+    ios_bundle_version_detail += 1
+
+    sh("sed -i '' -e \"s/version: .*/version: #{ios_bundle_version}+#{ios_bundle_version_detail}/\" /Users/distiller/project/apps/daily_memo/pubspec.yaml")
+
+end
+lane :upload_binary do
+#     app_store_connect_api_key(
+#         key_id: "WSF227H5U3",
+#         issuer_id: "f42e9e12-3482-46c6-9e4d-d4e11d33de60",
+#         key_content: "-----BEGIN PRIVATE KEY-----\nMIGTAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBHkwdwIBAQQgUFL/Cj/8LNLgqQCb1d8xsqo0BVf1YO1RcP4i73LyAtSgCgYIKoZIzj0DAQehRANCAARbDYJ+fTij/ZQXnmBDwsNBY/qOUKh4lJMralZ4mRALaVg3fe34ryNS8ST/8Z+LLFkJn6KuMLtMbH0bGM7sfByf\n-----END PRIVATE KEY-----"
+#     )
+#
+#     ios_bundle_version_detail = app_store_build_number(
+#         username: "SpiralDailyDev@gmail.com",
+#         app_identifier: "com.spiraldailydev.dailyMemo",
+#     )
+#
+#     data = YAML.load_file("/Users/distiller/project/apps/daily_memo/pubspec.yaml")
+#     ios_bundle_version = data["version"]
+#     ios_bundle_version = ios_bundle_version.split("+")[0]
+#     ios_bundle_version_detail += 1
+#
+#     sh("sed -i '' -e \"s/version: .*/version: #{ios_bundle_version}+#{ios_bundle_version_detail}/\" /Users/distiller/project/apps/daily_memo/pubspec.yaml")
+
+#     build_app(
+#         scheme: "Release",
+#         export_method: "app-store",
+#         export_options:  "export_options.plist"
+#     )
+
+    app_store_connect_api_key(
+        key_id: "WSF227H5U3",
+        issuer_id: "f42e9e12-3482-46c6-9e4d-d4e11d33de60",
+        key_content: "-----BEGIN PRIVATE KEY-----\nMIGTAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBHkwdwIBAQQgUFL/Cj/8LNLgqQCb1d8xsqo0BVf1YO1RcP4i73LyAtSgCgYIKoZIzj0DAQehRANCAARbDYJ+fTij/ZQXnmBDwsNBY/qOUKh4lJMralZ4mRALaVg3fe34ryNS8ST/8Z+LLFkJn6KuMLtMbH0bGM7sfByf\n-----END PRIVATE KEY-----"
+    )
+
+    upload_to_testflight(
+        username: "SpiralDailyDev@gmail.com",
+        app_identifier: "com.spiraldailydev.dailyMemo",
+        ipa: "../build/ios/ipa/apps.daily_memo.ipa"
+    )
+end
+
+lane :upload_binary_release do
+    app_store_connect_api_key(
+        key_id: "WSF227H5U3",
+        issuer_id: "f42e9e12-3482-46c6-9e4d-d4e11d33de60",
+        key_content: "-----BEGIN PRIVATE KEY-----\nMIGTAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBHkwdwIBAQQgUFL/Cj/8LNLgqQCb1d8xsqo0BVf1YO1RcP4i73LyAtSgCgYIKoZIzj0DAQehRANCAARbDYJ+fTij/ZQXnmBDwsNBY/qOUKh4lJMralZ4mRALaVg3fe34ryNS8ST/8Z+LLFkJn6KuMLtMbH0bGM7sfByf\n-----END PRIVATE KEY-----"
+    )
+    upload_to_app_store(
+        username: "SpiralDailyDev@gmail.com",
+        app_identifier: "com.spiraldailydev.dailyMemo",
+        ipa: "../build/ios/ipa/apps.daily_memo.ipa",
+        submit_for_review: true,
+        force: true,
+        automatic_release: true,
+        skip_screenshots: true,
+        skip_metadata: true,
+        run_precheck_before_submit: false,
+        precheck_include_in_app_purchases: false,
+        app_version: "1.0.6"
+    )
+end
+
+lane :release do
+    create_keychain(
+        name: "test",
+        password: "test",
+        timeout: 1800,
+        default_keychain: true,
+        unlock: true,
+        lock_when_sleeps: false
+    )
+
+    app_store_connect_api_key(
+        key_id: "WSF227H5U3",
+        issuer_id: "f42e9e12-3482-46c6-9e4d-d4e11d33de60",
+        key_content: "-----BEGIN PRIVATE KEY-----\nMIGTAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBHkwdwIBAQQgUFL/Cj/8LNLgqQCb1d8xsqo0BVf1YO1RcP4i73LyAtSgCgYIKoZIzj0DAQehRANCAARbDYJ+fTij/ZQXnmBDwsNBY/qOUKh4lJMralZ4mRALaVg3fe34ryNS8ST/8Z+LLFkJn6KuMLtMbH0bGM7sfByf\n-----END PRIVATE KEY-----"
+    )
+
+    match(
+        git_url: "git@github.com:GBbStar/iOS-Cert.git",
+        storage_mode: "git",
+        type: "appstore",
+        readonly: true,
+        keychain_name: "test",
+        keychain_password: "test"
+    )
+
+#     gym(
+#         workspace: ENV["XCWORKSPACE"],
+#         scheme: ENV["PRODUCTION_SCHEME"],
+#         configuration: "Release",
+#         export_options: {
+#             method: "app-store",
+#             signingStyle: "manual"
+#         }
+#     )
+#
+#     deliver(
+#         submit_for_review: true,
+#         force: true,
+#         skip_screenshots: true,
+#         automatic_release: true,
+#         precheck_include_in_app_purchases: false,
+#         copyright: "© #{Time.now.year} COMPANY-NAME, Inc.",
+#         release_notes: {
+#             "en-US" => "WHATS NEW"
+#         },
+#         app_review_information: {
+#             demo_user: "demo@user.net",
+#             demo_password: "DEMO-PASSWORD"
+#         },
+#         submission_information: {
+#             export_compliance_encryption_updated: false,
+#             export_compliance_uses_encryption: false,
+#             add_id_info_uses_idfa: false
+#         }
+#     )
+end
+#
+# after_all do |lane|
+#   slack_after_lane(
+#     message: "",
+#     payload: {
+#       "Version" => lane_context[SharedValues::VERSION_NUMBER],
+#       "Build number" => lane_context[SharedValues::BUILD_NUMBER],
+#       "Date" => Time.new.to_s
+#       }
+#     )
+# end
+#
+# error do |lane, exception|
+#   slack_when_error_occured(
+#     message: "",
+#     payload: {
+#       "Version" => lane_context[SharedValues::VERSION_NUMBER],
+#       "Build number" => lane_context[SharedValues::BUILD_NUMBER],
+#       "Date" => Time.new.to_s,
+#       "Error Info" => exception.message
+#       }
+#     )
