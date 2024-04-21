@@ -5,7 +5,6 @@ enum MemoStatus {
   initial,
   loading,
   getAllMemosSuccess,
-  // getMemoSuccess,
   addMemoSuccess,
   updateMemoSuccess,
   removeMemoSuccess,

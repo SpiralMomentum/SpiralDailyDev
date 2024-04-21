@@ -20,34 +20,3 @@ extension AppRoutesPath on AppRoutes {
     }
   }
 }
-
-extension AppRoutesGoRouter on AppRoutes {
-  GoRoute get getRouter {
-    switch (this) {
-      case AppRoutes.home:
-        return GoRoute(
-          path: AppRoutes.home.path,
-          builder: (BuildContext context, GoRouterState state) {
-            return const HomePage();
-          },
-        );
-      case AppRoutes.memo:
-        return GoRoute(
-          path: AppRoutes.memo.path,
-          builder: (BuildContext context, GoRouterState state) {
-            final Map? params = state.extra as Map?;
-            return MemoPage(params?["memoInfo"]);
-          },
-        );
-      default:
-        return GoRoute(
-          path: AppRoutes.home.path,
-          builder: (BuildContext context, GoRouterState state) {
-            // const CalendarPage calendarPage = CalendarPage();
-
-            return const HomePage();
-          },
-        );
-    }
-  }
-}

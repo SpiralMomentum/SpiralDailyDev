@@ -1,4 +1,6 @@
+import 'package:apps.daily_memo/domain/bloc/memo/memo_bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 
 abstract class HomeEvent extends Equatable {}
 // vs sealed class & const
@@ -13,7 +15,10 @@ final class MoveTab extends HomeEvent {
 }
 
 final class MoveToAddMemo extends HomeEvent {
-  MoveToAddMemo();
+  final MemoBloc memoBloc;
+  final BuildContext context;
+
+  MoveToAddMemo({required this.memoBloc, required this.context});
 
   @override
   List<Object?> get props => [];

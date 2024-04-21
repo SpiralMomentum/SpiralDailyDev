@@ -1,21 +1,28 @@
+import 'package:apps.daily_memo/core/route/routes_controller/routes_controller.dart';
 import 'package:apps.daily_memo/data/repository_interface/memo/memo_repository.dart';
-import 'package:apps.daily_memo/domain/entity/memo/memo_info_entity.dart';
 import 'package:apps.daily_memo/domain/bloc/memo/memo_event.dart';
 import 'package:apps.daily_memo/domain/bloc/memo/memo_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class MemoBloc extends Bloc<MemoEvent, MemoState> {
   final MemoRepository _memoRepository;
+  final RoutesController _routesController;
 
-  MemoBloc(this._memoRepository)
-      : super(
+  RoutesController get getRouteController => _routesController;
+
+  MemoBloc({
+    required MemoRepository memoRepository,
+    required RoutesController routesController,
+  })  : _memoRepository = memoRepository,
+        _routesController = routesController,
+        super(
           const MemoState(),
         ) {
     on<GetAllMemos>(_onGetAllMemos);
-    // on<GetMemo>(_onGetMemo);
     on<AddMemo>(_onAddMemo);
     on<UpdateMemo>(_onUpdateMemo);
     on<RemoveMemo>(_onRemoveMemo);
+    on<BackToHome>(_backToHome);
   }
 
   void _onGetAllMemos(
@@ -26,30 +33,12 @@ class MemoBloc extends Bloc<MemoEvent, MemoState> {
     try {
       final result = await _memoRepository.getAllMemoInfo;
 
-      emit(state.copyWith(memos: result, status: MemoStatus.getAllMemosSuccess));
+      emit(
+          state.copyWith(memos: result, status: MemoStatus.getAllMemosSuccess));
     } catch (e) {
       emit(state.copyWith(status: MemoStatus.failure));
     }
   }
-
-  // void _onGetMemo(
-  //   GetMemo event,
-  //   Emitter<MemoState> emit,
-  // ) async {
-  //   emit(state.copyWith(status: MemoStatus.loading));
-  //   try {
-  //     final MemoInfoEntity? result =
-  //         await _memoRepository.getMemoInfoById(event.memoId);
-  //
-  //     if (result == null) {
-  //       emit(state.copyWith(status: MemoStatus.failure));
-  //     } else {
-  //       emit(state.copyWith(memos: [result], status: MemoStatus.getMemoSuccess));
-  //     }
-  //   } catch (e) {
-  //     emit(state.copyWith(status: MemoStatus.failure));
-  //   }
-  // }
 
   void _onAddMemo(
     AddMemo event,
@@ -108,5 +97,12 @@ class MemoBloc extends Bloc<MemoEvent, MemoState> {
     } catch (e) {
       emit(state.copyWith(status: MemoStatus.failure));
     }
+  }
+
+  void _backToHome(
+    BackToHome event,
+    Emitter<MemoState> emit,
+  ) {
+    _routesController.pop(event.context);
   }
 }
