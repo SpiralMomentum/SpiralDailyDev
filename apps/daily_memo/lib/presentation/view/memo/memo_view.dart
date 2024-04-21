@@ -1,26 +1,9 @@
-import 'package:apps.daily_memo/core/route/routes_controller_impl/routes_controller_go_router_impl.dart';
 import 'package:apps.daily_memo/domain/bloc/memo/memo_bloc.dart';
 import 'package:apps.daily_memo/domain/bloc/memo/memo_event.dart';
 import 'package:apps.daily_memo/domain/bloc/memo/memo_state.dart';
 import 'package:apps.daily_memo/domain/entity/memo/memo_info_entity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-class MemoPage extends StatelessWidget {
-  final MemoInfoEntity? memoInfo;
-
-  const MemoPage(
-    this.memoInfo, {
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return MemoView(
-      memoInfo: memoInfo,
-    );
-  }
-}
 
 class MemoView extends StatelessWidget {
   final MemoInfoEntity? memoInfo;
@@ -35,17 +18,16 @@ class MemoView extends StatelessWidget {
   Widget build(BuildContext context) {
     TextEditingController titleTextController = TextEditingController();
     TextEditingController contentTextController = TextEditingController();
-    if(isEditMode){
+    if (isEditMode) {
       titleTextController.text = memoInfo!.title;
       contentTextController.text = memoInfo!.content;
     }
 
     return BlocListener<MemoBloc, MemoState>(
         listener: (context, state) {
-          if (state.status == MemoStatus.addMemoSuccess || state.status == MemoStatus.updateMemoSuccess) {
-            // bloc?.add(GetAllMemos());
-            RoutesControllerGoRouterImpl().pop(context);
-            // .toPushNamed(context, AppRoutes.home.path);
+          if (state.status == MemoStatus.addMemoSuccess ||
+              state.status == MemoStatus.updateMemoSuccess) {
+            BlocProvider.of<MemoBloc>(context).add(BackToHome(context));
           }
         },
         child: Scaffold(
@@ -200,5 +182,4 @@ class MemoView extends StatelessWidget {
         ),
         backgroundColor: Colors.amber,
       ));
-
 }

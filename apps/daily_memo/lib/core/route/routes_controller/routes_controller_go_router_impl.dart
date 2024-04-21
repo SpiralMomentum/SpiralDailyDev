@@ -1,7 +1,8 @@
 import 'dart:io';
 
+import 'package:apps.daily_memo/core/route/app_router.dart';
 import 'package:apps.daily_memo/core/route/app_routes.dart';
-import 'package:apps.daily_memo/core/route/routes_controller.dart';
+import 'package:apps.daily_memo/core/route/routes_controller/routes_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 

@@ -1,3 +1,4 @@
+import 'package:apps.daily_memo/core/route/app_router.dart';
 import 'package:apps.daily_memo/core/route/app_routes.dart';
 import 'package:apps.daily_memo/data/repository_interface/memo/memo_repository.dart';
 import 'package:apps.daily_memo/domain/bloc/memo/memo_bloc.dart';
@@ -20,13 +21,10 @@ class App extends StatelessWidget {
       routes: AppRoutes.values.map((e) => e.getRouter).toList(),
     );
 
-    return BlocProvider<MemoBloc>(
-      create: (_) => MemoBloc(memoRepository)..add(GetAllMemos()),
-      child: MaterialApp.router(
-        routeInformationProvider: router.routeInformationProvider,
-        routeInformationParser: router.routeInformationParser,
-        routerDelegate: router.routerDelegate,
-      ),
+    return MaterialApp.router(
+      routeInformationProvider: router.routeInformationProvider,
+      routeInformationParser: router.routeInformationParser,
+      routerDelegate: router.routerDelegate,
     );
   }
 }

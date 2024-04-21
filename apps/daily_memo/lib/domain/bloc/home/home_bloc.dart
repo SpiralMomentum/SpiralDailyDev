@@ -1,17 +1,18 @@
-import 'package:apps.daily_memo/core/route/routes_controller.dart';
-import 'package:apps.daily_memo/core/route/routes_controller_impl/routes_controller_go_router_impl.dart';
+import 'package:apps.daily_memo/core/route/app_routes.dart';
+import 'package:apps.daily_memo/core/route/routes_controller/routes_controller.dart';
 import 'package:apps.daily_memo/domain/bloc/home/home_event.dart';
 import 'package:apps.daily_memo/domain/bloc/home/home_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
-  final RoutesController routesController = RoutesControllerGoRouterImpl();
+  final RoutesController routesController;
 
-  HomeBloc()
+  HomeBloc({required this.routesController})
       : super(
           const HomeState(),
         ) {
     on<MoveTab>(_onMoveTab);
+    on<MoveToAddMemo>(_onMoveToAddMemo);
   }
 
   void _onMoveTab(
@@ -21,4 +22,17 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     emit(state.copyWith(status: HomeStatus.success, index: event.tabIndex));
   }
 
+  void _onMoveToAddMemo(
+    MoveToAddMemo event,
+    Emitter<HomeState> emit,
+  ) async {
+    routesController.toPushNamed(
+      event.context,
+      AppRoutes.memo.path,
+      extra: {
+        "bloc": event.memoBloc,
+      },
+    );
+    emit(state.copyWith(status: HomeStatus.success));
+  }
 }

@@ -1,6 +1,5 @@
 import 'package:apps.daily_memo/core/route/app_routes.dart';
-import 'package:apps.daily_memo/core/route/routes_controller.dart';
-import 'package:apps.daily_memo/core/route/routes_controller_impl/routes_controller_go_router_impl.dart';
+import 'package:apps.daily_memo/core/route/routes_controller/routes_controller.dart';
 import 'package:apps.daily_memo/domain/bloc/home/home_bloc.dart';
 import 'package:apps.daily_memo/domain/bloc/home/home_event.dart';
 import 'package:apps.daily_memo/domain/bloc/home/home_state.dart';
@@ -13,23 +12,8 @@ import 'package:apps.daily_memo/presentation/view/memo/memo_list_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class HomePage extends StatelessWidget {
-  const HomePage({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return MultiBlocProvider(providers: [
-      BlocProvider<HomeBloc>(create: (context) => HomeBloc()),
-    ], child: HomeView());
-  }
-}
-
 class HomeView extends StatelessWidget {
-  final RoutesController routesController = RoutesControllerGoRouterImpl();
-
-  HomeView({
+  const HomeView({
     super.key,
   });
 
@@ -37,6 +21,8 @@ class HomeView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<HomeBloc, HomeState>(
       builder: (BuildContext context, state) {
+        final homeBloc = BlocProvider.of<HomeBloc>(context);
+
         return WillPopScope(
             onWillPop: () async => false,
             child: Scaffold(
@@ -48,9 +34,12 @@ class HomeView extends StatelessWidget {
                       appBarItems: [
                         CustomAppBarItem(
                           leadingText: "추가",
-                          onTap: () => routesController.toPushNamed(
-                              context, AppRoutes.memo.path,
-                              extra: {"bloc": context.read<MemoBloc>()}),
+                          onTap: () => homeBloc.add(
+                            MoveToAddMemo(
+                              context: context,
+                              memoBloc: context.read<MemoBloc>(),
+                            ),
+                          ),
                         ),
                       ],
                     );
@@ -59,30 +48,43 @@ class HomeView extends StatelessWidget {
               ),
               body: switch (BlocProvider.of<HomeBloc>(context).state.index) {
                 0 => BlocConsumer<MemoBloc, MemoState>(
-                    buildWhen: (_, state) => state.status == MemoStatus.getAllMemosSuccess,
+                    buildWhen: (_, state) =>
+                        state.status == MemoStatus.getAllMemosSuccess,
                     builder: (context, state) {
-                      return MemoListPage(memos: state.memos);
+                      return MemoListView(
+                        memos: state.memos,
+                        routesController: BlocProvider.of<MemoBloc>(context)
+                            .getRouteController,
+                      );
                     },
                     listenWhen: (_, state) =>
-                        state.status == MemoStatus.addMemoSuccess || state.status == MemoStatus.updateMemoSuccess || state.status == MemoStatus.removeMemoSuccess,
+                        state.status == MemoStatus.addMemoSuccess ||
+                        state.status == MemoStatus.updateMemoSuccess ||
+                        state.status == MemoStatus.removeMemoSuccess,
                     listener: (_, state) {
                       BlocProvider.of<MemoBloc>(context).add(GetAllMemos());
                     },
                   ),
                 1 => BlocConsumer<MemoBloc, MemoState>(
-                  buildWhen: (_, state) => state.status == MemoStatus.getAllMemosSuccess,
-                  builder: (context, state) {
-                    return CalendarPage();
-                  },
-                  listenWhen: (_, state) =>
-                  state.status == MemoStatus.addMemoSuccess || state.status == MemoStatus.updateMemoSuccess || state.status == MemoStatus.removeMemoSuccess,
-                  listener: (_, state) {
-                    BlocProvider.of<MemoBloc>(context).add(GetAllMemos());
-                  },
-                ),
+                    buildWhen: (_, state) =>
+                        state.status == MemoStatus.getAllMemosSuccess,
+                    builder: (context, state) {
+                      return const CalendarPage();
+                    },
+                    listenWhen: (_, state) =>
+                        state.status == MemoStatus.addMemoSuccess ||
+                        state.status == MemoStatus.updateMemoSuccess ||
+                        state.status == MemoStatus.removeMemoSuccess,
+                    listener: (_, state) {
+                      BlocProvider.of<MemoBloc>(context).add(GetAllMemos());
+                    },
+                  ),
                 _ => BlocConsumer<MemoBloc, MemoState>(
-                    builder: (context, state) =>
-                        MemoListPage(memos: state.memos),
+                    builder: (context, state) => MemoListView(
+                      memos: state.memos,
+                      routesController:
+                          BlocProvider.of<MemoBloc>(context).getRouteController,
+                    ),
                     listenWhen: (_, state) =>
                         state.status == MemoStatus.addMemoSuccess,
                     listener: (_, state) =>
