@@ -14,10 +14,13 @@ void main() async {
   runZonedGuarded<Future<void>>(() async {
     WidgetsFlutterBinding.ensureInitialized();
 
-    // TODO: check dependency injection library
     final DatabaseHelper databaseHelper = SQLHelper();
     final MemoRepository memoRepository = MemoRepositoryImpl(databaseHelper);
 
-    runApp(App(memoRepository: memoRepository));
+    runApp(
+      App(
+        memoRepository: memoRepository,
+      ),
+    );
   }, (error, stack) {});
 }

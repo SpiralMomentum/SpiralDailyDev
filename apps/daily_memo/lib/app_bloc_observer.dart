@@ -13,5 +13,4 @@ class AppBlocObserver extends BlocObserver {
     // TODO show fail dialog
     super.onError(bloc, error, stackTrace);
   }
-
 }

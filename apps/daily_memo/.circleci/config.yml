@@ -59,18 +59,6 @@ jobs:
       - run:
           name: Install Fastlane
           command: gem install cocoapods
-      #      - run:
-      #          name: Install dotenv
-      #          command: sudo gem install dotenv
-      #      - run:
-      #          name: set fastlane env
-      #          command: cd ios/fastlane/ && echo "APPLE_ID=$APPLE_ID\nFASTLANE_PASSWORD=$APPLE_PW\nFASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD=$APPLE_APPLICATION_SPECIFIC_PASSWORD"
-      #          working_directory: << pipeline.parameters.service-root-path >>
-      #      - run:
-      #          command: echo $SSH_ID | base64 --decode > id_ed25519.pub && sudo ssh-add id_ed25519.pub
-      #      - run:
-      #          command: fastlane run match type:"appstore" app_identifier:"com.spiraldailydev.dailyMemo" username:"SpiralDailyDev@gmail.com" git_url:"git@github.com:GBbStar/iOS-Cert.git" git_private_key:$GIT_PRIVATE_KEY keychain_name:$MATCH_KEYCHAIN_NAME keychain_password:$MATCH_KEYCHAIN_PASSWORD --verbose
-      #          working_directory: << pipeline.parameters.service-root-path >>
       - run:
           command: fastlane release
           working_directory: << pipeline.parameters.service-root-path >>/ios
@@ -89,11 +77,6 @@ jobs:
           name:
           command: flutter build ipa --release --export-options-plist=ios/export_options.plist
           working_directory: << pipeline.parameters.service-root-path >>
-      #      - run:
-      #          command: fastlane run appstore
-#      - run:
-#          command: fastlane upload_binary --verbose
-#          working_directory: << pipeline.parameters.service-root-path >>/ios
       - run:
           command: fastlane upload_binary --verbose
           working_directory: << pipeline.parameters.service-root-path >>/ios

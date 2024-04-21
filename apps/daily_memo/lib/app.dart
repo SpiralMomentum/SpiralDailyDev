@@ -20,17 +20,7 @@ class App extends StatelessWidget {
       routes: AppRoutes.values.map((e) => e.getRouter).toList(),
     );
 
-    // return RepositoryProvider.value(
-    //   value: memoRepository,
-    //   child: MaterialApp.router(
-    //     routeInformationProvider: router.routeInformationProvider,
-    //     routeInformationParser: router.routeInformationParser,
-    //     routerDelegate: router.routerDelegate,
-    //   ),
-    // );
-    // return BlocProvider<MemoBloc>.value(
     return BlocProvider<MemoBloc>(
-      // value: MemoBloc(memoRepository)..add(GetAllMemos()),
       create: (_) => MemoBloc(memoRepository)..add(GetAllMemos()),
       child: MaterialApp.router(
         routeInformationProvider: router.routeInformationProvider,
