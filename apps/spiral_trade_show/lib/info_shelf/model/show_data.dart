@@ -1,6 +1,6 @@
 import 'package:html/parser.dart';
-import 'package:info_shelf/info_shelf.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:ui_components/card/info.dart';
 
 part 'show_data.g.dart';
 

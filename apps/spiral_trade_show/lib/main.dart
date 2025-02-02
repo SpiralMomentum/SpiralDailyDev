@@ -1,10 +1,12 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:info_shelf/domain/info_shelf_use_case.dart';
-import 'package:info_shelf/info_shelf.dart';
 import 'package:spiral_trade_show/common/request_format.dart';
 import 'package:spiral_trade_show/common/secure_file.dart';
 import 'package:spiral_trade_show/info_shelf/data/info_shelf_repository_impl.dart';
+import 'package:spiral_trade_show/info_shelf/domain/info_shelf_cubit.dart';
+import 'package:spiral_trade_show/info_shelf/domain/info_shelf_state.dart';
+import 'package:spiral_trade_show/info_shelf/domain/info_shelf_use_case.dart';
+import 'package:spiral_trade_show/info_shelf/presentation/main_shelf_page.dart';
 
 void main() {
   runApp(

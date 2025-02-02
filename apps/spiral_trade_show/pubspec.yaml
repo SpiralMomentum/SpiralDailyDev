@@ -35,8 +35,10 @@ dependencies:
   equatable: ^2.0.5
   html: ^0.15.4
   intl: ^0.18.0 # 최신 버전으로 업데이트하세요.
-  info_shelf:
-    path: info_shelf
+  ui_components:
+    path: ../../packages/ui_components
+  dartz: ^0.10.1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

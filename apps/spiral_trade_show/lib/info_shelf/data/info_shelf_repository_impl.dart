@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
-import 'package:info_shelf/info_shelf.dart';
+import 'package:spiral_trade_show/info_shelf/domain/info_shelf_repository.dart';
 import 'package:spiral_trade_show/info_shelf/model/trades.dart';
+import 'package:ui_components/card/info.dart';
 
 class InfoShelfRepositoryImpl implements InfoShelfRepository {
   final Dio _dio;
