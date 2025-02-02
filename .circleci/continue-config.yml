@@ -6,20 +6,14 @@ orbs:
   android: circleci/android@1.0.3
 
 parameters:
-  daily_memo_ci_run:
-    type: boolean
-    default: false
-  exchange_calculator_ci_run:
-    type: boolean
-    default: false
   service-root-path:
     type: string
     default: ""
 
 jobs:
   flutter-unit-test:
-    macos:
-      xcode: 14.2.0
+    docker:
+      - image: cimg/android:2025.01
     steps:
       - checkout
       - flutter/install_sdk:
@@ -29,8 +23,8 @@ jobs:
           working_directory: << pipeline.parameters.service-root-path >>
 
   flutter-linter:
-    macos:
-      xcode: 14.2.0
+    docker:
+      - image: cimg/android:2025.01
     steps:
       - checkout
       - flutter/install_sdk:
@@ -40,8 +34,8 @@ jobs:
           working_directory: << pipeline.parameters.service-root-path >>
 
   flutter-build-apk:
-    executor:
-      name: android/android-machine
+    docker:
+      - image: cimg/android:2025.01
     steps:
       - checkout
       - flutter/install_sdk:
