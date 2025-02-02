@@ -16,7 +16,7 @@ jobs:
   android-deploy:
     executor:
       name: android/android-machine
-      resource-class: medium
+      resource-class: large
     steps:
       - checkout
       - flutter/install_sdk:
