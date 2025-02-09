@@ -14,16 +14,16 @@ parameters:
 
 jobs:
   android-deploy:
-    executor:
-      name: android/android-machine
-      resource-class: large
+    docker:
+      - image: cimg/android:2025.01
     steps:
       - checkout
       - flutter/install_sdk:
           version: 3.10.6
       - run:
           name: Install Fastlane
-          command: gem install fastlane
+          command: |
+            sudo gem install fastlane
       - run:
           name: Google Service Json Parse(For Firebase)
           command: echo -n $GOOGLE_SERVICE_JSON | base64 --decode > apps/daily_memo/android/app/google-services.json
@@ -35,16 +35,22 @@ jobs:
           command: fastlane increase_version --verbose
           working_directory: << pipeline.parameters.service-root-path >>/android
       - run:
+          name: Signing AAB
+          command: echo $PLAYSTORE_KEY_STORE
+      - run:
           name: Build AAB Binary
           command: flutter build appbundle
           working_directory: << pipeline.parameters.service-root-path >>
       - run:
           name: Signing AAB
-          command: echo -n $PLAYSTORE_KEY_STORE | base64 --decode > apps/daily_memo/keystore.jks
+          command: echo -n $PLAYSTORE_KEY_STORE | base64 --decode >  << pipeline.parameters.service-root-path >>/keystore.jks
       - run:
-          command: jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore apps/daily_memo/keystore.jks -storepass MorethanMore1! -keypass MorethanMore1! apps/daily_memo/build/app/outputs/bundle/release/app-release.aab spiral
+          name: Signing AAB
+          command: echo  << pipeline.parameters.service-root-path >>/keystore.jks
       - run:
-          command: fastlane run supply aab:apps/daily_memo/build/app/outputs/bundle/release/app-release.aab track:production json_key:apps/daily_memo/android/google_playstore_api_key.json package_name:com.spiral_daily_dev.apps.daily_memo
+          command: jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore  << pipeline.parameters.service-root-path >>/build/app/outputs/bundle/release/app-release.aab spiral
+      - run:
+          command: fastlane run supply aab:<< pipeline.parameters.service-root-path >>/build/app/outputs/bundle/release/app-release.aab track:production json_key:apps/daily_memo/android/google_playstore_api_key.json package_name:com.spiral_daily_dev.apps.daily_memo
 
   ios-deploy:
     macos:
