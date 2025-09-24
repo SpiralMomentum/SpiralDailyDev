@@ -1,5 +1,4 @@
 import 'package:apps.daily_memo/core/route/app_routes.dart';
-import 'package:apps.daily_memo/core/route/routes_controller/routes_controller.dart';
 import 'package:apps.daily_memo/data/repository_interface/memo/memo_repository.dart';
 import 'package:apps.daily_memo/domain/bloc/home/home_bloc.dart';
 import 'package:apps.daily_memo/domain/bloc/memo/memo_bloc.dart';
@@ -9,10 +8,9 @@ import 'package:apps.daily_memo/presentation/view/memo/memo_list_page.dart';
 import 'package:apps.daily_memo/presentation/view/memo/memo_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
-
-final getIt = GetIt.instance;
+import 'package:core_di/core_di.dart';
+import 'package:core_navigation/core_navigation.dart';
 
 extension AppRoutesGoRouter on AppRoutes {
   GoRoute get getRouter {
@@ -25,13 +23,13 @@ extension AppRoutesGoRouter on AppRoutes {
               providers: [
                 BlocProvider<HomeBloc>(
                   create: (context) => HomeBloc(
-                    routesController: getIt.get(),
+                    routesController: getDependency<RoutesController>(),
                   ),
                 ),
                 BlocProvider<MemoBloc>(
                   create: (_) => MemoBloc(
-                    memoRepository: getIt.get<MemoRepository>(),
-                    routesController: getIt.get<RoutesController>(),
+                    memoRepository: getDependency<MemoRepository>(),
+                    routesController: getDependency<RoutesController>(),
                   )..add(GetAllMemos()),
                 ),
               ],
@@ -48,8 +46,8 @@ extension AppRoutesGoRouter on AppRoutes {
 
             return BlocProvider<MemoBloc>(
               create: (context) => MemoBloc(
-                routesController: getIt.get(),
-                memoRepository: getIt.get<MemoRepository>(),
+                routesController: getDependency<RoutesController>(),
+                memoRepository: getDependency<MemoRepository>(),
               ),
               child: MemoView(memoInfo: params?["memoInfo"]),
             );
@@ -63,13 +61,13 @@ extension AppRoutesGoRouter on AppRoutes {
               providers: [
                 BlocProvider<HomeBloc>(
                   create: (context) => HomeBloc(
-                    routesController: getIt.get(),
+                    routesController: getDependency<RoutesController>(),
                   ),
                 ),
                 BlocProvider<MemoBloc>(
                   create: (_) => MemoBloc(
-                    memoRepository: getIt.get<MemoRepository>(),
-                    routesController: getIt.get<RoutesController>(),
+                    memoRepository: getDependency<MemoRepository>(),
+                    routesController: getDependency<RoutesController>(),
                   )..add(GetAllMemos()),
                 ),
               ],

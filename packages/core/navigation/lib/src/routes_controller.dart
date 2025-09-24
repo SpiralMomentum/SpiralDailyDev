@@ -1,6 +1,6 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/widgets.dart';
 
-// TODO: route 재점검
+/// Abstraction for navigation behaviours used across the apps.
 abstract class RoutesController {
   void toNavigate<T>(
     BuildContext context,
@@ -31,5 +31,5 @@ abstract class RoutesController {
     T? result,
   });
 
-  void exitApp({int code});
+  void exitApp({int code = 0});
 }

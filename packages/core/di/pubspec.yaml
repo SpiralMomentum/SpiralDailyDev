@@ -1,0 +1,14 @@
+name: core_di
+description: Shared dependency injection utilities for SpiralDailyDev mono-repo.
+version: 0.0.1
+publish_to: "none"
+
+environment:
+  sdk: '>=3.0.6 <4.0.0'
+
+dependencies:
+  get_it: ^7.6.0
+
+dev_dependencies:
+  lints: ^2.0.0
+  test: ^1.21.0
