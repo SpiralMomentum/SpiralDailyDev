@@ -4,7 +4,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: '>=2.18.0 <3.0.0'
+  sdk: '>=3.0.6 <4.0.0'
 
 dependencies:
   flutter:
@@ -16,6 +16,8 @@ dependencies:
   freezed_annotation: ^2.2.0
   json_serializable: ^6.6.1
   rxdart: ^0.27.7
+  core_app_shell:
+    path: ../../packages/core/app_shell
 
 dev_dependencies:
   flutter_test:
