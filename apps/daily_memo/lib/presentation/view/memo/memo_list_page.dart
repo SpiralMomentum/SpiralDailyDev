@@ -1,5 +1,5 @@
 import 'package:apps.daily_memo/core/route/app_routes.dart';
-import 'package:apps.daily_memo/core/route/routes_controller/routes_controller.dart';
+import 'package:app_navigation/app_navigation.dart';
 import 'package:apps.daily_memo/domain/bloc/memo/memo_bloc.dart';
 import 'package:apps.daily_memo/domain/bloc/memo/memo_event.dart';
 import 'package:apps.daily_memo/domain/entity/memo/memo_info_entity.dart';
