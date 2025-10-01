@@ -14,7 +14,7 @@ enum GoRouterNavigationType {
   name,
 }
 
-/// Strategy used when `popAllAndPush` is invoked.
+/// Strategy used when `RoutesController.replaceAllWith` is invoked.
 enum GoRouterPopAllStrategy {
   /// Pops all routes and navigates using [GoRouter.go] / [GoRouter.goNamed].
   navigate,
@@ -30,20 +30,15 @@ enum GoRouterPopAllStrategy {
 /// Default implementation of [RoutesController] backed by [GoRouter].
 class GoRouterRoutesController extends RoutesController {
   GoRouterRoutesController({
-    required List<GoRoute> Function() routesBuilder,
     this.navigationType = GoRouterNavigationType.path,
     this.popAllStrategy = GoRouterPopAllStrategy.navigate,
-  }) : _routesBuilder = routesBuilder;
-
-  final List<GoRoute> Function() _routesBuilder;
+  });
 
   /// Determines whether navigation methods expect a route [path] or [name].
   final GoRouterNavigationType navigationType;
 
-  /// Strategy applied when [RoutesController.popAllAndPush] is triggered.
+  /// Strategy applied when [RoutesController.replaceAllWith] is triggered.
   final GoRouterPopAllStrategy popAllStrategy;
-
-  GoRouter _createRouter() => GoRouter(routes: _routesBuilder());
 
   @override
   void exitApp({int code = 0}) {
@@ -51,75 +46,99 @@ class GoRouterRoutesController extends RoutesController {
   }
 
   @override
-  void pop<T>(BuildContext context, {T? result}) {
+  bool pop<T>(BuildContext context, {T? result}) {
+    if (!canPop(context)) {
+      return false;
+    }
+
     GoRouter.of(context).pop(result);
+    return true;
   }
 
   @override
-  void popAllAndPush<T>(BuildContext context, String path, {T? result}) {
+  Future<T?>? replaceAllWith<T>(
+    BuildContext context,
+    String target, {
+    Object? extra,
+  }) {
     switch (popAllStrategy) {
       case GoRouterPopAllStrategy.navigate:
         _popAll(context);
-        _navigate(context, path);
-        break;
+        return _navigate<T>(context, target, extra: extra);
       case GoRouterPopAllStrategy.push:
         _popAll(context);
-        _push(context, path);
-        break;
+        return _push<T>(context, target, extra: extra);
       case GoRouterPopAllStrategy.pushReplacement:
         if (navigationType == GoRouterNavigationType.name) {
           _popAll(context);
-          _navigate(context, path);
+          return _navigate<T>(context, target, extra: extra);
         } else {
-          context.pushReplacement(path);
+          return context.pushReplacement<T>(target, extra: extra);
         }
-        break;
     }
   }
 
   @override
-  void popUntil<T>(BuildContext context, String path, {T? result}) {
-    final GoRouter router = _createRouter();
-    while (router.canPop() && router.location != path) {
+  void popUntil<T>(BuildContext context, String target, {T? result}) {
+    while (canPop(context) && GoRouter.of(context).location != target) {
       GoRouter.of(context).pop(result);
     }
   }
 
   @override
-  void toNavigate<T>(BuildContext context, String path, {Map? extra}) {
-    _navigate(context, path, extra: extra);
+  Future<T?>? navigateTo<T>(
+    BuildContext context,
+    String target, {
+    Object? extra,
+  }) {
+    return _navigate<T>(context, target, extra: extra);
   }
 
   @override
-  void toPushNamed<T>(BuildContext context, String path, {Map? extra}) {
-    _push(context, path, extra: extra);
+  Future<T?>? push<T>(
+    BuildContext context,
+    String target, {
+    Object? extra,
+  }) {
+    return _push<T>(context, target, extra: extra);
   }
 
-  void _navigate(BuildContext context, String path, {Map? extra}) {
+  @override
+  bool canPop(BuildContext context) => GoRouter.of(context).canPop();
+
+  @override
+  String? currentLocation(BuildContext context) => GoRouter.of(context).location;
+
+  Future<T?>? _navigate<T>(
+    BuildContext context,
+    String target, {
+    Object? extra,
+  }) {
     switch (navigationType) {
       case GoRouterNavigationType.path:
-        context.go(path, extra: extra);
-        break;
+        context.go(target, extra: extra);
+        return null;
       case GoRouterNavigationType.name:
-        context.goNamed(path, extra: extra);
-        break;
+        context.goNamed(target, extra: extra);
+        return null;
     }
   }
 
-  void _push(BuildContext context, String path, {Map? extra}) {
+  Future<T?>? _push<T>(
+    BuildContext context,
+    String target, {
+    Object? extra,
+  }) {
     switch (navigationType) {
       case GoRouterNavigationType.path:
-        GoRouter.of(context).push(path, extra: extra);
-        break;
+        return GoRouter.of(context).push<T>(target, extra: extra);
       case GoRouterNavigationType.name:
-        context.pushNamed(path, extra: extra);
-        break;
+        return context.pushNamed<T>(target, extra: extra);
     }
   }
 
   void _popAll(BuildContext context) {
-    final GoRouter router = _createRouter();
-    while (router.canPop()) {
+    while (canPop(context)) {
       GoRouter.of(context).pop();
     }
   }
