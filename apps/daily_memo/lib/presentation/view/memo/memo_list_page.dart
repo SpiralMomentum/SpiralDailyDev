@@ -52,8 +52,11 @@ class MemoListView extends StatelessWidget {
           memoInfo = null;
         }
 
-        routesController.toPushNamed(context, AppRoutes.memo.path,
-            extra: {"memoInfo": memoInfo});
+        routesController.push(
+          context,
+          AppRoutes.memo.path,
+          extra: {"memoInfo": memoInfo},
+        );
       },
       // .add(GetMemo(listItem.uniqueId)),
       onLongPress: () => showDialog(
