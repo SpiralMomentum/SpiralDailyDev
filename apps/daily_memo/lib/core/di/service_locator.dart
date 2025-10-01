@@ -1,5 +1,5 @@
-import 'package:apps.daily_memo/core/route/routes_controller/routes_controller.dart';
-import 'package:apps.daily_memo/core/route/routes_controller/routes_controller_go_router_impl.dart';
+import 'package:app_navigation/app_navigation.dart';
+import 'package:apps.daily_memo/core/route/app_routes.dart';
 import 'package:apps.daily_memo/data/repository_impl/memo/memo_repository_impl.dart';
 import 'package:apps.daily_memo/data/repository_interface/memo/memo_repository.dart';
 import 'package:apps.daily_memo/data/sql_helper.dart';
@@ -13,7 +13,13 @@ class ServiceLocator {
       ..registerLazySingleton<DatabaseHelper>(
               () => SQLHelper())
       ..registerLazySingleton<RoutesController>(
-          () => RoutesControllerGoRouterImpl())
+        () => GoRouterRoutesController(
+          routesBuilder: () =>
+              AppRoutes.values.map((route) => route.getRouter).toList(),
+          navigationType: GoRouterNavigationType.path,
+          popAllStrategy: GoRouterPopAllStrategy.pushReplacement,
+        ),
+      )
       ..registerLazySingleton<MemoRepository>(
               () => MemoRepositoryImpl(getIt.get()))
     ;
