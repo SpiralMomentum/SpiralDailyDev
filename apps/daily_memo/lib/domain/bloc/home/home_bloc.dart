@@ -26,7 +26,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     MoveToAddMemo event,
     Emitter<HomeState> emit,
   ) async {
-    routesController.toPushNamed(
+    routesController.push(
       event.context,
       AppRoutes.memo.path,
       extra: {
