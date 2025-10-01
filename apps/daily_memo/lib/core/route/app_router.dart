@@ -1,5 +1,5 @@
+import 'package:app_navigation/app_navigation.dart';
 import 'package:apps.daily_memo/core/route/app_routes.dart';
-import 'package:apps.daily_memo/core/route/routes_controller/routes_controller.dart';
 import 'package:apps.daily_memo/data/repository_interface/memo/memo_repository.dart';
 import 'package:apps.daily_memo/domain/bloc/home/home_bloc.dart';
 import 'package:apps.daily_memo/domain/bloc/memo/memo_bloc.dart';
@@ -25,7 +25,7 @@ extension AppRoutesGoRouter on AppRoutes {
               providers: [
                 BlocProvider<HomeBloc>(
                   create: (context) => HomeBloc(
-                    routesController: getIt.get(),
+                    routesController: getIt.get<RoutesController>(),
                   ),
                 ),
                 BlocProvider<MemoBloc>(
@@ -48,7 +48,7 @@ extension AppRoutesGoRouter on AppRoutes {
 
             return BlocProvider<MemoBloc>(
               create: (context) => MemoBloc(
-                routesController: getIt.get(),
+                routesController: getIt.get<RoutesController>(),
                 memoRepository: getIt.get<MemoRepository>(),
               ),
               child: MemoView(memoInfo: params?["memoInfo"]),
@@ -63,7 +63,7 @@ extension AppRoutesGoRouter on AppRoutes {
               providers: [
                 BlocProvider<HomeBloc>(
                   create: (context) => HomeBloc(
-                    routesController: getIt.get(),
+                    routesController: getIt.get<RoutesController>(),
                   ),
                 ),
                 BlocProvider<MemoBloc>(

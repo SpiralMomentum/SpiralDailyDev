@@ -1,4 +1,4 @@
-import 'package:apps.daily_memo/core/route/routes_controller/routes_controller.dart';
+import 'package:app_navigation/app_navigation.dart';
 import 'package:apps.daily_memo/data/repository_interface/memo/memo_repository.dart';
 import 'package:apps.daily_memo/domain/bloc/memo/memo_event.dart';
 import 'package:apps.daily_memo/domain/bloc/memo/memo_state.dart';
