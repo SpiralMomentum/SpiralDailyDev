@@ -34,3 +34,8 @@ Flutter 기반의 Mono Repo 베이스, Clean Architecture 룰을 따르는 프�
 ## Shared Packages
 - `packages/ui_components`: 공용 UI 위젯과 카드 컴포넌트를 제공합니다.
 - `packages/utils`: 서비스 간에서 공유할 수 있는 유틸리티 로직을 담을 공간입니다.
+
+## 배포 자동화 개요
+- `release.yaml`: 각 앱의 스토어 메타데이터, 자동화 옵션(아이콘 생성, 스크린샷 캡처) 및 Fastlane 레인 정보를 정의한 중앙 설정 파일입니다.
+- `store_metadata/`: 스토어 등록에 필요한 JSON/YAML 템플릿과 서비스별 메타데이터 파일을 보관합니다.
+- `tools/release/`: `publisher.py` 스크립트를 통해 `release.yaml`을 읽고 아이콘 생성 → 스크린샷 캡처 → 빌드 → Fastlane 실행을 순차적으로 자동화합니다.

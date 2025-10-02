@@ -1,0 +1,41 @@
+appName: "Spiral Trade Show"
+subtitle: "Discover Seoul exhibitions"
+shortDescription: |
+  Discover exhibitions around Seoul and bookmark your favorites.
+fullDescription: |
+  Spiral Trade Show curates exhibitions powered by Seoul public data.
+  Browse categories, save favorites, and get detailed venue information in seconds.
+category:
+  primary: Lifestyle
+contact:
+  email: support@spiral.dev
+  website: https://spiral.dev/spiral-trade-show
+privacyPolicyUrl: https://spiral.dev/privacy
+keywords:
+  - exhibition
+  - culture
+  - seoul
+releaseNotes:
+  default: |
+    - Added favorites sync.
+    - Improved performance on older devices.
+  locales:
+    ko-KR: |
+      - 즐겨찾기 동기화 기능을 추가했습니다.
+      - 구형 기기에서 성능을 개선했습니다.
+screenshots:
+  iphone67:
+    - path: ./screenshots/iphone_1.png
+      description: "전시 리스트"
+    - path: ./screenshots/iphone_2.png
+      description: "전시 상세"
+  ipad: []
+icons:
+  primary: ./icon.png
+localizations:
+  - locale: ko-KR
+    title: "스파이럴 전시"
+    subtitle: "서울 전시를 한눈에"
+    fullDescription: |
+      서울시 전시 정보를 모아 보여주는 스파이럴 전시 앱입니다.
+      관심 전시를 즐겨찾기에 저장하고 위치 안내를 받아보세요.
