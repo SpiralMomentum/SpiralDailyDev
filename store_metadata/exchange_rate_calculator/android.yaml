@@ -1,0 +1,44 @@
+appName: "Exchange Rate Calculator"
+shortDescription: |
+  실시간 환율 정보를 확인하고 통화를 즉시 변환하세요.
+fullDescription: |
+  Exchange Rate Calculator는 다양한 통화 간 환율을 빠르게 조회하고 계산할 수 있는 학습용 앱입니다.
+  자동으로 최신 데이터를 동기화하며, 즐겨찾는 통화를 저장하여 반복 계산을 빠르게 수행할 수 있습니다.
+category:
+  primary: Finance
+  secondary: Education
+contact:
+  email: support@spiral.dev
+  website: https://spiral.dev/exchange-rate
+privacyPolicyUrl: https://spiral.dev/privacy
+releaseNotes:
+  default: |
+    - Added currency favorites.
+    - Improved accessibility labels.
+  locales:
+    ko-KR: |
+      - 즐겨찾는 통화 기능이 추가되었습니다.
+      - 접근성 라벨을 개선했습니다.
+keywords:
+  - exchange
+  - currency
+  - finance
+screenshots:
+  phone:
+    - path: ./screenshots/phone_1.png
+      description: "환율 계산"
+    - path: ./screenshots/phone_2.png
+      description: "통화 즐겨찾기"
+  tablet:
+    - path: ./screenshots/tablet_1.png
+      description: "태블릿 환율 비교"
+icons:
+  primary: ./icon.png
+localizations:
+  - locale: ko-KR
+    title: "환율 변환기"
+    shortDescription: |
+      실시간 환율 조회와 통화 변환.
+    fullDescription: |
+      환율 변환기는 최신 데이터를 기반으로 다양한 통화를 빠르게 변환해주는 앱입니다.
+      통화 즐겨찾기와 히스토리 그래프를 통해 학습에도 활용해 보세요.

@@ -81,8 +81,8 @@
 
 ### 5.1 스토어 메타데이터 관리 자동화
 - `fastlane`의 `deliver`(iOS)와 `supply`(Android)를 이용해 설명, 스크린샷, 키워드를 YAML/JSON 파일로 관리합니다.
-- 공통 패키지 리포지토리에 `metadata/` 디렉터리를 생성하고 각 서비스별 하위 폴더(예: `metadata/daily_memo/android/`)로 구분합니다.
-- CI 파이프라인에서 변경된 메타데이터를 감지해 자동으로 스토어에 업로드하도록 설정합니다.
+- 공통 패키지 리포지토리에 `store_metadata/` 디렉터리를 생성하고 각 서비스별 하위 폴더(예: `store_metadata/daily_memo/android.yaml`)로 구분합니다.
+- `release.yaml`에 정의된 경로를 기준으로 CI 파이프라인에서 변경된 메타데이터를 감지해 자동으로 스토어에 업로드하도록 설정합니다.
 
 ### 5.2 빌드 및 서명 자동화
 - GitHub Actions 또는 Bitrise 등을 사용해 브랜치 병합 시 자동으로 앱 빌드를 생성합니다.

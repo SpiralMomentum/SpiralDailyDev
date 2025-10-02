@@ -1,0 +1,136 @@
+# Central release configuration for SpiralDailyDev monorepo
+pipeline:
+  defaultEnv:
+    flutterChannel: stable
+    flutterVersion: "3.16.8"
+  artifactRoot: artifacts
+  fastlaneBinary: bundle exec fastlane
+  enableNotifications: false
+apps:
+  daily_memo:
+    appId: com.spiral_daily_dev.apps.daily_memo
+    displayName: "Daily Memo"
+    projectPath: apps/daily_memo
+    metadata:
+      android: store_metadata/daily_memo/android.yaml
+      ios: store_metadata/daily_memo/ios.yaml
+    autoGenerateIcon: true
+    autoCaptureScreenshots: false
+    icon:
+      output: artifacts/daily_memo/app_icon.png
+      backgroundColor: "#3E4A89"
+      label: "DM"
+      labelColor: "#FFFFFF"
+      fontSize: 420
+    screenshots:
+      outputPath: artifacts/daily_memo/screenshots
+      scenarios:
+        - name: onboarding
+          description: "Capture the onboarding flow using integration tests."
+          command:
+            - flutter
+            - drive
+            - --driver=test_driver/integration_test.dart
+            - --target=integration_test/onboarding_flow.dart
+    build:
+      android:
+        command:
+          - flutter
+          - build
+          - appbundle
+          - --release
+      ios:
+        command:
+          - flutter
+          - build
+          - ipa
+          - --release
+    fastlane:
+      androidLane: android_play_production
+      iosLane: ios_appstore_release
+  exchange_rate_calculator:
+    appId: com.spiral_daily_dev.apps.exchange_rate_calculator
+    displayName: "Exchange Rate Calculator"
+    projectPath: apps/exchange_rate_calculator
+    metadata:
+      android: store_metadata/exchange_rate_calculator/android.yaml
+      ios: store_metadata/exchange_rate_calculator/ios.yaml
+    autoGenerateIcon: true
+    autoCaptureScreenshots: true
+    icon:
+      output: artifacts/exchange_rate_calculator/app_icon.png
+      backgroundColor: "#2C7A7B"
+      label: "FX"
+      labelColor: "#F6E05E"
+      fontSize: 360
+    screenshots:
+      outputPath: artifacts/exchange_rate_calculator/screenshots
+      scenarios:
+        - name: conversion_flow
+          description: "Showcase converting USD to KRW with the latest rate."
+          command:
+            - flutter
+            - drive
+            - --driver=test_driver/integration_test.dart
+            - --target=integration_test/conversion_flow.dart
+        - name: history_view
+          description: "Display the historical chart screen."
+          command:
+            - flutter
+            - drive
+            - --driver=test_driver/integration_test.dart
+            - --target=integration_test/history_flow.dart
+    build:
+      android:
+        command:
+          - flutter
+          - build
+          - appbundle
+          - --release
+      ios:
+        command:
+          - flutter
+          - build
+          - ipa
+          - --release
+    fastlane:
+      androidLane: android_play_internal
+      iosLane: ios_testflight_beta
+  spiral_trade_show:
+    appId: com.spiral_daily_dev.apps.spiral_trade_show
+    displayName: "Spiral Trade Show"
+    projectPath: apps/spiral_trade_show
+    metadata:
+      android: store_metadata/spiral_trade_show/android.yaml
+      ios: store_metadata/spiral_trade_show/ios.yaml
+    autoGenerateIcon: false
+    autoCaptureScreenshots: true
+    icon:
+      output: artifacts/spiral_trade_show/app_icon.png
+      source: assets/spiral_trade_show/icon.png
+    screenshots:
+      outputPath: artifacts/spiral_trade_show/screenshots
+      scenarios:
+        - name: exhibitions
+          description: "Scroll through the exhibitions list."
+          command:
+            - flutter
+            - drive
+            - --driver=test_driver/integration_test.dart
+            - --target=integration_test/exhibitions_flow.dart
+    build:
+      android:
+        command:
+          - flutter
+          - build
+          - appbundle
+          - --release
+      ios:
+        command:
+          - flutter
+          - build
+          - ipa
+          - --release
+    fastlane:
+      androidLane: android_play_production
+      iosLane: ios_appstore_release
