@@ -1,0 +1,42 @@
+appName: "Daily Memo"
+shortDescription: |
+  간단하고 빠르게 메모를 기록할 수 있는 일기장형 메모장입니다.
+fullDescription: |
+  Daily Memo는 하루의 아이디어와 할 일을 빠르게 기록하고 정리할 수 있도록 도와주는 개인 노트 앱입니다.
+  오프라인에서도 안전하게 데이터를 저장하며, 태그와 검색 기능을 통해 원하는 메모를 손쉽게 찾을 수 있습니다.
+category:
+  primary: Productivity
+  secondary: Lifestyle
+contact:
+  email: support@spiral.dev
+  website: https://spiral.dev/daily-memo
+privacyPolicyUrl: https://spiral.dev/privacy
+releaseNotes:
+  default: |
+    - Added improved memo search.
+    - Enhanced offline stability.
+  locales:
+    ko-KR: |
+      - 메모 검색 기능이 향상되었습니다.
+      - 오프라인 안정성을 강화했습니다.
+keywords:
+  - memo
+  - notes
+  - diary
+screenshots:
+  phone:
+    - path: ./screenshots/phone_1.png
+      description: "메모 목록"
+    - path: ./screenshots/phone_2.png
+      description: "새 메모 작성"
+  tablet: []
+icons:
+  primary: ./icon.png
+localizations:
+  - locale: ko-KR
+    title: "데일리 메모"
+    shortDescription: |
+      하루의 생각을 정리하는 가장 빠른 방법.
+    fullDescription: |
+      데일리 메모는 중요한 아이디어와 해야 할 일을 빠르게 정리할 수 있는 개인용 메모장입니다.
+      태그, 검색, 즐겨찾기 기능으로 많은 메모도 쉽게 관리하세요.
