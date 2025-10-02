@@ -1,0 +1,42 @@
+appName: "Exchange Rate Calculator"
+subtitle: "Convert any currency instantly"
+shortDescription: |
+  Track live rates and convert currencies with confidence.
+fullDescription: |
+  Stay updated with the latest exchange rates and calculate conversions effortlessly.
+  Bookmark frequent currencies, monitor historical trends, and learn about forex movements within a single app.
+category:
+  primary: Finance
+contact:
+  email: support@spiral.dev
+  website: https://spiral.dev/exchange-rate
+privacyPolicyUrl: https://spiral.dev/privacy
+keywords:
+  - exchange
+  - forex
+  - calculator
+releaseNotes:
+  default: |
+    - Introduced historical charts.
+    - Enhanced offline caching.
+  locales:
+    ko-KR: |
+      - 환율 히스토리 차트를 추가했습니다.
+      - 오프라인 캐시 기능을 강화했습니다.
+screenshots:
+  iphone67:
+    - path: ./screenshots/iphone_1.png
+      description: "환율 계산 화면"
+    - path: ./screenshots/iphone_2.png
+      description: "히스토리 그래프"
+  ipad:
+    - path: ./screenshots/ipad_1.png
+      description: "멀티 통화 비교"
+icons:
+  primary: ./icon.png
+localizations:
+  - locale: ko-KR
+    title: "환율 변환기"
+    subtitle: "통화를 즉시 변환"
+    fullDescription: |
+      최신 환율 정보를 확인하고, 즐겨찾는 통화를 저장하며, 히스토리 차트로 변동을 분석하세요.
