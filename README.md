@@ -18,6 +18,7 @@ Flutter 기반의 Mono Repo 베이스, Clean Architecture 룰을 따르는 프�
 | Exchange Rate Calculator | 환율 조회 및 계산 기능을 제공하는 학습용 앱 | 싱글톤 저장소가 외부 API에서 환율 정보를 가져오고 Adapter 패턴으로 다양한 데이터 소스를 통합하며 GoRouter 기반 라우팅을 제공합니다. |
 | Spiral Trade Show | 서울시 전시 정보를 보여주는 홍보용 앱 | Dio HTTP 클라이언트와 보안 키를 활용해 공공 데이터 포털에서 전시 정보를 수집하고 Cubit 패턴으로 UI 상태를 갱신합니다. |
 | Voice Transcriber | 음성 녹음과 텍스트 변환을 지원하는 실험용 앱 | Clean Architecture 기반의 세션 단위 UseCase 설계를 통해 A/B 테스트용 변환 엔진(OpenAI vs 자체 모델)을 런타임에서 전환하고 자동 클립보드 복사를 제공합니다. |
+| Map Switcher | 다양한 지도 제공자를 런타임에 전환하는 지도 온보딩 앱 | 공통 MapProvider 인터페이스와 DetailCard 마커 커스터마이저를 활용해 Google/Naver/Amazon 템플릿을 제공하고 GoRouter 기반 라우팅을 공유합니다. |
 
 ## Daily Memo App
 - `sqflite`를 사용하는 `SQLHelper`를 통해 로컬 데이터베이스에 메모를 저장하고 CRUD 기능을 제공합니다.
