@@ -12,6 +12,8 @@ dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^1.0.2
+  map_provider_core:
+    path: ../../packages/map_provider_core
   google_maps_flutter: ^2.0.1
 
 dev_dependencies:
