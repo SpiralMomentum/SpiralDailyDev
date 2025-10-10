@@ -63,6 +63,8 @@ class ProviderCatalogPage extends StatelessWidget {
 
   Color _accentColor(MapProviderType type, ThemeData theme) {
     switch (type) {
+      case MapProviderType.openStreetMap:
+        return Colors.orange;
       case MapProviderType.google:
         return Colors.indigo;
       case MapProviderType.naver:

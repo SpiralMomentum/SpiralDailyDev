@@ -19,6 +19,8 @@ dependencies:
     path: ../../packages/ui_components
   utils:
     path: ../../packages/utils
+  flutter_map: ^5.1.0
+  latlong2: ^0.9.0
 
 dev_dependencies:
   flutter_test:
