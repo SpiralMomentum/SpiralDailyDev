@@ -5,6 +5,7 @@ import 'package:ui_components/ui_components.dart';
 import 'package:utils/utils.dart';
 
 import '../features/dashboard/presentation/pages/map_dashboard_page.dart';
+import '../features/map/providers/open_street_map_provider.dart';
 import '../features/providers/presentation/pages/provider_catalog_page.dart';
 
 enum MapSwitcherRoute {
@@ -26,10 +27,11 @@ class MapSwitcherDependencies {
 
   static Future<MapSwitcherDependencies> bootstrap() async {
     final registry = MapProviderRegistry(
-      providers: const [
-        GoogleMapsProviderTemplate(),
-        NaverMapsProviderTemplate(),
-        AmazonLocationProviderTemplate(),
+      providers: [
+        OpenStreetMapProvider(),
+        const GoogleMapsProviderTemplate(),
+        const NaverMapsProviderTemplate(),
+        const AmazonLocationProviderTemplate(),
       ],
     );
     await registry.initializeActive();
