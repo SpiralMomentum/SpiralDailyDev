@@ -1,7 +1,7 @@
 library utils;
 
-/// A Calculator.
-class Calculator {
-  /// Returns [value] plus 1.
-  int addOne(int value) => value + 1;
-}
+export 'maps/map_marker.dart';
+export 'maps/map_marker_customizer.dart';
+export 'maps/map_provider.dart';
+export 'maps/map_provider_registry.dart';
+export 'maps/map_provider_templates.dart';
