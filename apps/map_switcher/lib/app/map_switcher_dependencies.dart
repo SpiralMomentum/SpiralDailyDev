@@ -36,13 +36,13 @@ class MapSwitcherDependencies {
 
     final providers = <MapProvider>[
       OpenStreetMapProvider(),
-      // if (naverClientId.isNotEmpty)
-      //   NaverMapProvider(
-      //     clientId: naverClientId,
-      //     clientSecret:
-      //         naverClientSecret.isEmpty ? null : naverClientSecret,
-      //   )
-      // else
+      if (naverClientId.isNotEmpty)
+        NaverMapProvider(
+          clientId: naverClientId,
+          clientSecret:
+              naverClientSecret.isEmpty ? null : naverClientSecret,
+        )
+      else
         const NaverMapsProviderTemplate(),
       const GoogleMapsProviderTemplate(),
       const AmazonLocationProviderTemplate(),
