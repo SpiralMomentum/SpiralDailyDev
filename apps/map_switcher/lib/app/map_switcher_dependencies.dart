@@ -5,6 +5,7 @@ import 'package:ui_components/ui_components.dart';
 import 'package:utils/utils.dart';
 
 import '../features/dashboard/presentation/pages/map_dashboard_page.dart';
+import '../features/map/providers/naver_map_provider.dart';
 import '../features/map/providers/open_street_map_provider.dart';
 import '../features/providers/presentation/pages/provider_catalog_page.dart';
 
@@ -26,13 +27,29 @@ class MapSwitcherDependencies {
   });
 
   static Future<MapSwitcherDependencies> bootstrap() async {
-    final registry = MapProviderRegistry(
-      providers: [
-        OpenStreetMapProvider(),
-        const GoogleMapsProviderTemplate(),
+    final naverClientId =
+        const String.fromEnvironment('NAVER_MAP_CLIENT_ID', defaultValue: '');
+    final naverClientSecret = const String.fromEnvironment(
+      'NAVER_MAP_CLIENT_SECRET',
+      defaultValue: '',
+    );
+
+    final providers = <MapProvider>[
+      OpenStreetMapProvider(),
+      if (naverClientId.isNotEmpty)
+        NaverMapProvider(
+          clientId: naverClientId,
+          clientSecret:
+              naverClientSecret.isEmpty ? null : naverClientSecret,
+        )
+      else
         const NaverMapsProviderTemplate(),
-        const AmazonLocationProviderTemplate(),
-      ],
+      const GoogleMapsProviderTemplate(),
+      const AmazonLocationProviderTemplate(),
+    ];
+
+    final registry = MapProviderRegistry(
+      providers: providers,
     );
     await registry.initializeActive();
 
