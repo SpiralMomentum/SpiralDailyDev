@@ -73,14 +73,14 @@ class GoRouterRoutesController extends RoutesController {
           _popAll(context);
           return _navigate<T>(context, target, extra: extra);
         } else {
-          return context.pushReplacement<T>(target, extra: extra);
+          return context.pushReplacement(target, extra: extra) as Future<T?>?;
         }
     }
   }
 
   @override
   void popUntil<T>(BuildContext context, String target, {T? result}) {
-    while (canPop(context) && GoRouter.of(context).location != target) {
+    while (canPop(context) && GoRouterState.of(context).uri.toString() != target) {
       GoRouter.of(context).pop(result);
     }
   }
@@ -107,7 +107,7 @@ class GoRouterRoutesController extends RoutesController {
   bool canPop(BuildContext context) => GoRouter.of(context).canPop();
 
   @override
-  String? currentLocation(BuildContext context) => GoRouter.of(context).location;
+  String? currentLocation(BuildContext context) => GoRouterState.of(context).uri.toString();
 
   Future<T?>? _navigate<T>(
     BuildContext context,
@@ -131,9 +131,9 @@ class GoRouterRoutesController extends RoutesController {
   }) {
     switch (navigationType) {
       case GoRouterNavigationType.path:
-        return GoRouter.of(context).push<T>(target, extra: extra);
+        return GoRouter.of(context).push(target, extra: extra) as Future<T?>?;
       case GoRouterNavigationType.name:
-        return context.pushNamed<T>(target, extra: extra);
+        return context.pushNamed(target, extra: extra) as Future<T?>?;
     }
   }
 
