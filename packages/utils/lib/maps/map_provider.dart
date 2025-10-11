@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 
 import 'map_marker.dart';
 import 'map_marker_customizer.dart';

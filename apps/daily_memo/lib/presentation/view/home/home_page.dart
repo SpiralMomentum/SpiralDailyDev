@@ -1,5 +1,4 @@
 import 'package:apps.daily_memo/core/route/app_routes.dart';
-import 'package:apps.daily_memo/core/route/routes_controller/routes_controller.dart';
 import 'package:apps.daily_memo/domain/bloc/home/home_bloc.dart';
 import 'package:apps.daily_memo/domain/bloc/home/home_event.dart';
 import 'package:apps.daily_memo/domain/bloc/home/home_state.dart';

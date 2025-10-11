@@ -148,14 +148,12 @@ class _OpenStreetMapViewState extends State<_OpenStreetMapView> {
             return FlutterMap(
               mapController: _controller,
               options: MapOptions(
-                initialCenter: LatLng(
+                center: LatLng(
                   initialPosition.latitude,
                   initialPosition.longitude,
                 ),
-                initialZoom: initialZoom,
-                interactionOptions: const InteractionOptions(
-                  flags: InteractiveFlag.all,
-                ),
+                zoom: initialZoom,
+                interactiveFlags: InteractiveFlag.all,
                 onTap: (_, __) => widget.selectedMarker.value = null,
               ),
               children: [
