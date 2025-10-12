@@ -1,0 +1,101 @@
+{
+  "privacyPolicyLink": "",
+  "ads": {
+    "anyAds": false,
+    "appFunctionality": false,
+    "analytics": false,
+    "developerCommunications": false,
+    "advertisingOrMarketing": false,
+    "fraudPreventionSecurityCompliance": false,
+    "personalization": false,
+    "accountManagement": false
+  },
+  "appAccessGuide": {
+    "guideTitle": "example",
+    "testAccount": "test",
+    "testPassword": "test",
+    "otherDescription": ""
+  },
+  "contentGrade": {
+    "email": "",
+    "category": "game or social or other",
+    "anyDownloadedApp": false,
+    "canChangeContentWithOther": false,
+    "anyOnlineContent": false,
+    "isFocusOnSaleAnyAgeRestriction": false,
+    "isShareUserLocation": false,
+    "isSaleDigitalProducts": false,
+    "hasMonetaryOrDigitalRewards": false,
+    "isBrowserOrSearchEngineApp": false,
+    "isPrimarilyNewsOrEducationApp": true
+  },
+  "targetAgeGroup": [],
+  "collectsOrSharesUserData": {
+    "encryptsAllUserData": true,
+    "accountCreationMethods": []
+  },
+  "showsFamilyPolicyDisclosure": true,
+  "isGovernmentApp": false,
+   "financialFeatures": {
+    "bankingAndLending": [
+      "personal_loans_direct_lender",
+      "loan_broker",
+      "payday_loans",
+      "banking",
+      "credit_line",
+      "earned_wage_access",
+      "microfinance_banking"
+    ],
+    "paymentsAndTransfers": [
+      "mobile_payments_and_digital_wallets",
+      "remittance_and_money_transfer"
+    ],
+    "purchaseAndContracts": [
+      "rewards_points_airline_miles_and_other_incentives",
+      "buy_now_pay_later"
+    ],
+    "tradingAndFunds": [
+      "crypto_wallet",
+      "crypto_exchange",
+      "tokenized_digital_assets_nft_sale_trade_rewards",
+      "stock_trading_and_portfolio_management",
+      "crowdfunding_and_chit_fund"
+    ],
+    "supportServices": [
+      "credit_monitoring_and_reporting",
+      "financial_advisory",
+      "insurance",
+      "other"
+    ],
+    "noFinancialFeatures": true
+  },
+  "healthFeatures": {
+    "healthAndFitness": [
+      "activity_and_fitness",
+      "nutrition_and_weight_management",
+      "menstrual_tracking",
+      "sleep_management",
+      "stress_relaxation_and_mental_resilience"
+    ],
+    "medical": [
+      "disease_and_condition_management",
+      "clinical_decision_support",
+      "disease_prevention_and_public_health",
+      "emergency_and_first_aid",
+      "medical_services_and_management",
+      "medical_device_app",
+      "mental_and_behavioral_health",
+      "medical_reference_and_education",
+      "medication_and_treatment_management",
+      "physical_therapy_and_rehabilitation",
+      "reproductive_and_sexual_health"
+    ],
+    "humanResearch": [
+      "research_clinical_trials_and_patient_communities"
+    ],
+    "other": [
+      "other"
+    ],
+    "noHealthFeatures": true
+  }
+}

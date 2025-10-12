@@ -65,7 +65,7 @@ class QuoteRepositoryImpl implements QuoteRepository {
             author: json['author'] as String? ?? '',
           );
         }));
-    } on FlutterError {
+    } on Exception {
       _curatedQuotes
         ..clear()
         ..addAll(<Quote>[

@@ -9,13 +9,10 @@ class NaverMapProvider implements MapProvider {
   NaverMapProvider({
     required this.clientId,
     this.clientSecret,
-    NaverMapSdk? sdk,
-  })  : assert(clientId.isNotEmpty, 'clientId must not be empty'),
-        _sdk = sdk ?? NaverMapSdk.instance;
+  }) : assert(clientId.isNotEmpty, 'clientId must not be empty');
 
   final String clientId;
   final String? clientSecret;
-  final NaverMapSdk _sdk;
   bool _initialized = false;
 
   @override
@@ -29,13 +26,12 @@ class NaverMapProvider implements MapProvider {
     if (_initialized) {
       return;
     }
-    await _sdk.initialize(
-      clientId: clientId,
-      clientSecret: clientSecret,
-      onAuthFailed: (error) {
-        debugPrint('Naver Map authentication failed: $error');
-      },
-    );
+    // SDK v0.10.0+ relies on native platform metadata for authentication.
+    if (clientSecret != null) {
+      debugPrint(
+        'Naver Map clientSecret is currently unused by flutter_naver_map.',
+      );
+    }
     _initialized = true;
   }
 
