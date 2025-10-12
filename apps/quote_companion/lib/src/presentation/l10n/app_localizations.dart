@@ -28,6 +28,8 @@ class AppLocalizations {
       'ratingLabel': 'Satisfaction (1-5)',
       'emailHint': 'Email (optional)',
       'emptyQuotesPlaceholder': 'Add a quote to see it here.',
+      'previewHeader': 'Preview surfaces',
+      'surfaceDisabledHint': 'Enable this surface above to preview.',
     },
     'ko': <String, String>{
       'appTitle': '명언 컴패니언',
@@ -47,6 +49,8 @@ class AppLocalizations {
       'ratingLabel': '만족도 (1-5)',
       'emailHint': '이메일 (선택)',
       'emptyQuotesPlaceholder': '추가한 명언이 여기에 보여요.',
+      'previewHeader': '미리보기',
+      'surfaceDisabledHint': '위에서 활성화하면 미리보기가 제공돼요.',
     },
     'ja': <String, String>{
       'appTitle': 'クォートコンパニオン',
@@ -66,6 +70,8 @@ class AppLocalizations {
       'ratingLabel': '満足度 (1-5)',
       'emailHint': 'メール (任意)',
       'emptyQuotesPlaceholder': 'ここに名言が表示されます。',
+      'previewHeader': 'プレビュー',
+      'surfaceDisabledHint': '上部で有効にするとプレビューできます。',
     },
   };
 
@@ -83,7 +89,7 @@ class AppLocalizations {
   /// Convenience lookup for widgets.
   static AppLocalizations of(BuildContext context) {
     return Localizations.of<AppLocalizations>(context, AppLocalizations) ??
-        AppLocalizations(const Locale('en'));
+        AppLocalizations(const Locale('ko'));
   }
 
   /// Looks up a localized string.

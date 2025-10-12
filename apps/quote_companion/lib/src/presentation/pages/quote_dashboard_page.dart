@@ -7,6 +7,7 @@ import '../l10n/app_localizations.dart';
 import '../state/quote_notifier.dart';
 import '../state/quote_state.dart';
 import '../widgets/quote_card.dart';
+import '../widgets/quote_surface_previews.dart';
 
 /// Home screen showcasing inspirational quotes and controls.
 class QuoteDashboardPage extends ConsumerStatefulWidget {
@@ -207,6 +208,13 @@ class _QuoteDashboardPageState extends ConsumerState<QuoteDashboardPage> {
                 await notifier.updateRefreshInterval(value.toInt());
               },
             ),
+            if (state.activeQuote != null) ...<Widget>[
+              const SizedBox(height: 24),
+              QuoteSurfacePreviews(
+                quote: state.activeQuote!,
+                preferences: state.preferences,
+              ),
+            ],
             const SizedBox(height: 24),
             Text(
               l10n.translate('feedbackHeader'),
