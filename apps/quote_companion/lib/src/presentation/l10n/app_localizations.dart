@@ -20,7 +20,7 @@ class AppLocalizations {
       'customQuotesHeader': 'Your library',
       'deliverySurfacesTitle': 'Live surfaces',
       'deliverySurfacesDescription':
-          'Quotes automatically flow to the status bar, lock screen, and widget.',
+          'Manage where quotes appear across the status bar, lock screen, and widget.',
       'statusBarLabel': 'Status bar',
       'lockScreenLabel': 'Lock screen',
       'homeWidgetLabel': 'Widget',
@@ -31,8 +31,6 @@ class AppLocalizations {
       'ratingLabel': 'Satisfaction (1-5)',
       'emailHint': 'Email (optional)',
       'emptyQuotesPlaceholder': 'Add a quote to see it here.',
-      'surfacesInactivePlaceholder':
-          'Refresh to activate quotes across every surface.',
       'quotePlaceholderHeadline': 'Tap refresh to load a new quote.',
     },
     'ko': <String, String>{
@@ -45,7 +43,7 @@ class AppLocalizations {
       'customQuotesHeader': '나의 라이브러리',
       'deliverySurfacesTitle': '실제 노출 화면',
       'deliverySurfacesDescription':
-          '명언이 상태바, 잠금화면, 위젯에 즉시 반영돼요.',
+          '상태바, 잠금화면, 위젯에 노출될지 토글로 직접 관리하세요.',
       'statusBarLabel': '상태바',
       'lockScreenLabel': '잠금화면',
       'homeWidgetLabel': '위젯',
@@ -56,8 +54,6 @@ class AppLocalizations {
       'ratingLabel': '만족도 (1-5)',
       'emailHint': '이메일 (선택)',
       'emptyQuotesPlaceholder': '추가한 명언이 여기에 보여요.',
-      'surfacesInactivePlaceholder':
-          '새로고침하면 모든 화면에서 명언이 표시돼요.',
       'quotePlaceholderHeadline': '새 명언을 불러오려면 새로고침을 눌러보세요.',
     },
     'ja': <String, String>{
@@ -70,7 +66,7 @@ class AppLocalizations {
       'customQuotesHeader': 'マイライブラリ',
       'deliverySurfacesTitle': 'ライブ表示面',
       'deliverySurfacesDescription':
-          '名言はステータスバー、ロックスクリーン、ウィジェットに即時反映されます。',
+          'トグルでステータスバー、ロックスクリーン、ウィジェットへの表示を管理します。',
       'statusBarLabel': 'ステータスバー',
       'lockScreenLabel': 'ロックスクリーン',
       'homeWidgetLabel': 'ウィジェット',
@@ -81,8 +77,6 @@ class AppLocalizations {
       'ratingLabel': '満足度 (1-5)',
       'emailHint': 'メール (任意)',
       'emptyQuotesPlaceholder': 'ここに名言が表示されます。',
-      'surfacesInactivePlaceholder':
-          '更新するとすべての画面に名言が表示されます。',
       'quotePlaceholderHeadline': '更新を押して新しい名言を読み込みましょう。',
     },
   };
