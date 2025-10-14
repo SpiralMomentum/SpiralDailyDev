@@ -6,14 +6,11 @@ import 'package:uuid/uuid.dart';
 import '../../di/providers.dart';
 import '../../domain/entities/feedback_entry.dart';
 import '../../domain/entities/quote.dart';
-import '../../domain/entities/quote_display_preferences.dart';
 import '../../domain/usecases/add_custom_quote.dart';
 import '../../domain/usecases/fetch_custom_quotes.dart';
-import '../../domain/usecases/get_display_preferences.dart';
 import '../../domain/usecases/load_feedback_history.dart';
 import '../../domain/usecases/refresh_active_quote.dart';
 import '../../domain/usecases/remove_custom_quote.dart';
-import '../../domain/usecases/save_display_preferences.dart';
 import '../../domain/usecases/submit_feedback.dart';
 import '../../domain/usecases/watch_active_quote.dart';
 import 'quote_state.dart';
@@ -27,8 +24,6 @@ class QuoteNotifier extends StateNotifier<QuoteState> {
     this._removeCustomQuote,
     this._refreshActiveQuote,
     this._fetchCustomQuotes,
-    this._getDisplayPreferences,
-    this._saveDisplayPreferences,
     this._submitFeedback,
     this._loadFeedbackHistory,
   ) : super(QuoteState.initial()) {
@@ -40,8 +35,6 @@ class QuoteNotifier extends StateNotifier<QuoteState> {
   final RemoveCustomQuote _removeCustomQuote;
   final RefreshActiveQuote _refreshActiveQuote;
   final FetchCustomQuotes _fetchCustomQuotes;
-  final GetDisplayPreferences _getDisplayPreferences;
-  final SaveDisplayPreferences _saveDisplayPreferences;
   final SubmitFeedback _submitFeedback;
   final LoadFeedbackHistory _loadFeedbackHistory;
   final Uuid _uuid = const Uuid();
@@ -54,13 +47,10 @@ class QuoteNotifier extends StateNotifier<QuoteState> {
       state = state.copyWith(activeQuote: quote, isLoading: false);
     });
     final List<Quote> customQuotes = await _fetchCustomQuotes();
-    final QuoteDisplayPreferences preferences =
-        await _getDisplayPreferences();
     final List<FeedbackEntry> feedbackHistory =
         await _loadFeedbackHistory();
     state = state.copyWith(
       customQuotes: customQuotes,
-      preferences: preferences,
       feedbackHistory: feedbackHistory,
       isLoading: false,
     );
@@ -95,30 +85,6 @@ class QuoteNotifier extends StateNotifier<QuoteState> {
     await _refreshActiveQuote();
   }
 
-  /// Updates display preferences.
-  Future<void> toggleTarget(QuoteDisplayTarget target) async {
-    final Set<QuoteDisplayTarget> updatedTargets = <QuoteDisplayTarget>{
-      ...state.preferences.enabledTargets,
-    };
-    if (updatedTargets.contains(target)) {
-      updatedTargets.remove(target);
-    } else {
-      updatedTargets.add(target);
-    }
-    final QuoteDisplayPreferences updated =
-        state.preferences.copyWith(enabledTargets: updatedTargets);
-    await _saveDisplayPreferences(updated);
-    state = state.copyWith(preferences: updated);
-  }
-
-  /// Updates the refresh cadence in minutes.
-  Future<void> updateRefreshInterval(int minutes) async {
-    final QuoteDisplayPreferences updated = state.preferences
-        .copyWith(refreshInterval: Duration(minutes: minutes));
-    await _saveDisplayPreferences(updated);
-    state = state.copyWith(preferences: updated);
-  }
-
   /// Submits quick feedback and stores it locally.
   Future<void> submitFeedback({
     required String message,
@@ -147,8 +113,6 @@ final quoteNotifierProvider =
     ref.watch(removeCustomQuoteProvider),
     ref.watch(refreshActiveQuoteProvider),
     ref.watch(fetchCustomQuotesProvider),
-    ref.watch(getDisplayPreferencesProvider),
-    ref.watch(saveDisplayPreferencesProvider),
     ref.watch(submitFeedbackProvider),
     ref.watch(loadFeedbackHistoryProvider),
   );
