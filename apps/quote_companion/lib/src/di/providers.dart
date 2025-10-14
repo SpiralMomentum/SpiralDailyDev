@@ -5,11 +5,9 @@ import '../data/repositories/quote_repository_impl.dart';
 import '../domain/repositories/quote_repository.dart';
 import '../domain/usecases/add_custom_quote.dart';
 import '../domain/usecases/fetch_custom_quotes.dart';
-import '../domain/usecases/get_display_preferences.dart';
 import '../domain/usecases/load_feedback_history.dart';
 import '../domain/usecases/refresh_active_quote.dart';
 import '../domain/usecases/remove_custom_quote.dart';
-import '../domain/usecases/save_display_preferences.dart';
 import '../domain/usecases/submit_feedback.dart';
 import '../domain/usecases/watch_active_quote.dart';
 
@@ -48,16 +46,6 @@ final refreshActiveQuoteProvider = Provider<RefreshActiveQuote>((ref) {
 /// Fetch custom quotes use-case provider.
 final fetchCustomQuotesProvider = Provider<FetchCustomQuotes>((ref) {
   return FetchCustomQuotes(ref.watch(quoteRepositoryProvider));
-});
-
-/// Get display preferences use-case provider.
-final getDisplayPreferencesProvider = Provider<GetDisplayPreferences>((ref) {
-  return GetDisplayPreferences(ref.watch(quoteRepositoryProvider));
-});
-
-/// Save display preferences use-case provider.
-final saveDisplayPreferencesProvider = Provider<SaveDisplayPreferences>((ref) {
-  return SaveDisplayPreferences(ref.watch(quoteRepositoryProvider));
 });
 
 /// Submit feedback use-case provider.

@@ -2,11 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../domain/entities/quote.dart';
-import '../../domain/entities/quote_display_preferences.dart';
 import '../l10n/app_localizations.dart';
 import '../state/quote_notifier.dart';
 import '../state/quote_state.dart';
-import '../widgets/quote_surface_previews.dart';
+import '../widgets/quote_surface_showcase.dart';
 
 /// Home screen showcasing inspirational quotes and controls styled for LINEUP.
 class QuoteDashboardPage extends ConsumerStatefulWidget {
@@ -36,8 +35,6 @@ class _QuoteDashboardPageState extends ConsumerState<QuoteDashboardPage> {
     final AppLocalizations l10n = AppLocalizations.of(context);
     final ThemeData theme = Theme.of(context);
 
-    final double refreshMinutes =
-        state.preferences.refreshInterval.inMinutes.toDouble();
     final Quote? activeQuote = state.activeQuote;
 
     return Scaffold(
@@ -84,12 +81,11 @@ class _QuoteDashboardPageState extends ConsumerState<QuoteDashboardPage> {
                 const SizedBox(height: 16),
                 _buildLibraryCard(theme, l10n, state, notifier),
                 const SizedBox(height: 16),
-                _buildChannelSettingsCard(
+                _buildSurfaceShowcaseCard(
                   theme,
                   l10n,
-                  state,
                   notifier,
-                  refreshMinutes,
+                  activeQuote,
                 ),
               ],
             ),
@@ -203,12 +199,11 @@ class _QuoteDashboardPageState extends ConsumerState<QuoteDashboardPage> {
     );
   }
 
-  Widget _buildChannelSettingsCard(
+  Widget _buildSurfaceShowcaseCard(
     ThemeData theme,
     AppLocalizations l10n,
-    QuoteState state,
     QuoteNotifier notifier,
-    double refreshMinutes,
+    Quote? activeQuote,
   ) {
     return Container(
       decoration: _glassCardDecoration(context),
@@ -217,7 +212,7 @@ class _QuoteDashboardPageState extends ConsumerState<QuoteDashboardPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(
-            l10n.translate('channelSettingsTitle'),
+            l10n.translate('deliverySurfacesTitle'),
             style: theme.textTheme.titleLarge?.copyWith(
               color: Colors.white,
               fontWeight: FontWeight.w700,
@@ -225,43 +220,23 @@ class _QuoteDashboardPageState extends ConsumerState<QuoteDashboardPage> {
           ),
           const SizedBox(height: 8),
           Text(
-            l10n.translate('preferencesHeader'),
+            l10n.translate('deliverySurfacesDescription'),
             style: theme.textTheme.bodyMedium?.copyWith(
               color: Colors.white.withOpacity(0.72),
+              height: 1.4,
             ),
-          ),
-          const SizedBox(height: 20),
-          Wrap(
-            spacing: 12,
-            runSpacing: 12,
-            children: QuoteDisplayTarget.values
-                .map(
-                  (QuoteDisplayTarget target) => _ChannelTargetChip(
-                    label: l10n.translate(_labelForTarget(target)),
-                    isActive: state.preferences.isTargetEnabled(target),
-                    onSelected: () => notifier.toggleTarget(target),
-                  ),
-                )
-                .toList(),
           ),
           const SizedBox(height: 24),
-          Text(
-            '${l10n.translate('refreshIntervalLabel')} · ${refreshMinutes.toInt()} ${l10n.translate('minutesSuffix')}',
-            style: theme.textTheme.bodyMedium?.copyWith(
-              color: Colors.white.withOpacity(0.85),
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-          Slider(
-            value: refreshMinutes,
-            min: 30,
-            max: 720,
-            divisions: 23,
-            label: refreshMinutes.toInt().toString(),
-            onChanged: (double value) async {
-              await notifier.updateRefreshInterval(value.toInt());
-            },
-          ),
+          if (activeQuote != null)
+            Theme(
+              data: theme.copyWith(
+                cardColor: theme.colorScheme.surface,
+              ),
+              child: QuoteSurfaceShowcase(quote: activeQuote),
+            )
+          else
+            _InactiveSurfacesPlaceholder(message: l10n.translate('surfacesInactivePlaceholder')),
+          const SizedBox(height: 24),
           Align(
             alignment: Alignment.centerRight,
             child: TextButton.icon(
@@ -270,18 +245,6 @@ class _QuoteDashboardPageState extends ConsumerState<QuoteDashboardPage> {
               label: Text(l10n.translate('refreshAction')),
             ),
           ),
-          if (state.activeQuote != null) ...<Widget>[
-            const SizedBox(height: 24),
-            Theme(
-              data: theme.copyWith(
-                cardColor: theme.colorScheme.surface,
-              ),
-              child: QuoteSurfacePreviews(
-                quote: state.activeQuote!,
-                preferences: state.preferences,
-              ),
-            ),
-          ],
         ],
       ),
     );
@@ -302,15 +265,30 @@ class _QuoteDashboardPageState extends ConsumerState<QuoteDashboardPage> {
     );
   }
 
-  String _labelForTarget(QuoteDisplayTarget target) {
-    switch (target) {
-      case QuoteDisplayTarget.statusBar:
-        return 'statusBarLabel';
-      case QuoteDisplayTarget.lockScreen:
-        return 'lockScreenLabel';
-      case QuoteDisplayTarget.homeWidget:
-        return 'homeWidgetLabel';
-    }
+}
+
+class _InactiveSurfacesPlaceholder extends StatelessWidget {
+  const _InactiveSurfacesPlaceholder({required this.message});
+
+  final String message;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 16),
+      decoration: BoxDecoration(
+        color: Colors.white.withOpacity(0.1),
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: Colors.white.withOpacity(0.18)),
+      ),
+      child: Text(
+        message,
+        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+              color: Colors.white.withOpacity(0.82),
+            ),
+      ),
+    );
   }
 }
 
@@ -515,32 +493,3 @@ class _DismissibleQuoteTile extends StatelessWidget {
   }
 }
 
-class _ChannelTargetChip extends StatelessWidget {
-  const _ChannelTargetChip({
-    required this.label,
-    required this.isActive,
-    required this.onSelected,
-  });
-
-  final String label;
-  final bool isActive;
-  final VoidCallback onSelected;
-
-  @override
-  Widget build(BuildContext context) {
-    return ChoiceChip(
-      label: Text(label),
-      selected: isActive,
-      onSelected: (_) => onSelected(),
-      selectedColor: Colors.white,
-      labelStyle: TextStyle(
-        color: isActive ? const Color(0xFF0F5DE2) : Colors.white,
-        fontWeight: FontWeight.w600,
-      ),
-      side: BorderSide(color: Colors.white.withOpacity(0.28)),
-      backgroundColor: Colors.white.withOpacity(0.12),
-      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
-    );
-  }
-}
