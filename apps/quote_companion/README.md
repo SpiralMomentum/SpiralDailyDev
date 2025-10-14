@@ -1,11 +1,11 @@
 # Quote Companion
 
 Quote Companion is a Clean Architecture Flutter service that surfaces inspirational quotes
-across the status bar, lock screen, and widgets. The experience encourages daily reflection
-while allowing users to curate their own catalogue of quotes.
+within a polished in-app dashboard. The experience encourages daily reflection while allowing
+users to curate their own catalogue of quotes.
 
 ## Goals
-- Deliver uplifting messages on glanceable surfaces such as the notification tray, lock screen, and widgets.
+- Deliver uplifting messages through a beautifully branded reading experience.
 - Allow users to create and manage personal quotes alongside curated content.
 - Provide a feedback loop (VOC) so the product team can iterate quickly.
 - Respect privacy with encrypted local storage and a minimal data collection policy.
@@ -23,14 +23,14 @@ lib/
 ```
 
 ### Domain Layer
-- `Quote`, `QuoteDisplayPreferences`, and `FeedbackEntry` model the core business concepts.
+- `Quote` and `FeedbackEntry` model the core business concepts.
 - Repository contracts (`QuoteRepository`) express the APIs the upper layers depend on.
 - Use-cases (`WatchActiveQuote`, `AddCustomQuote`, `SubmitFeedback`, etc.) encapsulate
   business rules.
 
 ### Data Layer
 - `SecureQuoteLocalDataSource` stores user-provided quotes with `flutter_secure_storage`
-  and persists preferences and VOC submissions via `SharedPreferences`.
+  and persists VOC submissions via `SharedPreferences`.
 - `QuoteRepositoryImpl` orchestrates data sources, keeps curated fallbacks, and exposes
   streams back to the domain layer.
 
@@ -63,7 +63,7 @@ integration phase).
 - Unit tests cover domain use-cases and repository behaviours with mocked data sources.
 - Widget tests ensure the main dashboard renders correctly on various locales.
 - CI runs `flutter analyze`, `flutter test`, and integration smoke tests on physical devices
-  to validate status bar and widget experiences.
+  to validate the quote reading and feedback experiences.
 
 ## Localization & Accessibility
 - Strings live in `AppLocalizations` and can be extended with `arb` files when the project

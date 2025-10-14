@@ -4,7 +4,6 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/feedback_entry_model.dart';
-import '../models/quote_display_preferences_model.dart';
 import '../models/quote_model.dart';
 
 /// Defines the contract for local quote persistence.
@@ -21,13 +20,6 @@ abstract class QuoteLocalDataSource {
   /// Loads the stored feedback history.
   Future<List<FeedbackEntryModel>> loadFeedbackHistory();
 
-  /// Loads persisted display preferences.
-  Future<QuoteDisplayPreferencesModel> loadDisplayPreferences();
-
-  /// Persists display preferences.
-  Future<void> saveDisplayPreferences(
-    QuoteDisplayPreferencesModel preferences,
-  );
 }
 
 /// Local data source leveraging secure storage for quotes and feedback data.
@@ -41,9 +33,6 @@ class SecureQuoteLocalDataSource implements QuoteLocalDataSource {
 
   static const String _customQuotesKey = 'quote_companion.custom_quotes';
   static const String _feedbackQueueKey = 'quote_companion.feedback_queue';
-  static const String _displayPreferencesKey =
-      'quote_companion.display_preferences';
-
   final FlutterSecureStorage _secureStorage;
   final Future<SharedPreferences> _prefsFuture;
 
@@ -96,30 +85,4 @@ class SecureQuoteLocalDataSource implements QuoteLocalDataSource {
         .toList();
   }
 
-  @override
-  Future<QuoteDisplayPreferencesModel> loadDisplayPreferences() async {
-    final SharedPreferences prefs = await _prefsFuture;
-    final String? raw = prefs.getString(_displayPreferencesKey);
-    if (raw == null || raw.isEmpty) {
-      return const QuoteDisplayPreferencesModel.defaults();
-    }
-    try {
-      final Map<String, dynamic> decoded =
-          jsonDecode(raw) as Map<String, dynamic>;
-      return QuoteDisplayPreferencesModel.fromJson(decoded);
-    } on FormatException {
-      return const QuoteDisplayPreferencesModel.defaults();
-    }
-  }
-
-  @override
-  Future<void> saveDisplayPreferences(
-    QuoteDisplayPreferencesModel preferences,
-  ) async {
-    final SharedPreferences prefs = await _prefsFuture;
-    await prefs.setString(
-      _displayPreferencesKey,
-      jsonEncode(preferences.toJson()),
-    );
-  }
 }

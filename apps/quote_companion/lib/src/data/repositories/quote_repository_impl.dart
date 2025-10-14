@@ -7,11 +7,9 @@ import 'package:uuid/uuid.dart';
 
 import '../../domain/entities/feedback_entry.dart';
 import '../../domain/entities/quote.dart';
-import '../../domain/entities/quote_display_preferences.dart';
 import '../../domain/repositories/quote_repository.dart';
 import '../datasources/quote_local_data_source.dart';
 import '../models/feedback_entry_model.dart';
-import '../models/quote_display_preferences_model.dart';
 import '../models/quote_model.dart';
 
 /// Implementation of [QuoteRepository] using local data sources.
@@ -35,20 +33,12 @@ class QuoteRepositoryImpl implements QuoteRepository {
 
   Quote? _activeQuote;
   List<Quote> _customQuotes = <Quote>[];
-  QuoteDisplayPreferences _preferences =
-      const QuoteDisplayPreferences.defaults();
-  bool _preferencesLoaded = false;
-
   Future<void> _ensureInitialised() async {
     if (_curatedQuotes.isEmpty) {
       await _loadCuratedQuotesFromAssets();
     }
     if (_customQuotes.isEmpty) {
       _customQuotes = await _localDataSource.loadCustomQuotes();
-    }
-    if (!_preferencesLoaded) {
-      _preferences = await _localDataSource.loadDisplayPreferences();
-      _preferencesLoaded = true;
     }
     _activeQuote ??= await _pickRandomQuote();
     _controller.add(_activeQuote!);
@@ -170,24 +160,6 @@ class QuoteRepositoryImpl implements QuoteRepository {
     await _ensureInitialised();
     await _localDataSource.appendFeedback(
       FeedbackEntryModel.fromEntity(entry),
-    );
-  }
-
-  @override
-  Future<QuoteDisplayPreferences> getDisplayPreferences() async {
-    await _ensureInitialised();
-    return _preferences;
-  }
-
-  @override
-  Future<void> updateDisplayPreferences(
-    QuoteDisplayPreferences preferences,
-  ) async {
-    await _ensureInitialised();
-    _preferences = preferences;
-    _preferencesLoaded = true;
-    await _localDataSource.saveDisplayPreferences(
-      QuoteDisplayPreferencesModel.fromEntity(preferences),
     );
   }
 
