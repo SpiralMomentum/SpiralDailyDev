@@ -1,5 +1,5 @@
 name: quote_companion
-description: Inspirational quote companion service for lock screen, status bar, and widgets.
+description: Inspirational quote companion service with a curated dashboard experience.
 publish_to: 'none'
 version: 0.1.0+1
 

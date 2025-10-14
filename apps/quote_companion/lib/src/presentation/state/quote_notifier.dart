@@ -6,15 +6,12 @@ import 'package:uuid/uuid.dart';
 import '../../di/providers.dart';
 import '../../domain/entities/feedback_entry.dart';
 import '../../domain/entities/quote.dart';
-import '../../domain/entities/quote_display_preferences.dart';
 import '../../domain/usecases/add_custom_quote.dart';
 import '../../domain/usecases/fetch_custom_quotes.dart';
 import '../../domain/usecases/load_feedback_history.dart';
-import '../../domain/usecases/load_display_preferences.dart';
 import '../../domain/usecases/refresh_active_quote.dart';
 import '../../domain/usecases/remove_custom_quote.dart';
 import '../../domain/usecases/submit_feedback.dart';
-import '../../domain/usecases/update_display_preferences.dart';
 import '../../domain/usecases/watch_active_quote.dart';
 import 'quote_state.dart';
 
@@ -29,8 +26,6 @@ class QuoteNotifier extends StateNotifier<QuoteState> {
     this._fetchCustomQuotes,
     this._submitFeedback,
     this._loadFeedbackHistory,
-    this._loadDisplayPreferences,
-    this._updateDisplayPreferences,
   ) : super(QuoteState.initial()) {
     _initialize();
   }
@@ -42,8 +37,6 @@ class QuoteNotifier extends StateNotifier<QuoteState> {
   final FetchCustomQuotes _fetchCustomQuotes;
   final SubmitFeedback _submitFeedback;
   final LoadFeedbackHistory _loadFeedbackHistory;
-  final LoadDisplayPreferences _loadDisplayPreferences;
-  final UpdateDisplayPreferences _updateDisplayPreferences;
   final Uuid _uuid = const Uuid();
 
   StreamSubscription<Quote>? _quoteSubscription;
@@ -56,12 +49,9 @@ class QuoteNotifier extends StateNotifier<QuoteState> {
     final List<Quote> customQuotes = await _fetchCustomQuotes();
     final List<FeedbackEntry> feedbackHistory =
         await _loadFeedbackHistory();
-    final QuoteDisplayPreferences preferences =
-        await _loadDisplayPreferences();
     state = state.copyWith(
       customQuotes: customQuotes,
       feedbackHistory: feedbackHistory,
-      displayPreferences: preferences,
       isLoading: false,
     );
   }
@@ -95,29 +85,6 @@ class QuoteNotifier extends StateNotifier<QuoteState> {
     await _refreshActiveQuote();
   }
 
-  /// Persists delivery preference changes.
-  Future<void> updateDeliveryPreferences({
-    bool? statusBarEnabled,
-    bool? lockScreenEnabled,
-    bool? homeWidgetEnabled,
-  }) async {
-    final QuoteDisplayPreferences previous = state.displayPreferences;
-    final QuoteDisplayPreferences updated = previous.copyWith(
-      statusBarEnabled: statusBarEnabled,
-      lockScreenEnabled: lockScreenEnabled,
-      homeWidgetEnabled: homeWidgetEnabled,
-    );
-    state = state.copyWith(displayPreferences: updated, errorMessage: null);
-    try {
-      await _updateDisplayPreferences(updated);
-    } catch (error) {
-      state = state.copyWith(
-        displayPreferences: previous,
-        errorMessage: error.toString(),
-      );
-    }
-  }
-
   /// Submits quick feedback and stores it locally.
   Future<void> submitFeedback({
     required String message,
@@ -148,7 +115,5 @@ final quoteNotifierProvider =
     ref.watch(fetchCustomQuotesProvider),
     ref.watch(submitFeedbackProvider),
     ref.watch(loadFeedbackHistoryProvider),
-    ref.watch(loadDisplayPreferencesProvider),
-    ref.watch(updateDisplayPreferencesProvider),
   );
 });

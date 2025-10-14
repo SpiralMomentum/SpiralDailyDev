@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../domain/entities/quote.dart';
-import '../../domain/entities/quote_display_preferences.dart';
 import '../l10n/app_localizations.dart';
 import '../state/quote_notifier.dart';
 import '../state/quote_state.dart';
@@ -80,13 +79,6 @@ class _QuoteDashboardPageState extends ConsumerState<QuoteDashboardPage> {
                 _buildQuoteInputCard(theme, l10n, notifier),
                 const SizedBox(height: 16),
                 _buildLibraryCard(theme, l10n, state, notifier),
-                const SizedBox(height: 16),
-                _buildDeliveryPreferencesCard(
-                  theme,
-                  l10n,
-                  notifier,
-                  state.displayPreferences,
-                ),
               ],
             ),
           ),
@@ -101,7 +93,7 @@ class _QuoteDashboardPageState extends ConsumerState<QuoteDashboardPage> {
     QuoteNotifier notifier,
   ) {
     return Container(
-      decoration: _glassCardDecoration(context),
+      decoration: _glassCardDecoration(),
       padding: const EdgeInsets.all(24),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -159,7 +151,7 @@ class _QuoteDashboardPageState extends ConsumerState<QuoteDashboardPage> {
     QuoteNotifier notifier,
   ) {
     return Container(
-      decoration: _glassCardDecoration(context),
+      decoration: _glassCardDecoration(),
       padding: const EdgeInsets.all(24),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -199,69 +191,7 @@ class _QuoteDashboardPageState extends ConsumerState<QuoteDashboardPage> {
     );
   }
 
-  Widget _buildDeliveryPreferencesCard(
-    ThemeData theme,
-    AppLocalizations l10n,
-    QuoteNotifier notifier,
-    QuoteDisplayPreferences preferences,
-  ) {
-    return Container(
-      decoration: _glassCardDecoration(context),
-      padding: const EdgeInsets.all(24),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text(
-            l10n.translate('deliverySurfacesTitle'),
-            style: theme.textTheme.titleLarge?.copyWith(
-              color: Colors.white,
-              fontWeight: FontWeight.w700,
-            ),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            l10n.translate('deliverySurfacesDescription'),
-            style: theme.textTheme.bodyMedium?.copyWith(
-              color: Colors.white.withOpacity(0.72),
-              height: 1.4,
-            ),
-          ),
-          const SizedBox(height: 24),
-          _SurfaceToggleTile(
-            label: l10n.translate('statusBarLabel'),
-            value: preferences.statusBarEnabled,
-            onChanged: (bool value) =>
-                notifier.updateDeliveryPreferences(statusBarEnabled: value),
-          ),
-          const SizedBox(height: 12),
-          _SurfaceToggleTile(
-            label: l10n.translate('lockScreenLabel'),
-            value: preferences.lockScreenEnabled,
-            onChanged: (bool value) =>
-                notifier.updateDeliveryPreferences(lockScreenEnabled: value),
-          ),
-          const SizedBox(height: 12),
-          _SurfaceToggleTile(
-            label: l10n.translate('homeWidgetLabel'),
-            value: preferences.homeWidgetEnabled,
-            onChanged: (bool value) =>
-                notifier.updateDeliveryPreferences(homeWidgetEnabled: value),
-          ),
-          const SizedBox(height: 24),
-          Align(
-            alignment: Alignment.centerRight,
-            child: TextButton.icon(
-              onPressed: notifier.refreshQuote,
-              icon: const Icon(Icons.refresh, color: Colors.white),
-              label: Text(l10n.translate('refreshAction')),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  BoxDecoration _glassCardDecoration(BuildContext context) {
+  BoxDecoration _glassCardDecoration() {
     return BoxDecoration(
       color: Colors.white.withOpacity(0.18),
       borderRadius: BorderRadius.circular(28),
@@ -278,53 +208,6 @@ class _QuoteDashboardPageState extends ConsumerState<QuoteDashboardPage> {
 
 }
 
-class _SurfaceToggleTile extends StatelessWidget {
-  const _SurfaceToggleTile({
-    required this.label,
-    required this.value,
-    required this.onChanged,
-  });
-
-  final String label;
-  final bool value;
-  final ValueChanged<bool> onChanged;
-
-  @override
-  Widget build(BuildContext context) {
-    final ThemeData theme = Theme.of(context);
-    return Semantics(
-      label: '$label toggle',
-      toggled: value,
-      child: Container(
-        width: double.infinity,
-        padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 16),
-        decoration: BoxDecoration(
-          color: Colors.white.withOpacity(0.1),
-          borderRadius: BorderRadius.circular(20),
-          border: Border.all(color: Colors.white.withOpacity(0.18)),
-        ),
-        child: Row(
-          children: <Widget>[
-            Expanded(
-              child: Text(
-                label,
-                style: theme.textTheme.titleMedium?.copyWith(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w600,
-                    ),
-              ),
-            ),
-            Switch.adaptive(
-              value: value,
-              onChanged: onChanged,
-              activeColor: theme.colorScheme.secondary,
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
 
 class _BrandHeader extends StatelessWidget {
   const _BrandHeader({required this.subtitle, required this.onRefresh});
