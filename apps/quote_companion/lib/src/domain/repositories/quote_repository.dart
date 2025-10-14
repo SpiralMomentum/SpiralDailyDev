@@ -1,6 +1,5 @@
 import '../entities/feedback_entry.dart';
 import '../entities/quote.dart';
-import '../entities/quote_display_preferences.dart';
 
 /// Contract defining operations for fetching and managing quotes.
 abstract class QuoteRepository {
@@ -24,12 +23,6 @@ abstract class QuoteRepository {
 
   /// Rotates the active quote, combining curated and custom sources.
   Future<Quote> refreshActiveQuote();
-
-  /// Retrieves persisted display preferences.
-  Future<QuoteDisplayPreferences> getDisplayPreferences();
-
-  /// Persists updated display preferences.
-  Future<void> saveDisplayPreferences(QuoteDisplayPreferences preferences);
 
   /// Records a user feedback entry in the local VOC queue.
   Future<void> submitFeedback(FeedbackEntry entry);
