@@ -1,6 +1,5 @@
 import '../entities/feedback_entry.dart';
 import '../entities/quote.dart';
-import '../entities/quote_display_preferences.dart';
 
 /// Contract defining operations for fetching and managing quotes.
 abstract class QuoteRepository {
@@ -31,11 +30,4 @@ abstract class QuoteRepository {
   /// Returns the most recent feedback submissions.
   Future<List<FeedbackEntry>> loadFeedbackHistory();
 
-  /// Loads the persisted delivery preferences.
-  Future<QuoteDisplayPreferences> getDisplayPreferences();
-
-  /// Persists updated delivery preferences.
-  Future<void> updateDisplayPreferences(
-    QuoteDisplayPreferences preferences,
-  );
 }

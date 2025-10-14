@@ -6,11 +6,9 @@ import '../domain/repositories/quote_repository.dart';
 import '../domain/usecases/add_custom_quote.dart';
 import '../domain/usecases/fetch_custom_quotes.dart';
 import '../domain/usecases/load_feedback_history.dart';
-import '../domain/usecases/load_display_preferences.dart';
 import '../domain/usecases/refresh_active_quote.dart';
 import '../domain/usecases/remove_custom_quote.dart';
 import '../domain/usecases/submit_feedback.dart';
-import '../domain/usecases/update_display_preferences.dart';
 import '../domain/usecases/watch_active_quote.dart';
 
 /// Provider for the local data source.
@@ -60,13 +58,3 @@ final loadFeedbackHistoryProvider = Provider<LoadFeedbackHistory>((ref) {
   return LoadFeedbackHistory(ref.watch(quoteRepositoryProvider));
 });
 
-/// Load display preferences use-case provider.
-final loadDisplayPreferencesProvider = Provider<LoadDisplayPreferences>((ref) {
-  return LoadDisplayPreferences(ref.watch(quoteRepositoryProvider));
-});
-
-/// Update display preferences use-case provider.
-final updateDisplayPreferencesProvider =
-    Provider<UpdateDisplayPreferences>((ref) {
-  return UpdateDisplayPreferences(ref.watch(quoteRepositoryProvider));
-});
