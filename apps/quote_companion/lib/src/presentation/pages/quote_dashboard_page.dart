@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../domain/entities/quote.dart';
+import '../../domain/entities/quote_display_preferences.dart';
 import '../l10n/app_localizations.dart';
 import '../state/quote_notifier.dart';
 import '../state/quote_state.dart';
-import '../widgets/quote_surface_showcase.dart';
 
 /// Home screen showcasing inspirational quotes and controls styled for LINEUP.
 class QuoteDashboardPage extends ConsumerStatefulWidget {
@@ -81,11 +81,11 @@ class _QuoteDashboardPageState extends ConsumerState<QuoteDashboardPage> {
                 const SizedBox(height: 16),
                 _buildLibraryCard(theme, l10n, state, notifier),
                 const SizedBox(height: 16),
-                _buildSurfaceShowcaseCard(
+                _buildDeliveryPreferencesCard(
                   theme,
                   l10n,
                   notifier,
-                  activeQuote,
+                  state.displayPreferences,
                 ),
               ],
             ),
@@ -199,11 +199,11 @@ class _QuoteDashboardPageState extends ConsumerState<QuoteDashboardPage> {
     );
   }
 
-  Widget _buildSurfaceShowcaseCard(
+  Widget _buildDeliveryPreferencesCard(
     ThemeData theme,
     AppLocalizations l10n,
     QuoteNotifier notifier,
-    Quote? activeQuote,
+    QuoteDisplayPreferences preferences,
   ) {
     return Container(
       decoration: _glassCardDecoration(context),
@@ -227,15 +227,26 @@ class _QuoteDashboardPageState extends ConsumerState<QuoteDashboardPage> {
             ),
           ),
           const SizedBox(height: 24),
-          if (activeQuote != null)
-            Theme(
-              data: theme.copyWith(
-                cardColor: theme.colorScheme.surface,
-              ),
-              child: QuoteSurfaceShowcase(quote: activeQuote),
-            )
-          else
-            _InactiveSurfacesPlaceholder(message: l10n.translate('surfacesInactivePlaceholder')),
+          _SurfaceToggleTile(
+            label: l10n.translate('statusBarLabel'),
+            value: preferences.statusBarEnabled,
+            onChanged: (bool value) =>
+                notifier.updateDeliveryPreferences(statusBarEnabled: value),
+          ),
+          const SizedBox(height: 12),
+          _SurfaceToggleTile(
+            label: l10n.translate('lockScreenLabel'),
+            value: preferences.lockScreenEnabled,
+            onChanged: (bool value) =>
+                notifier.updateDeliveryPreferences(lockScreenEnabled: value),
+          ),
+          const SizedBox(height: 12),
+          _SurfaceToggleTile(
+            label: l10n.translate('homeWidgetLabel'),
+            value: preferences.homeWidgetEnabled,
+            onChanged: (bool value) =>
+                notifier.updateDeliveryPreferences(homeWidgetEnabled: value),
+          ),
           const SizedBox(height: 24),
           Align(
             alignment: Alignment.centerRight,
@@ -267,26 +278,49 @@ class _QuoteDashboardPageState extends ConsumerState<QuoteDashboardPage> {
 
 }
 
-class _InactiveSurfacesPlaceholder extends StatelessWidget {
-  const _InactiveSurfacesPlaceholder({required this.message});
+class _SurfaceToggleTile extends StatelessWidget {
+  const _SurfaceToggleTile({
+    required this.label,
+    required this.value,
+    required this.onChanged,
+  });
 
-  final String message;
+  final String label;
+  final bool value;
+  final ValueChanged<bool> onChanged;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 16),
-      decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.1),
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: Colors.white.withOpacity(0.18)),
-      ),
-      child: Text(
-        message,
-        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              color: Colors.white.withOpacity(0.82),
+    final ThemeData theme = Theme.of(context);
+    return Semantics(
+      label: '$label toggle',
+      toggled: value,
+      child: Container(
+        width: double.infinity,
+        padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 16),
+        decoration: BoxDecoration(
+          color: Colors.white.withOpacity(0.1),
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(color: Colors.white.withOpacity(0.18)),
+        ),
+        child: Row(
+          children: <Widget>[
+            Expanded(
+              child: Text(
+                label,
+                style: theme.textTheme.titleMedium?.copyWith(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w600,
+                    ),
+              ),
             ),
+            Switch.adaptive(
+              value: value,
+              onChanged: onChanged,
+              activeColor: theme.colorScheme.secondary,
+            ),
+          ],
+        ),
       ),
     );
   }
