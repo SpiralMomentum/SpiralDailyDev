@@ -1,4 +1,3 @@
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../data/datasources/quote_local_data_source.dart';
@@ -11,7 +10,6 @@ import '../domain/usecases/refresh_active_quote.dart';
 import '../domain/usecases/remove_custom_quote.dart';
 import '../domain/usecases/submit_feedback.dart';
 import '../domain/usecases/watch_active_quote.dart';
-import '../presentation/services/quote_notification_service.dart';
 
 /// Provider for the local data source.
 final quoteLocalDataSourceProvider = Provider<QuoteLocalDataSource>((ref) {
@@ -23,20 +21,6 @@ final quoteRepositoryProvider = Provider<QuoteRepository>((ref) {
   final QuoteLocalDataSource dataSource =
       ref.watch(quoteLocalDataSourceProvider);
   return QuoteRepositoryImpl(localDataSource: dataSource);
-});
-
-/// Provider for the Flutter local notifications plugin.
-final flutterLocalNotificationsPluginProvider =
-    Provider<FlutterLocalNotificationsPlugin>((ref) {
-  return FlutterLocalNotificationsPlugin();
-});
-
-/// Provider for the notification service that mirrors the active quote.
-final quoteNotificationServiceProvider =
-    Provider<QuoteNotificationService>((ref) {
-  final FlutterLocalNotificationsPlugin plugin =
-      ref.watch(flutterLocalNotificationsPluginProvider);
-  return QuoteNotificationService(plugin);
 });
 
 /// Watch active quote use-case provider.
