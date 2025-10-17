@@ -45,7 +45,9 @@
 	<false/>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
-	<key>UIApplicationSupportsIndirectInputEvents</key>
-	<true/>
+        <key>UIApplicationSupportsIndirectInputEvents</key>
+        <true/>
+        <key>NSUserNotificationUsageDescription</key>
+        <string>We use notifications to keep your inspirational quote handy.</string>
 </dict>
 </plist>

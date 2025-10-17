@@ -13,6 +13,7 @@ import '../../domain/usecases/refresh_active_quote.dart';
 import '../../domain/usecases/remove_custom_quote.dart';
 import '../../domain/usecases/submit_feedback.dart';
 import '../../domain/usecases/watch_active_quote.dart';
+import '../services/quote_notification_service.dart';
 import 'quote_state.dart';
 
 /// Riverpod notifier backing the quote dashboard UI.
@@ -26,6 +27,7 @@ class QuoteNotifier extends StateNotifier<QuoteState> {
     this._fetchCustomQuotes,
     this._submitFeedback,
     this._loadFeedbackHistory,
+    this._notificationService,
   ) : super(QuoteState.initial()) {
     _initialize();
   }
@@ -37,14 +39,17 @@ class QuoteNotifier extends StateNotifier<QuoteState> {
   final FetchCustomQuotes _fetchCustomQuotes;
   final SubmitFeedback _submitFeedback;
   final LoadFeedbackHistory _loadFeedbackHistory;
+  final QuoteNotificationService _notificationService;
   final Uuid _uuid = const Uuid();
 
   StreamSubscription<Quote>? _quoteSubscription;
 
   Future<void> _initialize() async {
     state = state.copyWith(isLoading: true);
+    await _notificationService.ensureInitialized();
     _quoteSubscription = _watchActiveQuote().listen((Quote quote) {
       state = state.copyWith(activeQuote: quote, isLoading: false);
+      unawaited(_notificationService.showQuote(quote));
     });
     final List<Quote> customQuotes = await _fetchCustomQuotes();
     final List<FeedbackEntry> feedbackHistory =
@@ -59,6 +64,7 @@ class QuoteNotifier extends StateNotifier<QuoteState> {
   @override
   void dispose() {
     _quoteSubscription?.cancel();
+    unawaited(_notificationService.clearQuote());
     super.dispose();
   }
 
@@ -115,5 +121,6 @@ final quoteNotifierProvider =
     ref.watch(fetchCustomQuotesProvider),
     ref.watch(submitFeedbackProvider),
     ref.watch(loadFeedbackHistoryProvider),
+    ref.watch(quoteNotificationServiceProvider),
   );
 });
