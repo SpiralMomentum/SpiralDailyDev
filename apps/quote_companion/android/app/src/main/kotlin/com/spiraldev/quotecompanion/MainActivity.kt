@@ -1,4 +1,4 @@
-package com.example.quote_companion
+package com.spiraldev.quotecompanion
 
 import io.flutter.embedding.android.FlutterActivity
 
