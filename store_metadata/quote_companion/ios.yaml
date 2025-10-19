@@ -1,0 +1,58 @@
+appName: "Quote Companion"
+subtitle: "Daily inspiration, your way"
+shortDescription: |
+  Collect uplifting quotes and craft your own lines in a single dashboard.
+fullDescription: |
+  Quote Companion delivers curated inspiration alongside the words you write yourself.
+  Refresh for a new quote, grow a personal library, and log quick feedback to track your mindset.
+category:
+  primary: Lifestyle
+contact:
+  email: support@spiral.dev
+  website: https://spiral.dev/quote-companion
+privacyPolicyUrl: https://spiral.dev/privacy
+keywords:
+  - quotes
+  - inspiration
+  - motivation
+  - reflection
+legal:
+  copyright: "© 2024 Spiral Studio. All rights reserved."
+  contentRights: |
+    Spiral Studio와 LINEUP 팀은 앱에 포함된 문구와 디자인 자산에 대한 사용 권한을 보유하고 있습니다.
+    엄선된 명언은 퍼블릭 도메인 또는 명시적으로 사용 허가를 받은 출처에서만 수집했습니다.
+privacyDeclaration:
+  summary: |
+    Quote Companion은 사용자가 직접 입력한 명언과 피드백을 기기 내에만 저장하며 개발자 서버로 전송하지 않습니다.
+    계정 생성, 추적 식별자, 광고용 데이터 수집을 수행하지 않습니다.
+  dataPractices:
+    - name: 사용자 입력 명언
+      type: User Content
+      collection: "수집하지 않음 (On-device only)"
+      purpose: "앱 기능 제공"
+      linkedToUser: false
+    - name: 피드백 메시지 및 만족도
+      type: Diagnostics
+      collection: "수집하지 않음 (On-device only)"
+      purpose: "앱 기능 제공"
+      linkedToUser: false
+releaseNotes:
+  default: |
+    - Initial App Store release.
+    - Added curated quotes, custom library, and feedback capture.
+  locales:
+    ko-KR: |
+      - App Store 첫 출시.
+      - 엄선된 명언, 사용자 라이브러리, 피드백 기록 기능을 제공합니다.
+screenshots:
+  iphone67: []
+  ipad: []
+icons:
+  primary: ./icon.png
+localizations:
+  - locale: ko-KR
+    title: "명언 컴패니언"
+    subtitle: "나만의 영감 대시보드"
+    fullDescription: |
+      명언 컴패니언은 엄선된 영감 문장과 내가 적은 문장을 아름답게 보여 주는 대시보드 앱입니다.
+      빠른 새로 고침, 개인 라이브러리, 피드백 작성으로 하루의 마음가짐을 기록해 보세요.

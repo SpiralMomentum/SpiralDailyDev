@@ -1,0 +1,49 @@
+appName: "Quote Companion"
+shortDescription: |
+  하루의 루틴을 바꾸는 영감 한 줄을 만나고, 나만의 명언을 수집하세요.
+fullDescription: |
+  Quote Companion은 엄선된 명언과 직접 적은 문장을 번갈아 보여 주어 매일 새로운 영감을 전합니다.
+  글래스모피즘 스타일의 대시보드에서 명언을 감상하고, 나만의 라이브러리를 만들어 언제든지 다시 읽어보세요.
+  피드백과 만족도를 기록해 스스로의 변화를 추적할 수도 있습니다.
+category:
+  primary: Lifestyle
+  secondary: Productivity
+contact:
+  email: support@spiral.dev
+  website: https://spiral.dev/quote-companion
+privacyPolicyUrl: https://spiral.dev/privacy
+legal:
+  contentRights: |
+    Spiral Studio와 LINEUP 팀은 앱에서 제공되는 모든 문구와 디자인 자산에 대한 사용 권한을 보유합니다.
+    큐레이션된 명언은 퍼블릭 도메인 또는 사용 허가가 확인된 자료만 포함됩니다.
+  privacySummary: |
+    Quote Companion은 사용자 명언과 피드백을 기기 내부에만 저장하며 서버로 전송하지 않습니다.
+    광고, 추적 ID, 제3자 공유는 사용하지 않습니다.
+releaseNotes:
+  default: |
+    - Initial release of Quote Companion.
+    - Curated quotes and custom library support.
+  locales:
+    ko-KR: |
+      - Quote Companion 첫 출시.
+      - 엄선된 명언과 사용자 라이브러리를 지원합니다.
+keywords:
+  - quotes
+  - inspiration
+  - motivation
+  - journal
+  - mindset
+  - companion
+screenshots:
+  phone: []
+  tablet: []
+icons:
+  primary: ./icon.png
+localizations:
+  - locale: ko-KR
+    title: "명언 컴패니언"
+    shortDescription: |
+      매일의 영감을 한곳에 모으는 명언 수집기.
+    fullDescription: |
+      명언 컴패니언은 하루를 시작할 동기부여 문장을 추천하고, 직접 쓴 문장도 함께 관리할 수 있는 앱입니다.
+      LINEUP 스타일의 디자인과 빠른 새로 고침으로 원하는 명언을 바로 만나보세요.
