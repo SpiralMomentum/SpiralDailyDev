@@ -218,6 +218,7 @@ class _BrandHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
+    final AppLocalizations l10n = AppLocalizations.of(context);
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -226,7 +227,7 @@ class _BrandHeader extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Text(
-                'LINEUP',
+                l10n.translate('appTitle'),
                 style: theme.textTheme.displayMedium?.copyWith(
                   color: Colors.white,
                   fontWeight: FontWeight.w800,
@@ -409,4 +410,3 @@ class _DismissibleQuoteTile extends StatelessWidget {
     );
   }
 }
-

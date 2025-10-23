@@ -1,11 +1,11 @@
 {
-    "name": "quote_companion",
-    "short_name": "quote_companion",
+    "name": "Quote Companion",
+    "short_name": "QuoteCompanion",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "description": "Quote Companion surfaces uplifting quotes and lets you build a personal inspiration library.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

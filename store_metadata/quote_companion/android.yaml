@@ -1,4 +1,4 @@
-appName: "Quote Companion"
+appName: "LineUp"
 shortDescription: |
   하루의 루틴을 바꾸는 영감 한 줄을 만나고, 나만의 명언을 수집하세요.
 fullDescription: |
@@ -10,7 +10,7 @@ category:
   secondary: Productivity
 contact:
   email: support@spiral.dev
-  website: https://spiral.dev/quote-companion
+  website: https://spiral.dev/support
 privacyPolicyUrl: https://spiral.dev/privacy
 legal:
   contentRights: |

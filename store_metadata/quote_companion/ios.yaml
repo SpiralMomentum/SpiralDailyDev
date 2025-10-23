@@ -1,4 +1,4 @@
-appName: "Quote Companion"
+appName: "LineUp"
 subtitle: "Daily inspiration, your way"
 shortDescription: |
   Collect uplifting quotes and craft your own lines in a single dashboard.
@@ -9,7 +9,7 @@ category:
   primary: Lifestyle
 contact:
   email: support@spiral.dev
-  website: https://spiral.dev/quote-companion
+  website: https://spiral.dev/support
 privacyPolicyUrl: https://spiral.dev/privacy
 keywords:
   - quotes

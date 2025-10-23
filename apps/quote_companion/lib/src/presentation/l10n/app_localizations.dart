@@ -12,7 +12,7 @@ class AppLocalizations {
       <String, Map<String, String>>{
     'en': <String, String>{
       'appTitle': 'Quote Companion',
-      'brandSubtitle': 'LINEUP turns inspiration into everyday action.',
+      'brandSubtitle': 'Quote Companion turns inspiration into everyday action.',
       'quoteInputLabel': 'Your quote',
       'authorInputLabel': 'Author (optional)',
       'addQuoteCta': 'Add quote',
@@ -28,7 +28,7 @@ class AppLocalizations {
     },
     'ko': <String, String>{
       'appTitle': '명언 컴패니언',
-      'brandSubtitle': 'LINEUP은 영감을 행동으로 옮기도록 돕는 가장 빠른 방법이에요.',
+      'brandSubtitle': '명언 컴패니언은 영감을 행동으로 옮기도록 돕는 가장 빠른 방법이에요.',
       'quoteInputLabel': '명언 내용',
       'authorInputLabel': '작성자 (선택)',
       'addQuoteCta': '명언 추가',
@@ -44,7 +44,7 @@ class AppLocalizations {
     },
     'ja': <String, String>{
       'appTitle': 'クォートコンパニオン',
-      'brandSubtitle': 'LINEUPはインスピレーションを行動につなげます。',
+      'brandSubtitle': 'クォートコンパニオンはインスピレーションを行動につなげます。',
       'quoteInputLabel': '名言',
       'authorInputLabel': '作者 (任意)',
       'addQuoteCta': '追加',
