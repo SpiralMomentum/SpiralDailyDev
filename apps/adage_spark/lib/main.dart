@@ -73,6 +73,7 @@ class _AdageHomePageState extends State<AdageHomePage> {
   ];
 
   final Random _random = Random();
+  final List<_AdageQuote> _customQuotes = [];
   late _AdageQuote _currentQuote;
 
   @override
@@ -82,13 +83,15 @@ class _AdageHomePageState extends State<AdageHomePage> {
   }
 
   void _showNextQuote() {
-    if (_quotes.length == 1) {
+    final pool = [..._customQuotes, ..._quotes];
+
+    if (pool.length <= 1) {
       return;
     }
 
     _AdageQuote next;
     do {
-      next = _quotes[_random.nextInt(_quotes.length)];
+      next = pool[_random.nextInt(pool.length)];
     } while (identical(next, _currentQuote));
 
     setState(() {
@@ -96,10 +99,32 @@ class _AdageHomePageState extends State<AdageHomePage> {
     });
   }
 
+  Future<void> _openCreateQuote() async {
+    final newQuote = await Navigator.of(context).push<_AdageQuote>(
+      MaterialPageRoute(builder: (_) => const AddAdagePage()),
+    );
+
+    if (newQuote == null) {
+      return;
+    }
+
+    setState(() {
+      _customQuotes.add(newQuote);
+      _currentQuote = newQuote;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: _openCreateQuote,
+        backgroundColor: _AdageColors.accentPrimary,
+        foregroundColor: _AdageColors.backgroundBottom,
+        child: const Icon(Icons.add_rounded),
+      ),
       body: Container(
+        width: double.infinity,
         decoration: const BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topLeft,
@@ -249,4 +274,143 @@ class _AdageQuote {
 
   final String body;
   final String reference;
+}
+
+class AddAdagePage extends StatefulWidget {
+  const AddAdagePage({super.key});
+
+  @override
+  State<AddAdagePage> createState() => _AddAdagePageState();
+}
+
+class _AddAdagePageState extends State<AddAdagePage> {
+  final _bodyController = TextEditingController();
+  final _referenceController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+
+  @override
+  void dispose() {
+    _bodyController.dispose();
+    _referenceController.dispose();
+    super.dispose();
+  }
+
+  void _submit() {
+    if (!(_formKey.currentState?.validate() ?? false)) {
+      return;
+    }
+
+    final quote = _AdageQuote(
+      body: _bodyController.text.trim(),
+      reference: _referenceController.text.trim().isEmpty
+          ? '- 사용자 작성'
+          : _referenceController.text.trim(),
+    );
+
+    Navigator.of(context).pop(quote);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('새 격언 추가'),
+        backgroundColor: _AdageColors.backgroundBottom,
+        elevation: 0,
+      ),
+      backgroundColor: _AdageColors.backgroundBottom,
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  '격언 내용',
+                  style: theme.textTheme.titleMedium?.copyWith(
+                    color: _AdageColors.textPrimary,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                const SizedBox(height: 12),
+                TextFormField(
+                  controller: _bodyController,
+                  maxLines: 5,
+                  minLines: 3,
+                  style: const TextStyle(color: _AdageColors.textPrimary),
+                  decoration: _inputDecoration('에너지를 불어넣을 문장을 입력하세요.'),
+                  validator: (value) {
+                    if (value == null || value.trim().isEmpty) {
+                      return '격언을 입력해주세요.';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 28),
+                Text(
+                  '출처 (선택)',
+                  style: theme.textTheme.titleMedium?.copyWith(
+                    color: _AdageColors.textPrimary,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                const SizedBox(height: 12),
+                TextFormField(
+                  controller: _referenceController,
+                  maxLines: 3,
+                  minLines: 2,
+                  style: const TextStyle(color: _AdageColors.textPrimary),
+                  decoration: _inputDecoration('명언 출처 혹은 인용구를 입력하세요.'),
+                ),
+                const SizedBox(height: 36),
+                SizedBox(
+                  width: double.infinity,
+                  child: FilledButton(
+                    onPressed: _submit,
+                    style: FilledButton.styleFrom(
+                      backgroundColor: _AdageColors.accentPrimary,
+                      foregroundColor: _AdageColors.backgroundBottom,
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      textStyle: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                    ),
+                    child: const Text('저장'),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  InputDecoration _inputDecoration(String hint) {
+    return InputDecoration(
+      hintText: hint,
+      hintStyle: const TextStyle(color: _AdageColors.textSecondary),
+      filled: true,
+      fillColor: _AdageColors.card,
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(16),
+        borderSide: BorderSide.none,
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(16),
+        borderSide: const BorderSide(
+          color: _AdageColors.accentSecondary,
+          width: 1.4,
+        ),
+      ),
+    );
+  }
 }
