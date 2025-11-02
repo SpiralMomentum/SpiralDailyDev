@@ -24,7 +24,11 @@ class WorldMapView extends StatelessWidget {
 
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => CountryMapScreen(instruction: instruction),
+        builder: (context) => CountryMapScreen(
+          instruction: instruction,
+          countryId: countryId,
+          countryName: countryName,
+        ),
       ),
     );
   }
@@ -84,6 +88,7 @@ class WorldMapView extends StatelessWidget {
             height: 1.4,
           ),
         ),
+        const SizedBox(height: 24),
       ],
     );
   }
