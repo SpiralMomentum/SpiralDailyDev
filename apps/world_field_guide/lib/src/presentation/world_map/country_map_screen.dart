@@ -96,10 +96,18 @@ class _CountryMapScreenState extends State<CountryMapScreen> {
             minChildSize: _minSheetSize,
             maxChildSize: _maxSheetSize,
             builder: (context, scrollController) {
+              final theme = Theme.of(context);
               return Container(
                 decoration: const BoxDecoration(
                   color: Colors.white,
-                  borderRadius: BorderRadius.vertical(top: Radius.circular(18)),
+                  borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Color(0x330B3F6A),
+                      blurRadius: 24,
+                      offset: Offset(0, -8),
+                    ),
+                  ],
                 ),
                 child: Column(
                   children: [
@@ -114,37 +122,77 @@ class _CountryMapScreenState extends State<CountryMapScreen> {
                           );
                         }
                       },
-                      child: Padding(
+                      child: Container(
+                        width: double.infinity,
+                        decoration: const BoxDecoration(
+                          color: AppTheme.paleSky,
+                          borderRadius:
+                              BorderRadius.vertical(top: Radius.circular(24)),
+                        ),
                         padding: const EdgeInsets.symmetric(
                           horizontal: 24,
-                          vertical: 12,
+                          vertical: 20,
                         ),
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             Container(
-                              width: 48,
-                              height: 4,
+                              width: 40,
+                              height: 5,
                               decoration: BoxDecoration(
-                                color: Colors.grey.shade400,
-                                borderRadius: BorderRadius.circular(2),
+                                color: AppTheme.primaryBlue.withOpacity(0.25),
+                                borderRadius: BorderRadius.circular(12),
                               ),
                             ),
                             const SizedBox(height: 12),
+                            Container(
+                              padding: const EdgeInsets.all(12),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(16),
+                                boxShadow: const [
+                                  BoxShadow(
+                                    color: Color(0x190B3F6A),
+                                    blurRadius: 16,
+                                    offset: Offset(0, 8),
+                                  )
+                                ],
+                              ),
+                              child: const Icon(
+                                Icons.public,
+                                color: AppTheme.primaryBlue,
+                                size: 24,
+                              ),
+                            ),
+                            const SizedBox(height: 16),
                             Text(
                               '${widget.countryName ?? widget.countryId.toUpperCase()} 현지 특산품',
-                              style: Theme.of(context).textTheme.titleMedium
-                                  ?.copyWith(fontWeight: FontWeight.w600),
+                              style: theme.textTheme.titleMedium?.copyWith(
+                                fontWeight: FontWeight.w700,
+                                color: AppTheme.deepNavy,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                            const SizedBox(height: 6),
+                            Text(
+                              '현지 특산품 정보를 확인해 보세요.',
+                              style: theme.textTheme.bodySmall?.copyWith(
+                                color: AppTheme.textSecondary,
+                              ),
+                              textAlign: TextAlign.center,
                             ),
                           ],
                         ),
                       ),
                     ),
-                    const Divider(height: 1),
+                    const Divider(
+                      height: 1,
+                      thickness: 1,
+                      color: Color(0xFFE1ECFA),
+                    ),
                     Expanded(
                       child: _buildBottomSheetContent(
                         scrollController: scrollController,
-                        draggableController: draggableController,
                       ),
                     ),
                   ],
@@ -234,7 +282,6 @@ class _CountryMapScreenState extends State<CountryMapScreen> {
 
   Widget _buildBottomSheetContent({
     required ScrollController scrollController,
-    required DraggableScrollableController draggableController,
   }) {
     if (_isLoading) {
       return const Center(child: CircularProgressIndicator());
@@ -264,25 +311,26 @@ class _CountryMapScreenState extends State<CountryMapScreen> {
     return ListView.separated(
       controller: scrollController,
       itemCount: _specialties.length,
-      padding: const EdgeInsets.symmetric(vertical: 8),
+      padding: const EdgeInsets.symmetric(vertical: 16),
       itemBuilder: (context, index) {
         final item = _specialties[index];
-        return ListTile(
-          title: Text(item),
-          trailing: const Icon(Icons.chevron_right),
-          onTap: () {
-            if (draggableController.isAttached) {
-              draggableController.animateTo(
-                _maxSheetSize,
-                duration: const Duration(milliseconds: 250),
-                curve: Curves.easeOut,
-              );
-            }
-          },
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+          child: Text(
+            item,
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  color: AppTheme.deepNavy,
+                ),
+          ),
         );
       },
       separatorBuilder: (context, index) =>
-          const Divider(height: 1, indent: 16, endIndent: 16),
+          const Divider(
+            height: 1,
+            indent: 24,
+            endIndent: 24,
+            color: Color(0xFFE1ECFA),
+          ),
     );
   }
 }
