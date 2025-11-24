@@ -14,8 +14,9 @@ class MonsterRepositoryImpl implements MonsterRepository {
 
   @override
   Future<List<Monster>> fetchMonsters() async {
-    if (_initialData != null) {
-      return List<Monster>.unmodifiable(_initialData!);
+    final initial = _initialData;
+    if (initial != null) {
+      return List<Monster>.unmodifiable(initial);
     }
     return _dataSource.loadMonsters();
   }

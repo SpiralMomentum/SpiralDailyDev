@@ -29,6 +29,7 @@ class MonsterListViewModel extends ChangeNotifier {
   bool get isLoading => _isLoading;
   String? get errorMessage => _errorMessage;
   ViewMode get viewMode => _viewMode;
+  List<Monster> get allMonsters => _allMonsters;
   List<Monster> get visibleMonsters => _visibleMonsters;
   bool get canToggleView => !_isLoading && _errorMessage == null;
   bool get canInteractWithMap => !_isLoading && _errorMessage == null;
