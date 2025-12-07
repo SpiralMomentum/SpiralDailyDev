@@ -1,30 +1,12 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
-import 'package:flutter/material.dart';
+import 'package:film_archive/app/film_archive_app.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:film_archive/main.dart';
-
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+  testWidgets('Timeline builder UI renders', (tester) async {
+    await tester.pumpWidget(FilmArchiveApp(apiKey: 'test'));
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
-
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
-
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    expect(find.text('연도 범위를 선택하세요'), findsOneWidget);
+    expect(find.text('타임라인 만들기'), findsOneWidget);
+    expect(find.text('연도를 선택해 타임라인을 만들어보세요.'), findsOneWidget);
   });
 }

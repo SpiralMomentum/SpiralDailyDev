@@ -8,6 +8,8 @@
 .packages
 .pub/
 .dart_tool/
+.dart-tool/
+.dartServer/
 pubspec.lock
 pubspec_overrides.yaml
 flutter_export_environment.sh
@@ -128,3 +130,4 @@ build/
 !/packages/flutter_tools/test/data/dart_dependencies_test/**/.packages
 ios/Runner/GoogleService-Info.plist
 android/app/google-services.json
+apps/film_archive/lib/tmdb_api_key.dart
