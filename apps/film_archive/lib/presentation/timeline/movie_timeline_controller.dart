@@ -34,6 +34,8 @@ class MovieTimelineController extends ChangeNotifier {
     required String startYearText,
     required String endYearText,
   }) async {
+    final currentYear = DateTime.now().year;
+    const minStartYear = 2000;
     final startYear = int.tryParse(startYearText);
     final endYear = int.tryParse(endYearText);
 
@@ -44,6 +46,32 @@ class MovieTimelineController extends ChangeNotifier {
           isLoading: false,
           errorMessage: null,
           inputMessage: '연도는 숫자로 입력해주세요.',
+          noticeMessage: _state.noticeMessage,
+          sortOption: _state.sortOption,
+        ),
+      );
+      return;
+    }
+    if (startYear < minStartYear) {
+      _emit(
+        MovieTimelineState(
+          timeline: _state.timeline,
+          isLoading: false,
+          errorMessage: null,
+          inputMessage: '시작 연도는 $minStartYear년 이후로 입력해주세요.',
+          noticeMessage: _state.noticeMessage,
+          sortOption: _state.sortOption,
+        ),
+      );
+      return;
+    }
+    if (endYear > currentYear) {
+      _emit(
+        MovieTimelineState(
+          timeline: _state.timeline,
+          isLoading: false,
+          errorMessage: null,
+          inputMessage: '종료 연도는 $currentYear년까지 입력할 수 있습니다.',
           noticeMessage: _state.noticeMessage,
           sortOption: _state.sortOption,
         ),
