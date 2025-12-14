@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-import '../data/movie_api_client.dart';
-import '../domain/repositories/movie_repository.dart';
-import '../presentation/timeline/movie_timeline_page.dart';
+import 'package:film_archive/features/movie_timeline/data/datasources/movie_api_client.dart';
+import 'package:film_archive/features/movie_timeline/data/repositories/movie_repository_impl.dart';
+import 'package:film_archive/features/movie_timeline/domain/repositories/movie_repository.dart';
+import 'package:film_archive/features/movie_timeline/presentation/timeline/movie_timeline_page.dart';
 
 class FilmArchiveApp extends StatefulWidget {
   const FilmArchiveApp({super.key, required this.apiKey});
@@ -22,7 +23,7 @@ class _FilmArchiveAppState extends State<FilmArchiveApp> {
   void initState() {
     super.initState();
     _httpClient = http.Client();
-    _repository = MovieRepository(
+    _repository = MovieRepositoryImpl(
       apiClient: MovieApiClient(
         apiKey: widget.apiKey,
         httpClient: _httpClient,

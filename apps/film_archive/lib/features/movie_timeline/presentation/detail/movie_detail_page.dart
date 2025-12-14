@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../../domain/entities/movie_detail.dart';
-import '../../domain/exceptions.dart';
-import '../../domain/repositories/movie_repository.dart';
+import 'package:film_archive/features/movie_timeline/domain/entities/movie_detail.dart';
+import 'package:film_archive/features/movie_timeline/domain/exceptions/exceptions.dart';
+import 'package:film_archive/features/movie_timeline/domain/repositories/movie_repository.dart';
 
 class MovieDetailPage extends StatefulWidget {
   const MovieDetailPage({

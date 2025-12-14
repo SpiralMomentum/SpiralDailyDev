@@ -1,14 +1,18 @@
-import '../../data/movie_api_client.dart';
-import '../entities/movie_detail.dart';
-import '../entities/movie_sort_option.dart';
-import '../entities/movie_summary.dart';
-import '../exceptions.dart';
+import 'package:film_archive/features/movie_timeline/data/datasources/movie_api_client.dart';
+import 'package:film_archive/features/movie_timeline/data/exceptions/movie_api_exception.dart';
+import 'package:film_archive/features/movie_timeline/domain/entities/movie_detail.dart';
+import 'package:film_archive/features/movie_timeline/domain/entities/movie_sort_option.dart';
+import 'package:film_archive/features/movie_timeline/domain/entities/movie_summary.dart';
+import 'package:film_archive/features/movie_timeline/domain/exceptions/exceptions.dart';
+import 'package:film_archive/features/movie_timeline/domain/repositories/movie_repository.dart';
 
-class MovieRepository {
-  MovieRepository({required MovieApiClient apiClient}) : _apiClient = apiClient;
+class MovieRepositoryImpl implements MovieRepository {
+  MovieRepositoryImpl({required MovieApiClient apiClient})
+      : _apiClient = apiClient;
 
   final MovieApiClient _apiClient;
 
+  @override
   Future<List<MovieSummary>> fetchTopMoviesByYearRange({
     required int startYear,
     required int endYear,
@@ -35,6 +39,7 @@ class MovieRepository {
     }
   }
 
+  @override
   Future<MovieDetail> fetchMovieDetail(int movieId) async {
     try {
       return await _apiClient.fetchMovieDetail(movieId);

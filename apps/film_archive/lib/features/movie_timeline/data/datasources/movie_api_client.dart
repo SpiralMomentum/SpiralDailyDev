@@ -3,10 +3,11 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 
-import '../domain/entities/movie_detail.dart';
-import '../domain/entities/movie_sort_option.dart';
-import '../domain/entities/movie_summary.dart';
-import '../domain/exceptions.dart';
+import 'package:film_archive/features/movie_timeline/domain/entities/movie_detail.dart';
+import 'package:film_archive/features/movie_timeline/domain/entities/movie_sort_option.dart';
+import 'package:film_archive/features/movie_timeline/domain/entities/movie_summary.dart';
+
+import '../exceptions/movie_api_exception.dart';
 
 class MovieApiClient {
   MovieApiClient({

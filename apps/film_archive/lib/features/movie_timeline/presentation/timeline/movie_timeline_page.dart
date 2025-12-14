@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../../domain/entities/movie_sort_option.dart';
-import '../../domain/entities/movie_summary.dart';
-import '../../domain/repositories/movie_repository.dart';
+import 'package:film_archive/features/movie_timeline/domain/entities/movie_sort_option.dart';
+import 'package:film_archive/features/movie_timeline/domain/entities/movie_summary.dart';
+import 'package:film_archive/features/movie_timeline/domain/repositories/movie_repository.dart';
+
 import '../detail/movie_detail_page.dart';
 import 'movie_timeline_controller.dart';
 
