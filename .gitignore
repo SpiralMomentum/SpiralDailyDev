@@ -24,6 +24,8 @@ flutter_export_environment.sh
 .settings
 .last_build_id
 
+doc/
+
 
 # Misc
 .env.local
