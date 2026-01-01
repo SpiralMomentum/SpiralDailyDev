@@ -1,0 +1,17 @@
+name: networking
+description: Shared network layer for Spiral apps.
+version: 0.0.1
+publish_to: none
+
+environment:
+  sdk: '>=3.3.0 <4.0.0'
+
+dependencies:
+  dio: ^5.7.0
+  meta: ^1.11.0
+  retrofit: '>=4.0.1 <5.0.0'
+
+dev_dependencies:
+  lints: ^3.0.0
+  build_runner: ^2.4.12
+  retrofit_generator: ^8.2.1
