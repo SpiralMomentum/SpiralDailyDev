@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
 
-import 'package:film_archive/features/movie_timeline/domain/entities/movie_detail.dart';
-import 'package:film_archive/features/movie_timeline/domain/exceptions/exceptions.dart';
-import 'package:film_archive/features/movie_timeline/domain/repositories/movie_repository.dart';
+import 'package:utils/utils.dart';
+
+import 'movie_detail_view_data.dart';
+import 'movie_detail_view_model.dart';
 
 class MovieDetailPage extends StatefulWidget {
   const MovieDetailPage({
     super.key,
-    required this.repository,
-    required this.movieId,
+    required this.viewModel,
     required this.title,
   });
 
-  final MovieRepository repository;
-  final int movieId;
+  final MovieDetailViewModel viewModel;
   final String title;
 
   @override
@@ -21,17 +20,17 @@ class MovieDetailPage extends StatefulWidget {
 }
 
 class _MovieDetailPageState extends State<MovieDetailPage> {
-  late Future<MovieDetail> _future;
+  late Future<Result<MovieDetailViewData>> _future;
 
   @override
   void initState() {
     super.initState();
-    _future = widget.repository.fetchMovieDetail(widget.movieId);
+    _future = widget.viewModel.load();
   }
 
   void _retry() {
     setState(() {
-      _future = widget.repository.fetchMovieDetail(widget.movieId);
+      _future = widget.viewModel.load();
     });
   }
 
@@ -41,26 +40,27 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: FutureBuilder<MovieDetail>(
+      body: FutureBuilder<Result<MovieDetailViewData>>(
         future: _future,
         builder: (context, snapshot) {
           if (snapshot.connectionState != ConnectionState.done) {
             return const Center(child: CircularProgressIndicator());
           }
-          if (snapshot.hasError) {
-            final message = snapshot.error is MovieRepositoryException
-                ? (snapshot.error as MovieRepositoryException).message
-                : '영화 정보를 불러오는 데 실패했습니다.\n네트워크 상태를 확인 후 다시 시도해주세요.';
-            return _ErrorState(message: message, onRetry: _retry);
-          }
-          final detail = snapshot.data;
-          if (detail == null) {
+          final result = snapshot.data;
+          if (result == null) {
             return _ErrorState(
               message: '해당 영화 정보를 찾을 수 없습니다.',
               onRetry: _retry,
             );
           }
-          return _MovieDetailBody(detail: detail);
+          return result.when(
+            success: (detail) => _MovieDetailBody(detail: detail),
+            error: (failure) => _ErrorState(
+              message: failure.message ??
+                  '영화 정보를 불러올 수 없습니다.\n네트워크 상태를 확인 후 다시 시도해주세요.',
+              onRetry: _retry,
+            ),
+          );
         },
       ),
     );
@@ -70,7 +70,7 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
 class _MovieDetailBody extends StatelessWidget {
   const _MovieDetailBody({required this.detail});
 
-  final MovieDetail detail;
+  final MovieDetailViewData detail;
 
   @override
   Widget build(BuildContext context) {
@@ -105,7 +105,7 @@ class _MovieDetailBody extends StatelessWidget {
           ),
           const SizedBox(height: 8),
           Text(
-            detail.displayOverview,
+            detail.overview,
             style: theme.textTheme.bodyLarge?.copyWith(height: 1.4),
           ),
         ],

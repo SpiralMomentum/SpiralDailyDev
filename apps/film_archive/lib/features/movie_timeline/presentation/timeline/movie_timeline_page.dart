@@ -2,15 +2,23 @@ import 'package:flutter/material.dart';
 
 import 'package:film_archive/features/movie_timeline/domain/entities/movie_sort_option.dart';
 import 'package:film_archive/features/movie_timeline/domain/entities/movie_summary.dart';
-import 'package:film_archive/features/movie_timeline/domain/repositories/movie_repository.dart';
+import 'package:film_archive/features/movie_timeline/domain/usecases/get_movie_detail_use_case.dart';
+import 'package:film_archive/features/movie_timeline/domain/usecases/get_movie_timeline_use_case.dart';
 
 import '../detail/movie_detail_page.dart';
+import '../detail/movie_detail_view_model.dart';
 import 'movie_timeline_controller.dart';
+import 'movie_timeline_state.dart';
 
 class MovieTimelinePage extends StatefulWidget {
-  const MovieTimelinePage({super.key, required this.repository});
+  const MovieTimelinePage({
+    super.key,
+    required this.getMovieTimelineUseCase,
+    required this.getMovieDetailUseCase,
+  });
 
-  final MovieRepository repository;
+  final GetMovieTimelineUseCase getMovieTimelineUseCase;
+  final GetMovieDetailUseCase getMovieDetailUseCase;
 
   @override
   State<MovieTimelinePage> createState() => _MovieTimelinePageState();
@@ -29,7 +37,9 @@ class _MovieTimelinePageState extends State<MovieTimelinePage> {
     _startYearController = TextEditingController();
     _endYearController = TextEditingController(text: '$currentYear');
     _startYearFocusNode = FocusNode();
-    _controller = MovieTimelineController(repository: widget.repository);
+    _controller = MovieTimelineController(
+      getMovieTimelineUseCase: widget.getMovieTimelineUseCase,
+    );
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (mounted) {
         _startYearFocusNode.requestFocus();
@@ -57,8 +67,10 @@ class _MovieTimelinePageState extends State<MovieTimelinePage> {
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (_) => MovieDetailPage(
-          repository: widget.repository,
-          movieId: summary.id,
+          viewModel: MovieDetailViewModel(
+            getMovieDetailUseCase: widget.getMovieDetailUseCase,
+            movieId: summary.id,
+          ),
           title: summary.title,
         ),
       ),
