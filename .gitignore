@@ -96,6 +96,9 @@ build/
 **/android/gradlew.bat
 **/android/local.properties
 **/android/**/GeneratedPluginRegistrant.java
+signing/**/key.properties
+signing/**/*.keystore
+signing/**/*.jks
 
 # iOS/XCode related
 **/ios/**/*.mode1v3
