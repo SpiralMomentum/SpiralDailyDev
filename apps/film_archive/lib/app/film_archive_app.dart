@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+import 'package:networking/networking.dart';
 
-import 'package:film_archive/features/movie_timeline/data/datasources/movie_api_client.dart';
+import 'package:film_archive/features/movie_timeline/data/datasources/movie_remote_data_source.dart';
 import 'package:film_archive/features/movie_timeline/data/repositories/movie_repository_impl.dart';
 import 'package:film_archive/features/movie_timeline/domain/repositories/movie_repository.dart';
+import 'package:film_archive/features/movie_timeline/domain/usecases/get_movie_detail_use_case.dart';
+import 'package:film_archive/features/movie_timeline/domain/usecases/get_movie_timeline_use_case.dart';
 import 'package:film_archive/features/movie_timeline/presentation/timeline/movie_timeline_page.dart';
 
 class FilmArchiveApp extends StatefulWidget {
@@ -16,24 +18,43 @@ class FilmArchiveApp extends StatefulWidget {
 }
 
 class _FilmArchiveAppState extends State<FilmArchiveApp> {
-  late final http.Client _httpClient;
+  late final Dio _dio;
+  late final GetMovieDetailUseCase _getMovieDetailUseCase;
+  late final GetMovieTimelineUseCase _getMovieTimelineUseCase;
   late final MovieRepository _repository;
 
   @override
   void initState() {
     super.initState();
-    _httpClient = http.Client();
-    _repository = MovieRepositoryImpl(
-      apiClient: MovieApiClient(
-        apiKey: widget.apiKey,
-        httpClient: _httpClient,
-      ),
+    final dioOptions = NetworkOptions(
+      baseUrl: 'https://api.themoviedb.org/3',
+      connectTimeout: const Duration(seconds: 20),
+      receiveTimeout: const Duration(seconds: 20),
+      sendTimeout: const Duration(seconds: 20),
+      defaultHeaders: const {
+        'Accept': 'application/json',
+      },
+      defaultQueryParameters: const {
+        'language': 'ko-KR',
+      },
+      dynamicQueryParameters: () => {
+        'api_key': widget.apiKey,
+      },
     );
+    _dio = DioProvider(options: dioOptions).create();
+    final tmdbDataSource = TmdbDataSource(_dio);
+    final movieRemoteDataSource =
+        MovieRemoteDataSource(dataSource: tmdbDataSource);
+    _repository = MovieRepositoryImpl(
+      remoteDataSource: movieRemoteDataSource,
+    );
+    _getMovieDetailUseCase = GetMovieDetailUseCase(repository: _repository);
+    _getMovieTimelineUseCase = GetMovieTimelineUseCase(repository: _repository);
   }
 
   @override
   void dispose() {
-    _httpClient.close();
+    _dio.close(force: true);
     super.dispose();
   }
 
@@ -46,7 +67,10 @@ class _FilmArchiveAppState extends State<FilmArchiveApp> {
         colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF0B3D91)),
         useMaterial3: true,
       ),
-      home: MovieTimelinePage(repository: _repository),
+      home: MovieTimelinePage(
+        getMovieTimelineUseCase: _getMovieTimelineUseCase,
+        getMovieDetailUseCase: _getMovieDetailUseCase,
+      ),
     );
   }
 }
