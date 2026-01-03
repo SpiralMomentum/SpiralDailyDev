@@ -18,6 +18,8 @@ dependencies:
   freezed_annotation: ^2.2.0
   json_serializable: ^6.6.1
   rxdart: ^0.27.7
+  utils:
+    path: ../../packages/utils
 
 dev_dependencies:
   flutter_test:
