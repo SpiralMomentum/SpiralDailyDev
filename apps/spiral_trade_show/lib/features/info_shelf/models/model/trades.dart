@@ -1,5 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:spiral_trade_show/info_shelf/model/trade_show_info.dart';
+
+import 'trade_show_info.dart';
 
 part 'trades.g.dart';
 

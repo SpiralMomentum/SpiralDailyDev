@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:spiral_trade_show/info_shelf/domain/info_shelf_cubit.dart';
+import 'package:spiral_trade_show/features/info_shelf/presentation/info_shelf_cubit.dart';
 import 'package:ui_components/card/detail_card.dart';
 import 'package:ui_components/card/horizon_card.dart';
 import 'package:ui_components/card/time_tab_card.dart';
-import '../domain/info_shelf_state.dart';
+import 'info_shelf_state.dart';
 import 'package:intl/intl.dart';
 
 class MainShelfPage extends StatelessWidget {
