@@ -2,18 +2,23 @@ import 'package:countries_world_map/countries_world_map.dart';
 import 'package:flutter/material.dart';
 import 'package:world_map_widget/world_map_widget.dart';
 
-import '../../application/world_map_controller.dart';
-import '../../domain/world_map_data.dart';
-import '../../theme/app_theme.dart';
-import 'country_map_screen.dart';
+import 'package:world_field_guide/app/theme/app_theme.dart';
+import 'package:world_field_guide/features/world_map/domain/entities/world_map_data.dart';
+import 'package:world_field_guide/features/world_map/domain/usecases/get_country_specialties_use_case.dart';
+import 'package:world_field_guide/features/world_map/domain/usecases/get_world_map_use_case.dart';
+import 'package:world_field_guide/features/world_map/presentation/country_map_screen.dart';
 
 class WorldMapScreen extends StatefulWidget {
   const WorldMapScreen({
     super.key,
     required this.themeVariant,
+    required this.getWorldMapUseCase,
+    required this.getCountrySpecialtiesUseCase,
   });
 
   final AppThemeVariant themeVariant;
+  final GetWorldMapUseCase getWorldMapUseCase;
+  final GetCountrySpecialtiesUseCase getCountrySpecialtiesUseCase;
 
   @override
   State<WorldMapScreen> createState() => _WorldMapScreenState();
@@ -23,7 +28,7 @@ class _WorldMapScreenState extends State<WorldMapScreen> {
   static const Color _darkMapFill = Color(0xFF1F3B57);
   static const Color _accentMapFill = Color(0xFFFFD8CA);
 
-  late final WorldMapController _controller;
+  late final GetWorldMapUseCase _getWorldMapUseCase;
   late final WorldMapData _data;
 
   void _openCountryDetails(WorldCountryTapDetails details) {
@@ -33,6 +38,7 @@ class _WorldMapScreenState extends State<WorldMapScreen> {
           instruction: details.instructions,
           countryId: details.countryId,
           countryName: details.countryName,
+          getCountrySpecialtiesUseCase: widget.getCountrySpecialtiesUseCase,
         ),
       ),
     );
@@ -41,8 +47,9 @@ class _WorldMapScreenState extends State<WorldMapScreen> {
   @override
   void initState() {
     super.initState();
-    _controller = WorldMapController();
-    _data = _controller.worldMap;
+    _getWorldMapUseCase = widget.getWorldMapUseCase;
+    _data = _getWorldMapUseCase().dataOrNull ??
+        const WorldMapData(caption: '전 세계 특산품을 불러오는 중입니다.');
   }
 
   @override

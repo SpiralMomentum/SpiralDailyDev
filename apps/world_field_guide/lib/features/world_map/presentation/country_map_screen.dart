@@ -1,20 +1,22 @@
 import 'package:countries_world_map/countries_world_map.dart';
 import 'package:flutter/material.dart';
 
-import '../../domain/world_local_specialty_repository.dart';
-import '../../theme/app_theme.dart';
+import 'package:world_field_guide/app/theme/app_theme.dart';
+import 'package:world_field_guide/features/world_map/domain/usecases/get_country_specialties_use_case.dart';
 
 class CountryMapScreen extends StatefulWidget {
   const CountryMapScreen({
     super.key,
     required this.instruction,
     required this.countryId,
+    required this.getCountrySpecialtiesUseCase,
     this.countryName,
   });
 
   final String instruction;
   final String countryId;
   final String? countryName;
+  final GetCountrySpecialtiesUseCase getCountrySpecialtiesUseCase;
 
   @override
   State<CountryMapScreen> createState() => _CountryMapScreenState();
@@ -26,8 +28,7 @@ class _CountryMapScreenState extends State<CountryMapScreen> {
   static const double _maxSheetSize = 0.95;
   static const double _tapDragThreshold = 12;
 
-  final WorldLocalSpecialtyRepository _specialtyRepository =
-      const WorldLocalSpecialtyRepository();
+  late final GetCountrySpecialtiesUseCase _getCountrySpecialtiesUseCase;
   List<String> _specialties = const [];
   bool _isLoading = true;
   bool _hasError = false;
@@ -40,6 +41,7 @@ class _CountryMapScreenState extends State<CountryMapScreen> {
   @override
   void initState() {
     super.initState();
+    _getCountrySpecialtiesUseCase = widget.getCountrySpecialtiesUseCase;
     _loadSpecialties().whenComplete(() {
       if (!mounted) return;
       WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -50,25 +52,24 @@ class _CountryMapScreenState extends State<CountryMapScreen> {
   }
 
   Future<void> _loadSpecialties() async {
-    try {
-      final data = await _specialtyRepository.fetchForCountry(widget.countryId);
-      if (!mounted) return;
-      setState(() {
-        _specialties = data;
-        _hasError = false;
-      });
-    } catch (_) {
-      if (!mounted) return;
-      setState(() {
-        _specialties = const [];
-        _hasError = true;
-      });
-    } finally {
-      if (!mounted) return;
-      setState(() {
-        _isLoading = false;
-      });
-    }
+    final result = await _getCountrySpecialtiesUseCase(widget.countryId);
+    if (!mounted) return;
+    result.when(
+      success: (data) {
+        setState(() {
+          _specialties = data;
+          _hasError = false;
+          _isLoading = false;
+        });
+      },
+      error: (_) {
+        setState(() {
+          _specialties = const [];
+          _hasError = true;
+          _isLoading = false;
+        });
+      },
+    );
   }
 
   Future<void> _showCountryBottomSheet() async {
