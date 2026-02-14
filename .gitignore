@@ -136,3 +136,19 @@ signing/**/*.jks
 ios/Runner/GoogleService-Info.plist
 android/app/google-services.json
 apps/film_archive/lib/tmdb_api_key.dart
+
+# Fastlane
+**/fastlane/report.xml
+**/fastlane/Preview.html
+vendor/bundle
+
+# Google Play Store API keys
+**/google_playstore_api_key.json
+
+# Build artifacts
+artifacts/
+
+# Environment
+.env
+.env.*
+!fastlane/.env.default
