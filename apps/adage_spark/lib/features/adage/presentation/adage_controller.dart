@@ -1,7 +1,10 @@
 import 'dart:math';
 
+import 'package:app_logging/app_logging.dart';
 import 'package:flutter/foundation.dart';
 
+import 'package:adage_spark/core/analytics/analytics_events.dart';
+import 'package:adage_spark/core/analytics/analytics_tracker.dart';
 import 'package:adage_spark/features/adage/domain/entities/adage_quote.dart';
 import 'package:adage_spark/features/adage/domain/usecases/add_adage_quote_use_case.dart';
 import 'package:adage_spark/features/adage/domain/usecases/get_adage_quotes_use_case.dart';
@@ -12,12 +15,16 @@ class AdageController extends ChangeNotifier {
   AdageController({
     required GetAdageQuotesUseCase getAdageQuotesUseCase,
     required AddAdageQuoteUseCase addAdageQuoteUseCase,
+    AnalyticsTracker? analyticsTracker,
   })  : _getAdageQuotesUseCase = getAdageQuotesUseCase,
-        _addAdageQuoteUseCase = addAdageQuoteUseCase;
+        _addAdageQuoteUseCase = addAdageQuoteUseCase,
+        _analyticsTracker = analyticsTracker;
 
   final GetAdageQuotesUseCase _getAdageQuotesUseCase;
   final AddAdageQuoteUseCase _addAdageQuoteUseCase;
+  final AnalyticsTracker? _analyticsTracker;
   final Random _random = Random();
+  final AppLogger _logger = AppLogger(tag: 'AdageController');
 
   AdageState _state = const AdageState.initial();
   AdageState get state => _state;
@@ -32,8 +39,19 @@ class AdageController extends ChangeNotifier {
             current: quotes.isNotEmpty ? quotes.first : null,
           ),
         );
+        // 첫 번째 격언이 표시되면 quoteViewed 이벤트 기록
+        if (quotes.isNotEmpty) {
+          _analyticsTracker?.trackEvent(
+            AnalyticsEvents.quoteViewed,
+            {'body': quotes.first.body},
+          );
+        }
       },
       error: (failure) {
+        _logger.error(
+          '격언 로드 실패: ${failure.message}',
+          error: failure,
+        );
         _emit(
           AdageState(
             quotes: const [],
@@ -62,6 +80,12 @@ class AdageController extends ChangeNotifier {
         current: next,
       ),
     );
+
+    // 셔플로 새 격언이 표시되면 이벤트 기록
+    _analyticsTracker?.trackEvent(
+      AnalyticsEvents.quoteShuffle,
+      {'body': next.body},
+    );
   }
 
   Future<void> addQuote({
@@ -81,8 +105,17 @@ class AdageController extends ChangeNotifier {
             current: quote,
           ),
         );
+        // 새 격언 추가 성공 시 이벤트 기록
+        _analyticsTracker?.trackEvent(
+          AnalyticsEvents.quoteAdded,
+          {'body': quote.body, 'reference': quote.reference},
+        );
       },
       error: (failure) {
+        _logger.error(
+          '격언 추가 실패: ${failure.message}',
+          error: failure,
+        );
         _emit(
           AdageState(
             quotes: _state.quotes,
