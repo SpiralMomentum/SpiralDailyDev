@@ -1,3 +1,4 @@
+import 'package:app_logging/app_logging.dart';
 import 'package:spiral_trade_show/features/info_shelf/data/datasources/info_shelf_remote_data_source.dart';
 import 'package:spiral_trade_show/features/info_shelf/data/exceptions/external_exception.dart';
 import 'package:spiral_trade_show/features/info_shelf/domain/info_shelf_repository.dart';
@@ -9,6 +10,7 @@ class InfoShelfRepositoryImpl implements InfoShelfRepository {
   InfoShelfRepositoryImpl(this._remoteDataSource);
 
   final InfoShelfRemoteDataSource _remoteDataSource;
+  final _logger = AppLogger(tag: 'InfoShelfRepository');
 
   @override
   Future<Result<List<Info>>> fetchInfo(
@@ -32,12 +34,22 @@ class InfoShelfRepositoryImpl implements InfoShelfRepository {
 
   Failure _mapExternalFailure(Failure error) {
     if (error is NetworkExternalException) {
+      _logger.warning(
+        'NetworkExternalException -> NetworkFailure 매핑 [${error.type.name}]: ${error.message}',
+        error: error.cause,
+        stackTrace: error.stackTrace,
+      );
       return NetworkFailure(
         message: error.message ?? '전시 정보를 불러오지 못했습니다.',
         cause: error.cause ?? error,
         stackTrace: error.stackTrace,
       );
     }
+    _logger.warning(
+      'ExternalException -> NetworkFailure 매핑: ${error.message}',
+      error: error.cause,
+      stackTrace: error.stackTrace,
+    );
     return NetworkFailure(
       message: '전시 정보를 불러오지 못했습니다.',
       cause: error,

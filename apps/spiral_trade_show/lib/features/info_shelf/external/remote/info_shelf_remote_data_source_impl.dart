@@ -1,4 +1,5 @@
-import 'package:dio/dio.dart';
+import 'package:app_logging/app_logging.dart';
+import 'package:networking/networking.dart';
 import 'package:utils/utils.dart';
 
 import 'package:spiral_trade_show/features/info_shelf/data/datasources/info_shelf_remote_data_source.dart';
@@ -12,59 +13,67 @@ class InfoShelfRemoteDataSourceImpl implements InfoShelfRemoteDataSource {
     required this.serviceKey,
     required this.format,
     required this.serviceName,
-  }) : _dio = dio ?? Dio();
+  }) : _dio = dio ??
+            DioProvider(
+              options: NetworkOptions(baseUrl: ''),
+            ).create();
 
   final Dio _dio;
   final String baseUrl;
   final String serviceKey;
   final String format;
   final String serviceName;
+  final _logger = AppLogger(tag: 'InfoShelfDataSource');
 
   @override
   Future<Result<Trades>> fetchInfo({
     required int startIndex,
     required int endIndex,
   }) async {
-    try {
-      final result = await _dio.get(
-        '$baseUrl/$serviceKey/$format/$serviceName/$startIndex/$endIndex/',
-        options: Options(responseType: ResponseType.json),
-      );
-      return Success(Trades.fromJson(result.data!));
-    } on DioException catch (error, stackTrace) {
-      return ErrorResult(
-        NetworkExternalException(
-          _mapDioType(error.type),
-          message: error.message,
-          cause: error,
-          stackTrace: stackTrace,
-        ),
-      );
-    } catch (error, stackTrace) {
-      return ErrorResult(
-        NetworkExternalException(
-          NetworkExternalExceptionType.unknown,
-          message: '전시 정보를 불러오지 못했습니다.',
-          cause: error,
-          stackTrace: stackTrace,
-        ),
-      );
-    }
+    final networkResult = await NetworkExecutor.run(
+      () async {
+        final response = await _dio.get(
+          '$baseUrl/$serviceKey/$format/$serviceName/$startIndex/$endIndex/',
+          options: Options(responseType: ResponseType.json),
+        );
+        return Trades.fromJson(response.data!);
+      },
+    );
+
+    return networkResult.when(
+      success: (trades) => Success(trades),
+      error: (networkException) {
+        _logger.error(
+          'API 호출 실패 [${networkException.failure.type.name}]: ${networkException.message}',
+          error: networkException.cause,
+        );
+        return ErrorResult(
+          NetworkExternalException(
+            _mapFailureType(networkException.failure.type),
+            message: networkException.message,
+            cause: networkException.cause,
+          ),
+        );
+      },
+    );
   }
 
-  NetworkExternalExceptionType _mapDioType(DioExceptionType type) {
+  /// NetworkFailureType을 기존 NetworkExternalExceptionType으로 매핑한다.
+  NetworkExternalExceptionType _mapFailureType(NetworkFailureType type) {
     switch (type) {
-      case DioExceptionType.connectionTimeout:
-      case DioExceptionType.sendTimeout:
-      case DioExceptionType.receiveTimeout:
+      case NetworkFailureType.timeout:
         return NetworkExternalExceptionType.timeout;
-      case DioExceptionType.connectionError:
+      case NetworkFailureType.noConnection:
         return NetworkExternalExceptionType.noConnection;
-      case DioExceptionType.badResponse:
+      case NetworkFailureType.server:
+      case NetworkFailureType.client:
+      case NetworkFailureType.unauthorized:
+      case NetworkFailureType.forbidden:
+      case NetworkFailureType.notFound:
         return NetworkExternalExceptionType.server;
-      case DioExceptionType.badCertificate:
-      case DioExceptionType.cancel:
-      case DioExceptionType.unknown:
+      case NetworkFailureType.serialization:
+      case NetworkFailureType.cancelled:
+      case NetworkFailureType.unknown:
         return NetworkExternalExceptionType.unknown;
     }
   }

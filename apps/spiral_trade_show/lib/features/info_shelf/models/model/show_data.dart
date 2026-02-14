@@ -1,3 +1,4 @@
+import 'package:app_logging/app_logging.dart';
 import 'package:html/parser.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:ui_components/card/info.dart';
@@ -44,14 +45,29 @@ class ShowData implements Info {
 
   Map<String, dynamic> toJson() => _$ShowDataToJson(this);
 
-  Info toDomainEntity() => Info(
-        title,
-        thumbnail,
-        place,
-        parse(description).documentElement?.text ?? '',
-        startTime,
-        endTime,
+  static final _logger = AppLogger(tag: 'ShowData');
+
+  Info toDomainEntity() {
+    String parsedDescription;
+    try {
+      parsedDescription = parse(description).documentElement?.text ?? '';
+    } catch (error, stackTrace) {
+      _logger.error(
+        'HTML 파싱 실패 (title: $title)',
+        error: error,
+        stackTrace: stackTrace,
       );
+      parsedDescription = description;
+    }
+    return Info(
+      title,
+      thumbnail,
+      place,
+      parsedDescription,
+      startTime,
+      endTime,
+    );
+  }
 
   factory ShowData.dummy() {
     return ShowData(
