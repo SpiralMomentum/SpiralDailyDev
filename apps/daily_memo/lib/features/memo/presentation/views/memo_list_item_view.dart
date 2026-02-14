@@ -1,4 +1,5 @@
 import 'package:apps.daily_memo/features/memo/domain/entities/memo_info_entity.dart';
+import 'package:apps.daily_memo/l10n/app_localizations.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
@@ -12,6 +13,7 @@ class MemoListItemView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Container(
       padding: const EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 0.0),
       child: Column(
@@ -19,7 +21,7 @@ class MemoListItemView extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            memoInfo.title.isEmpty ? "(빈 제목)" : memoInfo.title,
+            memoInfo.title.isEmpty ? l10n.emptyTitle : memoInfo.title,
             maxLines: 1,
             style: const TextStyle(
               fontSize: 20.0,
@@ -30,7 +32,7 @@ class MemoListItemView extends StatelessWidget {
           const SizedBox(height: 20.0),
           Text(
             memoInfo.content.isEmpty
-                ? "(빈 내용)"
+                ? l10n.emptyContent
                 : (_isShowFullContent.value
                     ? memoInfo.content
                     : memoInfo.content),
@@ -46,9 +48,11 @@ class MemoListItemView extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  Text("수정일 ${memoInfo.memoModifiedDateTime}"),
+                  Text(l10n.modifiedDate(
+                      memoInfo.memoModifiedDateTime.toString())),
                   const SizedBox(height: 2.0),
-                  Text("생성일 ${memoInfo.memoMadeDateTime}")
+                  Text(l10n.createdDate(
+                      memoInfo.memoMadeDateTime.toString())),
                 ],
               )),
         ],

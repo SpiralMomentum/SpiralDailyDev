@@ -1,4 +1,6 @@
 import 'package:app_navigation/app_navigation.dart';
+import 'package:apps.daily_memo/core/analytics/analytics_events.dart';
+import 'package:apps.daily_memo/core/analytics/analytics_tracker.dart';
 import 'package:apps.daily_memo/features/memo/domain/usecases/add_memo_use_case.dart';
 import 'package:apps.daily_memo/features/memo/domain/usecases/delete_memo_use_case.dart';
 import 'package:apps.daily_memo/features/memo/domain/usecases/get_all_memos_use_case.dart';
@@ -13,6 +15,7 @@ class MemoBloc extends Bloc<MemoEvent, MemoState> {
   final UpdateMemoUseCase _updateMemoUseCase;
   final DeleteMemoUseCase _deleteMemoUseCase;
   final RoutesController _routesController;
+  final AnalyticsTracker? _analyticsTracker;
 
   RoutesController get getRouteController => _routesController;
 
@@ -22,11 +25,13 @@ class MemoBloc extends Bloc<MemoEvent, MemoState> {
     required UpdateMemoUseCase updateMemoUseCase,
     required DeleteMemoUseCase deleteMemoUseCase,
     required RoutesController routesController,
+    AnalyticsTracker? analyticsTracker,
   })  : _getAllMemosUseCase = getAllMemosUseCase,
         _addMemoUseCase = addMemoUseCase,
         _updateMemoUseCase = updateMemoUseCase,
         _deleteMemoUseCase = deleteMemoUseCase,
         _routesController = routesController,
+        _analyticsTracker = analyticsTracker,
         super(
           const MemoState(),
         ) {
@@ -69,6 +74,9 @@ class MemoBloc extends Bloc<MemoEvent, MemoState> {
     );
     result.when(
       success: (saved) {
+        if (saved) {
+          _analyticsTracker?.trackEvent(AnalyticsEvents.memoCreated);
+        }
         emit(
           state.copyWith(
             status: saved ? MemoStatus.addMemoSuccess : MemoStatus.failure,
@@ -92,6 +100,12 @@ class MemoBloc extends Bloc<MemoEvent, MemoState> {
     );
     result.when(
       success: (saved) {
+        if (saved) {
+          _analyticsTracker?.trackEvent(
+            AnalyticsEvents.memoUpdated,
+            {'memo_id': event.memoId},
+          );
+        }
         emit(
           state.copyWith(
             status: saved ? MemoStatus.updateMemoSuccess : MemoStatus.failure,
@@ -110,6 +124,12 @@ class MemoBloc extends Bloc<MemoEvent, MemoState> {
     final result = await _deleteMemoUseCase(event.memoId);
     result.when(
       success: (saved) {
+        if (saved) {
+          _analyticsTracker?.trackEvent(
+            AnalyticsEvents.memoDeleted,
+            {'memo_id': event.memoId},
+          );
+        }
         emit(
           state.copyWith(
             status: saved ? MemoStatus.removeMemoSuccess : MemoStatus.failure,

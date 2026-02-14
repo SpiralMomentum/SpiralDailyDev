@@ -1,3 +1,4 @@
+import 'package:app_logging/app_logging.dart';
 import 'package:apps.daily_memo/features/memo/data/mappers/model_to_entity_mapper.dart';
 import 'package:apps.daily_memo/features/memo/data/models/add_memo_model.dart';
 import 'package:apps.daily_memo/features/memo/data/models/saved_memo_model.dart';
@@ -6,6 +7,8 @@ import 'package:apps.daily_memo/features/memo/data/exceptions/external_exception
 import 'package:apps.daily_memo/features/memo/domain/entities/memo_info_entity.dart';
 import 'package:apps.daily_memo/features/memo/domain/repositories/memo_repository.dart';
 import 'package:utils/utils.dart';
+
+final _logger = AppLogger(tag: 'MemoRepository');
 
 class MemoRepositoryImpl extends MemoRepository {
   final MemoLocalDataSource _localDataSource;
@@ -95,17 +98,24 @@ class MemoRepositoryImpl extends MemoRepository {
   }
 
   Failure _mapExternalFailure(Failure error) {
-    if (error is LocalStorageExternalException) {
-      return LocalStorageFailure(
-        message: error.message ?? '메모 저장소에 접근할 수 없습니다.',
-        cause: error.cause ?? error,
-        stackTrace: error.stackTrace,
-      );
-    }
-    return LocalStorageFailure(
-      message: '메모 저장소에 접근할 수 없습니다.',
-      cause: error,
-      stackTrace: error.stackTrace,
+    final failure = error is LocalStorageExternalException
+        ? LocalStorageFailure(
+            message: error.message ?? '메모 저장소에 접근할 수 없습니다.',
+            cause: error.cause ?? error,
+            stackTrace: error.stackTrace,
+          )
+        : LocalStorageFailure(
+            message: '메모 저장소에 접근할 수 없습니다.',
+            cause: error,
+            stackTrace: error.stackTrace,
+          );
+
+    _logger.error(
+      failure.message ?? 'Unknown storage error',
+      error: failure.cause,
+      stackTrace: failure.stackTrace,
     );
+
+    return failure;
   }
 }

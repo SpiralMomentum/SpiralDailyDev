@@ -2,6 +2,7 @@ import 'package:apps.daily_memo/features/memo/domain/entities/memo_info_entity.d
 import 'package:apps.daily_memo/features/memo/presentation/bloc/memo/memo_bloc.dart';
 import 'package:apps.daily_memo/features/memo/presentation/bloc/memo/memo_event.dart';
 import 'package:apps.daily_memo/features/memo/presentation/bloc/memo/memo_state.dart';
+import 'package:apps.daily_memo/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -34,6 +35,7 @@ class MemoView extends StatelessWidget {
           appBar: isAddMode ? _addAppBar(context) : _editAppBar(context),
           body: SafeArea(
             child: _buildMemoWidget(
+              context,
               titleTextController,
               contentTextController,
             ),
@@ -74,7 +76,9 @@ class MemoView extends StatelessWidget {
               height: 56.0,
               width: double.infinity,
               child: Text(
-                isAddMode ? "추가" : "수정",
+                isAddMode
+                    ? AppLocalizations.of(context)!.add
+                    : AppLocalizations.of(context)!.edit,
                 style: const TextStyle(
                   fontSize: 18.0,
                   fontWeight: FontWeight.bold,
@@ -88,9 +92,11 @@ class MemoView extends StatelessWidget {
   }
 
   _buildMemoWidget(
+    BuildContext context,
     TextEditingController titleTextController,
     TextEditingController contentTextController,
   ) {
+    final l10n = AppLocalizations.of(context)!;
     return SingleChildScrollView(
       child: Container(
         padding: const EdgeInsets.fromLTRB(16.0, 32.0, 16.0, 96.0),
@@ -98,9 +104,9 @@ class MemoView extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              "제목",
-              style: TextStyle(
+            Text(
+              l10n.titleLabel,
+              style: const TextStyle(
                 fontSize: 18.0,
                 fontWeight: FontWeight.bold,
               ),
@@ -115,9 +121,9 @@ class MemoView extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 48.0),
-            const Text(
-              "내용",
-              style: TextStyle(
+            Text(
+              l10n.contentLabel,
+              style: const TextStyle(
                 fontSize: 18.0,
                 fontWeight: FontWeight.bold,
               ),
@@ -150,9 +156,9 @@ class MemoView extends StatelessWidget {
             color: Colors.black,
           ),
         ),
-        title: const Text(
-          "수정",
-          style: TextStyle(
+        title: Text(
+          AppLocalizations.of(context)!.edit,
+          style: const TextStyle(
             color: Colors.black,
             fontWeight: FontWeight.bold,
           ),
@@ -173,9 +179,9 @@ class MemoView extends StatelessWidget {
             color: Colors.black,
           ),
         ),
-        title: const Text(
-          "추가",
-          style: TextStyle(
+        title: Text(
+          AppLocalizations.of(context)!.add,
+          style: const TextStyle(
             color: Colors.black,
             fontWeight: FontWeight.bold,
           ),

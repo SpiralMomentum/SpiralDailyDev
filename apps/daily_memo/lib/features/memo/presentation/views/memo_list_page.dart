@@ -4,6 +4,7 @@ import 'package:apps.daily_memo/features/memo/domain/entities/memo_info_entity.d
 import 'package:apps.daily_memo/features/memo/presentation/bloc/memo/memo_bloc.dart';
 import 'package:apps.daily_memo/features/memo/presentation/bloc/memo/memo_event.dart';
 import 'package:apps.daily_memo/features/memo/presentation/views/memo_list_item_view.dart';
+import 'package:apps.daily_memo/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -20,7 +21,7 @@ class MemoListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return memos.isEmpty
-        ? _getDefaultContentWidget()
+        ? _getDefaultContentWidget(context)
         : _getMemoListWidget(memos);
   }
 
@@ -72,12 +73,16 @@ class MemoListView extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  listItem.title.isEmpty ? "(빈 제목)" : listItem.title,
+                  listItem.title.isEmpty
+                      ? AppLocalizations.of(context)!.emptyTitle
+                      : listItem.title,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
                 Text(
-                  listItem.content.isEmpty ? "(빈 내용)" : listItem.content,
+                  listItem.content.isEmpty
+                      ? AppLocalizations.of(context)!.emptyContent
+                      : listItem.content,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 )
@@ -96,9 +101,9 @@ class MemoListView extends StatelessWidget {
                   color: Colors.amber,
                   borderRadius: BorderRadius.all(Radius.circular(10.0)),
                 ),
-                child: const Padding(
-                  padding: EdgeInsets.all(16.0),
-                  child: Text("삭제하기"),
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Text(AppLocalizations.of(context)!.deleteAction),
                 ),
               ),
             ),
@@ -111,10 +116,10 @@ class MemoListView extends StatelessWidget {
     );
   }
 
-  Widget _getDefaultContentWidget() {
-    return const Text(
-      "데이터가 없습니다.",
-      style: TextStyle(
+  Widget _getDefaultContentWidget(BuildContext context) {
+    return Text(
+      AppLocalizations.of(context)!.noMemos,
+      style: const TextStyle(
         fontSize: 28.0,
       ),
     );

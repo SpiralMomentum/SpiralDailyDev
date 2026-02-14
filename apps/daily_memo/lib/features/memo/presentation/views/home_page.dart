@@ -7,6 +7,7 @@ import 'package:apps.daily_memo/features/memo/presentation/bloc/memo/memo_state.
 import 'package:apps.daily_memo/features/memo/presentation/views/calendar_page.dart';
 import 'package:apps.daily_memo/features/memo/presentation/views/memo_list_page.dart';
 import 'package:apps.daily_memo/features/memo/presentation/widgets/custom_app_bar.dart';
+import 'package:apps.daily_memo/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -28,10 +29,11 @@ class HomeView extends StatelessWidget {
                 preferredSize: const Size.fromHeight(48.0),
                 child: BlocBuilder<MemoBloc, MemoState>(
                   builder: (context, state) {
+                    final l10n = AppLocalizations.of(context)!;
                     return CustomAppBar(
                       appBarItems: [
                         CustomAppBarItem(
-                          leadingText: "추가",
+                          leadingText: l10n.add,
                           onTap: () => homeBloc.add(
                             MoveToAddMemo(
                               context: context,
@@ -97,20 +99,21 @@ class HomeView extends StatelessWidget {
   }
 
   Widget bottomBar(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return NavigationBar(
         onDestinationSelected: (int index) =>
             context.read<HomeBloc>().add(MoveTab(index)),
         indicatorColor: Colors.amber,
         selectedIndex: context.read<HomeBloc>().state.index,
-        destinations: const <Widget>[
+        destinations: <Widget>[
           NavigationDestination(
-            selectedIcon: Icon(Icons.home),
-            icon: Icon(Icons.home_outlined),
-            label: 'Home',
+            selectedIcon: const Icon(Icons.home),
+            icon: const Icon(Icons.home_outlined),
+            label: l10n.home,
           ),
           NavigationDestination(
-            icon: Badge(child: Icon(Icons.notifications_sharp)),
-            label: 'Notifications',
+            icon: const Badge(child: Icon(Icons.notifications_sharp)),
+            label: l10n.notifications,
           ),
         ]);
   }
