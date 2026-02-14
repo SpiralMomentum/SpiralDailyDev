@@ -7,7 +7,7 @@
 
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:luck_insight/main.dart';
+import 'package:luck_insight/app/luck_insight_app.dart';
 
 void main() {
   testWidgets('shows fortune selection prompt', (WidgetTester tester) async {
