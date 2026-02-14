@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:world_map_widget/world_map_widget.dart';
 
 import 'package:world_field_guide/app/theme/app_theme.dart';
+import 'package:world_field_guide/core/analytics/analytics_events.dart';
+import 'package:world_field_guide/core/analytics/analytics_tracker.dart';
 import 'package:world_field_guide/features/world_map/domain/entities/world_map_data.dart';
 import 'package:world_field_guide/features/world_map/domain/usecases/get_country_specialties_use_case.dart';
 import 'package:world_field_guide/features/world_map/domain/usecases/get_world_map_use_case.dart';
@@ -14,11 +16,13 @@ class WorldMapScreen extends StatefulWidget {
     required this.themeVariant,
     required this.getWorldMapUseCase,
     required this.getCountrySpecialtiesUseCase,
+    this.analyticsTracker,
   });
 
   final AppThemeVariant themeVariant;
   final GetWorldMapUseCase getWorldMapUseCase;
   final GetCountrySpecialtiesUseCase getCountrySpecialtiesUseCase;
+  final AnalyticsTracker? analyticsTracker;
 
   @override
   State<WorldMapScreen> createState() => _WorldMapScreenState();
@@ -32,6 +36,15 @@ class _WorldMapScreenState extends State<WorldMapScreen> {
   late final WorldMapData _data;
 
   void _openCountryDetails(WorldCountryTapDetails details) {
+    // 국가 선택 이벤트 트래킹
+    widget.analyticsTracker?.trackEvent(
+      AnalyticsEvents.countrySelected,
+      {
+        'country_id': details.countryId,
+        if (details.countryName != null) 'country_name': details.countryName!,
+      },
+    );
+
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => CountryMapScreen(
@@ -39,6 +52,7 @@ class _WorldMapScreenState extends State<WorldMapScreen> {
           countryId: details.countryId,
           countryName: details.countryName,
           getCountrySpecialtiesUseCase: widget.getCountrySpecialtiesUseCase,
+          analyticsTracker: widget.analyticsTracker,
         ),
       ),
     );
@@ -50,6 +64,10 @@ class _WorldMapScreenState extends State<WorldMapScreen> {
     _getWorldMapUseCase = widget.getWorldMapUseCase;
     _data = _getWorldMapUseCase().dataOrNull ??
         const WorldMapData(caption: '전 세계 특산품을 불러오는 중입니다.');
+
+    // 세계 지도 화면 조회 이벤트 트래킹
+    widget.analyticsTracker?.trackScreenView('WorldMapScreen');
+    widget.analyticsTracker?.trackEvent(AnalyticsEvents.worldMapViewed);
   }
 
   @override

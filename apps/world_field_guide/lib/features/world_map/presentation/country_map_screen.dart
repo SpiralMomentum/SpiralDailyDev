@@ -2,6 +2,8 @@ import 'package:countries_world_map/countries_world_map.dart';
 import 'package:flutter/material.dart';
 
 import 'package:world_field_guide/app/theme/app_theme.dart';
+import 'package:world_field_guide/core/analytics/analytics_events.dart';
+import 'package:world_field_guide/core/analytics/analytics_tracker.dart';
 import 'package:world_field_guide/features/world_map/domain/usecases/get_country_specialties_use_case.dart';
 
 class CountryMapScreen extends StatefulWidget {
@@ -11,12 +13,14 @@ class CountryMapScreen extends StatefulWidget {
     required this.countryId,
     required this.getCountrySpecialtiesUseCase,
     this.countryName,
+    this.analyticsTracker,
   });
 
   final String instruction;
   final String countryId;
   final String? countryName;
   final GetCountrySpecialtiesUseCase getCountrySpecialtiesUseCase;
+  final AnalyticsTracker? analyticsTracker;
 
   @override
   State<CountryMapScreen> createState() => _CountryMapScreenState();
@@ -42,6 +46,10 @@ class _CountryMapScreenState extends State<CountryMapScreen> {
   void initState() {
     super.initState();
     _getCountrySpecialtiesUseCase = widget.getCountrySpecialtiesUseCase;
+
+    // 국가 상세 화면 조회 트래킹
+    widget.analyticsTracker?.trackScreenView('CountryMapScreen');
+
     _loadSpecialties().whenComplete(() {
       if (!mounted) return;
       WidgetsBinding.instance.addPostFrameCallback((_) {

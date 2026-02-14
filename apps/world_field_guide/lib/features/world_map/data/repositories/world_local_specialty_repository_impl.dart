@@ -1,8 +1,12 @@
 import 'dart:convert';
 
+import 'package:app_logging/app_logging.dart';
+import 'package:flutter/foundation.dart' show visibleForTesting;
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:utils/utils.dart';
 import 'package:world_field_guide/features/world_map/domain/repositories/world_local_specialty_repository.dart';
+
+final _logger = AppLogger(tag: 'SpecialtyRepository');
 
 class WorldLocalSpecialtyRepositoryImpl
     implements WorldLocalSpecialtyRepository {
@@ -13,6 +17,10 @@ class WorldLocalSpecialtyRepositoryImpl
   final String assetPath;
 
   static Map<String, List<String>>? _cache;
+
+  /// 테스트 전용: 정적 캐시를 초기화한다.
+  @visibleForTesting
+  static void resetCache() => _cache = null;
 
   @override
   Future<Result<List<String>>> fetchForCountry(String countryCode) async {
@@ -26,11 +34,18 @@ class WorldLocalSpecialtyRepositoryImpl
         }
         return List<String>.unmodifiable(values);
       },
-      onError: (error, stackTrace) => ParsingFailure(
-        message: '특산품 정보를 불러오지 못했습니다.',
-        cause: error,
-        stackTrace: stackTrace,
-      ),
+      onError: (error, stackTrace) {
+        _logger.error(
+          '특산품 JSON 파싱 실패',
+          error: error,
+          stackTrace: stackTrace,
+        );
+        return ParsingFailure(
+          message: '특산품 정보를 불러오지 못했습니다.',
+          cause: error,
+          stackTrace: stackTrace,
+        );
+      },
     );
   }
 
