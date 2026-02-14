@@ -64,6 +64,10 @@ class _MovieTimelinePageState extends State<MovieTimelinePage> {
   }
 
   void _openDetail(MovieSummary summary) {
+    _controller.trackMovieDetailViewed(
+      movieId: summary.id,
+      title: summary.title,
+    );
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (_) => MovieDetailPage(

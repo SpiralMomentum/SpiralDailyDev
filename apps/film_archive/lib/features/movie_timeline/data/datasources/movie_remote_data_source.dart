@@ -1,3 +1,4 @@
+import 'package:app_logging/app_logging.dart';
 import 'package:networking/networking.dart' as networking;
 import 'package:retrofit/dio.dart';
 import 'package:utils/utils.dart';
@@ -12,6 +13,7 @@ class MovieRemoteDataSource {
       : _dataSource = dataSource;
 
   final networking.TmdbDataSource _dataSource;
+  final _logger = AppLogger(tag: 'MovieRemoteDataSource');
 
   Future<Result<MovieSummaryDto?>> fetchTopMovieForYear(
     int year,
@@ -85,6 +87,11 @@ class MovieRemoteDataSource {
     networking.NetworkException error,
     StackTrace stackTrace,
   ) {
+    _logger.error(
+      '네트워크 에러 [${error.failure.type.name}]: ${error.failure.message}',
+      error: error,
+      stackTrace: stackTrace,
+    );
     if (error.failure.type == networking.NetworkFailureType.serialization) {
       return ParsingFailure(
         message: '응답을 해석하지 못했습니다.',
@@ -101,6 +108,11 @@ class MovieRemoteDataSource {
   }
 
   Failure _mapParsingFailure(Object error, StackTrace stackTrace) {
+    _logger.warning(
+      '응답 파싱 실패',
+      error: error,
+      stackTrace: stackTrace,
+    );
     return ParsingFailure(
       message: '응답을 해석하지 못했습니다.',
       cause: error,

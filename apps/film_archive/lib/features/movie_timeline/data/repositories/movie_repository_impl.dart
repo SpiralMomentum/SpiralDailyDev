@@ -1,3 +1,4 @@
+import 'package:app_logging/app_logging.dart';
 import 'package:film_archive/features/movie_timeline/data/datasources/movie_remote_data_source.dart';
 import 'package:film_archive/features/movie_timeline/data/mappers/movie_detail_mapper.dart';
 import 'package:film_archive/features/movie_timeline/data/mappers/movie_summary_mapper.dart';
@@ -14,6 +15,7 @@ class MovieRepositoryImpl implements MovieRepository {
       : _remoteDataSource = remoteDataSource;
 
   final MovieRemoteDataSource _remoteDataSource;
+  final _logger = AppLogger(tag: 'MovieRepository');
 
   @override
   Future<Result<List<MovieSummary>>> fetchTopMoviesByYearRange({
@@ -49,6 +51,11 @@ class MovieRepositoryImpl implements MovieRepository {
   }
 
   MovieFailure _asMovieFailure(Failure failure) {
+    _logger.error(
+      '영화 데이터 요청 실패: ${failure.message}',
+      error: failure.cause,
+      stackTrace: failure.stackTrace,
+    );
     return MovieFailure(
       message: failure.message ?? '영화 정보를 불러오지 못했습니다. 잠시 후 다시 시도해주세요.',
       code: failure.code,
