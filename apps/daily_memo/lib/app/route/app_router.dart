@@ -1,5 +1,6 @@
 import 'package:app_navigation/app_navigation.dart';
 import 'package:apps.daily_memo/app/route/app_routes.dart';
+import 'package:apps.daily_memo/core/analytics/analytics_tracker.dart';
 import 'package:apps.daily_memo/features/memo/domain/repositories/memo_repository.dart';
 import 'package:apps.daily_memo/features/memo/domain/usecases/add_memo_use_case.dart';
 import 'package:apps.daily_memo/features/memo/domain/usecases/delete_memo_use_case.dart';
@@ -25,11 +26,13 @@ extension AppRoutesGoRouter on AppRoutes {
           path: AppRoutes.home.path,
           builder: (BuildContext context, GoRouterState state) {
             final repository = getIt.get<MemoRepository>();
+            final analyticsTracker = getIt.get<AnalyticsTracker>();
             return MultiBlocProvider(
               providers: [
                 BlocProvider<HomeBloc>(
                   create: (context) => HomeBloc(
                     routesController: getIt.get<RoutesController>(),
+                    analyticsTracker: analyticsTracker,
                   ),
                 ),
                 BlocProvider<MemoBloc>(
@@ -40,6 +43,7 @@ extension AppRoutesGoRouter on AppRoutes {
                     updateMemoUseCase: UpdateMemoUseCase(repository: repository),
                     deleteMemoUseCase: DeleteMemoUseCase(repository: repository),
                     routesController: getIt.get<RoutesController>(),
+                    analyticsTracker: analyticsTracker,
                   )..add(GetAllMemos()),
                 ),
               ],

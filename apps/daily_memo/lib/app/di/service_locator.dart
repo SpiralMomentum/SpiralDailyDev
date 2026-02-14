@@ -1,4 +1,6 @@
 import 'package:app_navigation/app_navigation.dart';
+import 'package:apps.daily_memo/core/analytics/analytics_tracker.dart';
+import 'package:apps.daily_memo/core/analytics/debug_analytics_tracker.dart';
 import 'package:apps.daily_memo/features/memo/data/datasources/memo_local_data_source.dart';
 import 'package:apps.daily_memo/features/memo/data/repositories/memo_repository_impl.dart';
 import 'package:apps.daily_memo/features/memo/domain/repositories/memo_repository.dart';
@@ -10,6 +12,9 @@ final getIt = GetIt.instance;
 class ServiceLocator {
   static Future<void> setupLocatorSingleton() async {
     getIt
+      ..registerLazySingleton<AnalyticsTracker>(
+        () => DebugAnalyticsTracker(),
+      )
       ..registerLazySingleton<MemoLocalDataSource>(
         () => SqlMemoLocalDataSource(),
       )
