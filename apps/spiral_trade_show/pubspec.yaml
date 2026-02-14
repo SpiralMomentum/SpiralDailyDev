@@ -25,19 +25,21 @@ dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^1.0.2
-  cached_network_image: 3.3.0
+  cached_network_image: ^3.4.1
   retrofit: ^4.4.0
-  flutter_riverpod: 2.4.10
-  riverpod_annotation: 2.3.4
   flutter_bloc: ^8.1.6
   json_annotation: ^4.9.0
-  dio: ^5.7.0
+  networking:
+    path: ../../packages/networking
   equatable: ^2.0.5
   html: ^0.15.4
-  intl: ^0.18.0 # 최신 버전으로 업데이트하세요.
+  intl: ^0.20.0
   ui_components:
     path: ../../packages/ui_components
-  dartz: ^0.10.1
+  app_logging:
+    path: ../../packages/app_logging
+  utils:
+    path: ../../packages/utils
 
 dev_dependencies:
   flutter_test:
@@ -46,6 +48,8 @@ dev_dependencies:
   json_serializable: ^6.8.0
   flutter_lints: ^2.0.0
   retrofit_generator: 8.2.1
+  mocktail: ^1.0.4
+  bloc_test: ^9.1.7
 
 flutter:
   uses-material-design: true
