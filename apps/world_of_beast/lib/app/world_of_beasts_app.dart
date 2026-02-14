@@ -9,7 +9,14 @@ import 'package:world_of_beast/features/monsters/domain/repositories/monster_rep
 import 'package:world_of_beast/features/monsters/presentation/views/world_of_beasts_home_page.dart';
 
 class WorldOfBeastsApp extends StatelessWidget {
-  const WorldOfBeastsApp({super.key});
+  const WorldOfBeastsApp({
+    super.key,
+    this.repository,
+    this.favoriteRepository,
+  });
+
+  final MonsterRepository? repository;
+  final FavoriteMonstersRepository? favoriteRepository;
 
   @override
   Widget build(BuildContext context) {
@@ -21,12 +28,14 @@ class WorldOfBeastsApp extends StatelessWidget {
         useMaterial3: true,
       ),
       home: WorldOfBeastsHomePage(
-        monsterRepository: MonsterRepositoryImpl(
-          dataSource: const MonstersLocalDataSource(),
-        ),
-        favoriteRepository: FavoriteMonstersRepositoryImpl(
-          dataSource: const FavoriteMonstersLocalDataSource(),
-        ),
+        monsterRepository: repository ??
+            MonsterRepositoryImpl(
+              dataSource: MonstersLocalDataSource(),
+            ),
+        favoriteRepository: favoriteRepository ??
+            FavoriteMonstersRepositoryImpl(
+              dataSource: FavoriteMonstersLocalDataSource(),
+            ),
       ),
     );
   }
