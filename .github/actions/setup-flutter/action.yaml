@@ -1,0 +1,30 @@
+name: "Setup Flutter"
+description: "Install Flutter SDK, activate Melos, and bootstrap the monorepo"
+
+inputs:
+  flutter-version:
+    description: "Flutter SDK version"
+    required: false
+    default: "3.27.4"
+  flutter-channel:
+    description: "Flutter channel"
+    required: false
+    default: "stable"
+
+runs:
+  using: "composite"
+  steps:
+    - name: Setup Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        flutter-version: ${{ inputs.flutter-version }}
+        channel: ${{ inputs.flutter-channel }}
+        cache: true
+
+    - name: Install Melos
+      shell: bash
+      run: dart pub global activate melos
+
+    - name: Bootstrap
+      shell: bash
+      run: melos bootstrap

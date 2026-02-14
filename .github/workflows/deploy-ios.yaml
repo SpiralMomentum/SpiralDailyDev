@@ -1,0 +1,65 @@
+name: Deploy iOS
+
+on:
+  workflow_dispatch:
+    inputs:
+      app:
+        description: "App to deploy"
+        required: true
+        type: choice
+        options:
+          - adage_spark
+          - daily_memo
+          - film_archive
+          - luck_insight
+          - spiral_trade_show
+          - world_field_guide
+          - world_of_beast
+      target:
+        description: "Deployment target"
+        required: true
+        type: choice
+        options:
+          - testflight
+          - appstore
+  workflow_call:
+    inputs:
+      app:
+        required: true
+        type: string
+      target:
+        required: true
+        type: string
+
+jobs:
+  deploy:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: ./.github/actions/setup-flutter
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.2"
+          bundler-cache: true
+
+      - name: Setup SSH for match
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.MATCH_GIT_PRIVATE_KEY }}
+
+      - name: Deploy to ${{ inputs.target }}
+        env:
+          ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+          ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+          ASC_KEY_CONTENT: ${{ secrets.ASC_KEY_CONTENT }}
+          MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
+        run: |
+          if [ "${{ inputs.target }}" = "testflight" ]; then
+            bundle exec fastlane ios deploy_testflight app:${{ inputs.app }}
+          else
+            bundle exec fastlane ios deploy_appstore app:${{ inputs.app }}
+          fi

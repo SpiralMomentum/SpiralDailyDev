@@ -1,0 +1,111 @@
+name: CI
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  detect-changes:
+    runs-on: ubuntu-latest
+    outputs:
+      apps: ${{ steps.filter.outputs.changes }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            adage_spark:
+              - 'apps/adage_spark/**'
+              - 'packages/**'
+            daily_memo:
+              - 'apps/daily_memo/**'
+              - 'packages/**'
+            film_archive:
+              - 'apps/film_archive/**'
+              - 'packages/**'
+            luck_insight:
+              - 'apps/luck_insight/**'
+              - 'packages/**'
+            spiral_trade_show:
+              - 'apps/spiral_trade_show/**'
+              - 'packages/**'
+            world_field_guide:
+              - 'apps/world_field_guide/**'
+              - 'packages/**'
+            world_of_beast:
+              - 'apps/world_of_beast/**'
+              - 'packages/**'
+
+  # ── 공유 패키지 테스트 ──────────────────────────────
+  test-packages:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: ./.github/actions/setup-flutter
+
+      - name: Test utils (with coverage)
+        run: flutter test --coverage
+        working-directory: packages/utils
+
+      - name: Test networking
+        run: dart test
+        working-directory: packages/networking
+
+  # ── 앱별 분석/테스트/빌드 ───────────────────────────
+  analyze-and-test:
+    needs: detect-changes
+    if: needs.detect-changes.outputs.apps != '[]'
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        app: ${{ fromJson(needs.detect-changes.outputs.apps) }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: ./.github/actions/setup-flutter
+
+      - name: Analyze
+        run: dart analyze --fatal-infos
+        working-directory: apps/${{ matrix.app }}
+
+      - name: Test with coverage
+        run: flutter test --coverage
+        working-directory: apps/${{ matrix.app }}
+
+      - name: Check coverage threshold
+        run: |
+          if [ ! -f coverage/lcov.info ]; then
+            echo "No coverage file found, skipping threshold check"
+            exit 0
+          fi
+
+          # Count total and covered lines
+          TOTAL=$(grep -c "^DA:" coverage/lcov.info || true)
+          COVERED=$(grep "^DA:" coverage/lcov.info | grep -cv ",0$" || true)
+
+          if [ "$TOTAL" -eq 0 ]; then
+            echo "No coverage data found"
+            exit 0
+          fi
+
+          PERCENT=$((COVERED * 100 / TOTAL))
+          echo "Coverage: $COVERED / $TOTAL lines ($PERCENT%)"
+
+          THRESHOLD=30
+          if [ "$PERCENT" -lt "$THRESHOLD" ]; then
+            echo "Coverage $PERCENT% is below threshold $THRESHOLD%"
+            exit 1
+          fi
+          echo "Coverage $PERCENT% meets threshold $THRESHOLD%"
+        working-directory: apps/${{ matrix.app }}
+
+      - name: Build (debug APK)
+        run: flutter build apk --debug
+        working-directory: apps/${{ matrix.app }}

@@ -1,0 +1,46 @@
+name: Deploy All (Android + iOS)
+
+on:
+  workflow_dispatch:
+    inputs:
+      app:
+        description: "App to deploy"
+        required: true
+        type: choice
+        options:
+          - adage_spark
+          - daily_memo
+          - film_archive
+          - luck_insight
+          - spiral_trade_show
+          - world_field_guide
+          - world_of_beast
+      android_track:
+        description: "Play Store track"
+        required: true
+        type: choice
+        options:
+          - internal
+          - production
+      ios_target:
+        description: "iOS deployment target"
+        required: true
+        type: choice
+        options:
+          - testflight
+          - appstore
+
+jobs:
+  android:
+    uses: ./.github/workflows/deploy-android.yaml
+    with:
+      app: ${{ inputs.app }}
+      track: ${{ inputs.android_track }}
+    secrets: inherit
+
+  ios:
+    uses: ./.github/workflows/deploy-ios.yaml
+    with:
+      app: ${{ inputs.app }}
+      target: ${{ inputs.ios_target }}
+    secrets: inherit
