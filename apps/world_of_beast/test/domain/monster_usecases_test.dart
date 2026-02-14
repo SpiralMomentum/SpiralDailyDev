@@ -1,9 +1,10 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:world_of_beast/domain/entities/monster.dart';
-import 'package:world_of_beast/domain/repositories/monster_repository.dart';
-import 'package:world_of_beast/domain/usecases/filter_monsters_by_country_use_case.dart';
-import 'package:world_of_beast/domain/usecases/get_monsters_use_case.dart';
-import 'package:world_of_beast/domain/usecases/sort_monsters_use_case.dart';
+import 'package:utils/result/result.dart';
+import 'package:world_of_beast/features/monsters/domain/entities/monster.dart';
+import 'package:world_of_beast/features/monsters/domain/repositories/monster_repository.dart';
+import 'package:world_of_beast/features/monsters/domain/usecases/filter_monsters_by_country_use_case.dart';
+import 'package:world_of_beast/features/monsters/domain/usecases/get_monsters_use_case.dart';
+import 'package:world_of_beast/features/monsters/domain/usecases/sort_monsters_use_case.dart';
 
 class _FakeMonsterRepository implements MonsterRepository {
   _FakeMonsterRepository(this.monsters);
@@ -11,8 +12,8 @@ class _FakeMonsterRepository implements MonsterRepository {
   final List<Monster> monsters;
 
   @override
-  Future<List<Monster>> fetchMonsters() async {
-    return monsters;
+  Future<Result<List<Monster>>> fetchMonsters() async {
+    return Success(monsters);
   }
 }
 
@@ -74,7 +75,9 @@ void main() {
         sortMonsters: sortUseCase,
       );
       final result = await useCase();
-      expect(result.map((m) => m.name), ['Dokkaebi', 'Gumiho', 'Kappa']);
+      expect(result.isSuccess, isTrue);
+      final monsters = (result as Success<List<Monster>>).data;
+      expect(monsters.map((m) => m.name), ['Dokkaebi', 'Gumiho', 'Kappa']);
     });
   });
 }

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:utils/result/result.dart';
 import 'package:world_map_widget/world_map_widget.dart';
 
-import 'package:world_of_beast/domain/entities/monster.dart';
-import 'package:world_of_beast/domain/repositories/monster_repository.dart';
+import 'package:world_of_beast/features/monsters/domain/entities/monster.dart';
+import 'package:world_of_beast/features/monsters/domain/repositories/monster_repository.dart';
 import 'package:world_of_beast/main.dart';
 
 class _FakeMonsterRepository implements MonsterRepository {
@@ -12,8 +13,8 @@ class _FakeMonsterRepository implements MonsterRepository {
   final List<Monster> monsters;
 
   @override
-  Future<List<Monster>> fetchMonsters() async {
-    return monsters;
+  Future<Result<List<Monster>>> fetchMonsters() async {
+    return Success(monsters);
   }
 }
 
