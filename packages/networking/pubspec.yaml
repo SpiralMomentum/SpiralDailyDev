@@ -12,6 +12,7 @@ dependencies:
   retrofit: '>=4.0.1 <5.0.0'
 
 dev_dependencies:
+  test: ^1.24.0
   lints: ^3.0.0
   build_runner: ^2.4.12
   retrofit_generator: ^8.2.1

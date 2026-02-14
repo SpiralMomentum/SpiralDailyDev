@@ -11,6 +11,9 @@ NetworkFailure mapDioError(DioException exception) {
         type: NetworkFailureType.timeout,
         message: '요청 시간이 초과되었습니다. 잠시 후 다시 시도해주세요.',
       );
+    // TODO(보안): badCertificate는 SSL/TLS 인증서 검증 실패를 의미하므로
+    //  badResponse와 분리하여 별도 처리해야 한다. MITM 공격 가능성을 사용자에게 알리거나
+    //  요청을 차단하는 전용 NetworkFailureType 추가를 검토할 것.
     case DioExceptionType.badCertificate:
     case DioExceptionType.badResponse:
       return NetworkFailure(
