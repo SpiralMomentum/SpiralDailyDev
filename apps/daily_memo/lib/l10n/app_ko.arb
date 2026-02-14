@@ -1,0 +1,105 @@
+{
+  "@@locale": "ko",
+  "appTitle": "데일리 메모",
+  "@appTitle": {
+    "description": "앱 타이틀"
+  },
+  "memoListTitle": "메모 목록",
+  "@memoListTitle": {
+    "description": "메모 목록 화면 제목"
+  },
+  "calendarTitle": "캘린더",
+  "@calendarTitle": {
+    "description": "캘린더 화면 제목"
+  },
+  "newMemo": "새 메모",
+  "@newMemo": {
+    "description": "새 메모 작성 버튼 텍스트"
+  },
+  "saveMemo": "저장",
+  "@saveMemo": {
+    "description": "메모 저장 버튼 텍스트"
+  },
+  "deleteMemo": "삭제",
+  "@deleteMemo": {
+    "description": "메모 삭제 버튼 텍스트"
+  },
+  "deleteAction": "삭제하기",
+  "@deleteAction": {
+    "description": "삭제 실행 버튼 텍스트"
+  },
+  "deleteConfirmation": "이 메모를 삭제하시겠습니까?",
+  "@deleteConfirmation": {
+    "description": "메모 삭제 확인 다이얼로그 메시지"
+  },
+  "noMemos": "데이터가 없습니다.",
+  "@noMemos": {
+    "description": "메모가 없을 때 표시되는 안내 메시지"
+  },
+  "memoTitleHint": "제목을 입력하세요",
+  "@memoTitleHint": {
+    "description": "메모 제목 입력 필드 힌트 텍스트"
+  },
+  "memoContentHint": "내용을 입력하세요",
+  "@memoContentHint": {
+    "description": "메모 내용 입력 필드 힌트 텍스트"
+  },
+  "titleLabel": "제목",
+  "@titleLabel": {
+    "description": "메모 제목 라벨"
+  },
+  "contentLabel": "내용",
+  "@contentLabel": {
+    "description": "메모 내용 라벨"
+  },
+  "emptyTitle": "(빈 제목)",
+  "@emptyTitle": {
+    "description": "제목이 비어있을 때 표시되는 텍스트"
+  },
+  "emptyContent": "(빈 내용)",
+  "@emptyContent": {
+    "description": "내용이 비어있을 때 표시되는 텍스트"
+  },
+  "add": "추가",
+  "@add": {
+    "description": "추가 버튼 텍스트"
+  },
+  "edit": "수정",
+  "@edit": {
+    "description": "수정 버튼/타이틀 텍스트"
+  },
+  "cancel": "취소",
+  "@cancel": {
+    "description": "취소 버튼 텍스트"
+  },
+  "confirm": "확인",
+  "@confirm": {
+    "description": "확인 버튼 텍스트"
+  },
+  "home": "홈",
+  "@home": {
+    "description": "홈 탭 라벨"
+  },
+  "notifications": "알림",
+  "@notifications": {
+    "description": "알림 탭 라벨"
+  },
+  "modifiedDate": "수정일 {date}",
+  "@modifiedDate": {
+    "description": "메모 수정일 표시",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "createdDate": "생성일 {date}",
+  "@createdDate": {
+    "description": "메모 생성일 표시",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  }
+}
