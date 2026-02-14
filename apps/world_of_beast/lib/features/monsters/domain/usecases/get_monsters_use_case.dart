@@ -1,3 +1,5 @@
+import 'package:utils/result/result.dart';
+
 import '../entities/monster.dart';
 import '../repositories/monster_repository.dart';
 import 'sort_monsters_use_case.dart';
@@ -12,8 +14,8 @@ class GetMonstersUseCase {
   final MonsterRepository _repository;
   final SortMonstersUseCase _sortMonsters;
 
-  Future<List<Monster>> call() async {
-    final monsters = await _repository.fetchMonsters();
-    return _sortMonsters(monsters);
+  Future<Result<List<Monster>>> call() async {
+    final result = await _repository.fetchMonsters();
+    return result.map((monsters) => _sortMonsters(monsters));
   }
 }

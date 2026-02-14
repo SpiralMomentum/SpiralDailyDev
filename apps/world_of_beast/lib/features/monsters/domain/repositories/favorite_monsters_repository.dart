@@ -1,4 +1,6 @@
+import 'package:utils/result/result.dart';
+
 abstract class FavoriteMonstersRepository {
-  Future<Set<String>> loadFavoriteIds();
-  Future<void> saveFavoriteIds(Set<String> ids);
+  Future<Result<Set<String>>> loadFavoriteIds();
+  Future<Result<void>> saveFavoriteIds(Set<String> ids);
 }

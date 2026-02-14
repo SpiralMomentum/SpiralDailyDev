@@ -1,3 +1,5 @@
+import 'package:utils/result/result.dart';
+
 import '../repositories/favorite_monsters_repository.dart';
 
 class SaveFavoriteMonsterIdsUseCase {
@@ -7,7 +9,7 @@ class SaveFavoriteMonsterIdsUseCase {
 
   final FavoriteMonstersRepository _repository;
 
-  Future<void> call(Set<String> ids) {
+  Future<Result<void>> call(Set<String> ids) {
     return _repository.saveFavoriteIds(ids);
   }
 }

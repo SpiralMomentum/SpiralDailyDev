@@ -1,5 +1,7 @@
+import 'package:utils/result/result.dart';
+
 import '../entities/monster.dart';
 
 abstract class MonsterRepository {
-  Future<List<Monster>> fetchMonsters();
+  Future<Result<List<Monster>>> fetchMonsters();
 }

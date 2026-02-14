@@ -1,11 +1,12 @@
 import 'dart:convert';
 
+import 'package:app_logging/app_logging.dart';
 import 'package:flutter/services.dart';
 
 import '../../domain/entities/monster.dart';
 
 class MonstersLocalDataSource {
-  const MonstersLocalDataSource({
+  MonstersLocalDataSource({
     this.assetBundle,
     this.assetPath = 'lib/data/monsters.json',
   });
@@ -13,10 +14,34 @@ class MonstersLocalDataSource {
   final AssetBundle? assetBundle;
   final String assetPath;
 
+  final _logger = AppLogger(tag: 'MonstersLocalDataSource');
+
   Future<List<Monster>> loadMonsters() async {
     final bundle = assetBundle ?? rootBundle;
-    final raw = await bundle.loadString(assetPath);
-    final decoded = jsonDecode(raw) as List<dynamic>;
+
+    late final String raw;
+    try {
+      raw = await bundle.loadString(assetPath);
+    } catch (error, stackTrace) {
+      _logger.error(
+        'JSON 파일 로드 실패: $assetPath',
+        error: error,
+        stackTrace: stackTrace,
+      );
+      rethrow;
+    }
+
+    late final List<dynamic> decoded;
+    try {
+      decoded = jsonDecode(raw) as List<dynamic>;
+    } catch (error, stackTrace) {
+      _logger.error(
+        'JSON 파싱 실패: $assetPath',
+        error: error,
+        stackTrace: stackTrace,
+      );
+      rethrow;
+    }
 
     final monsters = <Monster>[];
     for (final entry in decoded) {
