@@ -1,22 +1,12 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:world_field_guide/src/app.dart';
+import 'package:world_field_guide/app/world_field_guide_app.dart';
 
 void main() {
-  testWidgets('World map screen renders static map', (
-    WidgetTester tester,
-  ) async {
+  testWidgets('앱이 정상적으로 렌더링된다', (WidgetTester tester) async {
     await tester.pumpWidget(const WorldFieldGuideApp());
 
-    expect(find.text('세계 필드 도감'), findsOneWidget);
-    expect(find.byType(Image), findsWidgets);
+    // WorldMapWidget 내부에 caption 텍스트가 렌더링되는지 확인
+    expect(find.text('전 세계 특산품을 한눈에 살펴보세요.'), findsOneWidget);
   });
 }
