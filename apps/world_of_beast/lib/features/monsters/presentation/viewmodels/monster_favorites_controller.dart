@@ -25,12 +25,15 @@ class MonsterFavoritesController extends ChangeNotifier {
     if (_hasLoaded) {
       return;
     }
-    try {
-      final ids = await _loadFavorites();
-      _favoriteIds = Set<String>.unmodifiable(ids);
-    } catch (_) {
-      _favoriteIds = const <String>{};
-    }
+    final result = await _loadFavorites();
+    result.when(
+      success: (ids) {
+        _favoriteIds = Set<String>.unmodifiable(ids);
+      },
+      error: (_) {
+        _favoriteIds = const <String>{};
+      },
+    );
     _hasLoaded = true;
     notifyListeners();
   }
@@ -91,7 +94,7 @@ class MonsterFavoritesController extends ChangeNotifier {
     await _persistFavorites();
   }
 
-  Future<void> _persistFavorites() {
-    return _saveFavorites(_favoriteIds);
+  Future<void> _persistFavorites() async {
+    await _saveFavorites(_favoriteIds);
   }
 }
