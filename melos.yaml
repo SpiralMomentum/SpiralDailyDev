@@ -9,14 +9,37 @@ command:
     usePubspecOverrides: true
 
 scripts:
-  pub_get:
-    run: flutter pub global run melos exec --scope="apps.check_my_life" -- flutter clean && flutter pub global run melos exec --scope="apps.check_my_life" -- flutter pub get
-    description: daily memo pub get
+  # ── 전체 패키지 공통 ──────────────────────────────────
+  analyze:all:
+    run: melos exec -- dart analyze --fatal-infos
+    description: Run analyzer for all packages
 
-  daily_memo_pub_get:
-    run: flutter pub global run melos exec --scope="apps.check_my_life" -- flutter clean && flutter pub global run melos exec --scope="apps.check_my_life" -- flutter pub get
-    description: daily memo pub get
+  test:all:
+    run: melos exec -- flutter test
+    description: Run tests for all packages
 
-  daily_memo_test:
-    run: flutter pub global run melos exec --scope="apps.daily_memo" -- flutter clean && flutter pub global run melos exec --scope="apps.daily_memo" -- flutter test
-    description: daily memo pub get
+  test:coverage:
+    run: melos exec -- flutter test --coverage
+    description: Run tests with coverage for all packages
+
+  # ── DevEx 도구 ───────────────────────────────────────
+  changelog:
+    run: python3 tools/changelog/changelog_generator.py
+    description: Generate changelog from conventional commits
+
+  scaffold:
+    run: python3 tools/scaffold/scaffold_feature.py
+    description: Scaffold a new Clean Architecture feature
+
+  # ── 앱별 스크립트 ─────────────────────────────────────
+  daily_memo:pub_get:
+    run: melos exec --scope="apps.daily_memo" -- flutter pub get
+    description: Get dependencies for daily_memo
+
+  daily_memo:test:
+    run: melos exec --scope="apps.daily_memo" -- flutter test
+    description: Run tests for daily_memo
+
+  daily_memo:build:
+    run: melos exec --scope="apps.daily_memo" -- flutter build apk --debug
+    description: Build debug APK for daily_memo
