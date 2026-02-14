@@ -9,7 +9,7 @@ plugins {
 }
 
 val keystoreProperties = Properties().apply {
-    val keystorePropertiesFile = rootProject.file("key.properties")
+    val keystorePropertiesFile = rootProject.file("../../../signing/adage_spark/android/key.properties")
     if (keystorePropertiesFile.exists()) {
         load(FileInputStream(keystorePropertiesFile))
     }
@@ -54,6 +54,8 @@ android {
 
     buildTypes {
         release {
+            isMinifyEnabled = true
+            isShrinkResources = true
             signingConfig = signingConfigs.getByName("release")
         }
     }

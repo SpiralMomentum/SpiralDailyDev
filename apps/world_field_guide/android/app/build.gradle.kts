@@ -8,7 +8,7 @@ plugins {
 }
 
 val keystoreProperties = Properties().apply {
-    val propsFile = rootProject.file("key.properties")
+    val propsFile = rootProject.file("../../../signing/world_field_guide/android/key.properties")
     if (propsFile.exists()) {
         propsFile.inputStream().use { load(it) }
     }
@@ -53,6 +53,8 @@ android {
 
     buildTypes {
         release {
+            isMinifyEnabled = true
+            isShrinkResources = true
             signingConfig = signingConfigs.getByName("release")
         }
     }
