@@ -1,0 +1,3 @@
+git_url("git@github.com:GBbStar/iOS-Cert.git")
+storage_mode("git")
+type("appstore")
