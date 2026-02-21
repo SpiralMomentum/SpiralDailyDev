@@ -80,6 +80,12 @@ jobs:
           storeFile=release.keystore
           EOF
 
+      - name: Inject google-services.json
+        env:
+          GOOGLE_SERVICES_JSON: ${{ secrets[format('GOOGLE_SERVICES_JSON_{0}', env.APP_UPPER)] }}
+        if: env.GOOGLE_SERVICES_JSON != ''
+        run: echo "$GOOGLE_SERVICES_JSON" > apps/${{ matrix.app }}/android/app/google-services.json
+
       - name: Build app bundle
         run: flutter build appbundle --release
         working-directory: apps/${{ matrix.app }}
