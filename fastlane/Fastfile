@@ -4,8 +4,10 @@ require "yaml"
 # Helpers
 # ---------------------------------------------------------------------------
 
+REPO_ROOT = File.expand_path('..', __dir__)
+
 def load_app_config(app_name)
-  config = YAML.load_file(File.join(__dir__, "..", "release.yaml"))
+  config = YAML.load_file(File.join(REPO_ROOT, "release.yaml"))
   app = config.dig("apps", app_name)
   UI.user_error!("App '#{app_name}' not found in release.yaml") unless app
   app
@@ -33,11 +35,13 @@ platform :android do
     app_id = config["appId"]
     project_path = config["projectPath"]
 
-    Dir.chdir(File.join(__dir__, "..", project_path)) do
+    project_dir = File.join(REPO_ROOT, project_path)
+
+    Dir.chdir(project_dir) do
       sh("flutter", "build", "appbundle", "--release")
     end
 
-    aab_path = File.join(__dir__, "..", project_path, "build", "app", "outputs", "bundle", "release", "app-release.aab")
+    aab_path = File.join(project_dir, "build", "app", "outputs", "bundle", "release", "app-release.aab")
 
     upload_to_play_store(
       package_name: app_id,
@@ -58,11 +62,13 @@ platform :android do
     app_id = config["appId"]
     project_path = config["projectPath"]
 
-    Dir.chdir(File.join(__dir__, "..", project_path)) do
+    project_dir = File.join(REPO_ROOT, project_path)
+
+    Dir.chdir(project_dir) do
       sh("flutter", "build", "appbundle", "--release")
     end
 
-    aab_path = File.join(__dir__, "..", project_path, "build", "app", "outputs", "bundle", "release", "app-release.aab")
+    aab_path = File.join(project_dir, "build", "app", "outputs", "bundle", "release", "app-release.aab")
 
     upload_to_play_store(
       package_name: app_id,
@@ -108,11 +114,13 @@ platform :ios do
       keychain_password: "fastlane_keychain"
     )
 
-    Dir.chdir(File.join(__dir__, "..", project_path)) do
+    project_dir = File.join(REPO_ROOT, project_path)
+
+    Dir.chdir(project_dir) do
       sh("flutter", "build", "ipa", "--release", "--export-options-plist=ios/ExportOptions.plist")
     end
 
-    ipa_dir = File.join(__dir__, "..", project_path, "build", "ios", "ipa")
+    ipa_dir = File.join(project_dir, "build", "ios", "ipa")
     ipa_path = Dir.glob(File.join(ipa_dir, "*.ipa")).first
     UI.user_error!("No .ipa found in #{ipa_dir}") unless ipa_path
 
@@ -150,11 +158,13 @@ platform :ios do
       keychain_password: "fastlane_keychain"
     )
 
-    Dir.chdir(File.join(__dir__, "..", project_path)) do
+    project_dir = File.join(REPO_ROOT, project_path)
+
+    Dir.chdir(project_dir) do
       sh("flutter", "build", "ipa", "--release", "--export-options-plist=ios/ExportOptions.plist")
     end
 
-    ipa_dir = File.join(__dir__, "..", project_path, "build", "ios", "ipa")
+    ipa_dir = File.join(project_dir, "build", "ios", "ipa")
     ipa_path = Dir.glob(File.join(ipa_dir, "*.ipa")).first
     UI.user_error!("No .ipa found in #{ipa_dir}") unless ipa_path
 

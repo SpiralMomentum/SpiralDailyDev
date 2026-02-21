@@ -44,7 +44,7 @@ android {
         create("release") {
             val storeFilePath = keystoreProperties["storeFile"] as String?
             if (storeFilePath != null) {
-                storeFile = rootProject.file("../../../signing/film_archive/android/$storeFilePath")
+                storeFile = file(storeFilePath)
             }
             storePassword = keystoreProperties["storePassword"] as String? ?: ""
             keyAlias = keystoreProperties["keyAlias"] as String? ?: ""
@@ -56,6 +56,10 @@ android {
         release {
             isMinifyEnabled = true
             isShrinkResources = true
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
             signingConfig = signingConfigs.getByName("release")
         }
     }
