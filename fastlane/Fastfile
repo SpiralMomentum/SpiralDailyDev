@@ -241,13 +241,10 @@ platform :ios do
     upload_to_app_store(
       app_identifier: ios_bundle_id,
       ipa: lane_context[SharedValues::IPA_OUTPUT_PATH],
-      submit_for_review: true,
+      submit_for_review: false,
       force: true,
-      automatic_release: true,
       skip_screenshots: true,
-      skip_metadata: true,
-      run_precheck_before_submit: false,
-      precheck_include_in_app_purchases: false
+      skip_metadata: true
     )
   end
 end
