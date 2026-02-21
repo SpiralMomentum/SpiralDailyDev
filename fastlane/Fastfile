@@ -141,21 +141,18 @@ platform :ios do
 
     project_dir = File.join(REPO_ROOT, project_path)
     profile_name = "match AppStore #{ios_bundle_id}"
-    xcodeproj = File.join(project_dir, "ios", "Runner.xcodeproj")
-
-    update_code_signing_settings(
-      path: xcodeproj,
-      use_automatic_signing: false,
-      team_id: "BXMP99D98Z",
-      bundle_identifier: ios_bundle_id,
-      profile_name: profile_name,
-      code_sign_identity: "Apple Distribution"
-    )
 
     generate_export_options_plist(project_dir, ios_bundle_id, "BXMP99D98Z", profile_name)
 
     Dir.chdir(project_dir) do
-      sh("flutter", "build", "ipa", "--release", "--export-options-plist=ios/ExportOptions.plist")
+      sh(
+        { "FLUTTER_XCODE_CODE_SIGN_STYLE" => "Manual",
+          "FLUTTER_XCODE_DEVELOPMENT_TEAM" => "BXMP99D98Z",
+          "FLUTTER_XCODE_CODE_SIGN_IDENTITY" => "Apple Distribution",
+          "FLUTTER_XCODE_PROVISIONING_PROFILE_SPECIFIER" => profile_name },
+        "flutter", "build", "ipa", "--release",
+        "--export-options-plist=ios/ExportOptions.plist"
+      )
     end
 
     ipa_dir = File.join(project_dir, "build", "ios", "ipa")
@@ -198,21 +195,18 @@ platform :ios do
 
     project_dir = File.join(REPO_ROOT, project_path)
     profile_name = "match AppStore #{ios_bundle_id}"
-    xcodeproj = File.join(project_dir, "ios", "Runner.xcodeproj")
-
-    update_code_signing_settings(
-      path: xcodeproj,
-      use_automatic_signing: false,
-      team_id: "BXMP99D98Z",
-      bundle_identifier: ios_bundle_id,
-      profile_name: profile_name,
-      code_sign_identity: "Apple Distribution"
-    )
 
     generate_export_options_plist(project_dir, ios_bundle_id, "BXMP99D98Z", profile_name)
 
     Dir.chdir(project_dir) do
-      sh("flutter", "build", "ipa", "--release", "--export-options-plist=ios/ExportOptions.plist")
+      sh(
+        { "FLUTTER_XCODE_CODE_SIGN_STYLE" => "Manual",
+          "FLUTTER_XCODE_DEVELOPMENT_TEAM" => "BXMP99D98Z",
+          "FLUTTER_XCODE_CODE_SIGN_IDENTITY" => "Apple Distribution",
+          "FLUTTER_XCODE_PROVISIONING_PROFILE_SPECIFIER" => profile_name },
+        "flutter", "build", "ipa", "--release",
+        "--export-options-plist=ios/ExportOptions.plist"
+      )
     end
 
     ipa_dir = File.join(project_dir, "build", "ios", "ipa")
