@@ -39,6 +39,21 @@ jobs:
               - 'apps/world_of_beast/**'
               - 'packages/**'
 
+  # ── 보안 스캔 (OSV Scanner) ─────────────────────────
+  osv-scan:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run OSV Scanner
+        uses: google/osv-scanner-action/osv-scanner-action@v1
+        with:
+          scan-args: |-
+            --recursive
+            .
+
   # ── 공유 패키지 테스트 ──────────────────────────────
   test-packages:
     runs-on: ubuntu-latest
@@ -98,7 +113,7 @@ jobs:
           PERCENT=$((COVERED * 100 / TOTAL))
           echo "Coverage: $COVERED / $TOTAL lines ($PERCENT%)"
 
-          THRESHOLD=30
+          THRESHOLD=50
           if [ "$PERCENT" -lt "$THRESHOLD" ]; then
             echo "Coverage $PERCENT% is below threshold $THRESHOLD%"
             exit 1

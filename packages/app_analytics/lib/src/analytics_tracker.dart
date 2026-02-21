@@ -9,4 +9,7 @@ abstract class AnalyticsTracker {
 
   /// 화면 조회를 추적한다.
   void trackScreenView(String screenName);
+
+  /// 사용자 속성을 설정한다.
+  void setUserProperty(String name, String value);
 }

@@ -4,7 +4,7 @@ import 'package:world_map_widget/world_map_widget.dart';
 
 import 'package:world_field_guide/app/theme/app_theme.dart';
 import 'package:world_field_guide/core/analytics/analytics_events.dart';
-import 'package:world_field_guide/core/analytics/analytics_tracker.dart';
+import 'package:app_analytics/app_analytics.dart';
 import 'package:world_field_guide/features/world_map/domain/entities/world_map_data.dart';
 import 'package:world_field_guide/features/world_map/domain/usecases/get_country_specialties_use_case.dart';
 import 'package:world_field_guide/features/world_map/domain/usecases/get_world_map_use_case.dart';

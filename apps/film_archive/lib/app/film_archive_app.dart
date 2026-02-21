@@ -1,3 +1,4 @@
+import 'package:app_analytics/app_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:networking/networking.dart';
 
@@ -19,6 +20,7 @@ class FilmArchiveApp extends StatefulWidget {
 
 class _FilmArchiveAppState extends State<FilmArchiveApp> {
   late final Dio _dio;
+  late final DebugAnalyticsTracker _analyticsTracker;
   late final GetMovieDetailUseCase _getMovieDetailUseCase;
   late final GetMovieTimelineUseCase _getMovieTimelineUseCase;
   late final MovieRepository _repository;
@@ -41,6 +43,7 @@ class _FilmArchiveAppState extends State<FilmArchiveApp> {
         'api_key': widget.apiKey,
       },
     );
+    _analyticsTracker = DebugAnalyticsTracker();
     _dio = DioProvider(options: dioOptions).create();
     final tmdbDataSource = TmdbDataSource(_dio);
     final movieRemoteDataSource =
@@ -70,6 +73,7 @@ class _FilmArchiveAppState extends State<FilmArchiveApp> {
       home: MovieTimelinePage(
         getMovieTimelineUseCase: _getMovieTimelineUseCase,
         getMovieDetailUseCase: _getMovieDetailUseCase,
+        analyticsTracker: _analyticsTracker,
       ),
     );
   }

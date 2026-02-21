@@ -1,3 +1,4 @@
+import 'package:app_analytics/app_analytics.dart';
 import 'package:flutter/material.dart';
 
 import 'package:spiral_trade_show/app/common/request_format.dart';
@@ -40,6 +41,7 @@ class TradeShowApp extends StatelessWidget {
                             ),
                           ),
                         ),
+                        analyticsTracker: DebugAnalyticsTracker(),
                       ),
                     ),
                   ),

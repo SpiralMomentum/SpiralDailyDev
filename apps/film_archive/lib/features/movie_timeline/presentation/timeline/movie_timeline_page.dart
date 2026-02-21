@@ -1,3 +1,4 @@
+import 'package:app_analytics/app_analytics.dart';
 import 'package:flutter/material.dart';
 
 import 'package:film_archive/features/movie_timeline/domain/entities/movie_sort_option.dart';
@@ -15,10 +16,12 @@ class MovieTimelinePage extends StatefulWidget {
     super.key,
     required this.getMovieTimelineUseCase,
     required this.getMovieDetailUseCase,
+    this.analyticsTracker,
   });
 
   final GetMovieTimelineUseCase getMovieTimelineUseCase;
   final GetMovieDetailUseCase getMovieDetailUseCase;
+  final AnalyticsTracker? analyticsTracker;
 
   @override
   State<MovieTimelinePage> createState() => _MovieTimelinePageState();
@@ -39,6 +42,7 @@ class _MovieTimelinePageState extends State<MovieTimelinePage> {
     _startYearFocusNode = FocusNode();
     _controller = MovieTimelineController(
       getMovieTimelineUseCase: widget.getMovieTimelineUseCase,
+      analyticsTracker: widget.analyticsTracker,
     );
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (mounted) {

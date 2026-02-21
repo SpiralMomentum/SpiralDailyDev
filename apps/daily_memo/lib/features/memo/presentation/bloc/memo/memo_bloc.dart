@@ -1,6 +1,6 @@
 import 'package:app_navigation/app_navigation.dart';
 import 'package:apps.daily_memo/core/analytics/analytics_events.dart';
-import 'package:apps.daily_memo/core/analytics/analytics_tracker.dart';
+import 'package:app_analytics/app_analytics.dart';
 import 'package:apps.daily_memo/features/memo/domain/usecases/add_memo_use_case.dart';
 import 'package:apps.daily_memo/features/memo/domain/usecases/delete_memo_use_case.dart';
 import 'package:apps.daily_memo/features/memo/domain/usecases/get_all_memos_use_case.dart';

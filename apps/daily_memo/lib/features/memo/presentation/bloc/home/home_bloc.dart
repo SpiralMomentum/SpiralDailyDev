@@ -1,7 +1,7 @@
 import 'package:app_navigation/app_navigation.dart';
 import 'package:apps.daily_memo/app/route/app_routes.dart';
 import 'package:apps.daily_memo/core/analytics/analytics_events.dart';
-import 'package:apps.daily_memo/core/analytics/analytics_tracker.dart';
+import 'package:app_analytics/app_analytics.dart';
 import 'package:apps.daily_memo/features/memo/presentation/bloc/home/home_event.dart';
 import 'package:apps.daily_memo/features/memo/presentation/bloc/home/home_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

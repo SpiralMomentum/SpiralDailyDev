@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 
 import 'package:film_archive/core/analytics/analytics_events.dart';
-import 'package:film_archive/core/analytics/analytics_tracker.dart';
+import 'package:app_analytics/app_analytics.dart';
 import 'package:film_archive/features/movie_timeline/domain/entities/movie_sort_option.dart';
 import 'package:film_archive/features/movie_timeline/domain/usecases/get_movie_timeline_use_case.dart';
 

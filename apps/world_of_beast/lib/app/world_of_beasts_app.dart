@@ -1,3 +1,4 @@
+import 'package:app_analytics/app_analytics.dart';
 import 'package:flutter/material.dart';
 
 import 'package:world_of_beast/features/monsters/data/datasources/favorite_monsters_local_data_source.dart';
@@ -9,14 +10,16 @@ import 'package:world_of_beast/features/monsters/domain/repositories/monster_rep
 import 'package:world_of_beast/features/monsters/presentation/views/world_of_beasts_home_page.dart';
 
 class WorldOfBeastsApp extends StatelessWidget {
-  const WorldOfBeastsApp({
+  WorldOfBeastsApp({
     super.key,
     this.repository,
     this.favoriteRepository,
-  });
+    AnalyticsTracker? analyticsTracker,
+  }) : analyticsTracker = analyticsTracker ?? DebugAnalyticsTracker();
 
   final MonsterRepository? repository;
   final FavoriteMonstersRepository? favoriteRepository;
+  final AnalyticsTracker? analyticsTracker;
 
   @override
   Widget build(BuildContext context) {
@@ -36,6 +39,7 @@ class WorldOfBeastsApp extends StatelessWidget {
             FavoriteMonstersRepositoryImpl(
               dataSource: FavoriteMonstersLocalDataSource(),
             ),
+        analyticsTracker: analyticsTracker,
       ),
     );
   }

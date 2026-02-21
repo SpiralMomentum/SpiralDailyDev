@@ -1,3 +1,4 @@
+import 'package:app_analytics/app_analytics.dart';
 import 'package:flutter/material.dart';
 
 import 'package:world_field_guide/app/theme/app_theme.dart';
@@ -38,6 +39,7 @@ class WorldFieldGuideApp extends StatelessWidget {
         themeVariant: themeVariant,
         getWorldMapUseCase: getWorldMapUseCase,
         getCountrySpecialtiesUseCase: getCountrySpecialtiesUseCase,
+        analyticsTracker: DebugAnalyticsTracker(),
       ),
     );
   }

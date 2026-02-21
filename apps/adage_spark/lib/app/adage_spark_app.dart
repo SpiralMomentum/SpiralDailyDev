@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'package:app_analytics/app_analytics.dart';
 import 'package:adage_spark/features/adage/data/datasources/adage_local_data_source.dart';
 import 'package:adage_spark/features/adage/data/repositories/adage_repository_impl.dart';
 import 'package:adage_spark/features/adage/domain/usecases/add_adage_quote_use_case.dart';
@@ -26,6 +27,7 @@ class _AdageSparkAppState extends State<AdageSparkApp> {
     _controller = AdageController(
       getAdageQuotesUseCase: GetAdageQuotesUseCase(repository: repository),
       addAdageQuoteUseCase: AddAdageQuoteUseCase(repository: repository),
+      analyticsTracker: DebugAnalyticsTracker(),
     )..load();
   }
 

@@ -4,7 +4,7 @@ import 'package:app_logging/app_logging.dart';
 import 'package:flutter/foundation.dart';
 
 import 'package:adage_spark/core/analytics/analytics_events.dart';
-import 'package:adage_spark/core/analytics/analytics_tracker.dart';
+import 'package:app_analytics/app_analytics.dart';
 import 'package:adage_spark/features/adage/domain/entities/adage_quote.dart';
 import 'package:adage_spark/features/adage/domain/usecases/add_adage_quote_use_case.dart';
 import 'package:adage_spark/features/adage/domain/usecases/get_adage_quotes_use_case.dart';

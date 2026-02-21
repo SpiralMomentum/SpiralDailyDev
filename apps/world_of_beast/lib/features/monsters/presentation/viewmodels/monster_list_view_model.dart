@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 
 import 'package:world_of_beast/core/analytics/analytics_events.dart';
-import 'package:world_of_beast/core/analytics/analytics_tracker.dart';
+import 'package:app_analytics/app_analytics.dart';
 
 import '../../domain/entities/monster.dart';
 import '../../domain/usecases/filter_monsters_by_country_use_case.dart';

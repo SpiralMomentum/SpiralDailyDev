@@ -27,7 +27,7 @@ void main() {
         );
       };
 
-      runApp(const WorldOfBeastsApp());
+      runApp(WorldOfBeastsApp());
     },
     (error, stackTrace) {
       _logger.error(

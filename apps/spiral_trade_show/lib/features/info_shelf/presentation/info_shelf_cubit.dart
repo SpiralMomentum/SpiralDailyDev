@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:spiral_trade_show/core/analytics/analytics_events.dart';
-import 'package:spiral_trade_show/core/analytics/analytics_tracker.dart';
+import 'package:app_analytics/app_analytics.dart';
 import 'package:spiral_trade_show/features/info_shelf/domain/info_shelf_use_case.dart';
 
 import 'info_shelf_state.dart';

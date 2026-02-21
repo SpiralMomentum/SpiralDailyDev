@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:app_analytics/app_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:world_map_widget/world_map_widget.dart';
 
@@ -15,6 +16,7 @@ import 'package:world_of_beast/features/monsters/presentation/viewmodels/monster
 import 'package:world_of_beast/features/monsters/presentation/viewmodels/monster_list_view_model.dart';
 import 'package:world_of_beast/features/monsters/presentation/views/favorites_page.dart';
 import 'package:world_of_beast/features/monsters/presentation/views/monster_details_page.dart';
+import 'package:world_of_beast/features/monsters/presentation/views/widgets/map_country_overlay.dart';
 import 'package:world_of_beast/features/monsters/presentation/widgets/monster_card.dart';
 import 'package:world_of_beast/features/monsters/presentation/widgets/monster_list_view.dart';
 import 'package:world_of_beast/features/monsters/presentation/widgets/monster_map_view.dart';
@@ -25,10 +27,12 @@ class WorldOfBeastsHomePage extends StatefulWidget {
     super.key,
     required this.monsterRepository,
     required this.favoriteRepository,
+    this.analyticsTracker,
   });
 
   final MonsterRepository monsterRepository;
   final FavoriteMonstersRepository favoriteRepository;
+  final AnalyticsTracker? analyticsTracker;
 
   @override
   State<WorldOfBeastsHomePage> createState() => _WorldOfBeastsHomePageState();
@@ -37,7 +41,7 @@ class WorldOfBeastsHomePage extends StatefulWidget {
 class _WorldOfBeastsHomePageState extends State<WorldOfBeastsHomePage> {
   late final MonsterListViewModel _viewModel;
   late final MonsterFavoritesController _favoritesController;
-  _MapSelectionOverlayData? _mapSelection;
+  MapSelectionOverlayData? _mapSelection;
 
   @override
   void initState() {
@@ -53,6 +57,7 @@ class _WorldOfBeastsHomePageState extends State<WorldOfBeastsHomePage> {
       filterByCountry: FilterMonstersByCountryUseCase(
         sortMonsters: sortUseCase,
       ),
+      analyticsTracker: widget.analyticsTracker,
     );
     _favoritesController = MonsterFavoritesController(
       loadFavorites: LoadFavoriteMonsterIdsUseCase(
@@ -101,7 +106,7 @@ class _WorldOfBeastsHomePageState extends State<WorldOfBeastsHomePage> {
       fallbackName: details.countryName,
     );
     setState(() {
-      _mapSelection = _MapSelectionOverlayData(
+      _mapSelection = MapSelectionOverlayData(
         countryCode: normalizedCode,
         title: title,
         monsters: monsters,
@@ -225,113 +230,13 @@ class _WorldOfBeastsHomePageState extends State<WorldOfBeastsHomePage> {
               : null,
         ),
         if (_mapSelection != null)
-          _MapCountryOverlay(
+          MapCountryOverlay(
             data: _mapSelection!,
             onClose: _closeMapSelection,
             favoritesController: _favoritesController,
             onMonsterSelected: _openMonsterDetails,
           ),
       ],
-    );
-  }
-}
-
-class _MapSelectionOverlayData {
-  const _MapSelectionOverlayData({
-    required this.countryCode,
-    required this.title,
-    required this.monsters,
-  });
-
-  final String countryCode;
-  final String title;
-  final List<Monster> monsters;
-}
-
-class _MapCountryOverlay extends StatelessWidget {
-  const _MapCountryOverlay({
-    required this.data,
-    required this.onClose,
-    required this.favoritesController,
-    this.onMonsterSelected,
-  });
-
-  final _MapSelectionOverlayData data;
-  final VoidCallback onClose;
-  final MonsterFavoritesController favoritesController;
-  final ValueChanged<Monster>? onMonsterSelected;
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    return FractionallySizedBox(
-      alignment: Alignment.bottomCenter,
-      heightFactor: 0.85,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 12),
-        child: Material(
-          key: const ValueKey('mapCountrySheet'),
-          elevation: 16,
-          borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
-          clipBehavior: Clip.antiAlias,
-          color: theme.scaffoldBackgroundColor,
-          child: SafeArea(
-            top: false,
-            child: Column(
-              children: [
-                const SizedBox(height: 12),
-                Container(
-                  width: 48,
-                  height: 4,
-                  decoration: BoxDecoration(
-                    color: theme.dividerColor.withValues(alpha: 0.6),
-                    borderRadius: BorderRadius.circular(99),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(16, 12, 8, 0),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Text(
-                          data.title,
-                          style:
-                              theme.textTheme.titleLarge?.copyWith(
-                                fontWeight: FontWeight.bold,
-                              ) ??
-                              const TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                              ),
-                        ),
-                      ),
-                      IconButton(
-                        key: const ValueKey('mapCountrySheetClose'),
-                        icon: const Icon(Icons.close),
-                        tooltip: 'Close',
-                        onPressed: onClose,
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 8),
-                Expanded(
-                  child: AnimatedBuilder(
-                    animation: favoritesController,
-                    builder: (context, _) {
-                      return MonsterListBody(
-                        monsters: data.monsters,
-                        favoritesController: favoritesController,
-                        onMonsterSelected: onMonsterSelected,
-                      );
-                    },
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
     );
   }
 }
