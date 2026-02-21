@@ -172,13 +172,9 @@ platform :ios do
       }
     )
 
-    ipa_dir = File.join(project_dir, "build", "ios", "ipa")
-    ipa_path = Dir.glob(File.join(ipa_dir, "*.ipa")).first
-    UI.user_error!("No .ipa found in #{ipa_dir}") unless ipa_path
-
     upload_to_testflight(
       app_identifier: ios_bundle_id,
-      ipa: ipa_path,
+      ipa: lane_context[SharedValues::IPA_OUTPUT_PATH],
       skip_waiting_for_build_processing: true
     )
   end
@@ -232,7 +228,6 @@ platform :ios do
       workspace: File.join(project_dir, "ios", "Runner.xcworkspace"),
       scheme: "Runner",
       clean: false,
-      output_directory: File.join(project_dir, "build", "ios", "ipa"),
       export_options: {
         method: "app-store",
         teamID: "BXMP99D98Z",
@@ -243,13 +238,9 @@ platform :ios do
       }
     )
 
-    ipa_dir = File.join(project_dir, "build", "ios", "ipa")
-    ipa_path = Dir.glob(File.join(ipa_dir, "*.ipa")).first
-    UI.user_error!("No .ipa found in #{ipa_dir}") unless ipa_path
-
     upload_to_app_store(
       app_identifier: ios_bundle_id,
-      ipa: ipa_path,
+      ipa: lane_context[SharedValues::IPA_OUTPUT_PATH],
       submit_for_review: true,
       force: true,
       automatic_release: true,
