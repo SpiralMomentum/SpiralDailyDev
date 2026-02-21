@@ -34,7 +34,8 @@ jobs:
         run: flutter test
         working-directory: apps/${{ matrix.app }}
 
-  # ── Android 7개 앱 Play Store 배포 ──────────────────────
+  # ── Android 6개 앱 Play Store 배포 ──────────────────────
+  # spiral_trade_show 제외: Play Store 미등록
   deploy-android:
     needs: test
     runs-on: ubuntu-latest
@@ -46,7 +47,6 @@ jobs:
           - daily_memo
           - film_archive
           - luck_insight
-          - spiral_trade_show
           - world_field_guide
           - world_of_beast
     steps:
@@ -101,7 +101,8 @@ jobs:
           GOOGLE_PLAY_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
         run: bundle exec fastlane android deploy_production app:${{ matrix.app }}
 
-  # ── iOS 7개 앱 App Store 배포 ───────────────────────────
+  # ── iOS 6개 앱 App Store 배포 ───────────────────────────
+  # spiral_trade_show 제외: App Store 미등록
   deploy-ios:
     needs: test
     runs-on: macos-latest
@@ -114,7 +115,6 @@ jobs:
           - daily_memo
           - film_archive
           - luck_insight
-          - spiral_trade_show
           - world_field_guide
           - world_of_beast
     steps:
@@ -133,6 +133,13 @@ jobs:
         uses: webfactory/ssh-agent@v0.9.0
         with:
           ssh-private-key: ${{ secrets.MATCH_GIT_PRIVATE_KEY }}
+
+      - name: Generate gitignored source files
+        run: |
+          if [ "${{ matrix.app }}" = "film_archive" ]; then
+            echo "const tmdbApiKey = String.fromEnvironment('TMDB_API_KEY', defaultValue: '');" \
+              > apps/film_archive/lib/tmdb_api_key.dart
+          fi
 
       - name: Deploy to App Store
         env:
