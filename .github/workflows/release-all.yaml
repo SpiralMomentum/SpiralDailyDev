@@ -145,6 +145,9 @@ jobs:
           ruby-version: "3.2"
           bundler-cache: true
 
+      - name: Install CocoaPods
+        run: gem install cocoapods
+
       - name: Setup SSH for match
         uses: webfactory/ssh-agent@v0.9.0
         with:
