@@ -1,0 +1,9 @@
+Film Archive lets you explore the top box office movies by year in a timeline format.
+
+Key Features:
+- Set start and end years to browse movies by period
+- View yearly blockbusters in a timeline layout
+- Check movie details including synopsis, rating, and release date
+- Powered by the TMDB database for accurate movie data
+
+Ever wondered what movies topped the box office each year? Explore cinema history with Film Archive.

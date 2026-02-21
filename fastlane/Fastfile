@@ -238,14 +238,24 @@ platform :ios do
       }
     )
 
+    metadata_dir = File.join(REPO_ROOT, "fastlane", "metadata", app_name)
+    screenshots_dir = File.join(metadata_dir, "screenshots")
+    rating_config = File.join(metadata_dir, "rating_config.json")
+
+    has_screenshots = Dir.exist?(screenshots_dir) && !Dir.glob(File.join(screenshots_dir, "**", "*.png")).empty?
+
     upload_to_app_store(
       app_identifier: ios_bundle_id,
       ipa: lane_context[SharedValues::IPA_OUTPUT_PATH],
-      submit_for_review: true,
+      metadata_path: metadata_dir,
+      screenshots_path: has_screenshots ? screenshots_dir : nil,
+      app_rating_config_path: File.exist?(rating_config) ? rating_config : nil,
+      submit_for_review: has_screenshots,
       automatic_release: true,
       force: true,
-      skip_screenshots: true,
-      skip_metadata: true,
+      skip_screenshots: !has_screenshots,
+      skip_metadata: false,
+      overwrite_screenshots: true,
       run_precheck_before_submit: false,
       submission_information: {
         export_compliance_uses_encryption: false,

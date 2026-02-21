@@ -1,0 +1,9 @@
+World of Beast is an encyclopedia app for exploring legendary monsters and mythical creatures from around the world.
+
+Key Features:
+- Browse monsters in list view or world map view
+- Discover legendary creatures by country
+- Save your favorite monsters to bookmarks
+- Read detailed descriptions and origins on monster detail pages
+
+Meet the monsters from myths and legends worldwide. Scroll through the list or tap a country on the map to discover its legendary creatures.

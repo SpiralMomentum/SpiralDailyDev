@@ -1,0 +1,9 @@
+Daily Memo is a simple memo app for recording your daily thoughts and tasks.
+
+Key Features:
+- Quick and easy memo creation and management
+- Calendar view to see memos by date at a glance
+- List view to browse all your memos
+- Cloud backup to keep your data safe
+
+A memo app focused on essentials without unnecessary complexity. Quickly jot down tasks, ideas, and important notes.

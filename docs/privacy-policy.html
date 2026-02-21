@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>개인정보처리방침 - Spiral Dev</title>
+  <style>
+    :root {
+      --color-bg: #fafafa;
+      --color-surface: #ffffff;
+      --color-primary: #1a1a2e;
+      --color-accent: #4a6cf7;
+      --color-text: #2d2d2d;
+      --color-text-secondary: #6b7280;
+      --color-border: #e5e7eb;
+      --radius: 12px;
+      --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 4px 12px rgba(0,0,0,0.04);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+                   'Helvetica Neue', Arial, sans-serif;
+      background: var(--color-bg);
+      color: var(--color-text);
+      line-height: 1.7;
+      min-height: 100vh;
+    }
+
+    header {
+      background: var(--color-primary);
+      color: #fff;
+      padding: 3rem 1.5rem;
+      text-align: center;
+    }
+
+    header h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    header p {
+      margin-top: 0.5rem;
+      color: #b0b3c5;
+      font-size: 1.05rem;
+    }
+
+    nav {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      margin-top: 1.5rem;
+    }
+
+    nav a {
+      color: #b0b3c5;
+      text-decoration: none;
+      font-size: 0.95rem;
+      padding: 0.4rem 0.8rem;
+      border-radius: 6px;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    nav a:hover {
+      background: rgba(255,255,255,0.1);
+      color: #fff;
+    }
+
+    main {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 2.5rem 1.5rem 4rem;
+    }
+
+    .content-card {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius);
+      padding: 2rem;
+      box-shadow: var(--shadow);
+    }
+
+    .effective-date {
+      display: inline-block;
+      background: #f0f2f5;
+      color: var(--color-text-secondary);
+      font-size: 0.85rem;
+      padding: 0.3rem 0.8rem;
+      border-radius: 6px;
+      margin-bottom: 1.5rem;
+    }
+
+    h2 {
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: var(--color-primary);
+      margin-top: 2rem;
+      margin-bottom: 0.6rem;
+      padding-bottom: 0.4rem;
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    h2:first-of-type {
+      margin-top: 0;
+    }
+
+    p {
+      margin-bottom: 0.8rem;
+      font-size: 0.95rem;
+    }
+
+    ul {
+      margin: 0.5rem 0 1rem 1.2rem;
+      font-size: 0.95rem;
+    }
+
+    ul li {
+      margin-bottom: 0.4rem;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 0.8rem 0 1.2rem;
+      font-size: 0.9rem;
+    }
+
+    table th, table td {
+      text-align: left;
+      padding: 0.6rem 0.8rem;
+      border: 1px solid var(--color-border);
+    }
+
+    table th {
+      background: #f8f9fb;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    a {
+      color: var(--color-accent);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem 1.5rem;
+      color: var(--color-text-secondary);
+      font-size: 0.85rem;
+      border-top: 1px solid var(--color-border);
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Spiral Dev</h1>
+    <p>개인정보처리방침</p>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="privacy-policy.html">Privacy Policy</a>
+      <a href="support.html">Support</a>
+    </nav>
+  </header>
+
+  <main>
+    <div class="content-card">
+      <span class="effective-date">시행일: 2026년 2월 22일</span>
+
+      <h2>1. 개인정보처리방침 개요</h2>
+      <p>
+        Spiral Dev(이하 "개발자")는 사용자의 개인정보를 중요시하며, 관련 법령을 준수합니다.
+        본 개인정보처리방침은 Spiral Dev가 제공하는 아래 애플리케이션(이하 "앱")에 적용됩니다.
+      </p>
+      <ul>
+        <li>Adage Spark (격언 관리)</li>
+        <li>Daily Memo (일일 메모)</li>
+        <li>Film Archive (영화 아카이브)</li>
+        <li>Luck Insight (운세)</li>
+        <li>World Field Guide (세계 특산품 가이드)</li>
+        <li>World of Beast (괴물 도감)</li>
+      </ul>
+
+      <h2>2. 수집하는 개인정보 항목</h2>
+      <p>개발자는 최소한의 정보만을 수집하며, 수집 항목은 다음과 같습니다.</p>
+      <table>
+        <thead>
+          <tr>
+            <th>항목</th>
+            <th>수집 목적</th>
+            <th>대상 앱</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>앱 사용 데이터 (화면 조회, 기능 사용 빈도)</td>
+            <td>앱 품질 개선 및 사용자 경험 분석</td>
+            <td>전체 앱</td>
+          </tr>
+          <tr>
+            <td>앱 충돌 로그</td>
+            <td>오류 추적 및 안정성 향상</td>
+            <td>전체 앱</td>
+          </tr>
+          <tr>
+            <td>Firebase 서비스 관련 데이터</td>
+            <td>클라우드 동기화 및 분석</td>
+            <td>Daily Memo</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+        개발자는 사용자의 이름, 이메일 주소, 전화번호, 위치 정보 등 직접적인 개인 식별 정보를 별도로 수집하지 않습니다.
+      </p>
+
+      <h2>3. 데이터 저장 방식</h2>
+      <p>
+        사용자가 앱 내에서 생성하는 데이터(메모, 설정 등)는 주로 사용자의 로컬 기기에 저장됩니다.
+        Daily Memo 앱의 경우 Firebase 서비스를 활용하여 일부 데이터가 클라우드에 저장될 수 있습니다.
+      </p>
+
+      <h2>4. 개인정보의 제3자 제공</h2>
+      <p>
+        개발자는 사용자의 개인정보를 제3자에게 제공하지 않습니다.
+        다만, 앱 사용 분석을 위해 Firebase Analytics를 사용하며,
+        이 과정에서 익명화된 사용 데이터가 Google 서버에 전송될 수 있습니다.
+        해당 데이터는 개별 사용자를 식별할 수 없는 형태로 처리됩니다.
+      </p>
+      <p>
+        Firebase의 데이터 처리에 관한 자세한 내용은
+        <a href="https://firebase.google.com/support/privacy" target="_blank" rel="noopener noreferrer">Firebase 개인정보처리방침</a>을
+        참조하시기 바랍니다.
+      </p>
+
+      <h2>5. 개인정보의 보유 및 파기</h2>
+      <p>
+        로컬 기기에 저장된 데이터는 앱 삭제 시 함께 제거됩니다.
+        Firebase를 통해 저장된 데이터는 사용자 요청 시 삭제 처리됩니다.
+        삭제를 원하시는 경우 아래 연락처로 요청해 주시기 바랍니다.
+      </p>
+
+      <h2>6. 아동의 개인정보 보호</h2>
+      <p>
+        개발자는 만 14세 미만 아동의 개인정보를 의도적으로 수집하지 않습니다.
+        만약 이에 해당하는 정보가 수집된 사실을 인지하게 될 경우, 즉시 해당 정보를 삭제하겠습니다.
+      </p>
+
+      <h2>7. 개인정보처리방침의 변경</h2>
+      <p>
+        본 개인정보처리방침은 관련 법령 변경 또는 서비스 변경에 따라 수정될 수 있습니다.
+        변경 사항이 있을 경우, 본 페이지를 통해 공지합니다.
+      </p>
+
+      <h2>8. 연락처</h2>
+      <p>
+        개인정보 관련 문의 사항이 있으시면 아래 이메일로 연락해 주시기 바랍니다.
+      </p>
+      <p>
+        이메일: <a href="mailto:spiraldailydev@gmail.com">spiraldailydev@gmail.com</a>
+      </p>
+    </div>
+  </main>
+
+  <footer>
+    <p>Copyright 2026 Spiral Dev. All rights reserved.</p>
+    <p style="margin-top: 0.4rem;">
+      <a href="mailto:spiraldailydev@gmail.com">spiraldailydev@gmail.com</a>
+    </p>
+  </footer>
+</body>
+</html>

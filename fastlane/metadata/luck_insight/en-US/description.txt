@@ -1,0 +1,9 @@
+Luck Insight is a fun app that reveals your daily fortune rank based on probability.
+
+Key Features:
+- Choose one of four options to check your fortune
+- 20 fortune ranks from Diamond (1st) to Stone (20th)
+- See the probability and percentile of each rank
+- Save and review your top-rank history
+
+Test your luck once a day. What fortune rank will you get today?

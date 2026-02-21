@@ -1,0 +1,9 @@
+Adage Spark lets you save your favorite adages and quotes, and discover new wisdom every day.
+
+Key Features:
+- Build and manage your personal quote collection
+- Discover random quotes with a single tap
+- Record both the quote text and its source
+- Enjoy quotes in a clean card format
+
+Start each day with a new piece of wisdom. Collect meaningful quotes and revisit them whenever you need inspiration.

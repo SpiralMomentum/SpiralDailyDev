@@ -1,0 +1,9 @@
+World Field Guide lets you explore local specialties of each country through an interactive world map.
+
+Key Features:
+- Tap countries on the interactive world map to select them
+- Discover local specialties and products for each country
+- Light and dark theme support for comfortable browsing
+- Intuitive color coding for country identification
+
+What specialties does each country have? Tap the map and discover diverse cultures and products around the world.

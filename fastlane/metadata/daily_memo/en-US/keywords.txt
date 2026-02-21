@@ -1,0 +1,1 @@
+memo,notes,diary,calendar,daily,journal,planner
