@@ -8,3 +8,6 @@
 # Keep Dart entry points
 -keep class io.flutter.app.** { *; }
 -keep class io.flutter.embedding.** { *; }
+
+# Suppress warnings for Play Core (deferred components)
+-dontwarn com.google.android.play.core.**
