@@ -146,7 +146,13 @@ jobs:
           bundler-cache: true
 
       - name: Install CocoaPods
-        run: gem install cocoapods
+        run: |
+          # Remove broken system CocoaPods that conflict with setup-ruby
+          sudo rm -f /usr/local/bin/pod /usr/local/bin/xcodeproj
+          brew uninstall cocoapods 2>/dev/null || true
+          gem install cocoapods --no-document
+          which pod
+          pod --version
 
       - name: Setup SSH for match
         uses: webfactory/ssh-agent@v0.9.0
