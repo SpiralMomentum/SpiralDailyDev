@@ -255,7 +255,7 @@ platform :ios do
       force: true,
       skip_screenshots: !has_screenshots,
       skip_metadata: false,
-      overwrite_screenshots: true,
+      overwrite_screenshots: false,
       run_precheck_before_submit: false,
       submission_information: {
         export_compliance_uses_encryption: false,
