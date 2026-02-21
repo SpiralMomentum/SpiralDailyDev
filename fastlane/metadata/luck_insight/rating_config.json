@@ -15,5 +15,10 @@
   "gambling": false,
   "lootBox": false,
   "unrestrictedWebAccess": false,
-  "ageAssurance": false
+  "ageAssurance": false,
+  "advertising": false,
+  "healthOrWellnessTopics": false,
+  "messagingAndChat": false,
+  "parentalControls": false,
+  "userGeneratedContent": false
 }
