@@ -241,11 +241,18 @@ platform :ios do
     upload_to_app_store(
       app_identifier: ios_bundle_id,
       ipa: lane_context[SharedValues::IPA_OUTPUT_PATH],
-      submit_for_review: false,
+      submit_for_review: true,
+      automatic_release: true,
       force: true,
       skip_screenshots: true,
       skip_metadata: true,
-      run_precheck_before_submit: false
+      run_precheck_before_submit: false,
+      submission_information: {
+        export_compliance_uses_encryption: false,
+        export_compliance_encryption_updated: false,
+        export_compliance_compliance_required: false,
+        export_compliance_platform: "ios"
+      }
     )
   end
 end
