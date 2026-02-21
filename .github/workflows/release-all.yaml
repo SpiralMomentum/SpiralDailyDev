@@ -77,7 +77,7 @@ jobs:
           storePassword=${{ secrets[format('ANDROID_STORE_PASSWORD_{0}', env.APP_UPPER)] }}
           keyPassword=${{ secrets[format('ANDROID_KEY_PASSWORD_{0}', env.APP_UPPER)] }}
           keyAlias=${{ secrets[format('ANDROID_KEY_ALIAS_{0}', env.APP_UPPER)] }}
-          storeFile=release.keystore
+          storeFile=../../../../signing/${{ matrix.app }}/android/release.keystore
           EOF
 
       - name: Inject google-services.json
