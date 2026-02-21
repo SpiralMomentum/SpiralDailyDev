@@ -73,11 +73,13 @@ jobs:
 
           echo "${{ secrets[format('ANDROID_KEYSTORE_{0}_BASE64', env.APP_UPPER)] }}" | base64 --decode > "$SIGNING_DIR/release.keystore"
 
+          KEYSTORE_ABS="$(cd "$SIGNING_DIR" && pwd)/release.keystore"
+
           cat > "$SIGNING_DIR/key.properties" << EOF
           storePassword=${{ secrets[format('ANDROID_STORE_PASSWORD_{0}', env.APP_UPPER)] }}
           keyPassword=${{ secrets[format('ANDROID_KEY_PASSWORD_{0}', env.APP_UPPER)] }}
           keyAlias=${{ secrets[format('ANDROID_KEY_ALIAS_{0}', env.APP_UPPER)] }}
-          storeFile=../../../signing/${{ matrix.app }}/android/release.keystore
+          storeFile=$KEYSTORE_ABS
           EOF
 
       - name: Inject google-services.json
