@@ -239,7 +239,7 @@ platform :ios do
     )
 
     metadata_dir = File.join(REPO_ROOT, "fastlane", "metadata", app_name)
-    screenshots_dir = File.join(metadata_dir, "screenshots")
+    screenshots_dir = File.join(REPO_ROOT, "fastlane", "screenshots", app_name)
     rating_config = File.join(metadata_dir, "rating_config.json")
 
     has_screenshots = Dir.exist?(screenshots_dir) && !Dir.glob(File.join(screenshots_dir, "**", "*.png")).empty?
