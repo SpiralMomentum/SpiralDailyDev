@@ -141,6 +141,17 @@ platform :ios do
 
     project_dir = File.join(REPO_ROOT, project_path)
     profile_name = "match AppStore #{ios_bundle_id}"
+    xcodeproj = File.join(project_dir, "ios", "Runner.xcodeproj")
+
+    update_code_signing_settings(
+      path: xcodeproj,
+      use_automatic_signing: false,
+      team_id: "BXMP99D98Z",
+      bundle_identifier: ios_bundle_id,
+      profile_name: profile_name,
+      code_sign_identity: "Apple Distribution"
+    )
+
     generate_export_options_plist(project_dir, ios_bundle_id, "BXMP99D98Z", profile_name)
 
     Dir.chdir(project_dir) do
@@ -187,6 +198,17 @@ platform :ios do
 
     project_dir = File.join(REPO_ROOT, project_path)
     profile_name = "match AppStore #{ios_bundle_id}"
+    xcodeproj = File.join(project_dir, "ios", "Runner.xcodeproj")
+
+    update_code_signing_settings(
+      path: xcodeproj,
+      use_automatic_signing: false,
+      team_id: "BXMP99D98Z",
+      bundle_identifier: ios_bundle_id,
+      profile_name: profile_name,
+      code_sign_identity: "Apple Distribution"
+    )
+
     generate_export_options_plist(project_dir, ios_bundle_id, "BXMP99D98Z", profile_name)
 
     Dir.chdir(project_dir) do
