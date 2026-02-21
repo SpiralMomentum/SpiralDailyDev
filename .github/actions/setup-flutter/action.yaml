@@ -5,7 +5,7 @@ inputs:
   flutter-version:
     description: "Flutter SDK version"
     required: false
-    default: "3.27.4"
+    default: "3.35.6"
   flutter-channel:
     description: "Flutter channel"
     required: false
