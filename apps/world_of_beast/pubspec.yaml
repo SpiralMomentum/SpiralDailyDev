@@ -43,6 +43,7 @@ dependencies:
     path: ../../packages/app_logging
   app_analytics:
     path: ../../packages/app_analytics
+  get_it: ^7.6.7
 
 dev_dependencies:
   flutter_test:

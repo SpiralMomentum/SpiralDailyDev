@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:app_logging/app_logging.dart';
 import 'package:flutter/material.dart';
 
+import 'package:world_field_guide/app/di/service_locator.dart';
 import 'package:world_field_guide/app/world_field_guide_app.dart';
 
 void main() {
@@ -20,6 +21,9 @@ void main() {
       stackTrace: details.stack,
     );
   };
+
+  WidgetsFlutterBinding.ensureInitialized();
+  ServiceLocator.setup();
 
   runZonedGuarded(
     () => runApp(const WorldFieldGuideApp()),

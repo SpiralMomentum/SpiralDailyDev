@@ -3,20 +3,23 @@ import 'dart:async';
 import 'package:app_logging/app_logging.dart';
 import 'package:flutter/material.dart';
 
+import 'package:world_of_beast/app/di/service_locator.dart';
 import 'package:world_of_beast/app/world_of_beasts_app.dart';
 export 'package:world_of_beast/app/world_of_beasts_app.dart';
 
 final _logger = AppLogger(tag: 'Main');
 
-void main() {
+Future<void> main() async {
   AppLogger.outputs = [
     const ConsoleLogOutput(),
     const CrashReportLogOutput(),
   ];
 
   runZonedGuarded(
-    () {
+    () async {
       WidgetsFlutterBinding.ensureInitialized();
+
+      await ServiceLocator.setup();
 
       FlutterError.onError = (details) {
         FlutterError.presentError(details);
@@ -27,7 +30,7 @@ void main() {
         );
       };
 
-      runApp(WorldOfBeastsApp());
+      runApp(const WorldOfBeastsApp());
     },
     (error, stackTrace) {
       _logger.error(

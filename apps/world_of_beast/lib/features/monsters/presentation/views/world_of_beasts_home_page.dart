@@ -1,17 +1,9 @@
 import 'dart:async';
 
-import 'package:app_analytics/app_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:world_map_widget/world_map_widget.dart';
 
 import 'package:world_of_beast/features/monsters/domain/entities/monster.dart';
-import 'package:world_of_beast/features/monsters/domain/repositories/favorite_monsters_repository.dart';
-import 'package:world_of_beast/features/monsters/domain/repositories/monster_repository.dart';
-import 'package:world_of_beast/features/monsters/domain/usecases/filter_monsters_by_country_use_case.dart';
-import 'package:world_of_beast/features/monsters/domain/usecases/get_monsters_use_case.dart';
-import 'package:world_of_beast/features/monsters/domain/usecases/load_favorite_monster_ids_use_case.dart';
-import 'package:world_of_beast/features/monsters/domain/usecases/save_favorite_monster_ids_use_case.dart';
-import 'package:world_of_beast/features/monsters/domain/usecases/sort_monsters_use_case.dart';
 import 'package:world_of_beast/features/monsters/presentation/viewmodels/monster_favorites_controller.dart';
 import 'package:world_of_beast/features/monsters/presentation/viewmodels/monster_list_view_model.dart';
 import 'package:world_of_beast/features/monsters/presentation/views/favorites_page.dart';
@@ -21,18 +13,16 @@ import 'package:world_of_beast/features/monsters/presentation/widgets/monster_ca
 import 'package:world_of_beast/features/monsters/presentation/widgets/monster_list_view.dart';
 import 'package:world_of_beast/features/monsters/presentation/widgets/monster_map_view.dart';
 
-/// 앱의 메인 홈 페이지. 분리된 위젯들을 조합하는 scaffold 역할만 담당한다.
+/// The main home page of the app. Acts as a scaffold that composes separated widgets.
 class WorldOfBeastsHomePage extends StatefulWidget {
   const WorldOfBeastsHomePage({
     super.key,
-    required this.monsterRepository,
-    required this.favoriteRepository,
-    this.analyticsTracker,
+    required this.viewModel,
+    required this.favoritesController,
   });
 
-  final MonsterRepository monsterRepository;
-  final FavoriteMonstersRepository favoriteRepository;
-  final AnalyticsTracker? analyticsTracker;
+  final MonsterListViewModel viewModel;
+  final MonsterFavoritesController favoritesController;
 
   @override
   State<WorldOfBeastsHomePage> createState() => _WorldOfBeastsHomePageState();
@@ -46,27 +36,8 @@ class _WorldOfBeastsHomePageState extends State<WorldOfBeastsHomePage> {
   @override
   void initState() {
     super.initState();
-    final repository = widget.monsterRepository;
-    final favoriteRepository = widget.favoriteRepository;
-    const sortUseCase = SortMonstersUseCase();
-    _viewModel = MonsterListViewModel(
-      getMonsters: GetMonstersUseCase(
-        repository: repository,
-        sortMonsters: sortUseCase,
-      ),
-      filterByCountry: FilterMonstersByCountryUseCase(
-        sortMonsters: sortUseCase,
-      ),
-      analyticsTracker: widget.analyticsTracker,
-    );
-    _favoritesController = MonsterFavoritesController(
-      loadFavorites: LoadFavoriteMonsterIdsUseCase(
-        repository: favoriteRepository,
-      ),
-      saveFavorites: SaveFavoriteMonsterIdsUseCase(
-        repository: favoriteRepository,
-      ),
-    );
+    _viewModel = widget.viewModel;
+    _favoritesController = widget.favoritesController;
     unawaited(_favoritesController.initialize());
     _viewModel.addListener(_handleViewModelChanged);
     _viewModel.loadMonsters();
