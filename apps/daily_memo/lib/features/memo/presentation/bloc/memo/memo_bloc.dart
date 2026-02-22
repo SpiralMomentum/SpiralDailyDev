@@ -39,10 +39,9 @@ class MemoBloc extends Bloc<MemoEvent, MemoState> {
     on<AddMemo>(_onAddMemo);
     on<UpdateMemo>(_onUpdateMemo);
     on<RemoveMemo>(_onRemoveMemo);
-    on<BackToHome>(_backToHome);
   }
 
-  void _onGetAllMemos(
+  Future<void> _onGetAllMemos(
     GetAllMemos event,
     Emitter<MemoState> emit,
   ) async {
@@ -63,7 +62,7 @@ class MemoBloc extends Bloc<MemoEvent, MemoState> {
     );
   }
 
-  void _onAddMemo(
+  Future<void> _onAddMemo(
     AddMemo event,
     Emitter<MemoState> emit,
   ) async {
@@ -87,7 +86,7 @@ class MemoBloc extends Bloc<MemoEvent, MemoState> {
     );
   }
 
-  void _onUpdateMemo(
+  Future<void> _onUpdateMemo(
     UpdateMemo event,
     Emitter<MemoState> emit,
   ) async {
@@ -116,7 +115,7 @@ class MemoBloc extends Bloc<MemoEvent, MemoState> {
     );
   }
 
-  void _onRemoveMemo(
+  Future<void> _onRemoveMemo(
     RemoveMemo event,
     Emitter<MemoState> emit,
   ) async {
@@ -140,10 +139,4 @@ class MemoBloc extends Bloc<MemoEvent, MemoState> {
     );
   }
 
-  void _backToHome(
-    BackToHome event,
-    Emitter<MemoState> emit,
-  ) {
-    _routesController.pop(event.context);
-  }
 }

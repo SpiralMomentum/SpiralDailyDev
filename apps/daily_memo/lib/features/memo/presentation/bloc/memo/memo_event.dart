@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter/widgets.dart';
 
 sealed class MemoEvent extends Equatable {}
 
@@ -8,15 +7,6 @@ final class GetAllMemos extends MemoEvent {
   List<Object?> get props => [];
 }
 
-// final class GetMemo extends MemoEvent {
-//   final int memoId;
-//
-//   GetMemo(this.memoId);
-//
-//   @override
-//   List<Object?> get props => [];
-// }
-
 final class AddMemo extends MemoEvent {
   final String? title;
   final String? desc;
@@ -24,7 +14,7 @@ final class AddMemo extends MemoEvent {
   AddMemo(this.title, this.desc);
 
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [title, desc];
 }
 
 final class UpdateMemo extends MemoEvent {
@@ -35,7 +25,7 @@ final class UpdateMemo extends MemoEvent {
   UpdateMemo(this.memoId, this.title, this.desc);
 
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [memoId, title, desc];
 }
 
 final class RemoveMemo extends MemoEvent {
@@ -44,14 +34,5 @@ final class RemoveMemo extends MemoEvent {
   RemoveMemo(this.memoId);
 
   @override
-  List<Object?> get props => [];
-}
-
-final class BackToHome extends MemoEvent {
-  final BuildContext context;
-
-  BackToHome(this.context);
-
-  @override
-  List<Object?> get props => [];
+  List<Object?> get props => [memoId];
 }

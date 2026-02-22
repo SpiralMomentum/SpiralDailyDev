@@ -31,7 +31,6 @@ extension AppRoutesGoRouter on AppRoutes {
               providers: [
                 BlocProvider<HomeBloc>(
                   create: (context) => HomeBloc(
-                    routesController: getIt.get<RoutesController>(),
                     analyticsTracker: analyticsTracker,
                   ),
                 ),
@@ -80,9 +79,7 @@ extension AppRoutesGoRouter on AppRoutes {
             return MultiBlocProvider(
               providers: [
                 BlocProvider<HomeBloc>(
-                  create: (context) => HomeBloc(
-                    routesController: getIt.get<RoutesController>(),
-                  ),
+                  create: (context) => HomeBloc(),
                 ),
                 BlocProvider<MemoBloc>(
                   create: (_) => MemoBloc(
