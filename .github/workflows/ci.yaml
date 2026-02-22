@@ -71,6 +71,10 @@ jobs:
         run: dart test
         working-directory: packages/networking
 
+      - name: Test app_logging
+        run: dart test
+        working-directory: packages/app_logging
+
   # ── 앱별 분석/테스트/빌드 ───────────────────────────
   analyze-and-test:
     needs: detect-changes
@@ -113,7 +117,7 @@ jobs:
           PERCENT=$((COVERED * 100 / TOTAL))
           echo "Coverage: $COVERED / $TOTAL lines ($PERCENT%)"
 
-          THRESHOLD=50
+          THRESHOLD=70
           if [ "$PERCENT" -lt "$THRESHOLD" ]; then
             echo "Coverage $PERCENT% is below threshold $THRESHOLD%"
             exit 1
@@ -121,6 +125,6 @@ jobs:
           echo "Coverage $PERCENT% meets threshold $THRESHOLD%"
         working-directory: apps/${{ matrix.app }}
 
-      - name: Build (debug APK)
-        run: flutter build apk --debug
+      - name: Build (release APK)
+        run: flutter build apk --release
         working-directory: apps/${{ matrix.app }}
