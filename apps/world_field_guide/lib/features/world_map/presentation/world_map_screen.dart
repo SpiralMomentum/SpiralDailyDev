@@ -79,7 +79,9 @@ class _WorldMapScreenState extends State<WorldMapScreen> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Expanded(
-              child: WorldMapWidget(
+              child: Semantics(
+                label: '세계 지도 - 국가를 탭하여 특산품을 확인하세요',
+                child: WorldMapWidget(
                 caption: _data.caption,
                 canvasColor: _mapCanvasColorForTheme(),
                 countryBorder: _borderForTheme(),
@@ -94,6 +96,7 @@ class _WorldMapScreenState extends State<WorldMapScreen> {
                     ),
                 onCountryTap: _openCountryDetails,
               ),
+            ),
             ),
           ],
         ),

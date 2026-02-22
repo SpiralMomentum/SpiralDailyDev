@@ -32,33 +32,42 @@ class MainShelfPage extends StatelessWidget {
             return ListView.separated(
               itemBuilder: (BuildContext context, int index) {
                 if (index == 0) {
-                  return HorizonCard(
-                    sectionTitle: Text(horizonCardSectionTitle),
-                    infoList: state.info,
-                    sectionBackgroundColor: Colors.grey,
-                    sectionHeight: MediaQuery.of(context).size.height * 0.5,
-                    imageHeight: MediaQuery.of(context).size.height * 0.35,
-                    imageWidth: MediaQuery.of(context).size.width * 0.6,
+                  return Semantics(
+                    label: horizonCardSectionTitle,
+                    child: HorizonCard(
+                      sectionTitle: Text(horizonCardSectionTitle),
+                      infoList: state.info,
+                      sectionBackgroundColor: Colors.grey,
+                      sectionHeight: MediaQuery.of(context).size.height * 0.5,
+                      imageHeight: MediaQuery.of(context).size.height * 0.35,
+                      imageWidth: MediaQuery.of(context).size.width * 0.6,
+                    ),
                   );
                 } else if (index == 1) {
-                  return DetailCard(
-                    sectionTitle: detailCardSectionTitle,
-                    info: state.info.elementAt(3),
-                    primaryColor: Colors.grey.shade500,
+                  return Semantics(
+                    label: detailCardSectionTitle,
+                    child: DetailCard(
+                      sectionTitle: detailCardSectionTitle,
+                      info: state.info.elementAt(3),
+                      primaryColor: Colors.grey.shade500,
+                    ),
                   );
                 } else {
-                  return TimeTabCard(
-                    title: tabSectionTitle,
-                    infoList: state.info,
-                    backgroundColor: Colors.grey,
-                    indicatorColor: Colors.pink,
-                    tabs: [
-                      ...tabItemsTitle.map((e) => Tab(
-                            child: Text(e,
-                                style: const TextStyle(color: Colors.black)),
-                          ))
-                    ],
-                    dateFormat: DateFormat("yyyy년 MM월 dd일"),
+                  return Semantics(
+                    label: tabSectionTitle,
+                    child: TimeTabCard(
+                      title: tabSectionTitle,
+                      infoList: state.info,
+                      backgroundColor: Colors.grey,
+                      indicatorColor: Colors.pink,
+                      tabs: [
+                        ...tabItemsTitle.map((e) => Tab(
+                              child: Text(e,
+                                  style: const TextStyle(color: Colors.black)),
+                            ))
+                      ],
+                      dateFormat: DateFormat("yyyy년 MM월 dd일"),
+                    ),
                   );
                 }
               },

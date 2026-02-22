@@ -40,7 +40,11 @@ class MemoListView extends StatelessWidget {
     BuildContext context,
     MemoInfoEntity listItem,
   ) {
-    return GestureDetector(
+    return Semantics(
+      label: listItem.title.isEmpty
+          ? AppLocalizations.of(context)!.emptyTitle
+          : listItem.title,
+      child: GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: () {
         MemoInfoEntity? memoInfo;
@@ -113,6 +117,7 @@ class MemoListView extends StatelessWidget {
       child: MemoListItemView(
         memoInfo: listItem,
       ),
+    ),
     );
   }
 

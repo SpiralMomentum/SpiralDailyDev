@@ -92,6 +92,7 @@ class _FortunePreviewPageState extends State<FortunePreviewPage> {
                     Icons.card_giftcard_outlined,
                     size: 48,
                     color: LuckColors.accent,
+                    semanticLabel: '운세 선물 아이콘',
                   ),
                 ),
                 const SizedBox(height: 28),
@@ -141,7 +142,8 @@ class _FortunePreviewPageState extends State<FortunePreviewPage> {
         onPressed: _showHistory,
         backgroundColor: LuckColors.accent,
         foregroundColor: Colors.white,
-        child: const Icon(Icons.emoji_events_outlined),
+        tooltip: '1등 기록 보기',
+        child: const Icon(Icons.emoji_events_outlined, semanticLabel: '1등 기록 보기'),
       ),
     );
   }
@@ -180,7 +182,10 @@ class _QuestionMarkButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return Semantics(
+      label: label,
+      button: true,
+      child: Column(
       mainAxisSize: MainAxisSize.min,
       children: [
         Material(
@@ -218,6 +223,7 @@ class _QuestionMarkButton extends StatelessWidget {
               ?.copyWith(color: LuckColors.textSecondary),
         ),
       ],
+    ),
     );
   }
 }
@@ -290,7 +296,9 @@ class _HistorySheet extends StatelessWidget {
                   const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               itemBuilder: (context, index) {
                 final entry = entries[index];
-                return Container(
+                return Semantics(
+                  label: '1등 기록: ${entry.name} - ${entry.message}',
+                  child: Container(
                   padding: const EdgeInsets.symmetric(
                     horizontal: 16,
                     vertical: 14,
@@ -309,6 +317,7 @@ class _HistorySheet extends StatelessWidget {
                             Icons.emoji_events_outlined,
                             color: LuckColors.accent,
                             size: 20,
+                            semanticLabel: '트로피',
                           ),
                           const SizedBox(width: 8),
                           Text(
@@ -334,6 +343,7 @@ class _HistorySheet extends StatelessWidget {
                       ),
                     ],
                   ),
+                ),
                 );
               },
               separatorBuilder: (_, __) => const SizedBox(height: 12),
