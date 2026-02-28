@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-import 'package:apps.news_reader/app/route/app_routes.dart';
 import 'package:apps.news_reader/features/news_feed/domain/entities/article.dart';
 import '../bloc/news_feed_bloc.dart';
 import '../bloc/news_feed_event.dart';
@@ -16,20 +15,6 @@ class NewsFeedPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('News Reader'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.search),
-            onPressed: () => context.push(AppRoutes.search.path),
-          ),
-          IconButton(
-            icon: const Icon(Icons.bookmark_outline),
-            onPressed: () => context.push(AppRoutes.bookmarks.path),
-          ),
-          IconButton(
-            icon: const Icon(Icons.settings_outlined),
-            onPressed: () => context.push(AppRoutes.settings.path),
-          ),
-        ],
       ),
       body: Column(
         children: [

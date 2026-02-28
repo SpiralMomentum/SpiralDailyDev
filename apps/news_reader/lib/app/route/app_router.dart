@@ -1,5 +1,6 @@
 import 'package:apps.news_reader/app/di/service_locator.dart';
 import 'package:apps.news_reader/app/route/app_routes.dart';
+import 'package:apps.news_reader/app/route/app_shell.dart';
 import 'package:apps.news_reader/features/article_detail/domain/usecases/get_article_detail.dart';
 import 'package:apps.news_reader/features/bookmarks/domain/usecases/get_bookmarks.dart';
 import 'package:apps.news_reader/features/bookmarks/domain/usecases/toggle_bookmark.dart';
@@ -27,8 +28,13 @@ import 'package:apps.news_reader/features/settings/domain/usecases/get_settings.
 import 'package:apps.news_reader/features/settings/domain/usecases/update_settings.dart';
 import 'package:apps.news_reader/features/settings/presentation/cubit/settings_cubit.dart';
 import 'package:apps.news_reader/features/settings/presentation/views/settings_page.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+
+final _shellNavigatorKey = GlobalKey<NavigatorState>();
+
+const _tabPaths = ['/feed', '/bookmarks', '/search', '/settings'];
 
 GoRouter createRouter({String? initialLocation}) {
   return GoRouter(
@@ -43,17 +49,73 @@ GoRouter createRouter({String? initialLocation}) {
           );
         },
       ),
-      GoRoute(
-        path: AppRoutes.feed.path,
-        builder: (context, state) {
-          return BlocProvider(
-            create: (_) => NewsFeedBloc(
-              getArticleFeed: getIt.get<GetArticleFeed>(),
-              toggleBookmark: getIt.get<ToggleBookmark>(),
-            )..add(const NewsFeedStarted()),
-            child: const NewsFeedPage(),
+      ShellRoute(
+        navigatorKey: _shellNavigatorKey,
+        builder: (context, state, child) {
+          final location = state.uri.path;
+          int currentIndex = 0;
+          for (int i = 0; i < _tabPaths.length; i++) {
+            if (location.startsWith(_tabPaths[i])) {
+              currentIndex = i;
+              break;
+            }
+          }
+          return AppShell(
+            currentIndex: currentIndex,
+            onTap: (index) => context.go(_tabPaths[index]),
+            child: child,
           );
         },
+        routes: [
+          GoRoute(
+            path: AppRoutes.feed.path,
+            builder: (context, state) {
+              return BlocProvider(
+                create: (_) => NewsFeedBloc(
+                  getArticleFeed: getIt.get<GetArticleFeed>(),
+                  toggleBookmark: getIt.get<ToggleBookmark>(),
+                )..add(const NewsFeedStarted()),
+                child: const NewsFeedPage(),
+              );
+            },
+          ),
+          GoRoute(
+            path: AppRoutes.bookmarks.path,
+            builder: (context, state) {
+              return BlocProvider(
+                create: (_) => BookmarksCubit(
+                  getBookmarks: getIt.get<GetBookmarks>(),
+                  toggleBookmark: getIt.get<ToggleBookmark>(),
+                )..loadBookmarks(),
+                child: const BookmarksPage(),
+              );
+            },
+          ),
+          GoRoute(
+            path: AppRoutes.search.path,
+            builder: (context, state) {
+              return BlocProvider(
+                create: (_) => SearchCubit(
+                  searchArticles: getIt.get<SearchArticles>(),
+                  repository: getIt.get<SearchRepository>(),
+                ),
+                child: const SearchPage(),
+              );
+            },
+          ),
+          GoRoute(
+            path: AppRoutes.settings.path,
+            builder: (context, state) {
+              return BlocProvider(
+                create: (_) => SettingsCubit(
+                  getSettings: getIt.get<GetSettings>(),
+                  updateSettings: getIt.get<UpdateSettings>(),
+                )..loadSettings(),
+                child: const SettingsPage(),
+              );
+            },
+          ),
+        ],
       ),
       GoRoute(
         path: AppRoutes.articleDetail.path,
@@ -78,42 +140,6 @@ GoRouter createRouter({String? initialLocation}) {
               addComment: getIt.get<AddComment>(),
             )..add(CommentsStarted(articleId)),
             child: CommentsPage(articleId: articleId),
-          );
-        },
-      ),
-      GoRoute(
-        path: AppRoutes.bookmarks.path,
-        builder: (context, state) {
-          return BlocProvider(
-            create: (_) => BookmarksCubit(
-              getBookmarks: getIt.get<GetBookmarks>(),
-              toggleBookmark: getIt.get<ToggleBookmark>(),
-            )..loadBookmarks(),
-            child: const BookmarksPage(),
-          );
-        },
-      ),
-      GoRoute(
-        path: AppRoutes.search.path,
-        builder: (context, state) {
-          return BlocProvider(
-            create: (_) => SearchCubit(
-              searchArticles: getIt.get<SearchArticles>(),
-              repository: getIt.get<SearchRepository>(),
-            ),
-            child: const SearchPage(),
-          );
-        },
-      ),
-      GoRoute(
-        path: AppRoutes.settings.path,
-        builder: (context, state) {
-          return BlocProvider(
-            create: (_) => SettingsCubit(
-              getSettings: getIt.get<GetSettings>(),
-              updateSettings: getIt.get<UpdateSettings>(),
-            )..loadSettings(),
-            child: const SettingsPage(),
           );
         },
       ),
