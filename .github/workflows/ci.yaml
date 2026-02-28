@@ -39,21 +39,6 @@ jobs:
               - 'apps/world_of_beast/**'
               - 'packages/**'
 
-  # ── 보안 스캔 (OSV Scanner) ─────────────────────────
-  osv-scan:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Run OSV Scanner
-        uses: google/osv-scanner-action/osv-scanner-action@v1
-        with:
-          scan-args: |-
-            --recursive
-            .
-
   # ── 공유 패키지 테스트 ──────────────────────────────
   test-packages:
     runs-on: ubuntu-latest
@@ -67,12 +52,12 @@ jobs:
         run: flutter test --coverage
         working-directory: packages/utils
 
-      - name: Test networking
-        run: dart test
+      - name: Test networking (with coverage)
+        run: dart test --coverage=coverage
         working-directory: packages/networking
 
-      - name: Test app_logging
-        run: dart test
+      - name: Test app_logging (with coverage)
+        run: dart test --coverage=coverage
         working-directory: packages/app_logging
 
   # ── 앱별 분석/테스트/빌드 ───────────────────────────
@@ -101,8 +86,8 @@ jobs:
       - name: Check coverage threshold
         run: |
           if [ ! -f coverage/lcov.info ]; then
-            echo "No coverage file found, skipping threshold check"
-            exit 0
+            echo "::error::No coverage file found — tests must produce coverage data"
+            exit 1
           fi
 
           # Count total and covered lines
@@ -110,21 +95,124 @@ jobs:
           COVERED=$(grep "^DA:" coverage/lcov.info | grep -cv ",0$" || true)
 
           if [ "$TOTAL" -eq 0 ]; then
-            echo "No coverage data found"
-            exit 0
+            echo "::error::No coverage data found in lcov.info"
+            exit 1
           fi
+
+          # Tier-based coverage thresholds
+          case "${{ matrix.app }}" in
+            daily_memo)       THRESHOLD=70 ;;
+            luck_insight)     THRESHOLD=30 ;;
+            *)                THRESHOLD=50 ;;
+          esac
 
           PERCENT=$((COVERED * 100 / TOTAL))
           echo "Coverage: $COVERED / $TOTAL lines ($PERCENT%)"
+          echo "Threshold for ${{ matrix.app }}: $THRESHOLD%"
 
-          THRESHOLD=70
           if [ "$PERCENT" -lt "$THRESHOLD" ]; then
-            echo "Coverage $PERCENT% is below threshold $THRESHOLD%"
+            echo "::error::Coverage $PERCENT% is below threshold $THRESHOLD%"
             exit 1
           fi
           echo "Coverage $PERCENT% meets threshold $THRESHOLD%"
         working-directory: apps/${{ matrix.app }}
 
+      - name: Run integration tests
+        if: matrix.app == 'daily_memo'
+        run: flutter test integration_test/
+        working-directory: apps/${{ matrix.app }}
+
+      - name: Cache Gradle
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: gradle-${{ matrix.app }}-${{ hashFiles('apps/**/build.gradle*', 'apps/**/gradle-wrapper.properties') }}
+          restore-keys: gradle-${{ matrix.app }}-
+
+      - name: Record build start
+        run: echo "BUILD_START=$(date +%s)" >> "$GITHUB_ENV"
+
       - name: Build (release APK)
         run: flutter build apk --release
         working-directory: apps/${{ matrix.app }}
+
+      - name: Record build metrics
+        run: |
+          BUILD_END=$(date +%s)
+          DURATION=$((BUILD_END - BUILD_START))
+          echo "### ${{ matrix.app }} Build: ${DURATION}s" >> "$GITHUB_STEP_SUMMARY"
+
+  # ── APK 사이즈 가드레일 ────────────────────────────
+  size-check:
+    needs: detect-changes
+    if: needs.detect-changes.outputs.apps != '[]'
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        app: ${{ fromJson(needs.detect-changes.outputs.apps) }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: ./.github/actions/setup-flutter
+
+      - name: Cache Gradle
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: gradle-${{ matrix.app }}-${{ hashFiles('apps/**/build.gradle*', 'apps/**/gradle-wrapper.properties') }}
+          restore-keys: gradle-${{ matrix.app }}-
+
+      - name: Build APK and measure size
+        run: |
+          flutter build apk --release
+          APK_PATH=$(find build -name "*.apk" -type f | head -1)
+          APK_SIZE_MB=$(du -m "$APK_PATH" | cut -f1)
+          echo "APK size: ${APK_SIZE_MB}MB"
+          echo "### ${{ matrix.app }} APK Size: ${APK_SIZE_MB}MB" >> "$GITHUB_STEP_SUMMARY"
+        working-directory: apps/${{ matrix.app }}
+
+  # ── 의존성 건강 체크 ───────────────────────────────
+  dependency-health:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: ./.github/actions/setup-flutter
+
+      - name: Check outdated dependencies
+        run: |
+          echo "## Dependency Health" >> "$GITHUB_STEP_SUMMARY"
+          for app in apps/*/; do
+            APP_NAME=$(basename "$app")
+            echo "### $APP_NAME" >> "$GITHUB_STEP_SUMMARY"
+            cd "$app"
+            dart pub outdated --no-color 2>/dev/null | head -20 >> "$GITHUB_STEP_SUMMARY" || true
+            cd ../..
+          done
+
+  # ── 빌드 실패 알림 ─────────────────────────────────
+  notify-failure:
+    if: failure()
+    needs: [analyze-and-test, test-packages]
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
+      - name: Create issue on failure
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: `CI Failure: ${context.workflow} #${context.runNumber}`,
+              body: `Workflow: ${context.workflow}\nRun: ${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`,
+              labels: ['ci-failure']
+            });

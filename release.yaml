@@ -2,7 +2,7 @@
 pipeline:
   defaultEnv:
     flutterChannel: stable
-    flutterVersion: "3.27.4"
+    flutterVersion: "3.41.2"
   artifactRoot: artifacts
   fastlaneBinary: bundle exec fastlane
   enableNotifications: false
