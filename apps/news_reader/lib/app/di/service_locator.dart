@@ -1,3 +1,6 @@
+import 'package:apps.news_reader/core/services/analytics_service.dart';
+import 'package:apps.news_reader/core/services/crashlytics_service.dart';
+import 'package:apps.news_reader/core/services/remote_config_service.dart';
 import 'package:apps.news_reader/features/bookmarks/data/datasources/bookmark_local_data_source.dart';
 import 'package:apps.news_reader/features/bookmarks/data/repositories/bookmark_repository_impl.dart';
 import 'package:apps.news_reader/features/bookmarks/domain/repositories/bookmark_repository.dart';
@@ -62,6 +65,18 @@ class ServiceLocator {
     getIt.registerLazySingleton<MockSearchRemoteDataSource>(
       () => MockSearchRemoteDataSource(),
     );
+
+    // Core Services
+    getIt
+      ..registerLazySingleton<AnalyticsService>(
+        () => MockAnalyticsService(),
+      )
+      ..registerLazySingleton<CrashlyticsService>(
+        () => MockCrashlyticsService(),
+      )
+      ..registerLazySingleton<RemoteConfigService>(
+        () => MockRemoteConfigService(),
+      );
 
     // Data (Repositories)
     getIt
