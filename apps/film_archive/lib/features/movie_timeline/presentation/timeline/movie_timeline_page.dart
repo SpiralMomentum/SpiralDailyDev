@@ -183,7 +183,7 @@ class _MovieTimelinePageState extends State<MovieTimelinePage> {
                           width: double.infinity,
                           child: ElevatedButton.icon(
                             onPressed: state.isLoading ? null : _buildTimeline,
-                            icon: const Icon(Icons.timeline),
+                            icon: const Icon(Icons.timeline, semanticLabel: '타임라인'),
                             label: const Text('타임라인 만들기'),
                           ),
                         ),
@@ -249,9 +249,12 @@ class _TimelineBody extends StatelessWidget {
       separatorBuilder: (_, __) => const SizedBox(height: 12),
       itemBuilder: (context, index) {
         final movie = state.timeline[index];
-        return TimelineMovieCard(
-          summary: movie,
-          onTap: () => onTap(movie),
+        return Semantics(
+          label: '${movie.year}년 영화: ${movie.title}',
+          child: TimelineMovieCard(
+            summary: movie,
+            onTap: () => onTap(movie),
+          ),
         );
       },
     );
@@ -354,6 +357,7 @@ class TimelineMovieCard extends StatelessWidget {
                           Icons.chevron_right,
                           size: 20,
                           color: theme.colorScheme.primary,
+                          semanticLabel: '영화 상세 보기',
                         ),
                         Text(
                           '영화 상세 보기',
@@ -389,6 +393,7 @@ class _EmptyTimelineState extends StatelessWidget {
             Icons.movie_creation_outlined,
             size: 48,
             color: theme.colorScheme.primary,
+            semanticLabel: '영화 타임라인 안내',
           ),
           const SizedBox(height: 12),
           Text(
@@ -423,7 +428,7 @@ class _ErrorState extends StatelessWidget {
           const SizedBox(height: 12),
           ElevatedButton.icon(
             onPressed: onRetry,
-            icon: const Icon(Icons.refresh),
+            icon: const Icon(Icons.refresh, semanticLabel: '다시 시도'),
             label: const Text('다시 시도'),
           ),
         ],

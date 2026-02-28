@@ -22,7 +22,9 @@ class MonsterCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final borderRadius = BorderRadius.circular(16);
-    return Card(
+    return Semantics(
+      label: '몬스터: ${monster.name}',
+      child: Card(
       key: ValueKey('monsterCard_${monster.id}'),
       shape: RoundedRectangleBorder(borderRadius: borderRadius),
       clipBehavior: Clip.antiAlias,
@@ -81,6 +83,7 @@ class MonsterCard extends StatelessWidget {
           ),
         ),
       ),
+    ),
     );
   }
 }

@@ -18,33 +18,40 @@ class TabCard extends StatelessWidget {
     return ListView(
       children: [
         ...infoList.map(
-          (info) => SizedBox(
-            width: double.infinity,
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                CachedNetworkImage(
-                  width: 150,
-                  height: 200,
-                  fit: BoxFit.cover,
-                  imageUrl: info.thumbnail,
-                ),
-                const SizedBox(width: 20),
-                Flexible(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Text(
-                        info.title,
-                        overflow: TextOverflow.visible,
-                      ),
-                      Text(dateFormat.format(info.startTime)),
-                      Text(dateFormat.format(info.endTime)),
-                    ],
+          (info) => Semantics(
+            label: info.title,
+            child: SizedBox(
+              width: double.infinity,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Semantics(
+                    image: true,
+                    label: info.title,
+                    child: CachedNetworkImage(
+                      width: 150,
+                      height: 200,
+                      fit: BoxFit.cover,
+                      imageUrl: info.thumbnail,
+                    ),
                   ),
-                ),
-              ],
+                  const SizedBox(width: 20),
+                  Flexible(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Text(
+                          info.title,
+                          overflow: TextOverflow.visible,
+                        ),
+                        Text(dateFormat.format(info.startTime)),
+                        Text(dateFormat.format(info.endTime)),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         )

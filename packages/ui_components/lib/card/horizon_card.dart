@@ -41,42 +41,49 @@ class HorizonCard extends StatelessWidget {
             child: ListView.separated(
               scrollDirection: Axis.horizontal,
               itemBuilder: (BuildContext context, int index) {
-                return Container(
-                  height: imageHeight + 0.1,
-                  width: imageWidth + 0.1,
-                  padding: const EdgeInsets.all(15),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(15),
-                    color: Colors.black12,
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SizedBox(
-                        height: 50,
-                        child: Text(
-                          infoList[index].title,
-                          style: const TextStyle(
-                              fontWeight: FontWeight.w800, fontSize: 16),
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
+                return Semantics(
+                  label: infoList[index].title,
+                  child: Container(
+                    height: imageHeight + 0.1,
+                    width: imageWidth + 0.1,
+                    padding: const EdgeInsets.all(15),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(15),
+                      color: Colors.black12,
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                          height: 50,
+                          child: Text(
+                            infoList[index].title,
+                            style: const TextStyle(
+                                fontWeight: FontWeight.w800, fontSize: 16),
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                          ),
                         ),
-                      ),
-                      const SizedBox(height: 10),
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(15),
-                        child: CachedNetworkImage(
-                          fit: BoxFit.cover,
-                          height: imageHeight,
-                          width: imageWidth,
-                          imageUrl: infoList[index].thumbnail,
+                        const SizedBox(height: 10),
+                        Semantics(
+                          image: true,
+                          label: infoList[index].title,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(15),
+                            child: CachedNetworkImage(
+                              fit: BoxFit.cover,
+                              height: imageHeight,
+                              width: imageWidth,
+                              imageUrl: infoList[index].thumbnail,
+                            ),
+                          ),
                         ),
-                      ),
-                      const SizedBox(height: 20),
-                      Text(
-                        infoList[index].place,
-                      ),
-                    ],
+                        const SizedBox(height: 20),
+                        Text(
+                          infoList[index].place,
+                        ),
+                      ],
+                    ),
                   ),
                 );
               },

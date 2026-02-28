@@ -1,3 +1,4 @@
+import 'package:apps.daily_memo/app/route/app_routes.dart';
 import 'package:apps.daily_memo/features/memo/presentation/bloc/home/home_bloc.dart';
 import 'package:apps.daily_memo/features/memo/presentation/bloc/home/home_event.dart';
 import 'package:apps.daily_memo/features/memo/presentation/bloc/home/home_state.dart';
@@ -20,8 +21,6 @@ class HomeView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<HomeBloc, HomeState>(
       builder: (BuildContext context, state) {
-        final homeBloc = BlocProvider.of<HomeBloc>(context);
-
         return WillPopScope(
             onWillPop: () async => false,
             child: Scaffold(
@@ -30,15 +29,15 @@ class HomeView extends StatelessWidget {
                 child: BlocBuilder<MemoBloc, MemoState>(
                   builder: (context, state) {
                     final l10n = AppLocalizations.of(context)!;
+                    final memoBloc = context.read<MemoBloc>();
                     return CustomAppBar(
                       appBarItems: [
                         CustomAppBarItem(
                           leadingText: l10n.add,
-                          onTap: () => homeBloc.add(
-                            MoveToAddMemo(
-                              context: context,
-                              memoBloc: context.read<MemoBloc>(),
-                            ),
+                          onTap: () => memoBloc.getRouteController.push(
+                            context,
+                            AppRoutes.memo.path,
+                            extra: {"bloc": memoBloc},
                           ),
                         ),
                       ],
@@ -91,7 +90,6 @@ class HomeView extends StatelessWidget {
                         BlocProvider.of<MemoBloc>(context).add(GetAllMemos()),
                   ),
               },
-              // body: widgets[0],
               bottomNavigationBar: bottomBar(context),
             ));
       },
@@ -107,12 +105,12 @@ class HomeView extends StatelessWidget {
         selectedIndex: context.read<HomeBloc>().state.index,
         destinations: <Widget>[
           NavigationDestination(
-            selectedIcon: const Icon(Icons.home),
-            icon: const Icon(Icons.home_outlined),
+            selectedIcon: Icon(Icons.home, semanticLabel: l10n.home),
+            icon: Icon(Icons.home_outlined, semanticLabel: l10n.home),
             label: l10n.home,
           ),
           NavigationDestination(
-            icon: const Badge(child: Icon(Icons.notifications_sharp)),
+            icon: Badge(child: Icon(Icons.notifications_sharp, semanticLabel: l10n.notifications)),
             label: l10n.notifications,
           ),
         ]);

@@ -1,39 +1,38 @@
 import 'package:dio/dio.dart';
-import 'package:networking/src/core/network_exception.dart';
 import 'package:networking/src/core/network_failure.dart';
-import 'package:networking/src/core/network_result.dart';
 import 'package:networking/src/executor/network_executor.dart';
 import 'package:test/test.dart';
+import 'package:utils/result/result.dart';
 
 void main() {
   group('NetworkExecutor.run', () {
-    test('returns NetworkSuccess on successful call', () async {
+    test('returns Success on successful call', () async {
       final result = await NetworkExecutor.run(() async => 'ok');
-      expect(result, isA<NetworkSuccess<String>>());
+      expect(result, isA<Success<String>>());
       expect(result.dataOrNull, 'ok');
     });
 
-    test('returns NetworkError with mapped failure on DioException', () async {
+    test('returns ErrorResult with mapped failure on DioException', () async {
       final result = await NetworkExecutor.run<String>(() async {
         throw DioException(
           type: DioExceptionType.connectionTimeout,
           requestOptions: RequestOptions(path: '/test'),
         );
       });
-      expect(result, isA<NetworkError<String>>());
-      final error = (result as NetworkError<String>).error;
-      expect(error.failure.type, NetworkFailureType.timeout);
+      expect(result, isA<ErrorResult<String>>());
+      final failure = result.failureOrNull as NetworkFailure;
+      expect(failure.type, NetworkFailureType.timeout);
     });
 
-    test('returns NetworkError with unknown type on non-Dio exception',
+    test('returns ErrorResult with unknown type on non-Dio exception',
         () async {
       final result = await NetworkExecutor.run<String>(() async {
         throw Exception('unexpected');
       });
-      expect(result, isA<NetworkError<String>>());
-      final error = (result as NetworkError<String>).error;
-      expect(error.failure.type, NetworkFailureType.unknown);
-      expect(error.cause, isA<Exception>());
+      expect(result, isA<ErrorResult<String>>());
+      final failure = result.failureOrNull as NetworkFailure;
+      expect(failure.type, NetworkFailureType.unknown);
+      expect(failure.cause, isA<Exception>());
     });
 
     test('preserves DioException as cause', () async {
@@ -44,9 +43,27 @@ void main() {
       final result = await NetworkExecutor.run<int>(() async {
         throw dioException;
       });
-      final error = (result as NetworkError<int>).error;
-      expect(error, isA<NetworkException>());
-      expect(error.cause, dioException);
+      final failure = result.failureOrNull as NetworkFailure;
+      expect(failure.cause, dioException);
+    });
+
+    test('captures stackTrace on DioException', () async {
+      final result = await NetworkExecutor.run<int>(() async {
+        throw DioException(
+          type: DioExceptionType.connectionTimeout,
+          requestOptions: RequestOptions(path: '/test'),
+        );
+      });
+      final failure = result.failureOrNull as NetworkFailure;
+      expect(failure.stackTrace, isNotNull);
+    });
+
+    test('captures stackTrace on general exception', () async {
+      final result = await NetworkExecutor.run<int>(() async {
+        throw Exception('unexpected');
+      });
+      final failure = result.failureOrNull as NetworkFailure;
+      expect(failure.stackTrace, isNotNull);
     });
   });
 }

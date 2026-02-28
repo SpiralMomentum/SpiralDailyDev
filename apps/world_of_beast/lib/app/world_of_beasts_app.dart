@@ -1,25 +1,12 @@
-import 'package:app_analytics/app_analytics.dart';
 import 'package:flutter/material.dart';
 
-import 'package:world_of_beast/features/monsters/data/datasources/favorite_monsters_local_data_source.dart';
-import 'package:world_of_beast/features/monsters/data/datasources/monsters_local_data_source.dart';
-import 'package:world_of_beast/features/monsters/data/repositories/favorite_monsters_repository_impl.dart';
-import 'package:world_of_beast/features/monsters/data/repositories/monster_repository_impl.dart';
-import 'package:world_of_beast/features/monsters/domain/repositories/favorite_monsters_repository.dart';
-import 'package:world_of_beast/features/monsters/domain/repositories/monster_repository.dart';
+import 'package:world_of_beast/app/di/service_locator.dart';
+import 'package:world_of_beast/features/monsters/presentation/viewmodels/monster_favorites_controller.dart';
+import 'package:world_of_beast/features/monsters/presentation/viewmodels/monster_list_view_model.dart';
 import 'package:world_of_beast/features/monsters/presentation/views/world_of_beasts_home_page.dart';
 
 class WorldOfBeastsApp extends StatelessWidget {
-  WorldOfBeastsApp({
-    super.key,
-    this.repository,
-    this.favoriteRepository,
-    AnalyticsTracker? analyticsTracker,
-  }) : analyticsTracker = analyticsTracker ?? DebugAnalyticsTracker();
-
-  final MonsterRepository? repository;
-  final FavoriteMonstersRepository? favoriteRepository;
-  final AnalyticsTracker? analyticsTracker;
+  const WorldOfBeastsApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -31,15 +18,8 @@ class WorldOfBeastsApp extends StatelessWidget {
         useMaterial3: true,
       ),
       home: WorldOfBeastsHomePage(
-        monsterRepository: repository ??
-            MonsterRepositoryImpl(
-              dataSource: MonstersLocalDataSource(),
-            ),
-        favoriteRepository: favoriteRepository ??
-            FavoriteMonstersRepositoryImpl(
-              dataSource: FavoriteMonstersLocalDataSource(),
-            ),
-        analyticsTracker: analyticsTracker,
+        viewModel: getIt<MonsterListViewModel>(),
+        favoritesController: getIt<MonsterFavoritesController>(),
       ),
     );
   }

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:app_logging/app_logging.dart';
 import 'package:flutter/material.dart';
 
+import 'app/di/service_locator.dart';
 import 'app/film_archive_app.dart';
 import 'tmdb_api_key.dart';
 
@@ -10,7 +11,7 @@ final String _tmdbApiKey = tmdbApiKey;
 
 final _logger = AppLogger(tag: 'Main');
 
-void main() {
+void main() async {
   AppLogger.outputs = [
     const ConsoleLogOutput(),
     const CrashReportLogOutput(),
@@ -25,9 +26,12 @@ void main() {
     );
   };
 
+  WidgetsFlutterBinding.ensureInitialized();
+  await ServiceLocator.setup(apiKey: _tmdbApiKey);
+
   runZonedGuarded(
     () {
-      runApp(FilmArchiveApp(apiKey: _tmdbApiKey));
+      runApp(const FilmArchiveApp());
     },
     (error, stackTrace) {
       _logger.error(
