@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:utils/result/result.dart';
 
 import 'package:apps.news_reader/features/article_detail/domain/usecases/get_article_detail.dart';
@@ -16,6 +17,7 @@ class ArticleDetailBloc extends Bloc<ArticleDetailEvent, ArticleDetailState> {
     on<ArticleDetailStarted>(_onStarted);
     on<ArticleDetailBookmarkToggled>(_onBookmarkToggled);
     on<ArticleDetailRefreshed>(_onRefreshed);
+    on<ArticleDetailShareRequested>(_onShareRequested);
   }
 
   final GetArticleDetail _getArticleDetail;
@@ -54,6 +56,17 @@ class ArticleDetailBloc extends Bloc<ArticleDetailEvent, ArticleDetailState> {
       case ErrorResult():
         break;
     }
+  }
+
+  Future<void> _onShareRequested(
+    ArticleDetailShareRequested event,
+    Emitter<ArticleDetailState> emit,
+  ) async {
+    final article = state.article;
+    if (article == null) return;
+    await Share.share(
+      '${article.title}\nnews-reader://article/${article.id}',
+    );
   }
 
   Future<void> _fetchDetail(Emitter<ArticleDetailState> emit) async {

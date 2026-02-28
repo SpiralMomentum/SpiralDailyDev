@@ -148,6 +148,16 @@ void main() {
     );
 
     blocTest<ArticleDetailBloc, ArticleDetailState>(
+      'does not throw when share requested with no article',
+      build: () => ArticleDetailBloc(
+        getArticleDetail: getArticleDetail,
+        toggleBookmark: toggleBookmark,
+      ),
+      act: (bloc) => bloc.add(const ArticleDetailShareRequested()),
+      expect: () => <ArticleDetailState>[],
+    );
+
+    blocTest<ArticleDetailBloc, ArticleDetailState>(
       'refreshes after Started sets _articleId',
       build: () {
         when(() => getArticleDetail('art-1'))

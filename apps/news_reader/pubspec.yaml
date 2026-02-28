@@ -57,6 +57,9 @@ dependencies:
   # Background
   shared_preferences: ^2.2.0
 
+  # Share
+  share_plus: ^7.0.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

@@ -18,6 +18,14 @@ class ArticleDetailPage extends StatelessWidget {
             actions: [
               if (state.article != null) ...[
                 IconButton(
+                  icon: const Icon(Icons.share_outlined),
+                  onPressed: () {
+                    context
+                        .read<ArticleDetailBloc>()
+                        .add(const ArticleDetailShareRequested());
+                  },
+                ),
+                IconButton(
                   icon: const Icon(Icons.comment_outlined),
                   onPressed: () {
                     context.push('/article/${state.article!.id}/comments');

@@ -20,3 +20,7 @@ class ArticleDetailBookmarkToggled extends ArticleDetailEvent {
 class ArticleDetailRefreshed extends ArticleDetailEvent {
   const ArticleDetailRefreshed();
 }
+
+class ArticleDetailShareRequested extends ArticleDetailEvent {
+  const ArticleDetailShareRequested();
+}
