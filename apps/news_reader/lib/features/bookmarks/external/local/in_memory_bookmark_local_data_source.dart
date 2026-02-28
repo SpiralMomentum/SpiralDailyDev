@@ -29,7 +29,35 @@ class InMemoryBookmarkLocalDataSource implements BookmarkLocalDataSource {
 
   @override
   Future<bool> isBookmarked(String articleId) async {
-    return _bookmarks
-        .any((b) => b['article_id'] == articleId);
+    return _bookmarks.any((b) =>
+        b['article_id'] == articleId &&
+        b['sync_status'] != 'pendingDelete');
+  }
+
+  @override
+  Future<List<Map<String, dynamic>>> getPendingBookmarks() async {
+    return List.unmodifiable(
+      _bookmarks.where((b) =>
+          b['sync_status'] == 'pendingUpload' ||
+          b['sync_status'] == 'pendingDelete'),
+    );
+  }
+
+  @override
+  Future<void> updateSyncStatus(
+    String articleId,
+    String syncStatus,
+    int version,
+  ) async {
+    final index =
+        _bookmarks.indexWhere((b) => b['article_id'] == articleId);
+    if (index != -1) {
+      _bookmarks[index] = {
+        ..._bookmarks[index],
+        'sync_status': syncStatus,
+        'version': version,
+        'updated_at': DateTime.now().millisecondsSinceEpoch,
+      };
+    }
   }
 }

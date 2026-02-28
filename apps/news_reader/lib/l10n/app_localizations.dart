@@ -128,6 +128,18 @@ abstract class AppLocalizations {
   /// **'Settings'**
   String get settingsTitle;
 
+  /// No description provided for @commentsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Comments'**
+  String get commentsTitle;
+
+  /// No description provided for @onboardingTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Get Started'**
+  String get onboardingTitle;
+
   /// No description provided for @errorNetwork.
   ///
   /// In en, this message translates to:
@@ -145,6 +157,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'An unexpected error occurred.'**
   String get errorUnknown;
+
+  /// No description provided for @errorLocalStorage.
+  ///
+  /// In en, this message translates to:
+  /// **'Local storage error occurred.'**
+  String get errorLocalStorage;
 
   /// No description provided for @retry.
   ///
@@ -193,6 +211,234 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Search articles...'**
   String get searchHint;
+
+  /// No description provided for @commentHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Write a comment...'**
+  String get commentHint;
+
+  /// No description provided for @commentSend.
+  ///
+  /// In en, this message translates to:
+  /// **'Send'**
+  String get commentSend;
+
+  /// No description provided for @commentReply.
+  ///
+  /// In en, this message translates to:
+  /// **'Reply'**
+  String get commentReply;
+
+  /// No description provided for @commentCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} comments'**
+  String commentCount(int count);
+
+  /// No description provided for @articleDetail.
+  ///
+  /// In en, this message translates to:
+  /// **'Article Detail'**
+  String get articleDetail;
+
+  /// No description provided for @share.
+  ///
+  /// In en, this message translates to:
+  /// **'Share'**
+  String get share;
+
+  /// No description provided for @categoryTechnology.
+  ///
+  /// In en, this message translates to:
+  /// **'Technology'**
+  String get categoryTechnology;
+
+  /// No description provided for @categoryBusiness.
+  ///
+  /// In en, this message translates to:
+  /// **'Business'**
+  String get categoryBusiness;
+
+  /// No description provided for @categoryScience.
+  ///
+  /// In en, this message translates to:
+  /// **'Science'**
+  String get categoryScience;
+
+  /// No description provided for @categoryHealth.
+  ///
+  /// In en, this message translates to:
+  /// **'Health'**
+  String get categoryHealth;
+
+  /// No description provided for @categorySports.
+  ///
+  /// In en, this message translates to:
+  /// **'Sports'**
+  String get categorySports;
+
+  /// No description provided for @categoryEntertainment.
+  ///
+  /// In en, this message translates to:
+  /// **'Entertainment'**
+  String get categoryEntertainment;
+
+  /// No description provided for @categoryGeneral.
+  ///
+  /// In en, this message translates to:
+  /// **'General'**
+  String get categoryGeneral;
+
+  /// No description provided for @categoryAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get categoryAll;
+
+  /// No description provided for @onboardingIntroTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome to News Reader'**
+  String get onboardingIntroTitle;
+
+  /// No description provided for @onboardingIntroDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Discover news, bookmark articles, and join the conversation.'**
+  String get onboardingIntroDescription;
+
+  /// No description provided for @onboardingCategoryTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose your interests'**
+  String get onboardingCategoryTitle;
+
+  /// No description provided for @onboardingCategoryDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Select at least 3 categories.'**
+  String get onboardingCategoryDescription;
+
+  /// No description provided for @onboardingNotificationTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable notifications?'**
+  String get onboardingNotificationTitle;
+
+  /// No description provided for @onboardingNotificationDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Get notified about new articles and comments.'**
+  String get onboardingNotificationDescription;
+
+  /// No description provided for @onboardingNext.
+  ///
+  /// In en, this message translates to:
+  /// **'Next'**
+  String get onboardingNext;
+
+  /// No description provided for @onboardingStart.
+  ///
+  /// In en, this message translates to:
+  /// **'Get Started'**
+  String get onboardingStart;
+
+  /// No description provided for @onboardingSkip.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip'**
+  String get onboardingSkip;
+
+  /// No description provided for @settingsTheme.
+  ///
+  /// In en, this message translates to:
+  /// **'Theme'**
+  String get settingsTheme;
+
+  /// No description provided for @settingsThemeSystem.
+  ///
+  /// In en, this message translates to:
+  /// **'System'**
+  String get settingsThemeSystem;
+
+  /// No description provided for @settingsThemeLight.
+  ///
+  /// In en, this message translates to:
+  /// **'Light'**
+  String get settingsThemeLight;
+
+  /// No description provided for @settingsThemeDark.
+  ///
+  /// In en, this message translates to:
+  /// **'Dark'**
+  String get settingsThemeDark;
+
+  /// No description provided for @settingsLanguage.
+  ///
+  /// In en, this message translates to:
+  /// **'Language'**
+  String get settingsLanguage;
+
+  /// No description provided for @settingsNotifications.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications'**
+  String get settingsNotifications;
+
+  /// No description provided for @settingsCategories.
+  ///
+  /// In en, this message translates to:
+  /// **'Preferred Categories'**
+  String get settingsCategories;
+
+  /// No description provided for @settingsVersion.
+  ///
+  /// In en, this message translates to:
+  /// **'Version'**
+  String get settingsVersion;
+
+  /// No description provided for @searchHistory.
+  ///
+  /// In en, this message translates to:
+  /// **'Recent Searches'**
+  String get searchHistory;
+
+  /// No description provided for @searchClear.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear History'**
+  String get searchClear;
+
+  /// No description provided for @syncPending.
+  ///
+  /// In en, this message translates to:
+  /// **'Sync pending'**
+  String get syncPending;
+
+  /// No description provided for @syncComplete.
+  ///
+  /// In en, this message translates to:
+  /// **'Sync complete'**
+  String get syncComplete;
+
+  /// No description provided for @forcedUpdateTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Update Required'**
+  String get forcedUpdateTitle;
+
+  /// No description provided for @forcedUpdateMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Please update to the latest version.'**
+  String get forcedUpdateMessage;
+
+  /// No description provided for @forcedUpdateButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Update'**
+  String get forcedUpdateButton;
 }
 
 class _AppLocalizationsDelegate

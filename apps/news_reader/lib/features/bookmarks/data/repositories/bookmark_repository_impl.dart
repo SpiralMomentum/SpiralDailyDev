@@ -33,9 +33,12 @@ class BookmarkRepositoryImpl implements BookmarkRepository {
   @override
   Future<Result<Bookmark>> addBookmark(Bookmark bookmark) async {
     try {
-      final data = BookmarkMapper.toMap(bookmark);
+      final bookmarkWithSync = bookmark.copyWith(
+        syncStatus: SyncStatus.pendingUpload,
+      );
+      final data = BookmarkMapper.toMap(bookmarkWithSync);
       await _localDataSource.insertBookmark(data);
-      return Success(bookmark);
+      return Success(bookmarkWithSync);
     } catch (e, st) {
       return ErrorResult(
         LocalStorageFailure(
@@ -50,7 +53,11 @@ class BookmarkRepositoryImpl implements BookmarkRepository {
   @override
   Future<Result<void>> removeBookmark(String articleId) async {
     try {
-      await _localDataSource.deleteBookmark(articleId);
+      await _localDataSource.updateSyncStatus(
+        articleId,
+        SyncStatus.pendingDelete.name,
+        1,
+      );
       return const Success(null);
     } catch (e, st) {
       return ErrorResult(
@@ -68,6 +75,80 @@ class BookmarkRepositoryImpl implements BookmarkRepository {
     try {
       final result = await _localDataSource.isBookmarked(articleId);
       return Success(result);
+    } catch (e, st) {
+      return ErrorResult(
+        LocalStorageFailure(
+          message: e.toString(),
+          cause: e,
+          stackTrace: st,
+        ),
+      );
+    }
+  }
+
+  @override
+  Future<Result<List<Bookmark>>> getPendingBookmarks() async {
+    try {
+      final rows = await _localDataSource.getPendingBookmarks();
+      final bookmarks = rows.map(BookmarkMapper.toDomain).toList();
+      return Success(bookmarks);
+    } catch (e, st) {
+      return ErrorResult(
+        LocalStorageFailure(
+          message: e.toString(),
+          cause: e,
+          stackTrace: st,
+        ),
+      );
+    }
+  }
+
+  @override
+  Future<Result<int>> syncBookmarks() async {
+    try {
+      final rows = await _localDataSource.getPendingBookmarks();
+      final pending = rows.map(BookmarkMapper.toDomain).toList();
+      var syncedCount = 0;
+
+      for (final bookmark in pending) {
+        if (bookmark.syncStatus == SyncStatus.pendingDelete) {
+          await _localDataSource.deleteBookmark(bookmark.articleId);
+          syncedCount++;
+        } else if (bookmark.syncStatus == SyncStatus.pendingUpload) {
+          await _localDataSource.updateSyncStatus(
+            bookmark.articleId,
+            SyncStatus.synced.name,
+            1,
+          );
+          syncedCount++;
+        }
+      }
+
+      return Success(syncedCount);
+    } catch (e, st) {
+      return ErrorResult(
+        LocalStorageFailure(
+          message: e.toString(),
+          cause: e,
+          stackTrace: st,
+        ),
+      );
+    }
+  }
+
+  @override
+  Future<Result<void>> updateSyncStatus(
+    String articleId,
+    SyncStatus status,
+    int version,
+  ) async {
+    try {
+      await _localDataSource.updateSyncStatus(
+        articleId,
+        status.name,
+        version,
+      );
+      return const Success(null);
     } catch (e, st) {
       return ErrorResult(
         LocalStorageFailure(
