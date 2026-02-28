@@ -1,0 +1,94 @@
+{
+  "items": [
+    {
+      "id": "article-001",
+      "title": "Flutter 4.0 Released with Major Performance Improvements",
+      "summary": "Google announces Flutter 4.0 with Impeller rendering engine enabled by default on all platforms.",
+      "content": "Google has officially released Flutter 4.0, marking a significant milestone in cross-platform development. The release features the Impeller rendering engine enabled by default across all supported platforms, delivering up to 40% improvement in frame rendering times. Additionally, the update includes enhanced hot reload capabilities, improved DevTools integration, and a new widget testing framework that reduces boilerplate by 60%.",
+      "image_url": "https://picsum.photos/seed/flutter/800/400",
+      "category": "technology",
+      "comment_count": 42,
+      "published_at": "2026-02-28T09:00:00Z",
+      "source_name": "Tech Daily"
+    },
+    {
+      "id": "article-002",
+      "title": "Global Markets Rally on Strong Economic Data",
+      "summary": "Major stock indices reach new highs as employment and GDP data exceed expectations.",
+      "content": "Global financial markets surged to record levels today following the release of stronger-than-expected economic indicators. The S&P 500 gained 2.3%, while European and Asian markets also posted significant gains. The rally was driven by employment data showing unemployment at a 50-year low and GDP growth exceeding analyst forecasts by 0.8 percentage points.",
+      "image_url": "https://picsum.photos/seed/markets/800/400",
+      "category": "business",
+      "comment_count": 18,
+      "published_at": "2026-02-28T08:30:00Z",
+      "source_name": "Finance Wire"
+    },
+    {
+      "id": "article-003",
+      "title": "Breakthrough in Quantum Computing Achieves 1000-Qubit Milestone",
+      "summary": "Researchers demonstrate stable 1000-qubit quantum processor, opening doors for practical applications.",
+      "content": "A team of researchers has successfully demonstrated a stable 1000-qubit quantum processor, marking a major breakthrough in quantum computing. The processor maintained coherence for over 10 milliseconds, a tenfold improvement over previous records. This achievement brings practical quantum computing applications in drug discovery, cryptography, and climate modeling significantly closer to reality.",
+      "image_url": "https://picsum.photos/seed/quantum/800/400",
+      "category": "science",
+      "comment_count": 56,
+      "published_at": "2026-02-27T15:00:00Z",
+      "source_name": "Science Today"
+    },
+    {
+      "id": "article-004",
+      "title": "New Study Links Mediterranean Diet to Longer Lifespan",
+      "summary": "20-year longitudinal study confirms significant health benefits of Mediterranean dietary patterns.",
+      "content": "A comprehensive 20-year longitudinal study involving 25,000 participants has confirmed that adherence to a Mediterranean diet is associated with a 25% reduction in all-cause mortality. The study found that participants who closely followed the diet had significantly lower rates of cardiovascular disease, type 2 diabetes, and certain cancers compared to control groups.",
+      "image_url": "https://picsum.photos/seed/health/800/400",
+      "category": "health",
+      "comment_count": 31,
+      "published_at": "2026-02-27T12:00:00Z",
+      "source_name": "Health Journal"
+    },
+    {
+      "id": "article-005",
+      "title": "Champions League Quarter-Finals Draw Revealed",
+      "summary": "Exciting matchups set as Europe's top clubs learn their opponents.",
+      "content": "The UEFA Champions League quarter-final draw has produced several highly anticipated matchups. The draw was conducted at UEFA headquarters in Nyon, Switzerland, and features clashes between some of Europe's most storied clubs. Football fans around the world are eagerly anticipating what promises to be one of the most competitive knockout stages in recent memory.",
+      "image_url": "https://picsum.photos/seed/sports/800/400",
+      "category": "sports",
+      "comment_count": 89,
+      "published_at": "2026-02-27T10:00:00Z",
+      "source_name": "Sports Weekly"
+    },
+    {
+      "id": "article-006",
+      "title": "AI-Powered Code Assistants Transform Software Development",
+      "summary": "Study shows 55% productivity gain for developers using AI coding tools in production environments.",
+      "content": "A large-scale study across 500 software companies has found that developers using AI-powered code assistants achieve a 55% increase in productivity as measured by completed tasks per sprint. The study also noted improvements in code quality metrics, with a 30% reduction in post-deployment bugs. However, the researchers caution that the tools work best as augmentation rather than replacement for human expertise.",
+      "image_url": "https://picsum.photos/seed/ai/800/400",
+      "category": "technology",
+      "comment_count": 73,
+      "published_at": "2026-02-26T14:00:00Z",
+      "source_name": "Dev Weekly"
+    },
+    {
+      "id": "article-007",
+      "title": "Electric Vehicle Sales Surpass Combustion Engines in Europe",
+      "summary": "Historic milestone as EV registrations exceed traditional vehicles for the first time.",
+      "content": "For the first time in automotive history, electric vehicle registrations in Europe have surpassed those of internal combustion engine vehicles. The shift, driven by stricter emissions regulations and falling battery costs, represents a fundamental transformation in the European automotive market. Industry analysts predict this trend will accelerate globally within the next two years.",
+      "image_url": "https://picsum.photos/seed/ev/800/400",
+      "category": "business",
+      "comment_count": 45,
+      "published_at": "2026-02-26T11:00:00Z",
+      "source_name": "Auto News"
+    },
+    {
+      "id": "article-008",
+      "title": "NASA Confirms Evidence of Microbial Life on Mars",
+      "summary": "Perseverance rover samples contain biosignatures consistent with ancient microbial activity.",
+      "content": "NASA scientists have announced that analysis of rock samples collected by the Perseverance rover on Mars contains biosignatures strongly consistent with ancient microbial life. The samples, collected from the Jezero Crater delta region, show organic molecules and mineral structures that mirror those produced by microorganisms on Earth. The finding, if confirmed through further analysis, would represent one of the most significant scientific discoveries in human history.",
+      "image_url": "https://picsum.photos/seed/mars/800/400",
+      "category": "science",
+      "comment_count": 234,
+      "published_at": "2026-02-26T08:00:00Z",
+      "source_name": "Space Report"
+    }
+  ],
+  "next_cursor": "cursor_page2",
+  "has_more": true
+}

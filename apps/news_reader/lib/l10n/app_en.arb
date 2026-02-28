@@ -1,0 +1,19 @@
+{
+  "@@locale": "en",
+  "appTitle": "News Reader",
+  "feedTitle": "Feed",
+  "bookmarksTitle": "Bookmarks",
+  "searchTitle": "Search",
+  "settingsTitle": "Settings",
+  "errorNetwork": "Network error. Please check your connection.",
+  "errorServer": "Server error. Please try again later.",
+  "errorUnknown": "An unexpected error occurred.",
+  "retry": "Retry",
+  "emptyFeed": "No articles found.",
+  "emptyBookmarks": "No saved articles.",
+  "emptySearch": "No search results.",
+  "emptyComments": "Be the first to comment!",
+  "bookmarkAdded": "Article bookmarked.",
+  "bookmarkRemoved": "Bookmark removed.",
+  "searchHint": "Search articles..."
+}

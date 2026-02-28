@@ -1,0 +1,19 @@
+{
+  "@@locale": "ko",
+  "appTitle": "뉴스 리더",
+  "feedTitle": "피드",
+  "bookmarksTitle": "북마크",
+  "searchTitle": "검색",
+  "settingsTitle": "설정",
+  "errorNetwork": "네트워크 오류입니다. 연결 상태를 확인해 주세요.",
+  "errorServer": "서버 오류입니다. 잠시 후 다시 시도해 주세요.",
+  "errorUnknown": "예상치 못한 오류가 발생했습니다.",
+  "retry": "재시도",
+  "emptyFeed": "새로운 기사가 없습니다.",
+  "emptyBookmarks": "저장한 기사가 없습니다.",
+  "emptySearch": "검색 결과가 없습니다.",
+  "emptyComments": "첫 댓글을 남겨보세요!",
+  "bookmarkAdded": "기사를 북마크했습니다.",
+  "bookmarkRemoved": "북마크를 해제했습니다.",
+  "searchHint": "기사 검색..."
+}
