@@ -225,6 +225,7 @@ class _SearchResultListState extends State<_SearchResultList> {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
+      key: const PageStorageKey('search_results'),
       controller: _scrollController,
       itemCount: widget.articles.length,
       padding: const EdgeInsets.symmetric(horizontal: 16),

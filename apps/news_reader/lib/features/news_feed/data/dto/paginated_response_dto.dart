@@ -20,4 +20,10 @@ class PaginatedResponseDto {
       hasMore: json['has_more'] as bool,
     );
   }
+
+  Map<String, dynamic> toJson() => {
+        'items': items.map((e) => e.toJson()).toList(),
+        'next_cursor': nextCursor,
+        'has_more': hasMore,
+      };
 }

@@ -123,6 +123,7 @@ class _ArticleListState extends State<_ArticleList> {
                 context.read<NewsFeedBloc>().add(const NewsFeedRefreshed());
               },
               child: ListView.builder(
+                key: const PageStorageKey('news_feed_list'),
                 controller: _scrollController,
                 itemCount: state.articles.length + (state.isLoadingMore ? 1 : 0),
                 padding: const EdgeInsets.all(16),

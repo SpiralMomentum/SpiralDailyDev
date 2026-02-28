@@ -61,6 +61,7 @@ class BookmarksPage extends StatelessWidget {
                 );
               }
               return ListView.builder(
+                key: const PageStorageKey('bookmarks_list'),
                 itemCount: state.bookmarks.length,
                 padding: const EdgeInsets.all(16),
                 itemBuilder: (context, index) {

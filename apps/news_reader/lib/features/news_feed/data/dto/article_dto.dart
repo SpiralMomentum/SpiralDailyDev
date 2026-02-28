@@ -34,4 +34,16 @@ class ArticleDto {
       sourceName: json['source_name'] as String?,
     );
   }
+
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'title': title,
+        'summary': summary,
+        'content': content,
+        'image_url': imageUrl,
+        'category': category,
+        'comment_count': commentCount,
+        'published_at': publishedAt,
+        'source_name': sourceName,
+      };
 }

@@ -27,10 +27,34 @@ class App extends StatelessWidget {
   }
 }
 
-class _AppView extends StatelessWidget {
+class _AppView extends StatefulWidget {
   const _AppView({required this.initialLocation});
 
   final String initialLocation;
+
+  @override
+  State<_AppView> createState() => _AppViewState();
+}
+
+class _AppViewState extends State<_AppView> with WidgetsBindingObserver {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didHaveMemoryPressure() {
+    super.didHaveMemoryPressure();
+    PaintingBinding.instance.imageCache.clear();
+    PaintingBinding.instance.imageCache.clearLiveImages();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +63,8 @@ class _AppView extends StatelessWidget {
           prev.preferences.themeMode != curr.preferences.themeMode ||
           prev.preferences.locale != curr.preferences.locale,
       builder: (context, state) {
-        final router = createRouter(initialLocation: initialLocation);
+        final router =
+            createRouter(initialLocation: widget.initialLocation);
         final locale = state.preferences.locale == AppLocale.en
             ? const Locale('en')
             : const Locale('ko');

@@ -67,6 +67,7 @@ dev_dependencies:
   mocktail: ^1.0.0
   bloc_test: ^9.1.0
   json_serializable: ^6.6.0
+  sqflite_common_ffi: ^2.3.0
 
 flutter:
   generate: true
