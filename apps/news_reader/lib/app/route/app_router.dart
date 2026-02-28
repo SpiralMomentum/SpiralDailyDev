@@ -18,7 +18,8 @@ import 'package:apps.news_reader/features/article_detail/presentation/bloc/artic
 import 'package:apps.news_reader/features/article_detail/presentation/views/article_detail_page.dart';
 import 'package:apps.news_reader/features/bookmarks/presentation/cubit/bookmarks_cubit.dart';
 import 'package:apps.news_reader/features/bookmarks/presentation/views/bookmarks_page.dart';
-import 'package:apps.news_reader/features/onboarding/presentation/views/onboarding_page.dart';
+import 'package:apps.news_reader/features/onboarding/presentation/views/onboarding_page.dart'
+    deferred as onboarding;
 import 'package:apps.news_reader/features/search/domain/repositories/search_repository.dart';
 import 'package:apps.news_reader/features/search/domain/usecases/search_articles.dart';
 import 'package:apps.news_reader/features/search/presentation/cubit/search_cubit.dart';
@@ -27,7 +28,8 @@ import 'package:apps.news_reader/features/settings/domain/repositories/settings_
 import 'package:apps.news_reader/features/settings/domain/usecases/get_settings.dart';
 import 'package:apps.news_reader/features/settings/domain/usecases/update_settings.dart';
 import 'package:apps.news_reader/features/settings/presentation/cubit/settings_cubit.dart';
-import 'package:apps.news_reader/features/settings/presentation/views/settings_page.dart';
+import 'package:apps.news_reader/features/settings/presentation/views/settings_page.dart'
+    deferred as settings;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -43,9 +45,19 @@ GoRouter createRouter({String? initialLocation}) {
       GoRoute(
         path: AppRoutes.onboarding.path,
         builder: (context, state) {
-          return OnboardingPage(
-            settingsRepository: getIt.get<SettingsRepository>(),
-            onCompleted: () => context.go(AppRoutes.feed.path),
+          return FutureBuilder(
+            future: onboarding.loadLibrary(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState != ConnectionState.done) {
+                return const Scaffold(
+                  body: Center(child: CircularProgressIndicator()),
+                );
+              }
+              return onboarding.OnboardingPage(
+                settingsRepository: getIt.get<SettingsRepository>(),
+                onCompleted: () => context.go(AppRoutes.feed.path),
+              );
+            },
           );
         },
       ),
@@ -106,12 +118,22 @@ GoRouter createRouter({String? initialLocation}) {
           GoRoute(
             path: AppRoutes.settings.path,
             builder: (context, state) {
-              return BlocProvider(
-                create: (_) => SettingsCubit(
-                  getSettings: getIt.get<GetSettings>(),
-                  updateSettings: getIt.get<UpdateSettings>(),
-                )..loadSettings(),
-                child: const SettingsPage(),
+              return FutureBuilder(
+                future: settings.loadLibrary(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState != ConnectionState.done) {
+                    return const Scaffold(
+                      body: Center(child: CircularProgressIndicator()),
+                    );
+                  }
+                  return BlocProvider(
+                    create: (_) => SettingsCubit(
+                      getSettings: getIt.get<GetSettings>(),
+                      updateSettings: getIt.get<UpdateSettings>(),
+                    )..loadSettings(),
+                    child: settings.SettingsPage(),
+                  );
+                },
               );
             },
           ),
