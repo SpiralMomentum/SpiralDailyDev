@@ -1,5 +1,7 @@
 import 'package:apps.news_reader/core/services/analytics_service.dart';
+import 'package:apps.news_reader/core/services/background_sync_service.dart';
 import 'package:apps.news_reader/core/services/crashlytics_service.dart';
+import 'package:apps.news_reader/core/services/push_notification_service.dart';
 import 'package:apps.news_reader/core/services/remote_config_service.dart';
 import 'package:apps.news_reader/features/bookmarks/data/datasources/bookmark_local_data_source.dart';
 import 'package:apps.news_reader/features/bookmarks/data/repositories/bookmark_repository_impl.dart';
@@ -76,6 +78,9 @@ class ServiceLocator {
       )
       ..registerLazySingleton<RemoteConfigService>(
         () => MockRemoteConfigService(),
+      )
+      ..registerLazySingleton<PushNotificationService>(
+        () => MockPushNotificationService(),
       );
 
     // Data (Repositories)
@@ -134,5 +139,10 @@ class ServiceLocator {
       ..registerFactory<UpdateSettings>(
         () => UpdateSettings(getIt.get()),
       );
+
+    // Services
+    getIt.registerLazySingleton<BackgroundSyncService>(
+      () => MockBackgroundSyncService(syncBookmarks: getIt.get()),
+    );
   }
 }
