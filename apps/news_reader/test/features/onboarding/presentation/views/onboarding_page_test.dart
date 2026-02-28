@@ -3,7 +3,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:utils/result/result.dart';
 
-import 'package:apps.news_reader/features/news_feed/domain/entities/article.dart';
 import 'package:apps.news_reader/features/settings/domain/repositories/settings_repository.dart';
 import 'package:apps.news_reader/features/onboarding/presentation/views/onboarding_page.dart';
 
