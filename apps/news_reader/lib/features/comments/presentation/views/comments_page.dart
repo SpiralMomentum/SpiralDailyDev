@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'package:apps.news_reader/core/haptic/haptic_service.dart';
 import '../../domain/entities/comment.dart';
 import '../bloc/comments_bloc.dart';
 import '../bloc/comments_event.dart';
@@ -33,6 +34,7 @@ class _CommentsPageState extends State<CommentsPage> {
     final content = _controller.text.trim();
     if (content.isEmpty) return;
 
+    HapticService.commentPosted();
     context.read<CommentsBloc>().add(CommentAdded(
           articleId: widget.articleId,
           authorName: _authorController.text.trim().isEmpty
@@ -143,29 +145,32 @@ class _CommentTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Opacity(
-      opacity: comment.isOptimistic ? 0.5 : 1.0,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Text(
-                  comment.authorName,
-                  style: const TextStyle(fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(width: 8),
-                Text(
-                  _formatDate(comment.createdAt),
-                  style: Theme.of(context).textTheme.bodySmall,
-                ),
-              ],
-            ),
-            const SizedBox(height: 4),
-            Text(comment.content),
-          ],
+    return Semantics(
+      label: '${comment.authorName}의 댓글',
+      child: Opacity(
+        opacity: comment.isOptimistic ? 0.5 : 1.0,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Text(
+                    comment.authorName,
+                    style: const TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(width: 8),
+                  Text(
+                    _formatDate(comment.createdAt),
+                    style: Theme.of(context).textTheme.bodySmall,
+                  ),
+                ],
+              ),
+              const SizedBox(height: 4),
+              Text(comment.content),
+            ],
+          ),
         ),
       ),
     );
@@ -207,6 +212,7 @@ class _CommentInput extends StatelessWidget {
             const SizedBox(width: 8),
             IconButton(
               icon: const Icon(Icons.send),
+              tooltip: '댓글 작성',
               onPressed: onSubmit,
             ),
           ],

@@ -1,7 +1,9 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
+import 'package:apps.news_reader/core/haptic/haptic_service.dart';
 import 'package:apps.news_reader/features/news_feed/domain/entities/article.dart';
 import '../bloc/news_feed_bloc.dart';
 import '../bloc/news_feed_event.dart';
@@ -117,6 +119,7 @@ class _ArticleListState extends State<_ArticleList> {
             }
             return RefreshIndicator(
               onRefresh: () async {
+                HapticService.pullToRefresh();
                 context.read<NewsFeedBloc>().add(const NewsFeedRefreshed());
               },
               child: ListView.builder(
@@ -151,80 +154,91 @@ class _ArticleCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    return Card(
-      margin: const EdgeInsets.only(bottom: 12),
-      clipBehavior: Clip.antiAlias,
-      child: InkWell(
-        onTap: () => context.push('/article/${article.id}'),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            if (article.imageUrl.isNotEmpty)
-              AspectRatio(
-                aspectRatio: 16 / 9,
-                child: Image.network(
-                  article.imageUrl,
-                  fit: BoxFit.cover,
-                  errorBuilder: (_, __, ___) => Container(
-                    color: theme.colorScheme.surfaceContainerHighest,
-                    child: Icon(Icons.image, color: theme.colorScheme.outline),
+    return Semantics(
+      label: '${article.category.name} 카테고리 기사: ${article.title}',
+      child: Card(
+        margin: const EdgeInsets.only(bottom: 12),
+        clipBehavior: Clip.antiAlias,
+        child: InkWell(
+          onTap: () => context.push('/article/${article.id}'),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              if (article.imageUrl.isNotEmpty)
+                ExcludeSemantics(
+                  child: AspectRatio(
+                    aspectRatio: 16 / 9,
+                    child: CachedNetworkImage(
+                      imageUrl: article.imageUrl,
+                      fit: BoxFit.cover,
+                      memCacheWidth: 400,
+                      placeholder: (_, __) => Container(
+                        color: theme.colorScheme.surfaceContainerHighest,
+                      ),
+                      errorWidget: (_, __, ___) => Container(
+                        color: theme.colorScheme.surfaceContainerHighest,
+                        child:
+                            Icon(Icons.image, color: theme.colorScheme.outline),
+                      ),
+                    ),
                   ),
                 ),
-              ),
-            Padding(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      Chip(
-                        label: Text(
-                          article.category.name,
-                          style: theme.textTheme.labelSmall,
+              Padding(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Chip(
+                          label: Text(
+                            article.category.name,
+                            style: theme.textTheme.labelSmall,
+                          ),
+                          visualDensity: VisualDensity.compact,
+                          padding: EdgeInsets.zero,
                         ),
-                        visualDensity: VisualDensity.compact,
-                        padding: EdgeInsets.zero,
-                      ),
-                      const Spacer(),
-                      IconButton(
-                        icon: Icon(
-                          article.isBookmarked
-                              ? Icons.bookmark
-                              : Icons.bookmark_outline,
+                        const Spacer(),
+                        IconButton(
+                          icon: Icon(
+                            article.isBookmarked
+                                ? Icons.bookmark
+                                : Icons.bookmark_outline,
+                          ),
+                          onPressed: () {
+                            HapticService.bookmarkToggle();
+                            context.read<NewsFeedBloc>().add(
+                                  NewsFeedBookmarkToggled(article),
+                                );
+                          },
+                          iconSize: 20,
+                          visualDensity: VisualDensity.compact,
                         ),
-                        onPressed: () {
-                          context.read<NewsFeedBloc>().add(
-                                NewsFeedBookmarkToggled(article),
-                              );
-                        },
-                        iconSize: 20,
-                        visualDensity: VisualDensity.compact,
+                      ],
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      article.title,
+                      style: theme.textTheme.titleMedium?.copyWith(
+                        fontWeight: FontWeight.w600,
                       ),
-                    ],
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    article.title,
-                    style: theme.textTheme.titleMedium?.copyWith(
-                      fontWeight: FontWeight.w600,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
                     ),
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    article.summary,
-                    style: theme.textTheme.bodyMedium?.copyWith(
-                      color: theme.colorScheme.onSurfaceVariant,
+                    const SizedBox(height: 4),
+                    Text(
+                      article.summary,
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        color: theme.colorScheme.onSurfaceVariant,
+                      ),
+                      maxLines: 3,
+                      overflow: TextOverflow.ellipsis,
                     ),
-                    maxLines: 3,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

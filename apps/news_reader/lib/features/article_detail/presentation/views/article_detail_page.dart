@@ -1,7 +1,9 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
+import 'package:apps.news_reader/core/haptic/haptic_service.dart';
 import '../bloc/article_detail_bloc.dart';
 import '../bloc/article_detail_event.dart';
 import '../bloc/article_detail_state.dart';
@@ -19,6 +21,7 @@ class ArticleDetailPage extends StatelessWidget {
               if (state.article != null) ...[
                 IconButton(
                   icon: const Icon(Icons.share_outlined),
+                  tooltip: '기사 공유',
                   onPressed: () {
                     context
                         .read<ArticleDetailBloc>()
@@ -27,6 +30,7 @@ class ArticleDetailPage extends StatelessWidget {
                 ),
                 IconButton(
                   icon: const Icon(Icons.comment_outlined),
+                  tooltip: '댓글 보기',
                   onPressed: () {
                     context.push('/article/${state.article!.id}/comments');
                   },
@@ -37,7 +41,9 @@ class ArticleDetailPage extends StatelessWidget {
                         ? Icons.bookmark
                         : Icons.bookmark_outline,
                   ),
+                  tooltip: state.article!.isBookmarked ? '북마크 제거' : '북마크 추가',
                   onPressed: () {
+                    HapticService.bookmarkToggle();
                     context
                         .read<ArticleDetailBloc>()
                         .add(const ArticleDetailBookmarkToggled());
@@ -100,16 +106,23 @@ class _ArticleContent extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           if (article.imageUrl.isNotEmpty)
-            ClipRRect(
-              borderRadius: BorderRadius.circular(12),
-              child: Image.network(
-                article.imageUrl,
-                width: double.infinity,
-                fit: BoxFit.cover,
-                errorBuilder: (_, __, ___) => Container(
-                  height: 200,
-                  color: theme.colorScheme.surfaceContainerHighest,
-                  child: Icon(Icons.image, color: theme.colorScheme.outline),
+            ExcludeSemantics(
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(12),
+                child: CachedNetworkImage(
+                  imageUrl: article.imageUrl,
+                  width: double.infinity,
+                  fit: BoxFit.cover,
+                  memCacheWidth: 800,
+                  placeholder: (_, __) => Container(
+                    height: 200,
+                    color: theme.colorScheme.surfaceContainerHighest,
+                  ),
+                  errorWidget: (_, __, ___) => Container(
+                    height: 200,
+                    color: theme.colorScheme.surfaceContainerHighest,
+                    child: Icon(Icons.image, color: theme.colorScheme.outline),
+                  ),
                 ),
               ),
             ),
