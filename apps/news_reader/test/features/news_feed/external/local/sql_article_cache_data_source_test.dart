@@ -85,7 +85,7 @@ void main() {
     });
 
     test('returns null for expired cache', () async {
-      final response = _createSampleResponse();
+      _createSampleResponse();
       const cacheKey = 'feed_expired';
 
       // Insert with a cached_at timestamp far in the past (TTL = 300000ms = 5 min)
