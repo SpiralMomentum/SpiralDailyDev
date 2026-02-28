@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 import '../bloc/article_detail_bloc.dart';
 import '../bloc/article_detail_event.dart';
@@ -15,7 +16,13 @@ class ArticleDetailPage extends StatelessWidget {
         return Scaffold(
           appBar: AppBar(
             actions: [
-              if (state.article != null)
+              if (state.article != null) ...[
+                IconButton(
+                  icon: const Icon(Icons.comment_outlined),
+                  onPressed: () {
+                    context.push('/article/${state.article!.id}/comments');
+                  },
+                ),
                 IconButton(
                   icon: Icon(
                     state.article!.isBookmarked
@@ -28,6 +35,7 @@ class ArticleDetailPage extends StatelessWidget {
                         .add(const ArticleDetailBookmarkToggled());
                   },
                 ),
+              ],
             ],
           ),
           body: switch (state.status) {
