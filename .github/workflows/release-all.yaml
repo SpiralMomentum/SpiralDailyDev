@@ -21,6 +21,7 @@ jobs:
           - daily_memo
           - film_archive
           - luck_insight
+          - news_reader
           - spiral_trade_show
           - world_field_guide
           - world_of_beast
@@ -55,6 +56,7 @@ jobs:
           - daily_memo
           - film_archive
           - luck_insight
+          - news_reader
           - world_field_guide
           - world_of_beast
     steps:
@@ -127,6 +129,7 @@ jobs:
           - daily_memo
           - film_archive
           - luck_insight
+          - news_reader
           - world_field_guide
           - world_of_beast
     steps:

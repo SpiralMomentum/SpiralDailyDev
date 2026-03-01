@@ -192,6 +192,32 @@ apps:
     fastlane:
       androidLane: android_play_production
       iosLane: ios_appstore_release
+  news_reader:
+    appId: com.spiral.news_reader
+    iosBundleId: com.spiral.newsReader
+    displayName: "News Reader"
+    projectPath: apps/news_reader
+    metadata:
+      android: store_metadata/news_reader/android.yaml
+      ios: store_metadata/news_reader/ios.yaml
+    autoGenerateIcon: false
+    autoCaptureScreenshots: false
+    build:
+      android:
+        command:
+          - flutter
+          - build
+          - appbundle
+          - --release
+      ios:
+        command:
+          - flutter
+          - build
+          - ipa
+          - --release
+    fastlane:
+      androidLane: android_play_production
+      iosLane: ios_appstore_release
   world_of_beast:
     appId: com.spiraldev.world_of_beast
     iosBundleId: com.spiraldev.worldOfBeast
