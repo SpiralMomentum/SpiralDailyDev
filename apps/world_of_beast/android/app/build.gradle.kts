@@ -8,10 +8,11 @@ plugins {
     id("dev.flutter.flutter-gradle-plugin")
 }
 
-val keystoreProperties = Properties()
-val keystorePropertiesFile = rootProject.file("../../../signing/world_of_beast/android/key.properties")
-if (keystorePropertiesFile.exists()) {
-    FileInputStream(keystorePropertiesFile).use { keystoreProperties.load(it) }
+val keystoreProperties = Properties().apply {
+    val keystorePropertiesFile = rootProject.file("../../../signing/world_of_beast/android/key.properties")
+    if (keystorePropertiesFile.exists()) {
+        load(FileInputStream(keystorePropertiesFile))
+    }
 }
 
 android {
@@ -41,13 +42,13 @@ android {
 
     signingConfigs {
         create("release") {
-            if (keystoreProperties.isNotEmpty()) {
-                keyAlias = keystoreProperties["keyAlias"] as String
-                keyPassword = keystoreProperties["keyPassword"] as String
-                storePassword = keystoreProperties["storePassword"] as String
-                val storeFilePath = keystoreProperties["storeFile"] as String
+            val storeFilePath = keystoreProperties["storeFile"] as String?
+            if (storeFilePath != null) {
                 storeFile = file(storeFilePath)
             }
+            storePassword = keystoreProperties["storePassword"] as String?
+            keyAlias = keystoreProperties["keyAlias"] as String?
+            keyPassword = keystoreProperties["keyPassword"] as String?
         }
     }
 
