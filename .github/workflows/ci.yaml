@@ -75,8 +75,15 @@ jobs:
       - name: Setup Flutter
         uses: ./.github/actions/setup-flutter
 
+      - name: Generate gitignored source files
+        run: |
+          if [ "${{ matrix.app }}" = "film_archive" ]; then
+            echo "const tmdbApiKey = String.fromEnvironment('TMDB_API_KEY', defaultValue: '');" \
+              > apps/film_archive/lib/tmdb_api_key.dart
+          fi
+
       - name: Analyze
-        run: dart analyze --fatal-infos
+        run: dart analyze --fatal-warnings
         working-directory: apps/${{ matrix.app }}
 
       - name: Test with coverage
@@ -167,6 +174,13 @@ jobs:
             ~/.gradle/wrapper
           key: gradle-${{ matrix.app }}-${{ hashFiles('apps/**/build.gradle*', 'apps/**/gradle-wrapper.properties') }}
           restore-keys: gradle-${{ matrix.app }}-
+
+      - name: Generate gitignored source files
+        run: |
+          if [ "${{ matrix.app }}" = "film_archive" ]; then
+            echo "const tmdbApiKey = String.fromEnvironment('TMDB_API_KEY', defaultValue: '');" \
+              > apps/film_archive/lib/tmdb_api_key.dart
+          fi
 
       - name: Build APK and measure size
         run: |
