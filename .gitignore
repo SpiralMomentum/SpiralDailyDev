@@ -152,3 +152,6 @@ artifacts/
 .env
 .env.*
 !fastlane/.env.default
+
+# Worktrees
+.worktrees/

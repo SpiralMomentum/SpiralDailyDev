@@ -51,10 +51,14 @@ class MapProviderPreview extends StatelessWidget {
       return card;
     }
 
-    return InkWell(
-      borderRadius: BorderRadius.circular(16),
-      onTap: onTap,
-      child: card,
+    return Semantics(
+      button: true,
+      label: title,
+      child: InkWell(
+        borderRadius: BorderRadius.circular(16),
+        onTap: onTap,
+        child: card,
+      ),
     );
   }
 }

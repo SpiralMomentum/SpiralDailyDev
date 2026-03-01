@@ -1,16 +1,18 @@
 import 'package:meta/meta.dart';
+import 'package:utils/result/failure.dart' as utils;
 
 @immutable
-class NetworkFailure {
+class NetworkFailure extends utils.Failure {
   const NetworkFailure({
     required this.type,
-    this.message,
+    super.message,
     this.statusCode,
     this.rawBody,
+    super.cause,
+    super.stackTrace,
   });
 
   final NetworkFailureType type;
-  final String? message;
   final int? statusCode;
   final String? rawBody;
 

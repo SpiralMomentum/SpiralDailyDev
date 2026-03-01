@@ -42,6 +42,8 @@ dependencies:
     path: ../../packages/app_logging
   app_analytics:
     path: ../../packages/app_analytics
+  retrofit: '>=4.0.1 <5.0.0'
+  get_it: ^7.6.7
 
 dev_dependencies:
   flutter_test:

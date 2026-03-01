@@ -28,7 +28,7 @@ class MemoView extends StatelessWidget {
         listener: (context, state) {
           if (state.status == MemoStatus.addMemoSuccess ||
               state.status == MemoStatus.updateMemoSuccess) {
-            BlocProvider.of<MemoBloc>(context).add(BackToHome(context));
+            Navigator.pop(context);
           }
         },
         child: Scaffold(

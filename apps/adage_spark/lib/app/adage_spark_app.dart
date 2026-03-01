@@ -1,44 +1,17 @@
 import 'package:flutter/material.dart';
 
-import 'package:app_analytics/app_analytics.dart';
-import 'package:adage_spark/features/adage/data/datasources/adage_local_data_source.dart';
-import 'package:adage_spark/features/adage/data/repositories/adage_repository_impl.dart';
-import 'package:adage_spark/features/adage/domain/usecases/add_adage_quote_use_case.dart';
-import 'package:adage_spark/features/adage/domain/usecases/get_adage_quotes_use_case.dart';
+import 'package:adage_spark/app/di/service_locator.dart';
 import 'package:adage_spark/features/adage/presentation/adage_controller.dart';
 import 'package:adage_spark/features/adage/presentation/adage_home_page.dart';
 import 'package:adage_spark/features/adage/presentation/adage_theme.dart';
 
-class AdageSparkApp extends StatefulWidget {
+class AdageSparkApp extends StatelessWidget {
   const AdageSparkApp({super.key});
 
   @override
-  State<AdageSparkApp> createState() => _AdageSparkAppState();
-}
-
-class _AdageSparkAppState extends State<AdageSparkApp> {
-  late final AdageController _controller;
-
-  @override
-  void initState() {
-    super.initState();
-    final dataSource = AdageLocalDataSource();
-    final repository = AdageRepositoryImpl(localDataSource: dataSource);
-    _controller = AdageController(
-      getAdageQuotesUseCase: GetAdageQuotesUseCase(repository: repository),
-      addAdageQuoteUseCase: AddAdageQuoteUseCase(repository: repository),
-      analyticsTracker: DebugAnalyticsTracker(),
-    )..load();
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    final controller = getIt<AdageController>()..load();
+
     return MaterialApp(
       title: 'Adage Spark',
       debugShowCheckedModeBanner: false,
@@ -54,7 +27,7 @@ class _AdageSparkAppState extends State<AdageSparkApp> {
         ),
         useMaterial3: true,
       ),
-      home: AdageHomePage(controller: _controller),
+      home: AdageHomePage(controller: controller),
     );
   }
 }

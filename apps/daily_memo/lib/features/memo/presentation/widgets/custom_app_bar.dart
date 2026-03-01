@@ -20,6 +20,7 @@ class CustomAppBar extends StatelessWidget {
               padding: const EdgeInsets.only(right: 16.0),
               child: IconButton(
                 onPressed: item.onTap,
+                tooltip: item.leadingText,
                 icon: Text(
                   item.leadingText,
                   maxLines: 1,

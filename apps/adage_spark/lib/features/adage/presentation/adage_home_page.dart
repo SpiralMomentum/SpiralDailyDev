@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:adage_spark/features/adage/domain/entities/adage_quote.dart';
 
 import 'adage_controller.dart';
-import 'adage_state.dart';
 import 'adage_theme.dart';
 import 'add_adage_page.dart';
 
@@ -44,7 +43,8 @@ class _AdageHomePageState extends State<AdageHomePage> {
             onPressed: _openCreateQuote,
             backgroundColor: AdageColors.accentPrimary,
             foregroundColor: AdageColors.backgroundBottom,
-            child: const Icon(Icons.add_rounded),
+            tooltip: '새 격언 추가',
+            child: const Icon(Icons.add_rounded, semanticLabel: '새 격언 추가'),
           ),
           body: Container(
             width: double.infinity,
@@ -105,6 +105,7 @@ class _AdageHomePageState extends State<AdageHomePage> {
                               icon: const Icon(
                                 Icons.auto_awesome_rounded,
                                 size: 20,
+                                semanticLabel: '새로운 격언 보기',
                               ),
                               label: const Text('새로운 격언 불꽃 켜기'),
                               style: FilledButton.styleFrom(
@@ -159,7 +160,9 @@ class _AdageCard extends StatelessWidget {
       );
     }
 
-    return Container(
+    return Semantics(
+      label: '격언: ${quote!.body} - ${quote!.reference}',
+      child: Container(
       padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
         color: AdageColors.quoteBackground,
@@ -175,6 +178,7 @@ class _AdageCard extends StatelessWidget {
                 Icons.format_quote_rounded,
                 color: AdageColors.accentSecondary,
                 size: 28,
+                semanticLabel: '인용 아이콘',
               ),
               const SizedBox(width: 8),
               Text(
@@ -205,6 +209,7 @@ class _AdageCard extends StatelessWidget {
           ),
         ],
       ),
+    ),
     );
   }
 }

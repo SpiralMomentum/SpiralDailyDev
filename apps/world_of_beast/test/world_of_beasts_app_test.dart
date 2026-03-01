@@ -4,8 +4,16 @@ import 'package:utils/result/result.dart';
 import 'package:world_map_widget/world_map_widget.dart';
 
 import 'package:world_of_beast/features/monsters/domain/entities/monster.dart';
+import 'package:world_of_beast/features/monsters/domain/repositories/favorite_monsters_repository.dart';
 import 'package:world_of_beast/features/monsters/domain/repositories/monster_repository.dart';
-import 'package:world_of_beast/main.dart';
+import 'package:world_of_beast/features/monsters/domain/usecases/filter_monsters_by_country_use_case.dart';
+import 'package:world_of_beast/features/monsters/domain/usecases/get_monsters_use_case.dart';
+import 'package:world_of_beast/features/monsters/domain/usecases/load_favorite_monster_ids_use_case.dart';
+import 'package:world_of_beast/features/monsters/domain/usecases/save_favorite_monster_ids_use_case.dart';
+import 'package:world_of_beast/features/monsters/domain/usecases/sort_monsters_use_case.dart';
+import 'package:world_of_beast/features/monsters/presentation/viewmodels/monster_favorites_controller.dart';
+import 'package:world_of_beast/features/monsters/presentation/viewmodels/monster_list_view_model.dart';
+import 'package:world_of_beast/features/monsters/presentation/views/world_of_beasts_home_page.dart';
 
 class _FakeMonsterRepository implements MonsterRepository {
   _FakeMonsterRepository(this.monsters);
@@ -15,6 +23,18 @@ class _FakeMonsterRepository implements MonsterRepository {
   @override
   Future<Result<List<Monster>>> fetchMonsters() async {
     return Success(monsters);
+  }
+}
+
+class _FakeFavoriteMonstersRepository implements FavoriteMonstersRepository {
+  @override
+  Future<Result<Set<String>>> loadFavoriteIds() async {
+    return const Success(<String>{});
+  }
+
+  @override
+  Future<Result<void>> saveFavoriteIds(Set<String> ids) async {
+    return const Success(null);
   }
 }
 
@@ -62,8 +82,34 @@ void main() {
   ];
 
   Future<void> pumpApp(WidgetTester tester) async {
+    final monsterRepository = _FakeMonsterRepository(testMonsters);
+    final favoriteRepository = _FakeFavoriteMonstersRepository();
+    const sortUseCase = SortMonstersUseCase();
+    final viewModel = MonsterListViewModel(
+      getMonsters: GetMonstersUseCase(
+        repository: monsterRepository,
+        sortMonsters: sortUseCase,
+      ),
+      filterByCountry: const FilterMonstersByCountryUseCase(
+        sortMonsters: sortUseCase,
+      ),
+    );
+    final favoritesController = MonsterFavoritesController(
+      loadFavorites: LoadFavoriteMonsterIdsUseCase(
+        repository: favoriteRepository,
+      ),
+      saveFavorites: SaveFavoriteMonsterIdsUseCase(
+        repository: favoriteRepository,
+      ),
+    );
+
     await tester.pumpWidget(
-      WorldOfBeastsApp(repository: _FakeMonsterRepository(testMonsters)),
+      MaterialApp(
+        home: WorldOfBeastsHomePage(
+          viewModel: viewModel,
+          favoritesController: favoritesController,
+        ),
+      ),
     );
     await tester.pumpAndSettle();
   }

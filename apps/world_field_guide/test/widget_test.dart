@@ -1,8 +1,19 @@
 import 'package:flutter_test/flutter_test.dart';
 
+import 'package:world_field_guide/app/di/service_locator.dart';
 import 'package:world_field_guide/app/world_field_guide_app.dart';
 
 void main() {
+  setUp(() {
+    // 테스트 전 getIt 초기화하여 이전 테스트 잔여 등록 방지
+    getIt.reset();
+    ServiceLocator.setup();
+  });
+
+  tearDown(() async {
+    await getIt.reset();
+  });
+
   testWidgets('앱이 정상적으로 렌더링된다', (WidgetTester tester) async {
     await tester.pumpWidget(const WorldFieldGuideApp());
 

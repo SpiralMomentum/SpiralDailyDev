@@ -1,0 +1,76 @@
+name: apps.news_reader
+description: Social news reader app with offline bookmarks and real-time comments.
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.6 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  cupertino_icons: ^1.0.8
+
+  # Monorepo packages
+  utils:
+    path: ../../packages/utils
+  networking:
+    path: ../../packages/networking
+  app_logging:
+    path: ../../packages/app_logging
+  app_analytics:
+    path: ../../packages/app_analytics
+  app_navigation:
+    path: ../../packages/app_navigation
+  ui_components:
+    path: ../../packages/ui_components
+
+  # State management
+  flutter_bloc: ^8.1.1
+  equatable: ^2.0.3
+
+  # DI
+  get_it: ^7.6.4
+
+  # Routing
+  go_router: ^12.1.1
+
+  # Local DB
+  sqflite:
+  path:
+
+  # Serialization
+  json_annotation: ^4.8.0
+
+  # UI
+  shimmer: ^3.0.0
+  cached_network_image: ^3.3.0
+
+  # i18n
+  intl: ^0.20.0
+
+  # Security
+  flutter_secure_storage: ^9.0.0
+
+  # Background
+  shared_preferences: ^2.2.0
+
+  # Share
+  share_plus: ^7.0.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0
+  mocktail: ^1.0.0
+  bloc_test: ^9.1.0
+  json_serializable: ^6.6.0
+  sqflite_common_ffi: ^2.3.0
+
+flutter:
+  generate: true
+  uses-material-design: true
+  assets:
+    - assets/mock/
