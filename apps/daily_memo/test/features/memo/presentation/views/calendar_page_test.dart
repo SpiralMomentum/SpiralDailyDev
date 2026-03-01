@@ -41,8 +41,9 @@ void main() {
   group('CalendarPage', () {
     testWidgets('TableCalendar 위젯이 렌더링된다', (tester) async {
       await tester.pumpWidget(buildSubject());
+      await tester.pumpAndSettle();
 
-      expect(find.byType(TableCalendar), findsOneWidget);
+      expect(find.byType(TableCalendar<MemoInfoEntity>), findsOneWidget);
     });
 
     testWidgets('메모가 있는 날짜에 마커가 표시된다', (tester) async {
@@ -66,9 +67,9 @@ void main() {
           memos: memos,
         ),
       ));
+      await tester.pumpAndSettle();
 
-      // TableCalendar가 정상적으로 렌더링되는지 확인
-      expect(find.byType(TableCalendar), findsOneWidget);
+      expect(find.byType(TableCalendar<MemoInfoEntity>), findsOneWidget);
     });
 
     testWidgets('메모가 없을 때도 캘린더가 정상적으로 렌더링된다', (tester) async {
@@ -78,8 +79,9 @@ void main() {
           memos: [],
         ),
       ));
+      await tester.pumpAndSettle();
 
-      expect(find.byType(TableCalendar), findsOneWidget);
+      expect(find.byType(TableCalendar<MemoInfoEntity>), findsOneWidget);
     });
 
     testWidgets('캘린더 헤더의 좌우 화살표가 숨겨져 있다', (tester) async {

@@ -23,7 +23,6 @@ abstract class AppTheme {
       case AppThemeVariant.accent:
         return accent;
       case AppThemeVariant.light:
-      default:
         return light;
     }
   }

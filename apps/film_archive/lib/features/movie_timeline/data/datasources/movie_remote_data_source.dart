@@ -1,6 +1,5 @@
 import 'package:app_logging/app_logging.dart';
 import 'package:networking/networking.dart';
-import 'package:retrofit/dio.dart';
 
 import 'package:film_archive/features/movie_timeline/domain/entities/movie_sort_option.dart';
 import 'tmdb_data_source.dart';

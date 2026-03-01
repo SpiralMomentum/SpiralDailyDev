@@ -71,31 +71,6 @@ extension AppRoutesGoRouter on AppRoutes {
             );
           },
         );
-      default:
-        return GoRoute(
-          path: AppRoutes.home.path,
-          builder: (BuildContext context, GoRouterState state) {
-            final repository = getIt.get<MemoRepository>();
-            return MultiBlocProvider(
-              providers: [
-                BlocProvider<HomeBloc>(
-                  create: (context) => HomeBloc(),
-                ),
-                BlocProvider<MemoBloc>(
-                  create: (_) => MemoBloc(
-                    getAllMemosUseCase:
-                        GetAllMemosUseCase(repository: repository),
-                    addMemoUseCase: AddMemoUseCase(repository: repository),
-                    updateMemoUseCase: UpdateMemoUseCase(repository: repository),
-                    deleteMemoUseCase: DeleteMemoUseCase(repository: repository),
-                    routesController: getIt.get<RoutesController>(),
-                  )..add(GetAllMemos()),
-                ),
-              ],
-              child: const HomeView(),
-            );
-          },
-        );
     }
   }
 }

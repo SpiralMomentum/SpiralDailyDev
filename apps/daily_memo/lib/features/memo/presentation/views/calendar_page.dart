@@ -32,7 +32,7 @@ class CalendarView extends StatelessWidget {
         final memos = BlocProvider.of<MemoBloc>(context).state.memos;
         DateTime result = DateTime.parse(DateFormat("yyyy-MM-dd").format(day));
 
-        return memos.where((e) => e.calendarDateTime == result).toList() ?? [];
+        return memos.where((e) => e.calendarDateTime == result).toList();
       },
       calendarStyle: const CalendarStyle(
         markerSize: 10.0,
