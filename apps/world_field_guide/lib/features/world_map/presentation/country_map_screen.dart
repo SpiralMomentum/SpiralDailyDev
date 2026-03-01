@@ -2,7 +2,6 @@ import 'package:countries_world_map/countries_world_map.dart';
 import 'package:flutter/material.dart';
 
 import 'package:world_field_guide/app/theme/app_theme.dart';
-import 'package:world_field_guide/core/analytics/analytics_events.dart';
 import 'package:app_analytics/app_analytics.dart';
 import 'package:world_field_guide/features/world_map/domain/usecases/get_country_specialties_use_case.dart';
 

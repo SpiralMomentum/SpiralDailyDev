@@ -111,7 +111,6 @@ class _WorldMapScreenState extends State<WorldMapScreen> {
       case AppThemeVariant.accent:
         return Colors.white;
       case AppThemeVariant.light:
-      default:
         return AppTheme.mapCanvas;
     }
   }
@@ -123,7 +122,6 @@ class _WorldMapScreenState extends State<WorldMapScreen> {
       case AppThemeVariant.accent:
         return _accentMapFill;
       case AppThemeVariant.light:
-      default:
         return const Color(0xFFFAE4C2);
     }
   }
@@ -141,7 +139,6 @@ class _WorldMapScreenState extends State<WorldMapScreen> {
           width: 0.4,
         );
       case AppThemeVariant.light:
-      default:
         return const CountryBorder(
           color: AppTheme.deepNavy,
           width: 0.4,
@@ -156,7 +153,6 @@ class _WorldMapScreenState extends State<WorldMapScreen> {
       case AppThemeVariant.accent:
         return AppTheme.accentSecondary;
       case AppThemeVariant.light:
-      default:
         return AppTheme.deepNavy;
     }
   }

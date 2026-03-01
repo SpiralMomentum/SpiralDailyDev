@@ -84,6 +84,11 @@ jobs:
             echo "const tmdbApiKey = String.fromEnvironment('TMDB_API_KEY', defaultValue: '');" \
               > apps/film_archive/lib/tmdb_api_key.dart
           fi
+          if [ "${{ matrix.app }}" = "daily_memo" ]; then
+            cat > apps/daily_memo/android/app/google-services.json << 'GSEOF'
+          {"project_info":{"project_number":"0","project_id":"dummy","storage_bucket":"dummy.appspot.com"},"client":[{"client_info":{"mobilesdk_app_id":"1:0:android:0","android_client_info":{"package_name":"com.spiral_daily_dev.apps.daily_memo"}},"api_key":[{"current_key":"dummy"}]}],"configuration_version":"1"}
+          GSEOF
+          fi
 
       - name: Analyze
         run: dart analyze --fatal-warnings
@@ -174,6 +179,11 @@ jobs:
           if [ "${{ matrix.app }}" = "film_archive" ]; then
             echo "const tmdbApiKey = String.fromEnvironment('TMDB_API_KEY', defaultValue: '');" \
               > apps/film_archive/lib/tmdb_api_key.dart
+          fi
+          if [ "${{ matrix.app }}" = "daily_memo" ]; then
+            cat > apps/daily_memo/android/app/google-services.json << 'GSEOF'
+          {"project_info":{"project_number":"0","project_id":"dummy","storage_bucket":"dummy.appspot.com"},"client":[{"client_info":{"mobilesdk_app_id":"1:0:android:0","android_client_info":{"package_name":"com.spiral_daily_dev.apps.daily_memo"}},"api_key":[{"current_key":"dummy"}]}],"configuration_version":"1"}
+          GSEOF
           fi
 
       - name: Cache Gradle
