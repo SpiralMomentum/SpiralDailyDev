@@ -1,0 +1,17 @@
+name: Security Scan
+
+on:
+  schedule:
+    - cron: '0 9 * * 1'  # 매주 월요일 09:00 UTC
+  workflow_dispatch:
+
+jobs:
+  osv-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run OSV Scanner
+        uses: google/osv-scanner-action/osv-scanner-action@v1
+        with:
+          scan-args: --recursive .

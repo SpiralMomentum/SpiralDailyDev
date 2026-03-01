@@ -1,3 +1,4 @@
+import java.io.FileInputStream
 import java.util.Properties
 
 plugins {
@@ -8,10 +9,9 @@ plugins {
 }
 
 val keystoreProperties = Properties().apply {
-    val keystorePropertiesFile =
-        rootProject.file("../../../signing/film_archive/android/key.properties")
+    val keystorePropertiesFile = rootProject.file("../../../signing/film_archive/android/key.properties")
     if (keystorePropertiesFile.exists()) {
-        keystorePropertiesFile.inputStream().use { load(it) }
+        load(FileInputStream(keystorePropertiesFile))
     }
 }
 
@@ -46,9 +46,9 @@ android {
             if (storeFilePath != null) {
                 storeFile = file(storeFilePath)
             }
-            storePassword = keystoreProperties["storePassword"] as String? ?: ""
-            keyAlias = keystoreProperties["keyAlias"] as String? ?: ""
-            keyPassword = keystoreProperties["keyPassword"] as String? ?: ""
+            storePassword = keystoreProperties["storePassword"] as String?
+            keyAlias = keystoreProperties["keyAlias"] as String?
+            keyPassword = keystoreProperties["keyPassword"] as String?
         }
     }
 
@@ -60,7 +60,11 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            signingConfig = signingConfigs.getByName("release")
+            signingConfig = if (keystoreProperties["storeFile"] != null) {
+                signingConfigs.getByName("release")
+            } else {
+                signingConfigs.getByName("debug")
+            }
         }
     }
 }
