@@ -10,8 +10,6 @@ extension AppRoutesPath on AppRoutes {
         return '/';
       case AppRoutes.memo:
         return '/memo';
-      default:
-        return '/';
     }
   }
 }
