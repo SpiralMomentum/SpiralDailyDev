@@ -1,0 +1,16 @@
+lane :increase_version do
+    android_version_detail = google_play_track_version_codes(
+        json_key: "/home/circleci/project/apps/daily_memo/android/google_playstore_api_key.json",
+        package_name: "com.spiral_daily_dev.apps.daily_memo",
+    )
+
+    data = YAML.load_file("/home/circleci/project/apps/daily_memo/pubspec.yaml")
+    android_version = data["version"]
+    android_version = android_version.split("+")[0]
+
+    android_version_detail = android_version_detail[0].to_i
+    android_version_detail += 1
+
+    sh("sed -i -e \"s/version: .*/version: #{android_version}+#{android_version_detail}/\" /home/circleci/project/apps/daily_memo/pubspec.yaml")
+
+end

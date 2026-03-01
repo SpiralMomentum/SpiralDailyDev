@@ -1,0 +1,6 @@
+app_identifier("com.spiraldailydev.dailyMemo")
+apple_id("spiraldailydev@gmail.com")
+
+itc_team_id("126198471") # App Store Connect Team ID
+team_id("BXMP99D98Z") # Developer Portal Team ID
+
