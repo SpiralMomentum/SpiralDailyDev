@@ -26,7 +26,7 @@ jobs:
           - world_field_guide
           - world_of_beast
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Setup Flutter
         uses: ./.github/actions/setup-flutter
@@ -52,7 +52,7 @@ jobs:
           - world_field_guide
           - world_of_beast
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Setup Flutter
         uses: ./.github/actions/setup-flutter
@@ -121,7 +121,7 @@ jobs:
           - world_field_guide
           - world_of_beast
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Setup Flutter
         uses: ./.github/actions/setup-flutter
@@ -142,7 +142,7 @@ jobs:
           pod --version
 
       - name: Setup SSH for match
-        uses: webfactory/ssh-agent@v0.9.0
+        uses: webfactory/ssh-agent@v0.9.1
         with:
           ssh-private-key: ${{ secrets.MATCH_GIT_PRIVATE_KEY }}
 
@@ -170,7 +170,7 @@ jobs:
       issues: write
     steps:
       - name: Create issue on failure
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         with:
           script: |
             await github.rest.issues.create({
