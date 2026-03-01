@@ -1,3 +1,4 @@
+import java.io.FileInputStream
 import java.util.Properties
 
 plugins {
@@ -8,9 +9,9 @@ plugins {
 }
 
 val keystoreProperties = Properties().apply {
-    val propsFile = rootProject.file("../../../signing/world_field_guide/android/key.properties")
-    if (propsFile.exists()) {
-        propsFile.inputStream().use { load(it) }
+    val keystorePropertiesFile = rootProject.file("../../../signing/world_field_guide/android/key.properties")
+    if (keystorePropertiesFile.exists()) {
+        load(FileInputStream(keystorePropertiesFile))
     }
 }
 
@@ -43,7 +44,7 @@ android {
         create("release") {
             val storeFilePath = keystoreProperties["storeFile"] as String?
             if (storeFilePath != null) {
-                storeFile = rootProject.file(storeFilePath)
+                storeFile = file(storeFilePath)
             }
             storePassword = keystoreProperties["storePassword"] as String?
             keyAlias = keystoreProperties["keyAlias"] as String?
