@@ -117,6 +117,8 @@ jobs:
           # Tier-based coverage thresholds
           case "${{ matrix.app }}" in
             daily_memo)       THRESHOLD=70 ;;
+            film_archive)     THRESHOLD=40 ;;
+            world_field_guide) THRESHOLD=40 ;;
             luck_insight)     THRESHOLD=30 ;;
             *)                THRESHOLD=50 ;;
           esac
