@@ -106,7 +106,7 @@ void main() {
       // ------------------------------------------------------------------
       // 앱 실행
       // ------------------------------------------------------------------
-      await tester.pumpWidget(const App());
+      await tester.pumpWidget(const App(locale: Locale('ko')));
       await tester.pumpAndSettle();
 
       // 초기 상태: 데이터 없음 메시지 확인

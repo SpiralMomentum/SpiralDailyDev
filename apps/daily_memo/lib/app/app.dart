@@ -5,7 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class App extends StatelessWidget {
-  const App({super.key});
+  final Locale? locale;
+
+  const App({super.key, this.locale});
 
   @override
   Widget build(BuildContext context) {
@@ -14,6 +16,7 @@ class App extends StatelessWidget {
     );
 
     return MaterialApp.router(
+      locale: locale,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
       routeInformationProvider: router.routeInformationProvider,
