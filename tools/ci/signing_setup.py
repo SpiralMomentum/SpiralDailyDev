@@ -95,9 +95,53 @@ def setup_signing(
         f"ANDROID_KEY_ALIAS_{app_upper}": key_alias,
     }
 
+    # gh CLI로 GitHub Secrets 자동 등록
+    if shutil.which("gh"):
+        repo = _detect_github_repo()
+        if repo:
+            print(f"\nGitHub Secrets를 '{repo}'에 등록 중...")
+            all_ok = True
+            for name, value in secrets_info.items():
+                try:
+                    subprocess.run(
+                        ["gh", "secret", "set", name, "--repo", repo],
+                        input=value,
+                        check=True,
+                        capture_output=True,
+                        text=True,
+                    )
+                except subprocess.CalledProcessError as e:
+                    print(f"  경고: {name} 등록 실패: {e.stderr.strip()}")
+                    all_ok = False
+            if all_ok:
+                print("GitHub Secrets 등록 완료")
+            else:
+                print("일부 Secrets 등록에 실패했습니다. 수동으로 등록하세요.")
+        else:
+            print("\n경고: GitHub 리포지토리를 감지할 수 없습니다")
+            _print_secrets_manual(secrets_info)
+    else:
+        print("\n경고: gh CLI를 찾을 수 없습니다. GitHub Secrets를 수동으로 등록하세요.")
+        _print_secrets_manual(secrets_info)
+
+    return secrets_info
+
+
+def _detect_github_repo() -> str | None:
+    """gh CLI로 현재 리포지토리의 owner/repo를 감지한다."""
+    try:
+        result = subprocess.run(
+            ["gh", "repo", "view", "--json", "nameWithOwner", "-q", ".nameWithOwner"],
+            capture_output=True, text=True, check=True,
+        )
+        return result.stdout.strip() or None
+    except (subprocess.CalledProcessError, FileNotFoundError):
+        return None
+
+
+def _print_secrets_manual(secrets_info: dict[str, str]) -> None:
+    """수동 등록 안내를 출력한다."""
     print("\n등록해야 할 GitHub Secrets:")
     for name, value in secrets_info.items():
         display_value = value if len(value) < 40 else value[:20] + "...(truncated)"
         print(f"  {name} = {display_value}")
-
-    return secrets_info
