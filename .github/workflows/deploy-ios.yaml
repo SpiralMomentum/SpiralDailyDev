@@ -4,18 +4,9 @@ on:
   workflow_dispatch:
     inputs:
       app:
-        description: "App to deploy"
+        description: "App name (release.yaml에 등록된 snake_case 이름)"
         required: true
-        type: choice
-        options:
-          - adage_spark
-          - daily_memo
-          - film_archive
-          - luck_insight
-          - spiral_trade_show
-          - world_field_guide
-          - world_of_beast
-          - news_reader
+        type: string
       target:
         description: "Deployment target"
         required: true
@@ -33,7 +24,15 @@ on:
         type: string
 
 jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate app name
+        run: python3 -c "import yaml,sys; assert '${{ inputs.app }}' in yaml.safe_load(open('release.yaml'))['apps'], f'Unknown app: ${{ inputs.app }}'"
+
   deploy:
+    needs: validate
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
@@ -47,6 +46,14 @@ jobs:
           ruby-version: "3.2"
           bundler-cache: true
 
+      - name: Install CocoaPods
+        run: |
+          sudo rm -f /usr/local/bin/pod /usr/local/bin/xcodeproj
+          brew uninstall cocoapods 2>/dev/null || true
+          gem install cocoapods --no-document
+          which pod
+          pod --version
+
       - name: Setup SSH for match
         uses: webfactory/ssh-agent@v0.9.0
         with:
@@ -58,9 +65,4 @@ jobs:
           ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
           ASC_KEY_CONTENT: ${{ secrets.ASC_KEY_CONTENT }}
           MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
-        run: |
-          if [ "${{ inputs.target }}" = "testflight" ]; then
-            bundle exec fastlane ios deploy_testflight app:${{ inputs.app }}
-          else
-            bundle exec fastlane ios deploy_appstore app:${{ inputs.app }}
-          fi
+        run: python3 tools/pipeline/pipeline.py deploy --app ${{ inputs.app }} --platform ios --target ${{ inputs.target }}

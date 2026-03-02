@@ -13,34 +13,14 @@ jobs:
       apps: ${{ steps.filter.outputs.changes }}
     steps:
       - uses: actions/checkout@v4
+
+      - name: Generate paths-filter config
+        run: python3 tools/pipeline/detect_changes.py > /tmp/filters.yml
+
       - uses: dorny/paths-filter@v3
         id: filter
         with:
-          filters: |
-            adage_spark:
-              - 'apps/adage_spark/**'
-              - 'packages/**'
-            daily_memo:
-              - 'apps/daily_memo/**'
-              - 'packages/**'
-            film_archive:
-              - 'apps/film_archive/**'
-              - 'packages/**'
-            luck_insight:
-              - 'apps/luck_insight/**'
-              - 'packages/**'
-            news_reader:
-              - 'apps/news_reader/**'
-              - 'packages/**'
-            spiral_trade_show:
-              - 'apps/spiral_trade_show/**'
-              - 'packages/**'
-            world_field_guide:
-              - 'apps/world_field_guide/**'
-              - 'packages/**'
-            world_of_beast:
-              - 'apps/world_of_beast/**'
-              - 'packages/**'
+          filters: /tmp/filters.yml
 
   # ── 공유 패키지 테스트 ──────────────────────────────
   test-packages:
@@ -78,60 +58,18 @@ jobs:
       - name: Setup Flutter
         uses: ./.github/actions/setup-flutter
 
-      - name: Generate gitignored source files
-        run: |
-          if [ "${{ matrix.app }}" = "film_archive" ]; then
-            echo "const tmdbApiKey = String.fromEnvironment('TMDB_API_KEY', defaultValue: '');" \
-              > apps/film_archive/lib/tmdb_api_key.dart
-          fi
-          if [ "${{ matrix.app }}" = "daily_memo" ]; then
-            cat > apps/daily_memo/android/app/google-services.json << 'GSEOF'
-          {"project_info":{"project_number":"0","project_id":"dummy","storage_bucket":"dummy.appspot.com"},"client":[{"client_info":{"mobilesdk_app_id":"1:0:android:0","android_client_info":{"package_name":"com.spiral_daily_dev.apps.daily_memo"}},"api_key":[{"current_key":"dummy"}]}],"configuration_version":"1"}
-          GSEOF
-          fi
+      - name: Prepare build
+        run: python3 tools/pipeline/pipeline.py prepare --app ${{ matrix.app }}
 
       - name: Analyze
         run: dart analyze --fatal-warnings
         working-directory: apps/${{ matrix.app }}
 
       - name: Test with coverage
-        run: flutter test --coverage
-        working-directory: apps/${{ matrix.app }}
+        run: python3 tools/pipeline/pipeline.py test --app ${{ matrix.app }} --coverage
 
-      - name: Check coverage threshold
-        run: |
-          if [ ! -f coverage/lcov.info ]; then
-            echo "::error::No coverage file found — tests must produce coverage data"
-            exit 1
-          fi
-
-          # Count total and covered lines
-          TOTAL=$(grep -c "^DA:" coverage/lcov.info || true)
-          COVERED=$(grep "^DA:" coverage/lcov.info | grep -cv ",0$" || true)
-
-          if [ "$TOTAL" -eq 0 ]; then
-            echo "::error::No coverage data found in lcov.info"
-            exit 1
-          fi
-
-          # Tier-based coverage thresholds
-          case "${{ matrix.app }}" in
-            daily_memo)       THRESHOLD=70 ;;
-            film_archive)     THRESHOLD=40 ;;
-            world_field_guide) THRESHOLD=40 ;;
-            luck_insight)     THRESHOLD=30 ;;
-            *)                THRESHOLD=50 ;;
-          esac
-
-          PERCENT=$((COVERED * 100 / TOTAL))
-          echo "Coverage: $COVERED / $TOTAL lines ($PERCENT%)"
-          echo "Threshold for ${{ matrix.app }}: $THRESHOLD%"
-
-          if [ "$PERCENT" -lt "$THRESHOLD" ]; then
-            echo "::error::Coverage $PERCENT% is below threshold $THRESHOLD%"
-            exit 1
-          fi
-          echo "Coverage $PERCENT% meets threshold $THRESHOLD%"
+      - name: Verify coverage threshold
+        run: python3 tools/pipeline/verify_coverage.py --app ${{ matrix.app }}
         working-directory: apps/${{ matrix.app }}
 
       - name: Install Linux desktop dependencies
@@ -183,17 +121,8 @@ jobs:
       - name: Setup Flutter
         uses: ./.github/actions/setup-flutter
 
-      - name: Generate gitignored source files
-        run: |
-          if [ "${{ matrix.app }}" = "film_archive" ]; then
-            echo "const tmdbApiKey = String.fromEnvironment('TMDB_API_KEY', defaultValue: '');" \
-              > apps/film_archive/lib/tmdb_api_key.dart
-          fi
-          if [ "${{ matrix.app }}" = "daily_memo" ]; then
-            cat > apps/daily_memo/android/app/google-services.json << 'GSEOF'
-          {"project_info":{"project_number":"0","project_id":"dummy","storage_bucket":"dummy.appspot.com"},"client":[{"client_info":{"mobilesdk_app_id":"1:0:android:0","android_client_info":{"package_name":"com.spiral_daily_dev.apps.daily_memo"}},"api_key":[{"current_key":"dummy"}]}],"configuration_version":"1"}
-          GSEOF
-          fi
+      - name: Prepare build
+        run: python3 tools/pipeline/pipeline.py prepare --app ${{ matrix.app }}
 
       - name: Cache Gradle
         uses: actions/cache@v4

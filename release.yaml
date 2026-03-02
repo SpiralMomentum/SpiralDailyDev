@@ -12,6 +12,7 @@ apps:
     iosBundleId: com.spiraldev.adageSpark
     displayName: "Adage Spark"
     projectPath: apps/adage_spark
+    ci: {}
     metadata:
       android: store_metadata/adage_spark/android.yaml
       ios: store_metadata/adage_spark/ios.yaml
@@ -38,6 +39,12 @@ apps:
     iosBundleId: com.spiraldailydev.dailyMemo
     displayName: "Daily Memo"
     projectPath: apps/daily_memo
+    ci:
+      coverageThreshold: 70
+      integrationTest: true
+      gitIgnoredFiles:
+        - path: android/app/google-services.json
+          secret: GOOGLE_SERVICES_JSON_DAILY_MEMO
     metadata:
       android: store_metadata/daily_memo/android.yaml
       ios: store_metadata/daily_memo/ios.yaml
@@ -80,6 +87,11 @@ apps:
     iosBundleId: com.spiraldev.filmArchive
     displayName: "Film Archive"
     projectPath: apps/film_archive
+    ci:
+      coverageThreshold: 40
+      gitIgnoredFiles:
+        - path: lib/tmdb_api_key.dart
+          content: "const tmdbApiKey = String.fromEnvironment('TMDB_API_KEY', defaultValue: '');"
     metadata:
       android: store_metadata/film_archive/android.yaml
       ios: store_metadata/film_archive/ios.yaml
@@ -106,6 +118,8 @@ apps:
     iosBundleId: com.spiraldev.luckInsight
     displayName: "Luck Insight"
     projectPath: apps/luck_insight
+    ci:
+      coverageThreshold: 30
     metadata:
       android: store_metadata/luck_insight/android.yaml
       ios: store_metadata/luck_insight/ios.yaml
@@ -132,6 +146,8 @@ apps:
     iosBundleId: com.spiral.tradeshow.spiralTradeShow
     displayName: "Spiral Trade Show"
     projectPath: apps/spiral_trade_show
+    ci:
+      excludeFromRelease: true
     metadata:
       android: store_metadata/spiral_trade_show/android.yaml
       ios: store_metadata/spiral_trade_show/ios.yaml
@@ -171,6 +187,8 @@ apps:
     iosBundleId: com.spiraldev.worldFieldGuide
     displayName: "World Field Guide"
     projectPath: apps/world_field_guide
+    ci:
+      coverageThreshold: 40
     metadata:
       android: store_metadata/world_field_guide/android.yaml
       ios: store_metadata/world_field_guide/ios.yaml
@@ -197,6 +215,7 @@ apps:
     iosBundleId: com.spiral.newsReader
     displayName: "News Reader"
     projectPath: apps/news_reader
+    ci: {}
     metadata:
       android: store_metadata/news_reader/android.yaml
       ios: store_metadata/news_reader/ios.yaml
@@ -223,6 +242,7 @@ apps:
     iosBundleId: com.spiraldev.worldOfBeast
     displayName: "World of Beast"
     projectPath: apps/world_of_beast
+    ci: {}
     metadata:
       android: store_metadata/world_of_beast/android.yaml
       ios: store_metadata/world_of_beast/ios.yaml

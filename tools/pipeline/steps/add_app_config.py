@@ -1,4 +1,7 @@
-"""release.yaml에 앱 항목을 추가한다."""
+"""release.yaml에 앱 항목을 추가한다.
+
+기존 tools/ci/config_editor.py에서 이동. ci 섹션 지원 추가.
+"""
 
 from __future__ import annotations
 
@@ -17,6 +20,9 @@ def add_app_to_release_config(
     display_name: str,
     app_id: str | None = None,
     ios_bundle_id: str | None = None,
+    exclude_from_release: bool = False,
+    coverage_threshold: int = 50,
+    git_ignored_files: list[Dict[str, str]] | None = None,
     dry_run: bool = True,
 ) -> None:
     """release.yaml의 apps 섹션에 새 앱 항목을 추가한다.
@@ -27,6 +33,9 @@ def add_app_to_release_config(
         display_name: 앱 표시 이름
         app_id: Android application ID (기본값: com.spiraldev.{app_name})
         ios_bundle_id: iOS bundle ID (기본값: com.spiraldev.{camelCase})
+        exclude_from_release: 배포 matrix에서 제외할지 여부
+        coverage_threshold: CI 커버리지 임계값 (기본값 50)
+        git_ignored_files: gitignored 파일 설정 리스트
         dry_run: True면 변경 없이 예정 작업만 출력
     """
     resolved_app_id = app_id or f"com.spiraldev.{app_name}"
@@ -47,11 +56,21 @@ def add_app_to_release_config(
         else:
             break
 
+    # ci 섹션 구성
+    ci_section: Dict[str, Any] = {}
+    if exclude_from_release:
+        ci_section["excludeFromRelease"] = True
+    if coverage_threshold != 50:
+        ci_section["coverageThreshold"] = coverage_threshold
+    if git_ignored_files:
+        ci_section["gitIgnoredFiles"] = git_ignored_files
+
     new_entry: Dict[str, Any] = {
         "appId": resolved_app_id,
         "iosBundleId": resolved_ios_bundle_id,
         "displayName": display_name,
         "projectPath": f"apps/{app_name}",
+        "ci": ci_section if ci_section else {},
         "metadata": {
             "android": f"store_metadata/{app_name}/android.yaml",
             "ios": f"store_metadata/{app_name}/ios.yaml",
@@ -85,6 +104,8 @@ def add_app_to_release_config(
         print(f"  appId: {resolved_app_id}")
         print(f"  iosBundleId: {resolved_ios_bundle_id}")
         print(f"  displayName: {display_name}")
+        if ci_section:
+            print(f"  ci: {ci_section}")
         return
 
     config_path.write_text(output, encoding="utf-8")

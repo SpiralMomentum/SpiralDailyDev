@@ -99,24 +99,6 @@ def maybe_capture_screenshots(
     return output_path
 
 
-def trigger_builds(
-    app_config: Dict[str, Any],
-    *,
-    app_root: Path,
-    dry_run: bool,
-    platform_filter: str | None = None,
-) -> None:
-    build_config = app_config.get("build", {})
-    for platform, config in build_config.items():
-        if platform_filter and platform != platform_filter:
-            continue
-        command = config.get("command")
-        if not command:
-            continue
-        print(f"Running {platform} build for {app_root.name}")
-        run_command(command, cwd=app_root, dry_run=dry_run)
-
-
 def run_fastlane(
     *,
     pipeline_config: Dict[str, Any],
@@ -200,7 +182,6 @@ def main(argv: List[str] | None = None) -> int:
     parser.add_argument("--track", choices=["internal", "production", "testflight", "appstore"],
                         help="Deployment track/target")
     parser.add_argument("--execute", action="store_true", help="Execute commands instead of printing dry-run output")
-    parser.add_argument("--skip-build", action="store_true", help="Skip build commands")
     parser.add_argument("--skip-fastlane", action="store_true", help="Skip fastlane execution")
     parser.add_argument("--skip-assets", action="store_true", help="Skip icon generation and screenshot capture")
     args = parser.parse_args(argv)
@@ -237,14 +218,6 @@ def main(argv: List[str] | None = None) -> int:
                 app_config,
                 app_root=project_path,
                 dry_run=dry_run,
-            )
-
-        if not args.skip_build:
-            trigger_builds(
-                app_config,
-                app_root=project_path,
-                dry_run=dry_run,
-                platform_filter=platform_filter,
             )
 
         if not args.skip_fastlane:

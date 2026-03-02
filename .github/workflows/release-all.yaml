@@ -10,47 +10,44 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  # ── 앱 목록을 release.yaml에서 동적 생성 ──────────────
+  setup:
+    runs-on: ubuntu-latest
+    outputs:
+      all-apps: ${{ steps.matrix.outputs.all-apps }}
+      deploy-apps: ${{ steps.matrix.outputs.deploy-apps }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Generate app matrices
+        id: matrix
+        run: python3 tools/pipeline/list_apps.py
+
   # ── 릴리즈 전 회귀 테스트 게이트 ────────────────────────
   test:
+    needs: setup
     runs-on: ubuntu-latest
     strategy:
       fail-fast: true
       matrix:
-        app:
-          - adage_spark
-          - daily_memo
-          - film_archive
-          - luck_insight
-          - news_reader
-          - spiral_trade_show
-          - world_field_guide
-          - world_of_beast
+        app: ${{ fromJson(needs.setup.outputs.all-apps) }}
     steps:
       - uses: actions/checkout@v4
 
       - name: Setup Flutter
         uses: ./.github/actions/setup-flutter
 
-      - name: Test
-        run: flutter test
-        working-directory: apps/${{ matrix.app }}
+      - name: Prepare and test
+        run: python3 tools/pipeline/pipeline.py test --app ${{ matrix.app }} --coverage
 
-  # ── Android 6개 앱 Play Store 배포 ──────────────────────
-  # spiral_trade_show 제외: Play Store 미등록
+  # ── Android Play Store 배포 ───────────────────────────
   deploy-android:
-    needs: test
+    needs: [setup, test]
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        app:
-          - adage_spark
-          - daily_memo
-          - film_archive
-          - luck_insight
-          - news_reader
-          - world_field_guide
-          - world_of_beast
+        app: ${{ fromJson(needs.setup.outputs.deploy-apps) }}
     steps:
       - uses: actions/checkout@v4
 
@@ -90,36 +87,20 @@ jobs:
         if: env.GOOGLE_SERVICES_JSON != ''
         run: echo "$GOOGLE_SERVICES_JSON" > apps/${{ matrix.app }}/android/app/google-services.json
 
-      - name: Generate gitignored source files
-        run: |
-          # film_archive: tmdb_api_key.dart (reads key from --dart-define at build time)
-          if [ "${{ matrix.app }}" = "film_archive" ]; then
-            echo "const tmdbApiKey = String.fromEnvironment('TMDB_API_KEY', defaultValue: '');" \
-              > apps/film_archive/lib/tmdb_api_key.dart
-          fi
-
       - name: Deploy to Play Store
         env:
           GOOGLE_PLAY_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
-        run: bundle exec fastlane android deploy_production app:${{ matrix.app }}
+        run: python3 tools/pipeline/pipeline.py deploy --app ${{ matrix.app }} --platform android --target production
 
-  # ── iOS 6개 앱 App Store 배포 ───────────────────────────
-  # spiral_trade_show 제외: App Store 미등록
+  # ── iOS App Store 배포 ────────────────────────────────
   deploy-ios:
-    needs: test
+    needs: [setup, test]
     runs-on: macos-latest
     strategy:
       fail-fast: false
       max-parallel: 3
       matrix:
-        app:
-          - adage_spark
-          - daily_memo
-          - film_archive
-          - luck_insight
-          - news_reader
-          - world_field_guide
-          - world_of_beast
+        app: ${{ fromJson(needs.setup.outputs.deploy-apps) }}
     steps:
       - uses: actions/checkout@v4
 
@@ -146,20 +127,13 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.MATCH_GIT_PRIVATE_KEY }}
 
-      - name: Generate gitignored source files
-        run: |
-          if [ "${{ matrix.app }}" = "film_archive" ]; then
-            echo "const tmdbApiKey = String.fromEnvironment('TMDB_API_KEY', defaultValue: '');" \
-              > apps/film_archive/lib/tmdb_api_key.dart
-          fi
-
       - name: Deploy to App Store
         env:
           ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
           ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
           ASC_KEY_CONTENT: ${{ secrets.ASC_KEY_CONTENT }}
           MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
-        run: bundle exec fastlane ios deploy_appstore app:${{ matrix.app }}
+        run: python3 tools/pipeline/pipeline.py deploy --app ${{ matrix.app }} --platform ios --target appstore
 
   # ── 빌드 실패 알림 ─────────────────────────────────
   notify-failure:

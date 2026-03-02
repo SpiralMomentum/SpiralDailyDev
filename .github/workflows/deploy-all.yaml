@@ -4,18 +4,9 @@ on:
   workflow_dispatch:
     inputs:
       app:
-        description: "App to deploy"
+        description: "App name (release.yaml에 등록된 snake_case 이름)"
         required: true
-        type: choice
-        options:
-          - adage_spark
-          - daily_memo
-          - film_archive
-          - luck_insight
-          - spiral_trade_show
-          - world_field_guide
-          - world_of_beast
-          - news_reader
+        type: string
       android_track:
         description: "Play Store track"
         required: true

@@ -2,9 +2,12 @@
 """CI/CD 파이프라인에 새 Flutter 앱을 등록하는 도구.
 
 사용법:
-    python tools/ci/register_app.py --app my_app --display-name "My App"
-    python tools/ci/register_app.py --app my_app --display-name "My App" --dry-run
-    python tools/ci/register_app.py --app my_app --display-name "My App" --skip-store --skip-signing
+    python3 tools/pipeline/add_app.py --app my_app --display-name "My App"
+    python3 tools/pipeline/add_app.py --app my_app --display-name "My App" --dry-run
+    python3 tools/pipeline/add_app.py --app my_app --display-name "My App" --skip-store --skip-signing
+
+release.yaml이 단일 진실 공급원이므로 워크플로우 파일 직접 편집은 불필요하다.
+앱 목록, 커버리지 임계값, 배포 제외 여부 등은 모두 release.yaml ci 섹션에서 관리한다.
 """
 
 from __future__ import annotations
@@ -15,16 +18,14 @@ from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent.parent
 
-# 같은 디렉토리의 모듈을 import할 수 있도록 sys.path에 추가
-sys.path.insert(0, str(Path(__file__).resolve().parent))
+sys.path.insert(0, str(Path(__file__).resolve().parent / "steps"))
 
 from name_utils import snake_to_camel, validate_app_name
-from config_editor import add_app_to_release_config
-from workflow_editor import add_to_all_workflows
-from signing_setup import setup_signing
-from metadata_setup import setup_all_metadata
-from gradle_patcher import patch_gradle
-from store_register import register_stores
+from add_app_config import add_app_to_release_config
+from setup_signing import setup_signing
+from setup_metadata import setup_all_metadata
+from patch_gradle import patch_gradle
+from register_store import register_stores
 
 
 def validate_preconditions(app_name: str) -> None:
@@ -151,8 +152,8 @@ def main(argv: list[str] | None = None) -> int:
         print("  (dry-run 모드: 실제 변경 없음)")
     print("=" * 60)
 
-    # 2. release.yaml에 앱 추가
-    print("\n[1/6] release.yaml 편집")
+    # 2. release.yaml에 앱 추가 (ci 섹션 포함)
+    print("\n[1/5] release.yaml 편집")
     try:
         add_app_to_release_config(
             REPO_ROOT / "release.yaml",
@@ -160,26 +161,15 @@ def main(argv: list[str] | None = None) -> int:
             display_name=display_name,
             app_id=app_id,
             ios_bundle_id=ios_bundle_id,
+            exclude_from_release=args.exclude_from_release,
+            coverage_threshold=args.coverage_threshold,
             dry_run=dry_run,
         )
     except ValueError as e:
         print(f"경고: {e}")
 
-    # 3. 워크플로우 파일에 앱 추가
-    print("\n[2/6] GitHub Actions 워크플로우 편집")
-    try:
-        add_to_all_workflows(
-            REPO_ROOT / ".github" / "workflows",
-            app_name,
-            exclude_from_release=args.exclude_from_release,
-            coverage_threshold=args.coverage_threshold,
-            dry_run=dry_run,
-        )
-    except Exception as e:
-        print(f"경고: 워크플로우 편집 중 오류: {e}")
-
-    # 4. signing 설정
-    print("\n[3/6] Android signing 설정")
+    # 3. signing 설정
+    print("\n[2/5] Android signing 설정")
     if args.skip_signing:
         print("  --skip-signing: 건너뜁니다")
         skipped.append("signing")
@@ -189,15 +179,15 @@ def main(argv: list[str] | None = None) -> int:
         except Exception as e:
             print(f"경고: signing 설정 중 오류: {e}")
 
-    # 5. 메타데이터 생성
-    print("\n[4/6] 메타데이터 템플릿 생성")
+    # 4. 메타데이터 생성
+    print("\n[3/5] 메타데이터 템플릿 생성")
     try:
         setup_all_metadata(REPO_ROOT, app_name, display_name, dry_run=dry_run)
     except Exception as e:
         print(f"경고: 메타데이터 생성 중 오류: {e}")
 
-    # 6. build.gradle 패치
-    print("\n[5/6] build.gradle signing config 패치")
+    # 5. build.gradle 패치
+    print("\n[4/5] build.gradle signing config 패치")
     if args.skip_gradle:
         print("  --skip-gradle: 건너뜁니다")
         skipped.append("gradle")
@@ -207,8 +197,8 @@ def main(argv: list[str] | None = None) -> int:
         except Exception as e:
             print(f"경고: build.gradle 패치 중 오류: {e}")
 
-    # 7. 스토어 등록
-    print("\n[6/6] 스토어 등록")
+    # 6. 스토어 등록
+    print("\n[5/5] 스토어 등록")
     if args.skip_store:
         print("  --skip-store: 건너뜁니다")
         skipped.append("store")
@@ -225,7 +215,7 @@ def main(argv: list[str] | None = None) -> int:
         except Exception as e:
             print(f"경고: 스토어 등록 중 오류: {e}")
 
-    # 8. 완료 요약
+    # 7. 완료 요약
     print_summary(app_name, display_name, app_id, ios_bundle_id, skipped=skipped)
 
     return 0
