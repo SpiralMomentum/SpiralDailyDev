@@ -244,14 +244,56 @@ store_metadata/{app}/
 
 ### [6/6] 스토어 등록
 
-**App Store Connect (자동화):**
-1. `bundle exec fastlane produce create`로 앱 생성
-2. `bundle exec fastlane match appstore`로 프로비저닝 프로필 생성
-3. 필요 환경변수: `ASC_KEY_ID`, `ASC_ISSUER_ID`, `ASC_KEY_CONTENT`, `MATCH_PASSWORD`
+**App Store (Spaceship ConnectAPI):**
+1. Spaceship ConnectAPI로 Apple Developer Portal에 Bundle ID 등록
+2. App Store Connect에 앱 존재 여부 확인
+3. `fastlane match appstore`로 프로비저닝 프로필 생성
+4. App Store Connect API는 앱 생성(POST /v1/apps)을 지원하지 않으므로, 앱이 없으면 수동 생성 가이드를 출력한다
+
+필요 환경변수:
+
+| 환경변수 | 설명 |
+|----------|------|
+| `ASC_KEY_ID` | App Store Connect API Key ID |
+| `ASC_ISSUER_ID` | App Store Connect Issuer ID |
+| `ASC_KEY_FILEPATH` | .p8 파일 경로 (로컬용) |
+| `ASC_KEY_CONTENT` | .p8 키 내용 (CI용, `ASC_KEY_FILEPATH` 대체) |
+| `MATCH_PASSWORD` | match 암호화 비밀번호 (CI에서 자동 처리) |
 
 **Google Play Store (수동):**
 - Google Play Developer API는 신규 앱 생성을 지원하지 않음
 - Play Console에서 수동 생성 가이드를 출력한다
+
+---
+
+## ASC API Key 크레덴셜
+
+스토어 등록에 사용하는 App Store Connect API Key 정보:
+
+| 항목 | 값 |
+|------|-----|
+| Key ID | `HZ89QN4W7U` |
+| Issuer ID | `f42e9e12-3482-46c6-9e4d-d4e11d33de60` |
+| 역할 | 관리자 (Admin) |
+| .p8 파일 | `signing/asc/AuthKey_HZ89QN4W7U.p8` (gitignored) |
+| Team ID | `BXMP99D98Z` |
+
+로컬 환경변수 설정:
+
+```bash
+export ASC_KEY_ID="HZ89QN4W7U"
+export ASC_ISSUER_ID="f42e9e12-3482-46c6-9e4d-d4e11d33de60"
+export ASC_KEY_FILEPATH="signing/asc/AuthKey_HZ89QN4W7U.p8"
+```
+
+GitHub Secrets에는 `ASC_KEY_ID`, `ASC_ISSUER_ID`, `ASC_KEY_CONTENT` (base64)로 등록되어 있다.
+
+### API 제약 사항
+
+- Bundle ID 등록: 자동화 가능
+- 앱 조회/수정: 자동화 가능
+- match 프로비저닝: 자동화 가능 (`MATCH_PASSWORD` 필요)
+- **앱 생성(POST /v1/apps): 불가** - Apple 플랫폼 제약으로 웹 콘솔에서만 가능
 
 ---
 

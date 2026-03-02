@@ -99,6 +99,7 @@ build/
 signing/**/key.properties
 signing/**/*.keystore
 signing/**/*.jks
+signing/**/*.p8
 
 # iOS/XCode related
 **/ios/**/*.mode1v3
