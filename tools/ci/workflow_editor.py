@@ -10,6 +10,28 @@ import re
 from pathlib import Path
 
 
+def _read_preserving_newlines(path: Path) -> tuple[str, str]:
+    """파일을 읽으면서 원본 줄바꿈 문자를 감지하고, LF로 정규화한다."""
+    raw = path.read_bytes()
+    if b"\r\n" in raw:
+        newline = "\r\n"
+    else:
+        newline = "\n"
+    text = raw.decode("utf-8").replace("\r\n", "\n")
+    return text, newline
+
+
+def _write_preserving_newlines(path: Path, text: str, newline: str) -> None:
+    """원본 줄바꿈 문자를 유지하면서 파일을 쓴다."""
+    if newline == "\r\n":
+        # 먼저 모든 줄바꿈을 LF로 통일 후 CRLF로 변환
+        normalized = text.replace("\r\n", "\n")
+        output = normalized.replace("\n", "\r\n")
+    else:
+        output = text
+    path.write_bytes(output.encode("utf-8"))
+
+
 def _insert_after_last_match(
     text: str,
     pattern: str,
@@ -40,7 +62,7 @@ def add_to_release_all(
     dry_run: bool = True,
 ) -> None:
     """release-all.yaml의 3개 matrix에 앱을 추가한다."""
-    text = path.read_text(encoding="utf-8")
+    text, newline = _read_preserving_newlines(path)
     modified = text
 
     # 1) test matrix: 모든 앱 포함
@@ -101,7 +123,7 @@ def add_to_release_all(
                 print(f"release-all.yaml deploy-ios matrix에 '{app_name}'이 이미 존재합니다")
 
     if not dry_run and modified != text:
-        path.write_text(modified, encoding="utf-8")
+        _write_preserving_newlines(path, modified, newline)
         print(f"release-all.yaml에 '{app_name}'을 추가했습니다")
 
 
@@ -113,7 +135,7 @@ def add_to_ci(
     dry_run: bool = True,
 ) -> None:
     """ci.yaml의 detect-changes 필터에 앱을 추가한다."""
-    text = path.read_text(encoding="utf-8")
+    text, newline = _read_preserving_newlines(path)
 
     # detect-changes filters 블록에서 마지막 필터 뒤에 새 필터 추가
     # 패턴: "            app_name:\n              - 'apps/app_name/**'\n              - 'packages/**'"
@@ -151,7 +173,7 @@ def add_to_ci(
         print(f"[dry-run] ci.yaml에 '{app_name}' 필터 추가 예정 (threshold: {coverage_threshold}%)")
         return
 
-    path.write_text(modified, encoding="utf-8")
+    _write_preserving_newlines(path, modified, newline)
     print(f"ci.yaml에 '{app_name}' 필터를 추가했습니다")
 
 
@@ -162,7 +184,7 @@ def _add_to_dispatch_options(
     dry_run: bool = True,
 ) -> None:
     """workflow_dispatch의 app choice 옵션에 앱을 추가한다."""
-    text = path.read_text(encoding="utf-8")
+    text, newline = _read_preserving_newlines(path)
 
     # workflow_dispatch options 블록 탐색
     # 패턴: "options:" 뒤에 나오는 앱 목록에서 마지막 항목 뒤에 삽입
@@ -186,7 +208,7 @@ def _add_to_dispatch_options(
         print(f"[dry-run] {path.name}에 '{app_name}' 옵션 추가 예정")
         return
 
-    path.write_text(modified, encoding="utf-8")
+    _write_preserving_newlines(path, modified, newline)
     print(f"{path.name}에 '{app_name}' 옵션을 추가했습니다")
 
 
