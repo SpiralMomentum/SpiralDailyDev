@@ -15,6 +15,7 @@ on:
           - spiral_trade_show
           - world_field_guide
           - world_of_beast
+          - news_reader
       android_track:
         description: "Play Store track"
         required: true
