@@ -216,8 +216,10 @@ def main(argv: list[str] | None = None) -> int:
         try:
             register_stores(
                 app_name,
+                display_name,
                 app_id=app_id,
                 ios_bundle_id=ios_bundle_id,
+                repo_root=REPO_ROOT,
                 dry_run=dry_run,
             )
         except Exception as e:
