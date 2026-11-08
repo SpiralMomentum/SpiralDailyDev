@@ -7,6 +7,7 @@ NetworkFailure mapDioError(DioException exception) {
     case DioExceptionType.connectionTimeout:
     case DioExceptionType.sendTimeout:
     case DioExceptionType.receiveTimeout:
+    case DioExceptionType.transformTimeout:
       return const NetworkFailure(
         type: NetworkFailureType.timeout,
         message: '요청 시간이 초과되었습니다. 잠시 후 다시 시도해주세요.',
