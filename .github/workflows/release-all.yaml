@@ -54,6 +54,9 @@ jobs:
       - name: Setup Flutter
         uses: ./.github/actions/setup-flutter
 
+      - name: Install Android NDK
+        run: echo "y" | $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager "ndk;28.2.13676358"
+
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
