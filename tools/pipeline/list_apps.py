@@ -33,6 +33,13 @@ def main() -> int:
         if not (cfg.get("ci") or {}).get("excludeFromRelease", False)
     )
 
+    # workflow_dispatch apps_filter 적용
+    apps_filter = os.environ.get("APPS_FILTER", "").strip()
+    if apps_filter:
+        allowed = {a.strip() for a in apps_filter.split(",") if a.strip()}
+        all_apps = [a for a in all_apps if a in allowed]
+        deploy_apps = [a for a in deploy_apps if a in allowed]
+
     all_json = json.dumps(all_apps)
     deploy_json = json.dumps(deploy_apps)
 

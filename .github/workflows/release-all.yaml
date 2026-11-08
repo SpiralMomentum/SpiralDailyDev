@@ -4,6 +4,16 @@ on:
   push:
     tags:
       - 'release/*'
+  workflow_dispatch:
+    inputs:
+      apps_filter:
+        description: '배포할 앱 (쉼표 구분, 비워두면 전체). 예: news_reader,daily_memo'
+        required: false
+        default: ''
+      platforms:
+        description: '배포 플랫폼 (android, ios, both)'
+        required: false
+        default: 'both'
 
 concurrency:
   group: release
@@ -21,6 +31,8 @@ jobs:
 
       - name: Generate app matrices
         id: matrix
+        env:
+          APPS_FILTER: ${{ github.event.inputs.apps_filter || '' }}
         run: python3 tools/pipeline/list_apps.py
 
   # ── 릴리즈 전 회귀 테스트 게이트 ────────────────────────
@@ -43,6 +55,7 @@ jobs:
   # ── Android Play Store 배포 ───────────────────────────
   deploy-android:
     needs: [setup, test]
+    if: ${{ github.event.inputs.platforms != 'ios' }}
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -107,6 +120,7 @@ jobs:
   # ── iOS App Store 배포 ────────────────────────────────
   deploy-ios:
     needs: [setup, test]
+    if: ${{ github.event.inputs.platforms != 'android' }}
     runs-on: macos-latest
     strategy:
       fail-fast: false
