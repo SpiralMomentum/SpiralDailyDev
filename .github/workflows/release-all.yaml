@@ -88,19 +88,63 @@ jobs:
           echo "APP_UPPER=$APP_UPPER" >> "$GITHUB_ENV"
 
       - name: Generate signing files
+        env:
+          ANDROID_KEYSTORES_BASE64: ${{ secrets.ANDROID_KEYSTORES_BASE64 }}
+          ANDROID_SIGNING_CONFIG: ${{ secrets.ANDROID_SIGNING_CONFIG }}
+          APP: ${{ matrix.app }}
+          # 구 방식 fallback (마이그레이션 완료 전까지 유지)
+          KEYSTORE_LEGACY: ${{ secrets[format('ANDROID_KEYSTORE_{0}_BASE64', env.APP_UPPER)] }}
+          STORE_PASSWORD_LEGACY: ${{ secrets[format('ANDROID_STORE_PASSWORD_{0}', env.APP_UPPER)] }}
+          KEY_PASSWORD_LEGACY: ${{ secrets[format('ANDROID_KEY_PASSWORD_{0}', env.APP_UPPER)] }}
+          KEY_ALIAS_LEGACY: ${{ secrets[format('ANDROID_KEY_ALIAS_{0}', env.APP_UPPER)] }}
         run: |
-          SIGNING_DIR="signing/${{ matrix.app }}/android"
-          mkdir -p "$SIGNING_DIR"
+          python3 - << 'EOF'
+          import base64, io, json, os, tarfile
 
-          echo "${{ secrets[format('ANDROID_KEYSTORE_{0}_BASE64', env.APP_UPPER)] }}" | base64 --decode > "$SIGNING_DIR/release.keystore"
+          app = os.environ['APP']
+          signing_dir = f"signing/{app}/android"
+          os.makedirs(signing_dir, exist_ok=True)
+          keystore_path = os.path.abspath(f"{signing_dir}/release.keystore")
 
-          KEYSTORE_ABS="$(cd "$SIGNING_DIR" && pwd)/release.keystore"
+          bundle_b64 = os.environ.get('ANDROID_KEYSTORES_BASE64', '')
+          config_json = os.environ.get('ANDROID_SIGNING_CONFIG', '')
 
-          cat > "$SIGNING_DIR/key.properties" << EOF
-          storePassword=${{ secrets[format('ANDROID_STORE_PASSWORD_{0}', env.APP_UPPER)] }}
-          keyPassword=${{ secrets[format('ANDROID_KEY_PASSWORD_{0}', env.APP_UPPER)] }}
-          keyAlias=${{ secrets[format('ANDROID_KEY_ALIAS_{0}', env.APP_UPPER)] }}
-          storeFile=$KEYSTORE_ABS
+          # 신 방식: 번들에서 추출
+          if bundle_b64 and config_json:
+              config = json.loads(config_json)
+              if app in config:
+                  bundle = base64.b64decode(bundle_b64)
+                  with tarfile.open(fileobj=io.BytesIO(bundle)) as tar:
+                      try:
+                          member = tar.getmember(f"{app}/release.keystore")
+                          with tar.extractfile(member) as f:
+                              with open(keystore_path, 'wb') as out:
+                                  out.write(f.read())
+                          cfg = config[app]
+                          with open(f"{signing_dir}/key.properties", 'w') as f:
+                              f.write(f"storePassword={cfg['store_password']}\n")
+                              f.write(f"keyPassword={cfg['key_password']}\n")
+                              f.write(f"keyAlias={cfg['key_alias']}\n")
+                              f.write(f"storeFile={keystore_path}\n")
+                          print(f"[signing] {app}: 중앙 번들 사용")
+                          exit(0)
+                      except KeyError:
+                          pass  # 번들에 없으면 fallback
+
+          # 구 방식 fallback
+          keystore_b64 = os.environ.get('KEYSTORE_LEGACY', '')
+          if not keystore_b64:
+              print(f"[signing] 오류: {app} keystore를 찾을 수 없습니다", flush=True)
+              exit(1)
+
+          with open(keystore_path, 'wb') as f:
+              f.write(base64.b64decode(keystore_b64))
+          with open(f"{signing_dir}/key.properties", 'w') as f:
+              f.write(f"storePassword={os.environ['STORE_PASSWORD_LEGACY']}\n")
+              f.write(f"keyPassword={os.environ['KEY_PASSWORD_LEGACY']}\n")
+              f.write(f"keyAlias={os.environ['KEY_ALIAS_LEGACY']}\n")
+              f.write(f"storeFile={keystore_path}\n")
+          print(f"[signing] {app}: 개별 Secret 사용 (마이그레이션 필요)")
           EOF
 
       - name: Inject google-services.json
