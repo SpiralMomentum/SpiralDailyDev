@@ -65,4 +65,4 @@ jobs:
           ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
           ASC_KEY_CONTENT: ${{ secrets.ASC_KEY_CONTENT }}
           MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
-        run: python3 tools/pipeline/pipeline.py deploy --app ${{ inputs.app }} --platform ios --target ${{ inputs.target }}
+        run: python3 tools/ci/pipeline.py deploy --app ${{ inputs.app }} --platform ios --target ${{ inputs.target }}

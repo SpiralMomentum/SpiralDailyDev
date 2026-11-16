@@ -1,0 +1,25 @@
+{
+  "manifest_version": 3,
+  "name": "Play Console Registration",
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAlMXkeKv/C90IfrDXusjDDmrXM/HP2sSk/7ZYezRFdFfFiCqC0GvBUQaBRp+ikCOOBYL9jf4W8LtcxBqFgK1nRftl/R2elDB7Hj6rTjF/WtkbQGnPAX5c79ycIOl6OWfbr4KtqNHyQT4tU5I+nKgenUi4rITibyAcJFYMmI/D2Bd6fg+1eI5G2UeGKMSeUvmXWllAAhnaYk2hxPpb+JbEWqfLyMQSd6YBBfsEvM1LuX6euy7fx7SZ4gig5QwzrsoQFXMLE8PM3dvG6zrEqvjzJALkpkHUtxxb9qpUL4RPdeEuwlkgLsOrVFL977ycZ+K+frDYc4bBirYY0bXPOoTQIwIDAQAB",
+  "version": "1.0",
+  "description": "Play Console 앱 등록 자동화",
+  "permissions": [
+    "tabs",
+    "scripting"
+  ],
+  "host_permissions": [
+    "https://play.google.com/*",
+    "http://localhost:7892/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://play.google.com/console/*"],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ]
+}

@@ -76,4 +76,4 @@ jobs:
       - name: Deploy to Play Store
         env:
           GOOGLE_PLAY_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
-        run: python3 tools/pipeline/pipeline.py deploy --app ${{ inputs.app }} --platform android --target ${{ inputs.track }}
+        run: python3 tools/ci/pipeline.py deploy --app ${{ inputs.app }} --platform android --target ${{ inputs.track }}

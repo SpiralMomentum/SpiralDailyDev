@@ -33,7 +33,7 @@ jobs:
         id: matrix
         env:
           APPS_FILTER: ${{ github.event.inputs.apps_filter || '' }}
-        run: python3 tools/pipeline/list_apps.py
+        run: python3 tools/ci/list_apps.py
 
   # ── 릴리즈 전 회귀 테스트 게이트 ────────────────────────
   test:
@@ -50,7 +50,7 @@ jobs:
         uses: ./.github/actions/setup-flutter
 
       - name: Prepare and test
-        run: python3 tools/pipeline/pipeline.py test --app ${{ matrix.app }} --coverage
+        run: python3 tools/ci/pipeline.py test --app ${{ matrix.app }} --coverage
 
   # ── Android Play Store 배포 ───────────────────────────
   deploy-android:
@@ -92,59 +92,56 @@ jobs:
           ANDROID_KEYSTORES_BASE64: ${{ secrets.ANDROID_KEYSTORES_BASE64 }}
           ANDROID_SIGNING_CONFIG: ${{ secrets.ANDROID_SIGNING_CONFIG }}
           APP: ${{ matrix.app }}
-          # 구 방식 fallback (마이그레이션 완료 전까지 유지)
+          # 기존 앱의 개별 Secret (배포 실적이 있는 키이므로 우선 사용)
           KEYSTORE_LEGACY: ${{ secrets[format('ANDROID_KEYSTORE_{0}_BASE64', env.APP_UPPER)] }}
           STORE_PASSWORD_LEGACY: ${{ secrets[format('ANDROID_STORE_PASSWORD_{0}', env.APP_UPPER)] }}
           KEY_PASSWORD_LEGACY: ${{ secrets[format('ANDROID_KEY_PASSWORD_{0}', env.APP_UPPER)] }}
           KEY_ALIAS_LEGACY: ${{ secrets[format('ANDROID_KEY_ALIAS_{0}', env.APP_UPPER)] }}
         run: |
           python3 - << 'EOF'
-          import base64, io, json, os, tarfile
+          import base64, io, json, os, sys, tarfile
 
-          app = os.environ['APP']
+          env = os.environ
+          app = env['APP']
           signing_dir = f"signing/{app}/android"
-          os.makedirs(signing_dir, exist_ok=True)
           keystore_path = os.path.abspath(f"{signing_dir}/release.keystore")
 
-          bundle_b64 = os.environ.get('ANDROID_KEYSTORES_BASE64', '')
-          config_json = os.environ.get('ANDROID_SIGNING_CONFIG', '')
 
-          # 신 방식: 번들에서 추출
-          if bundle_b64 and config_json:
-              config = json.loads(config_json)
-              if app in config:
-                  bundle = base64.b64decode(bundle_b64)
-                  with tarfile.open(fileobj=io.BytesIO(bundle)) as tar:
-                      try:
-                          member = tar.getmember(f"{app}/release.keystore")
-                          with tar.extractfile(member) as f:
-                              with open(keystore_path, 'wb') as out:
-                                  out.write(f.read())
-                          cfg = config[app]
-                          with open(f"{signing_dir}/key.properties", 'w') as f:
-                              f.write(f"storePassword={cfg['store_password']}\n")
-                              f.write(f"keyPassword={cfg['key_password']}\n")
-                              f.write(f"keyAlias={cfg['key_alias']}\n")
-                              f.write(f"storeFile={keystore_path}\n")
-                          print(f"[signing] {app}: 중앙 번들 사용")
-                          exit(0)
-                      except KeyError:
-                          pass  # 번들에 없으면 fallback
+          def legacy():
+              if not env.get('KEYSTORE_LEGACY'):
+                  return None
+              return (base64.b64decode(env['KEYSTORE_LEGACY']),
+                      env['STORE_PASSWORD_LEGACY'], env['KEY_PASSWORD_LEGACY'], env['KEY_ALIAS_LEGACY'])
 
-          # 구 방식 fallback
-          keystore_b64 = os.environ.get('KEYSTORE_LEGACY', '')
-          if not keystore_b64:
-              print(f"[signing] 오류: {app} keystore를 찾을 수 없습니다", flush=True)
-              exit(1)
 
+          def central():
+              config = json.loads(env.get('ANDROID_SIGNING_CONFIG') or '{}').get(app)
+              if not config or not env.get('ANDROID_KEYSTORES_BASE64'):
+                  return None
+              bundle = io.BytesIO(base64.b64decode(env['ANDROID_KEYSTORES_BASE64']))
+              with tarfile.open(fileobj=bundle) as tar:
+                  try:
+                      keystore = tar.extractfile(tar.getmember(f"{app}/release.keystore")).read()
+                  except KeyError:
+                      return None
+              return keystore, config['store_password'], config['key_password'], config['key_alias']
+
+
+          for source, load in (("개별 Secret", legacy), ("중앙 번들", central)):
+              found = load()
+              if found:
+                  break
+          else:
+              sys.exit(f"[signing] 오류: {app} keystore를 개별 Secret과 중앙 번들 어디에서도 찾을 수 없습니다")
+
+          keystore, store_password, key_password, alias = found
+          os.makedirs(signing_dir, exist_ok=True)
           with open(keystore_path, 'wb') as f:
-              f.write(base64.b64decode(keystore_b64))
+              f.write(keystore)
           with open(f"{signing_dir}/key.properties", 'w') as f:
-              f.write(f"storePassword={os.environ['STORE_PASSWORD_LEGACY']}\n")
-              f.write(f"keyPassword={os.environ['KEY_PASSWORD_LEGACY']}\n")
-              f.write(f"keyAlias={os.environ['KEY_ALIAS_LEGACY']}\n")
-              f.write(f"storeFile={keystore_path}\n")
-          print(f"[signing] {app}: 개별 Secret 사용 (마이그레이션 필요)")
+              f.write(f"storePassword={store_password}\nkeyPassword={key_password}\n"
+                      f"keyAlias={alias}\nstoreFile={keystore_path}\n")
+          print(f"[signing] {app}: {source} 사용")
           EOF
 
       - name: Inject google-services.json
@@ -154,12 +151,12 @@ jobs:
         run: echo "$GOOGLE_SERVICES_JSON" > apps/${{ matrix.app }}/android/app/google-services.json
 
       - name: Install Python dependencies
-        run: pip3 install -r tools/pipeline/requirements.txt
+        run: pip3 install -r tools/ci/requirements.txt
 
       - name: Deploy to Play Store
         env:
           GOOGLE_PLAY_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
-        run: python3 tools/pipeline/pipeline.py deploy --app ${{ matrix.app }} --platform android --target production
+        run: python3 tools/ci/pipeline.py deploy --app ${{ matrix.app }} --platform android --target production
 
   # ── iOS App Store 배포 ────────────────────────────────
   deploy-ios:
@@ -198,7 +195,7 @@ jobs:
           ssh-private-key: ${{ secrets.MATCH_GIT_PRIVATE_KEY }}
 
       - name: Install Python dependencies
-        run: pip3 install --break-system-packages -r tools/pipeline/requirements.txt
+        run: pip3 install --break-system-packages -r tools/ci/requirements.txt
 
       - name: Deploy to App Store
         env:
@@ -206,7 +203,7 @@ jobs:
           ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
           ASC_KEY_CONTENT: ${{ secrets.ASC_KEY_CONTENT }}
           MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
-        run: python3 tools/pipeline/pipeline.py deploy --app ${{ matrix.app }} --platform ios --target appstore
+        run: python3 tools/ci/pipeline.py deploy --app ${{ matrix.app }} --platform ios --target appstore
 
   # ── 빌드 실패 알림 ─────────────────────────────────
   notify-failure:

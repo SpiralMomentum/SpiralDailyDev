@@ -6,11 +6,27 @@ require "yaml"
 
 REPO_ROOT = File.expand_path('..', __dir__)
 
+def release_config
+  YAML.load_file(File.join(REPO_ROOT, "release.yaml"))
+end
+
 def load_app_config(app_name)
-  config = YAML.load_file(File.join(REPO_ROOT, "release.yaml"))
-  app = config.dig("apps", app_name)
+  app = release_config.dig("apps", app_name)
   UI.user_error!("App '#{app_name}' not found in release.yaml") unless app
   app
+end
+
+# release.yaml paths 섹션의 템플릿을 절대 경로로 변환
+def config_path(key, app_name)
+  template = release_config.dig("paths", key)
+  UI.user_error!("paths.#{key} not found in release.yaml") unless template
+  File.join(REPO_ROOT, template.gsub("{app}", app_name))
+end
+
+# Android 스토어 문구는 tools/store/listing/generate_metadata.py가 만든 디렉토리가 있을 때만 업로드
+def android_metadata_options(app_name)
+  dir = config_path("androidMetadata", app_name)
+  Dir.exist?(dir) ? { skip_upload_metadata: false, metadata_path: dir } : { skip_upload_metadata: true }
 end
 
 def setup_asc_api_key
@@ -73,7 +89,7 @@ platform :android do
       aab: aab_path,
       track: "internal",
       json_key_data: ENV["GOOGLE_PLAY_SERVICE_ACCOUNT_JSON"],
-      skip_upload_metadata: true,
+      **android_metadata_options(app_name),
       skip_upload_images: true,
       skip_upload_screenshots: true
     )
@@ -100,7 +116,7 @@ platform :android do
       aab: aab_path,
       track: "production",
       json_key_data: ENV["GOOGLE_PLAY_SERVICE_ACCOUNT_JSON"],
-      skip_upload_metadata: true,
+      **android_metadata_options(app_name),
       skip_upload_images: true,
       skip_upload_screenshots: true
     )
@@ -238,8 +254,8 @@ platform :ios do
       }
     )
 
-    metadata_dir = File.join(REPO_ROOT, "fastlane", "metadata", app_name)
-    screenshots_dir = File.join(REPO_ROOT, "fastlane", "screenshots", app_name)
+    metadata_dir = config_path("iosMetadata", app_name)
+    screenshots_dir = config_path("iosScreenshots", app_name)
     rating_config = File.join(metadata_dir, "rating_config.json")
 
     has_screenshots = Dir.exist?(screenshots_dir) && !Dir.glob(File.join(screenshots_dir, "**", "*.png")).empty?
