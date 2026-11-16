@@ -1,7 +1,7 @@
 """템플릿 감사: 모든 앱 프로필 x 카피 조합 x (1:1, 9:16) 를 렌더 없이 측정해 경고 종류별 건수를 낸다.
 
 사용: python3 audit.py [--json out/audit/latest.json]
-개선 루프의 전후 비교 기준이다 (doc/.../08_템플릿_운영_규칙.md 10절).
+개선 루프의 전후 비교 기준이다 (tools/marketing/docs/템플릿_운영_규칙.md 10절).
 """
 from __future__ import annotations
 

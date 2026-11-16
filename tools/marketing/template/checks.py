@@ -4,7 +4,7 @@
 근거
   - 대비: WCAG 2.2 SC 1.4.3 (AA). 큰 글자(24 CSS px 이상, 또는 굵기 700 이상이면서 18.66 CSS px 이상)는 3:1, 그 외 4.5:1.
     캔버스 px 를 density 로 나눠 CSS px 로 본다.
-  - 빈 영역: 우리 설정값 (CONTENT_*, EMPTY_BAND_MAX_PCT). 근거 관측 없음. 보정 기록은 doc/.../08_템플릿_운영_규칙.md.
+  - 빈 영역: 우리 설정값 (CONTENT_*, EMPTY_BAND_MAX_PCT). 근거 관측 없음. 보정 기록은 tools/marketing/docs/템플릿_운영_규칙.md 7절.
 """
 from __future__ import annotations
 
@@ -17,7 +17,7 @@ from PIL import Image, ImageStat
 DARK_BG = "#161616"          # variations.py dark 팔레트 배경
 CONTENT_TILE_PX = 32         # 내용 판정 타일 크기 (스크린샷 원본 px)
 CONTENT_TILE_STDDEV = 8.0    # 타일 밝기 표준편차가 이보다 크면 '내용 있음' (우리 설정)
-EMPTY_BAND_MAX_PCT = 45.0    # 보이는 화면에서 연속으로 빈 줄(내용 타일 1개 이하)이 차지하는 최대 비율 (우리 설정, 08 문서 보정표)
+EMPTY_BAND_MAX_PCT = 45.0    # 보이는 화면에서 연속으로 빈 줄(내용 타일 1개 이하)이 차지하는 최대 비율 (우리 설정, 운영 규칙 7절 보정표)
 EMPHASIS_MIN_DIFF = 40     # 강조색과 제목색의 RGB 채널 최대 차 하한 (우리 설정)
 MIX_STEP = 0.1               # 대비 보정 시 흰색/검정 섞는 단계
 
