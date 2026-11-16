@@ -1,0 +1,16 @@
+# 앱 프로필 (luck_insight). 08 운영 규칙 6절 절차로 작성.
+# 스크린샷: apps/luck_insight/integration_test/screenshots_test.dart
+#   0 고르기(물음표 4개) / 1 결과(무작위, 실행마다 다름) / 2 1등 기록(빈 상태 시트)
+# 1단계: 크롭 없이 전체 화면으로 등록하고 렌더 경고에 따라 4절 규칙으로만 바꾼다.
+id: "luck_insight"
+name: "럭 인사이트"
+language: "ko"
+register: "honorific"
+font: "system_sd_gothic"
+shots_dir: "assets/shots/luck_insight/ko"
+brand: {"primary": "#FF8C32", "accent": "#FF8C32", "logo": "logo_luck_insight.png"}
+screens:
+  # 2단계(R2-0 content_bbox): suggest-crop 결과 그대로
+  pick:    {shot: 0, crop: [0, 0.3, 1, 0.96]}
+  result:  {shot: 1, crop: [0, 0.3, 1, 0.96]}
+  history: {shot: 2, crop: [0, 0.3, 1, 1.0]}

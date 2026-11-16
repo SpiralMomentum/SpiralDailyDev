@@ -1,0 +1,67 @@
+# 프리셋 근거: 07_템플릿_스펙.md 11.7 `ig_carousel_notion` (직접 raw/08)
+# 관측값: 4:5(1080x1350), 장마다 배경색 [하늘, 오프화이트, 노랑, 청록, 연주황], 상단 중앙 정렬 1~2줄 제목,
+#         흰 카드 UI(둥근 모서리·그림자) 폭 약 85%, 로고·핸들·페이지 번호 없음, CTA 장 없음.
+# 미구현: Notion의 손글씨풍 대문자 서체(한글 손글씨 OFL 폰트 미확보), 장마다 1개 손그림 스티커(decoration, 에셋 없음).
+# 단일 이미지 게시(instagram_feed)와 Threads 4:5 에도 같은 캔버스 규격이라 그대로 쓸 수 있다 (공식 raw/01).
+template:
+  id: ig_feed
+  channel: instagram_feed
+  spec_ref: 07_템플릿_스펙.md 11.7
+
+canvas: {width_px: 1080, height_px: 1350, aspect: "4:5", format: jpeg, max_bytes: 8388608, alpha: false, density: 2.0}
+
+typography:
+  families: {headline: "{{app.font}}", body: "{{app.font}}"}
+  headline: {size_px: 72, weight: 800, line_height: 1.25}
+  body: {size_px: 36, weight: 400, line_height: 1.45}
+
+color:
+  palette: {primary: "{{app.brand.primary}}", accent: "{{app.brand.accent}}", neutral: ["#111111"]}
+  background_mode: light
+
+layers:
+  - type: background
+    kind: solid
+    per_slide_color: true
+    palette_per_slide: ["#CFE6F7", "#F6F3EC", "#FFE58A", "#BFE6DD", "#FFD9B8"]
+  - type: caption
+    position: top
+    align: center
+    margin_x_pct: 8
+    margin_top_pct: 9
+    text_color: "#111111"
+    emphasis_color: "#111111"
+  - type: ui_popout
+    present: true
+    width_fraction: 0.85
+    card_style: {bg: "#FFFFFF", radius_px: 40, padding_px: 0, shadow: tailwind_xl}
+    anchor: top_center
+    x_pct: 50
+    y_pct: 32
+  - type: brand
+    logo: {present: false}
+    page_number: {present: false}
+  - type: decoration
+    kind: none
+
+slides:
+  - headline: "{{headline}}"
+    body: "{{body?}}"
+    screenshot: "{{shot}}"
+    layers:
+      ui_popout: {crop: "{{crop}}"}
+  - headline: "{{headline}}"
+    body: "{{body?}}"
+    screenshot: "{{shot}}"
+    layers:
+      ui_popout: {crop: "{{crop}}"}
+  - headline: "{{headline}}"
+    body: "{{body?}}"
+    screenshot: "{{shot}}"
+    layers:
+      ui_popout: {crop: "{{crop}}", width_fraction: 0.95, y_pct: 40}
+  - headline: "{{headline}}"
+    body: "{{body?}}"
+    screenshot: "{{shot}}"
+    layers:
+      ui_popout: {crop: "{{crop}}", width_fraction: 0.9, y_pct: 36}
