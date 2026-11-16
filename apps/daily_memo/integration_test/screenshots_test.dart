@@ -4,6 +4,10 @@ import 'package:apps.daily_memo/app/app.dart';
 import 'package:apps.daily_memo/features/memo/data/datasources/memo_local_data_source.dart';
 import 'package:apps.daily_memo/features/memo/data/repositories/memo_repository_impl.dart';
 import 'package:apps.daily_memo/features/memo/domain/repositories/memo_repository.dart';
+import 'package:apps.daily_memo/features/memo/presentation/views/calendar_page.dart';
+import 'dart:io';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get_it/get_it.dart';
@@ -96,6 +100,9 @@ Future<void> setupLocator() async {
     );
 }
 
+/// 화면 캡처가 가능한 플랫폼 (integration_test 의 captureScreenshot 은 iOS/Android 만 구현).
+final canCapture = !kIsWeb && (Platform.isIOS || Platform.isAndroid);
+
 void main() {
   final binding = IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
@@ -113,7 +120,11 @@ void main() {
     if (r != null) {
       focus[name] = {'rect': [r.left, r.top, r.right, r.bottom], 'dpr': tester.view.devicePixelRatio};
     }
-    await binding.takeScreenshot(name);
+    // 캡처는 iOS/Android 기기에서만 (flutter drive). 그 밖(CI 리눅스, flutter-tester)에서는 흐름과 expect 만 검증한다.
+    if (canCapture) {
+      if (Platform.isAndroid) await binding.convertFlutterSurfaceToImage();
+      await binding.takeScreenshot(name);
+    }
   }
 
   testWidgets('마케팅 스크린샷 5장', (WidgetTester tester) async {
@@ -132,10 +143,11 @@ void main() {
     final fields = find.byType(TextField);
     await tester.enterText(fields.first, '장보기 목록');
     await tester.enterText(fields.last, '우유, 달걀, 식빵\n커피 원두 200g');
+    expect(find.byType(TextField), findsNWidgets(2), reason: '입력 칸은 제목·내용 2개');
     await shot(tester, '1_add', [find.byType(TextField)]);
 
-    // 저장. 이 환경에서는 저장 직후 목록 화면이 갱신되지 않는다(기존 memo_crud_test 도 같은 지점에서 실패).
-    // 소재용으로는 저장소에 들어간 7건을 앱이 다시 읽어 온 화면(앱 재진입)을 찍는다.
+    // 저장. 알려진 문제: 저장 직후 목록이 갱신되지 않는다(기존 memo_crud_test 도 같은 지점에서 실패, 앱 버그 의심·실기기 미확인).
+    // 그래서 이 장면은 '앱 재진입 후 목록'이다 (우회). 버그가 고쳐지면 재진입을 지우고 저장 직후 목록을 바로 검증한다.
     await tester.tap(find.text('추가').last);
     await tester.pumpAndSettle();
     await tester.pumpWidget(const SizedBox());
@@ -151,13 +163,16 @@ void main() {
     // 2. 수정 화면
     await tester.tap(find.text(seedMemos.first.$1));
     await tester.pumpAndSettle();
+    expect(find.widgetWithText(TextField, seedMemos.first.$1), findsOneWidget, reason: '수정 화면에 기존 제목');
     await shot(tester, '2_edit', [find.byType(TextField)]);
     await tester.tap(find.text('수정').last); // 저장 -> 목록 복귀
     await tester.pumpAndSettle();
 
     // 3. 달력 탭
     await tester.tap(find.text('알림'));
-    await shot(tester, '3_calendar', [find.byWidgetPredicate((w) => w.runtimeType.toString().startsWith('TableCalendar'))]);
+    await tester.pumpAndSettle();
+    expect(find.byType(CalendarView), findsOneWidget);
+    await shot(tester, '3_calendar', [find.byType(CalendarView)]);
     binding.reportData = {'focus': focus};
   });
 }

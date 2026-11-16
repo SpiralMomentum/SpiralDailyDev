@@ -72,6 +72,13 @@ jobs:
         run: python3 tools/pipeline/verify_coverage.py --app ${{ matrix.app }}
         working-directory: apps/${{ matrix.app }}
 
+      # 마케팅 스크린샷 통합 테스트의 흐름 검증. 소재에 쓰는 화면이 실제 흐름으로 도달 가능한지 확인한다.
+      # 헤드리스(flutter-tester)에서는 캡처를 건너뛰고 흐름과 expect 만 본다 (캡처는 로컬 iOS 시뮬레이터에서 flutter drive).
+      - name: Screenshot flow test
+        if: hashFiles(format('apps/{0}/integration_test/screenshots_test.dart', matrix.app)) != ''
+        run: flutter test integration_test/screenshots_test.dart -d flutter-tester
+        working-directory: apps/${{ matrix.app }}
+
       - name: Install Linux desktop dependencies
         if: matrix.app == 'daily_memo'
         run: |
