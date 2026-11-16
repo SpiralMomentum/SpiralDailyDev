@@ -99,4 +99,4 @@ python3 -m unittest discover -s tools/marketing/tests -t tools/marketing   # lay
 
 `python3 audit.py` : 모든 앱 프로필 x 카피 조합 x 1:1·9:16 을 렌더 없이 측정해 경고 종류별 건수를 낸다 (개선 전후 비교 기준).
 렌더러 자동 규칙(대비, 크롭 연장, 앱 배경색 띠 걷기, 초점 맞추기, 반복 확대)과 루프 기록은
-`tools/marketing/docs/템플릿_운영_규칙.md` 4.1절·10절 (원본은 gitignore 된 doc/ 아래 08 문서).
+`tools/marketing/docs/템플릿_운영_규칙.md` 4.1절·10절.
