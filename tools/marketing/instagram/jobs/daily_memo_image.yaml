@@ -1,0 +1,11 @@
+# 단일 이미지 게시. 2026-11-12 이 job으로 실제 게시함: https://www.instagram.com/p/Dfm1s4dj29c/
+# 같은 내용으로 post 를 다시 실행하면 원장(state/published.jsonl)에 의해 건너뜀.
+name: daily_memo_launch_image
+type: image
+media:
+  - assets/daily_memo_feed_4x5_0.jpg
+caption: |-
+  미, 메모
+  복잡함을 덜어낸 메모 앱. 열면 바로 쓸 수 있다.
+
+  #메모앱 #미메모 #생산성

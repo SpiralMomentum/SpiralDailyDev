@@ -1,0 +1,78 @@
+# 프리셋 근거: doc/00_마케팅/01_소재_디자인_리서치/07_템플릿_스펙.md 11.6 `ig_carousel_todoist` (직접 raw/08)
+# 관측값: 1:1, 장마다 파스텔 배경, 좌측 정렬 굵은 제목 + 회색 본문, 흰 카드 UI(둥근 모서리·그림자)가 가장자리 밖으로 잘림,
+#         기울기 -3도, "n/N" 좌상단 페이지 번호, 로고는 마지막 장 우상단만, CTA 전용 장 없음, 핸들 없음.
+# 수치 중 출처가 없는 것: 파스텔 hex 값(관찰은 색 이름만), 폰트 px(벤더 권장 헤드라인 >=60px, 본문 >=32px 범위 안에서 선택).
+# 카피 문장은 플레이스홀더이며 관측 통계(2줄, 한글 16~24자, "~세요" 종결, 키워드 강조)를 따랐다.
+template:
+  id: ig_carousel
+  channel: instagram_carousel
+  spec_ref: 07_템플릿_스펙.md 11.6
+
+canvas: {width_px: 1080, height_px: 1080, aspect: "1:1", format: jpeg, max_bytes: 8388608, alpha: false, density: 2.0}
+
+safe_zone: {top_pct: 0, bottom_pct: 0, left_pct: 6, right_pct: 6, source: vendor_px}
+
+typography:
+  families: {headline: "{{app.font}}", body: "{{app.font}}"}
+  headline: {size_px: 68, weight: 700, line_height: 1.25}
+  body: {size_px: 36, weight: 400, line_height: 1.45}
+
+color:
+  palette: {primary: "{{app.brand.primary}}", accent: "{{app.brand.accent}}", neutral: ["#111111", "#6B6B6B"]}
+  background_mode: light
+
+layers:
+  - type: background
+    kind: solid
+    per_slide_color: true
+    palette_per_slide: ["#D7F0E6", "#FBE3D6", "#FFF3C4", "#E3F1D6", "#E6E1F7"]
+  - type: brand
+    page_number: {present: true, format: "n/N", position: top_left, margin_pct: 6, size_px: 30, weight: 500, color: "#6B6B6B"}
+    logo: {present: true, file: "{{app.brand.logo}}", position: corner_tr, slides: last, size_px: 96, radius_px: 22, margin_pct: 6}
+  - type: caption
+    position: top
+    align: left
+    margin_x_pct: 6
+    margin_top_pct: 13
+    gap_px: 20
+    text_color: "#111111"
+    body_color: "#5A5A5A"
+    emphasis_color: "{{app.brand.accent}}"
+  - type: ui_popout
+    present: true
+    width_fraction: 0.88
+    card_style: {bg: "#FFFFFF", radius_px: 36, padding_px: 0, shadow: tailwind_xl}
+    anchor: top_center
+    x_pct: 50
+    y_pct: 50
+  - type: device_frame
+    present: false
+  - type: decoration
+    kind: none
+
+slides:
+  - headline: "{{headline}}"
+    body: "{{body?}}"
+    screenshot: "{{shot}}"
+    layers:
+      ui_popout: {crop: "{{crop}}", width_fraction: 0.8, y_pct: 46, tilt_deg: -3, x_pct: 54}
+  - headline: "{{headline}}"
+    body: "{{body?}}"
+    screenshot: "{{shot}}"
+    layers:
+      ui_popout: {crop: "{{crop}}", width_fraction: 1.06, y_pct: 54, x_pct: 46}
+  - headline: "{{headline}}"
+    body: "{{body?}}"
+    screenshot: "{{shot}}"
+    layers:
+      ui_popout: {crop: "{{crop}}", width_fraction: 0.86, y_pct: 44, x_pct: 56, tilt_deg: -3}
+  - headline: "{{headline}}"
+    body: "{{body?}}"
+    screenshot: "{{shot}}"
+    layers:
+      ui_popout: {crop: "{{crop}}", width_fraction: 1.05, y_pct: 54, x_pct: 46}
+  - headline: "{{headline}}"
+    body: "{{body?}}"
+    screenshot: "{{shot}}"
+    layers:
+      ui_popout: {crop: "{{crop}}", width_fraction: 0.78, y_pct: 48, tilt_deg: -3, x_pct: 54}

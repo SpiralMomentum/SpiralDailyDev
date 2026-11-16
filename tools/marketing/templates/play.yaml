@@ -1,0 +1,69 @@
+# 프리셋 근거: 07_템플릿_스펙.md 2장 google_play_phone + 9장 content_rules (공식 raw/02 #11, #12)
+# 공식 규정: 1080x1920 이상, JPEG/24-bit PNG 알파 불가, 기기당 최대 8장·최소 2장(앱 권장 4장),
+#            태그라인은 이미지의 20% 이하, 기기 이미지·스토어 배지·순위·가격·"New" 회피, 첫 3장 UI 우선.
+# 그래서 기기 프레임 없이 UI 카드(ui_popout)만 쓴다. 배경·캡션은 store_pastel 과 같은 값.
+template:
+  id: play
+  channel: google_play_phone
+  spec_ref: 07_템플릿_스펙.md 2, 9
+
+canvas: {width_px: 1080, height_px: 1920, aspect: "9:16", format: png, alpha: false, density: 2.0}
+
+typography:
+  families: {headline: "{{app.font}}", body: "{{app.font}}"}
+  headline: {size_px: 72, weight: 700, line_height: 1.25}
+  body: {size_px: 38, weight: 400, line_height: 1.4}
+
+color:
+  palette: {primary: "{{app.brand.primary}}", accent: "{{app.brand.accent}}", neutral: ["#111111"]}
+  background_mode: light
+
+layers:
+  - type: background
+    kind: pattern
+    per_slide_color: true
+    palette_per_slide: ["#FFF3C4", "#E6E1F7", "#D6ECFA", "#E3F1D6"]
+    pattern: {kind: grid, spacing_px: 90, color: "#000000", opacity: 0.05}
+  - type: caption
+    position: top
+    align: center
+    margin_x_pct: 8
+    margin_top_pct: 6
+    gap_px: 20
+    text_color: "#111111"
+    body_color: "#5A5A5A"
+    emphasis_color: "{{app.brand.accent}}"
+  - type: ui_popout
+    present: true
+    width_fraction: 0.84
+    card_style: {bg: "#FFFFFF", radius_px: 48, padding_px: 0, shadow: tailwind_2xl}
+    anchor: top_center
+    x_pct: 50
+    y_pct: 23
+  - type: device_frame
+    present: false
+  - type: brand
+    logo: {present: false}
+    page_number: {present: false}
+
+slides:
+  - headline: "{{headline}}"
+    body: "{{body?}}"
+    screenshot: "{{shot}}"
+    layers:
+      ui_popout: {crop: "{{crop}}"}
+  - headline: "{{headline}}"
+    body: "{{body?}}"
+    screenshot: "{{shot}}"
+    layers:
+      ui_popout: {crop: "{{crop}}"}
+  - headline: "{{headline}}"
+    body: "{{body?}}"
+    screenshot: "{{shot}}"
+    layers:
+      ui_popout: {crop: "{{crop}}", width_fraction: 0.68, y_pct: 21}
+  - headline: "{{headline}}"
+    body: "{{body?}}"
+    screenshot: "{{shot}}"
+    layers:
+      ui_popout: {crop: "{{crop}}", width_fraction: 0.9, y_pct: 30}
