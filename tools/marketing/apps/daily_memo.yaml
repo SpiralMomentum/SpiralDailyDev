@@ -1,0 +1,26 @@
+# 앱 프로필: 이 앱에만 해당하는 값(이름, 브랜드 색, 로고, 글꼴, 스크린샷 폴더, 화면 레지스트리). 템플릿은 {{app.*}} 자리표시자로 이 값을 읽는다.
+# screens: 이름 -> 스크린샷 번호(shots_dir 의 파일 이름순)와 선택적 크롭 [x0,y0,x1,y1] (원본 대비 비율, 눈으로 잰 값).
+#   0 목록(6건) / 1 추가 입력 중 / 2 수정 / 3 달력 / 4 저장 후 목록(맨 아래에 새 메모). extraN 은 기존 4종 템플릿 크롭에서 옮긴 것.
+id: "daily_memo"
+name: "미, 메모"
+language: "ko"
+register: "honorific"
+font: "system_sd_gothic"
+shots_dir: "assets/shots/daily_memo/ko"
+brand: {"primary": "#FFC107", "accent": "#C7870A", "logo": "logo_daily_memo.png"}
+screens:
+  list: {"shot": 0}
+  list_top: {"shot": 0, "crop": [0, 0, 1, 0.62]}
+  appbar: {"shot": 0, "crop": [0, 0.04, 1, 0.103]}
+  item: {"shot": 0, "crop": [0, 0.108, 1, 0.268]}
+  dates: {"shot": 0, "crop": [0, 0.205, 1, 0.262]}
+  form_full: {"shot": 1}
+  form: {"shot": 1, "crop": [0, 0.04, 1, 0.5]}
+  saved: {"shot": 4, "crop": [0, 0.178, 1, 0.869]}
+  extra1: {"shot": 1, "crop": [0, 0.13, 1, 0.4]}
+  extra2: {"shot": 1, "crop": [0, 0, 1, 0.5]}
+  extra3: {"shot": 0, "crop": [0, 0, 1, 0.78]}
+  extra4: {"shot": 1, "crop": [0, 0, 1, 0.78]}
+  extra5: {"shot": 0, "crop": [0, 0, 1, 0.9]}
+  extra6: {"shot": 1, "crop": [0, 0.035, 1, 0.98]}
+  extra7: {"shot": 1, "crop": [0.03, 0.868, 0.97, 0.935]}

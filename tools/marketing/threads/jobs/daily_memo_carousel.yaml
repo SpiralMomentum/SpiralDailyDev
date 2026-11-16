@@ -1,0 +1,9 @@
+# 캐러셀 (2~20장)
+name: daily_memo_carousel
+type: carousel
+media:
+  - ../../instagram/jobs/assets/daily_memo_feed_4x5_0.jpg
+  - ../../instagram/jobs/assets/daily_memo_feed_4x5_1.jpg
+  - ../../instagram/jobs/assets/daily_memo_feed_4x5_2.jpg
+text: 미 메모 화면 둘러보기
+topic: 메모앱

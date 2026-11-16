@@ -1,0 +1,7 @@
+# 영상 게시. media는 render_and_validate.py 출력(tools/marketing/out)
+name: daily_memo_video
+type: video
+media:
+  - ../../out/shorts_reels_tiktok_9x16.mp4
+text: 미 메모, 20초 둘러보기
+topic: 메모앱

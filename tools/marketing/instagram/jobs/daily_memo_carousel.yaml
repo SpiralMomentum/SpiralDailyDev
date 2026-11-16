@@ -1,0 +1,12 @@
+# 캐러셀 게시 예시 (2~10장). 아직 게시하지 않음.
+name: daily_memo_carousel
+type: carousel
+media:
+  - assets/daily_memo_feed_4x5_0.jpg
+  - assets/daily_memo_feed_4x5_1.jpg
+  - assets/daily_memo_feed_4x5_2.jpg
+caption: |-
+  미, 메모
+  복잡함을 덜어낸 메모 앱. 열면 바로 쓸 수 있다.
+
+  #메모앱 #미메모 #생산성
