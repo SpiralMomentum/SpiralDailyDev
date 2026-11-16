@@ -7,7 +7,7 @@ fields:
     type: string
     description: 스토어에 표시되는 앱 이름 (한국어)
     limits:
-      android: 50자
+      android: 30자
       ios: 30자
 
   name_en:

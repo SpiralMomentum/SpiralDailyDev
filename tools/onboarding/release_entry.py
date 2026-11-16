@@ -2,8 +2,9 @@
 
 from __future__ import annotations
 
+import re
 from pathlib import Path
-from typing import Any, Dict, List, Tuple
+from typing import Any, Dict, Tuple
 
 import yaml
 
@@ -46,14 +47,22 @@ def with_entry(cfg: Config, app: str, entry: Dict[str, Any]) -> Dict[str, Any]:
     return {**cfg, "apps": {**(cfg.get("apps") or {}), app: entry}}
 
 
-def leading_comments(text: str) -> List[str]:
-    lines = text.splitlines()
-    return lines[: next((i for i, l in enumerate(lines) if not l.startswith("#")), len(lines))]
+def entry_block(app: str, entry: Dict[str, Any]) -> str:
+    """apps 아래에 들어갈 2칸 들여쓴 YAML 블록."""
+    body = yaml.dump({app: entry}, sort_keys=False, default_flow_style=False, allow_unicode=True)
+    return "".join(f"  {line}\n" for line in body.splitlines())
 
 
-def render(original_text: str, cfg: Config) -> str:
-    body = yaml.dump(dict(cfg), sort_keys=False, default_flow_style=False, allow_unicode=True)
-    return "".join(f"{c}\n" for c in leading_comments(original_text)) + body
+def insert_entry(original_text: str, app: str, entry: Dict[str, Any]) -> str:
+    """기존 파일 서식은 그대로 두고 apps 섹션 끝에 새 항목만 덧붙인다."""
+    lines = original_text.splitlines(keepends=True)
+    apps = next(i for i, l in enumerate(lines) if re.match(r"^apps:\s*$", l))
+    end = next((i for i in range(apps + 1, len(lines)) if re.match(r"^\S", lines[i])), len(lines))
+    while end > apps + 1 and not lines[end - 1].strip():
+        end -= 1
+    before = "".join(lines[:end])
+    before = before if before.endswith("\n") else before + "\n"
+    return before + entry_block(app, entry) + "".join(lines[end:])
 
 
 def add_release_entry(
@@ -63,5 +72,5 @@ def add_release_entry(
     if app in (cfg.get("apps") or {}):
         return cfg, f"'{app}'은 이미 release.yaml에 등록되어 있습니다"
     updated = with_entry(cfg, app, entry)
-    effects.write_text(config_path, render(effects.read_text(config_path), updated))
+    effects.write_text(config_path, insert_entry(effects.read_text(config_path), app, entry))
     return updated, f"release.yaml에 '{app}' 항목 추가 (appId {entry['appId']}, iosBundleId {entry['iosBundleId']})"

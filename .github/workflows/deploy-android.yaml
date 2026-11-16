@@ -28,8 +28,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Install Python dependencies
+        run: pip3 install -r tools/ci/requirements.txt
       - name: Validate app name
-        run: python3 -c "import yaml,sys; assert '${{ inputs.app }}' in yaml.safe_load(open('release.yaml'))['apps'], f'Unknown app: ${{ inputs.app }}'"
+        env:
+          APPS_FILTER: ${{ inputs.app }}
+        run: |
+          python3 tools/ci/list_apps.py | grep -q "\"$APPS_FILTER\"" || { echo "Unknown app: $APPS_FILTER"; exit 1; }
 
   deploy:
     needs: validate
@@ -37,8 +42,17 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+
       - name: Setup Flutter
         uses: ./.github/actions/setup-flutter
+
+      - name: Install Android NDK
+        run: echo "y" | "$ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager" "ndk;28.2.13676358"
 
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
@@ -52,20 +66,15 @@ jobs:
           echo "APP_UPPER=$APP_UPPER" >> "$GITHUB_ENV"
 
       - name: Generate signing files
-        run: |
-          SIGNING_DIR="signing/${{ inputs.app }}/android"
-          mkdir -p "$SIGNING_DIR"
-
-          echo "${{ secrets[format('ANDROID_KEYSTORE_{0}_BASE64', env.APP_UPPER)] }}" | base64 --decode > "$SIGNING_DIR/release.keystore"
-
-          KEYSTORE_ABS="$(cd "$SIGNING_DIR" && pwd)/release.keystore"
-
-          cat > "$SIGNING_DIR/key.properties" << EOF
-          storePassword=${{ secrets[format('ANDROID_STORE_PASSWORD_{0}', env.APP_UPPER)] }}
-          keyPassword=${{ secrets[format('ANDROID_KEY_PASSWORD_{0}', env.APP_UPPER)] }}
-          keyAlias=${{ secrets[format('ANDROID_KEY_ALIAS_{0}', env.APP_UPPER)] }}
-          storeFile=$KEYSTORE_ABS
-          EOF
+        env:
+          APP: ${{ inputs.app }}
+          ANDROID_KEYSTORES_BASE64: ${{ secrets.ANDROID_KEYSTORES_BASE64 }}
+          ANDROID_SIGNING_CONFIG: ${{ secrets.ANDROID_SIGNING_CONFIG }}
+          KEYSTORE_LEGACY: ${{ secrets[format('ANDROID_KEYSTORE_{0}_BASE64', env.APP_UPPER)] }}
+          STORE_PASSWORD_LEGACY: ${{ secrets[format('ANDROID_STORE_PASSWORD_{0}', env.APP_UPPER)] }}
+          KEY_PASSWORD_LEGACY: ${{ secrets[format('ANDROID_KEY_PASSWORD_{0}', env.APP_UPPER)] }}
+          KEY_ALIAS_LEGACY: ${{ secrets[format('ANDROID_KEY_ALIAS_{0}', env.APP_UPPER)] }}
+        run: python3 tools/ci/signing_files.py
 
       - name: Inject google-services.json
         env:
@@ -73,7 +82,12 @@ jobs:
         if: env.GOOGLE_SERVICES_JSON != ''
         run: echo "$GOOGLE_SERVICES_JSON" > apps/${{ inputs.app }}/android/app/google-services.json
 
+      - name: Install Python dependencies
+        run: pip3 install -r tools/ci/requirements.txt
+
       - name: Deploy to Play Store
         env:
           GOOGLE_PLAY_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
-        run: python3 tools/ci/pipeline.py deploy --app ${{ inputs.app }} --platform android --target ${{ inputs.track }}
+          APP: ${{ inputs.app }}
+          TRACK: ${{ inputs.track }}
+        run: python3 tools/ci/pipeline.py deploy --app "$APP" --platform android --target "$TRACK"

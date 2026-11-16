@@ -28,8 +28,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Install Python dependencies
+        run: pip3 install -r tools/ci/requirements.txt
       - name: Validate app name
-        run: python3 -c "import yaml,sys; assert '${{ inputs.app }}' in yaml.safe_load(open('release.yaml'))['apps'], f'Unknown app: ${{ inputs.app }}'"
+        env:
+          APPS_FILTER: ${{ inputs.app }}
+        run: |
+          python3 tools/ci/list_apps.py | grep -q "\"$APPS_FILTER\"" || { echo "Unknown app: $APPS_FILTER"; exit 1; }
 
   deploy:
     needs: validate
@@ -59,10 +64,15 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.MATCH_GIT_PRIVATE_KEY }}
 
+      - name: Install Python dependencies
+        run: pip3 install --break-system-packages -r tools/ci/requirements.txt
+
       - name: Deploy to ${{ inputs.target }}
         env:
           ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
           ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
           ASC_KEY_CONTENT: ${{ secrets.ASC_KEY_CONTENT }}
           MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
-        run: python3 tools/ci/pipeline.py deploy --app ${{ inputs.app }} --platform ios --target ${{ inputs.target }}
+          APP: ${{ inputs.app }}
+          TARGET: ${{ inputs.target }}
+        run: python3 tools/ci/pipeline.py deploy --app "$APP" --platform ios --target "$TARGET"

@@ -70,13 +70,15 @@ def _real_run(
     """label은 로그에 명령 대신 표시할 문자열 (비밀값이 인자에 있을 때 사용)."""
     if not capture:
         _log(f"  -> {_describe(cmd, cwd, label)}")
+    # 입력을 주지 않는 명령은 stdin을 닫아, 프롬프트에서 멈추지 않고 오류로 끝나게 한다
+    stdin = {"input": input} if input is not None else {"stdin": subprocess.DEVNULL}
     r = subprocess.run(
         [str(c) for c in cmd],
         cwd=cwd,
-        input=input,
         env={**os.environ, **env} if env else None,
         capture_output=capture,
         text=True,
+        **stdin,
     )
     return RunResult(r.returncode, r.stdout or "", r.stderr or "")
 

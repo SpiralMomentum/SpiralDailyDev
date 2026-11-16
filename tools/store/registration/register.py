@@ -117,6 +117,9 @@ def main() -> None:
         print(f"[{step}] " + ("완료" if result["success"] else f"실패: {result.get('message', '')}"))
         if not result["success"]:
             sys.exit(1)
+        if not app_id:
+            print(f"[{step}] 앱 ID를 얻지 못해 다음 단계를 진행할 수 없습니다: {result.get('message', '')}")
+            sys.exit(1)
 
     print(f"\n등록 완료. APP_ID: {app_id}")
 

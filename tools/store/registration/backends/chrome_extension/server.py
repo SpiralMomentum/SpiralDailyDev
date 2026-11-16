@@ -11,6 +11,7 @@ chrome_extension 백엔드 엔트리포인트.
 from __future__ import annotations
 
 import json
+import re
 import subprocess
 import sys
 import threading
@@ -24,15 +25,36 @@ class ThreadingHTTPServer(ThreadingMixIn, HTTPServer):
 
 PORT = 7892
 TIMEOUT = 30  # content.js 응답 대기 최대 초
+CREATE_WAIT = 600  # 사용자가 법적 동의 후 "앱 만들기"를 누를 때까지 대기 최대 초
+CREATED_APP_URL = re.compile(r'/developers/\d+/app/(\d+)/')
+
+
+def created_app_id(url: str) -> str | None:
+    m = CREATED_APP_URL.search(url)
+    return m.group(1) if m else None
+
+
+def wait_for_created_app(limit: int) -> dict:
+    """법적 동의는 사용자만 할 수 있다. 앱 생성 후 이동하는 /app/<id>/ URL에서 app_id를 얻는다."""
+    import time
+    print(f'[chrome_extension] Chrome에서 법적 동의 체크 후 "앱 만들기"를 눌러주세요 (최대 {limit}초 대기)',
+          file=sys.stderr, flush=True)
+    deadline = time.time() + limit
+    while time.time() < deadline:
+        app_id = created_app_id(get_chrome_url())
+        if app_id:
+            return {'success': True, 'app_id': app_id, 'message': f'앱 생성됨: {app_id}'}
+        time.sleep(2)
+    return {'success': False, 'app_id': None, 'message': f'앱 생성 대기 시간 초과 ({limit}s)'}
 
 STEP_PATHS = {
     'create_app':         '',  # /create-new-app 은 app_id 없이
     'set_store_settings': '/app/{app_id}/store-settings',
     'set_privacy_policy': '/app/{app_id}/app-content/privacy-policy',
-    'set_ads':            '/app/{app_id}/app-content/ads',
-    'set_app_access':     '/app/{app_id}/app-content/app-access',
-    'set_content_rating': '/app/{app_id}/app-content/ratings',
-    'set_target_audience':'/app/{app_id}/app-content/target-audience-and-content',
+    'set_ads':            '/app/{app_id}/app-content/ads-declaration',
+    'set_app_access':     '/app/{app_id}/app-content/testing-credentials',
+    'set_content_rating': '/app/{app_id}/app-content/content-rating-overview',
+    'set_target_audience':'/app/{app_id}/app-content/target-audience-content',
 }
 
 
@@ -185,6 +207,9 @@ def main() -> None:
         result = {'success': False, 'app_id': None, 'message': f'timeout ({TIMEOUT}s)'}
 
     httpd.shutdown()
+
+    if step == 'create_app' and result.get('success') and not result.get('app_id'):
+        result = wait_for_created_app(CREATE_WAIT)
     print(f'[chrome_extension] 결과: {result}', file=sys.stderr)
     print(json.dumps(result, ensure_ascii=False))
     sys.exit(0 if result.get('success') else 1)

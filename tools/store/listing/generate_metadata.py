@@ -31,6 +31,8 @@ PLATFORMS: Dict[str, Dict[str, Any]] = {
             "promotional_text": "promotional_text.txt",
             "description": "description.txt",
         },
+        # App Store Connect 글자 수 제한
+        "limits": {"name": 30, "subtitle": 30, "keywords": 100, "promotional_text": 170, "description": 4000},
     },
     "android": {
         "path_key": "androidMetadata",
@@ -40,28 +42,50 @@ PLATFORMS: Dict[str, Dict[str, Any]] = {
             "short_description": "short_description.txt",
             "full_description": "full_description.txt",
         },
+        # Google Play 글자 수 제한 (넘으면 업로드 시 'too long' 으로 거절된다)
+        "limits": {"title": 30, "short_description": 80, "full_description": 4000},
     },
 }
 
 
-def render_platform(store_text: Mapping[str, Any], platform: str) -> Dict[str, str]:
+def length_errors(listing: Mapping[str, Any], platforms: list) -> list:
+    return [
+        f"{p}/{lang}/{field}: {len(value)}자 (제한 {limit}자) — {value[:40]}"
+        for p in platforms
+        for lang, data in ((listing.get("store_text") or {}).get(p) or {}).items()
+        for field, limit in PLATFORMS[p]["limits"].items()
+        for value in [(data.get(field) or "").strip()]
+        if len(value) > limit
+    ]
+
+
+# store_listing.json 최상위 URL -> 로케일마다 같은 값으로 쓰는 파일 (Android supply에는 해당 파일이 없다)
+URL_FILES = {
+    "ios": {"privacy_policy_url": "privacy_url.txt", "support_url": "support_url.txt", "marketing_url": "marketing_url.txt"},
+    "android": {},
+}
+
+
+def render_platform(listing: Mapping[str, Any], platform: str) -> Dict[str, str]:
     """출력 디렉토리 기준 상대 경로 -> 내용. 빈 값은 건너뛴다."""
     spec = PLATFORMS[platform]
+    per_locale = (listing.get("store_text") or {}).get(platform) or {}
+    urls = {name: listing.get(key) for key, name in URL_FILES[platform].items()}
     return {
         f"{spec['locales'].get(lang, lang)}/{filename}": value
-        for lang, data in (store_text.get(platform) or {}).items()
-        for field, filename in spec["fields"].items()
-        for value in [(data.get(field) or "").strip()]
+        for lang, data in per_locale.items()
+        for filename, raw in [*((f, data.get(k)) for k, f in spec["fields"].items()), *urls.items()]
+        for value in [(raw or "").strip()]
         if value
     }
 
 
-def render_files(cfg: Config, app: str, store_text: Mapping[str, Any], platforms: list) -> Dict[str, str]:
+def render_files(cfg: Config, app: str, listing: Mapping[str, Any], platforms: list) -> Dict[str, str]:
     """저장소 기준 상대 경로 -> 내용."""
     return {
         f"{path_for(cfg, PLATFORMS[p]['path_key'], app)}/{rel}": value
         for p in platforms
-        for rel, value in render_platform(store_text, p).items()
+        for rel, value in render_platform(listing, p).items()
     }
 
 
@@ -69,11 +93,15 @@ def generate(effects: Effects, cfg: Config, app: str, platforms: list, repo_root
     listing = repo_root / path_for(cfg, "storeListing", app)
     if not effects.exists(listing):
         return fail(f"{listing} 없음")
-    store_text = json.loads(effects.read_text(listing)).get("store_text")
-    if not store_text:
+    data = json.loads(effects.read_text(listing))
+    if not data.get("store_text"):
         return fail("store_listing.json에 store_text 블록이 없습니다")
 
-    files = render_files(cfg, app, store_text, platforms)
+    too_long = length_errors(data, platforms)
+    if too_long:
+        return fail("스토어 글자 수 제한 초과 — store_listing.json을 고친 뒤 다시 실행하세요:\n  " + "\n  ".join(too_long))
+
+    files = render_files(cfg, app, data, platforms)
     for rel, value in files.items():
         effects.write_text(repo_root / rel, value)
     done(effects, f"[{app}] {len(files)}개 파일 작성 완료")
