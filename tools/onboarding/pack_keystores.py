@@ -21,7 +21,10 @@ def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--dry-run", action="store_true")
     args = parser.parse_args()
-    upload_central_secrets(effects_for(args.dry_run), load_config(), REPO_ROOT)
+    problem = upload_central_secrets(effects_for(args.dry_run), load_config(), REPO_ROOT)
+    if problem:
+        print(f"실패: {problem}", file=sys.stderr)
+        return 1
     return 0
 
 

@@ -98,15 +98,16 @@ def _api_key_file(effects: Effects, data: Mapping[str, object]) -> Iterator[Path
         os.unlink(name)
 
 
-def register_app_store(effects: Effects, repo_root: Path, bundle_id: str, display_name: str) -> None:
+def register_app_store(effects: Effects, repo_root: Path, bundle_id: str, display_name: str) -> Optional[str]:
+    """실패하면 이유를, 성공하면 None을 돌려준다."""
     effects.log("\n--- App Store 등록 ---")
     key = asc_api_key(effects.env, effects.exists, effects.read_text)
     if not key:
         effects.log("환경변수 미설정: ASC_KEY_ID, ASC_ISSUER_ID, ASC_KEY_FILEPATH (또는 ASC_KEY_CONTENT)")
-        return
+        return "ASC API 키 환경변수 미설정"
     if not effects.which("bundle"):
         effects.log("경고: bundler를 찾을 수 없습니다.")
-        return
+        return "bundler 없음"
 
     with _api_key_file(effects, key) as key_path:
         r = effects.run(
@@ -117,8 +118,9 @@ def register_app_store(effects: Effects, repo_root: Path, bundle_id: str, displa
             label=f"spaceship: Bundle ID '{bundle_id}' 등록 + 앱 확인",
         )
         if not r.ok:
-            effects.log(f"  경고: {first_error_line(r.stderr)}")
-            return
+            reason = first_error_line(r.stderr)
+            effects.log(f"  경고: {reason}")
+            return reason
         for line in spaceship_messages(r.stdout, bundle_id, display_name):
             effects.log(line)
 
@@ -131,3 +133,4 @@ def register_app_store(effects: Effects, repo_root: Path, bundle_id: str, displa
         )
         for line in ["  프로비저닝 프로필 생성 완료"] if r.ok else match_error_messages(r.stderr):
             effects.log(line)
+        return None if r.ok else "match 프로비저닝 실패"
