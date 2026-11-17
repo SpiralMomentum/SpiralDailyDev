@@ -70,6 +70,28 @@ async function pickRadio(selector, index) {
   return true;
 }
 
+// 이미 원하는 값이 저장된 화면에서는 저장 버튼이 비활성이므로, 선택 상태로 성공을 판정한다.
+function radioChecked(selector, index) {
+  const el = document.querySelectorAll(selector)[index];
+  return !!el && (el.checked || el.getAttribute('aria-checked') === 'true');
+}
+
+async function chooseRadioAndSave(selector, index, what) {
+  if (radioChecked(selector, index)) return ok('이미 설정됨');
+  if (!await pickRadio(selector, index)) return fail(`${what} 라디오 버튼 없음`);
+  if (!await clickSave()) return fail('저장 버튼 없음');
+  return ok();
+}
+
+// "카테고리\n도구" 처럼 라벨과 값이 한 행에 표시된 읽기 전용 값
+function shownValue(label) {
+  const leaf = [...document.querySelectorAll('*')]
+    .find(e => e.children.length === 0 && e.innerText && e.innerText.trim() === label);
+  let row = leaf;
+  while (row && row.innerText.trim() === label) row = row.parentElement;
+  return row ? row.innerText.trim().slice(label.length).trim() : null;
+}
+
 function ok(message = '') { return { success: true, app_id: null, message }; }
 function fail(message) { return { success: false, app_id: null, message: `${message} (현재: ${location.pathname})` }; }
 
@@ -111,6 +133,8 @@ async function set_store_settings({ config, app_id }) {
   if (err) return err;
   const labels = PLAY_CATEGORIES[CATEGORY_ALIASES[config.category] ?? config.category];
   if (!labels) return fail(`Play 카테고리가 아닌 값: ${config.category}`);
+  const current = shownValue('카테고리') ?? shownValue('Category');
+  if (current && labels.includes(current)) return ok(`이미 설정됨: ${current}`);
 
   const edit = [...document.querySelectorAll('button')].find(b => /^(수정|Edit)$/.test(b.innerText.trim()));
   if (!edit) return fail('앱 카테고리 수정 버튼 없음');
@@ -149,18 +173,14 @@ async function set_privacy_policy({ config, app_id, developer_id }) {
 async function set_ads({ config, app_id, developer_id }) {
   const err = checkPage(`/app/${app_id}/app-content/ads-declaration`);
   if (err) return err;
-  if (!await pickRadio('input[role="radio"]', config.ads ? 0 : 1)) return fail('광고 여부 라디오 버튼 없음');
-  if (!await clickSave()) return fail('저장 버튼 없음');
-  return ok();
+  return chooseRadioAndSave('input[role="radio"]', config.ads ? 0 : 1, '광고 여부');
 }
 
 async function set_app_access({ config, app_id, developer_id }) {
   const err = checkPage(`/app/${app_id}/app-content/testing-credentials`);
   if (err) return err;
   // 화면 순서: [0] 예(로그인 필요) [1] 아니요
-  if (!await pickRadio('input[role="radio"]', config.requires_login ? 0 : 1)) return fail('로그인 필요 여부 라디오 버튼 없음');
-  if (!await clickSave()) return fail('저장 버튼 없음');
-  return ok();
+  return chooseRadioAndSave('input[role="radio"]', config.requires_login ? 0 : 1, '로그인 필요 여부');
 }
 
 // 콘텐츠 등급(IARC 설문)과 타겟층(다단계 마법사)은 항목별 답이 법적 선언이라 임의 응답으로 제출하지 않는다.
