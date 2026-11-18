@@ -1,0 +1,113 @@
+{
+ "model": "stabilityai/stable-diffusion-xl-base-1.0 (fp16, openrail++)",
+ "scenes": {
+  "wuxia": {
+   "prompt": "an old white-haired swordsman master in flowing grey robes standing on a misty mountain peak dueling platform, chinese wuxia, sword at his side, looking at the viewer, sea of clouds and distant peaks, visual novel background art, anime style illustration, painterly, cinematic soft lighting, detailed, vertical composition, subject in upper half, empty space at bottom",
+   "negative": "text, letters, watermark, signature, logo, lowres, blurry, deformed, extra fingers, bad anatomy, cropped head, nsfw",
+   "seed": 1000,
+   "steps": 30,
+   "cfg": 7.0,
+   "size": [
+    768,
+    1344
+   ],
+   "sec": 131.4
+  },
+  "wuxia_ext": {
+   "prompt": "a crowd of martial artists gathered at the foot of a misty chinese mountain looking up, wuxia, banners, stone stairs, morning fog, visual novel background art, anime style illustration, painterly, cinematic soft lighting, detailed, vertical composition, subject in upper half, empty space at bottom",
+   "negative": "text, letters, watermark, signature, logo, lowres, blurry, deformed, extra fingers, bad anatomy, cropped head, nsfw",
+   "seed": 1001,
+   "steps": 30,
+   "cfg": 7.0,
+   "size": [
+    768,
+    1344
+   ],
+   "sec": 131.0
+  },
+  "fantasy": {
+   "prompt": "upper body portrait of a young princess with a small tiara in an elegant ivory and gold gown, looking at the viewer with a gentle smile, standing in a grand fantasy palace throne room, arched windows and chandeliers behind her, warm light, visual novel background art, anime style illustration, painterly, cinematic soft lighting, detailed, vertical composition, subject in upper half, empty space at bottom",
+   "negative": "text, letters, watermark, signature, logo, lowres, blurry, deformed, extra fingers, bad anatomy, cropped head, nsfw",
+   "seed": 2000,
+   "steps": 30,
+   "cfg": 7.0,
+   "size": [
+    768,
+    1344
+   ],
+   "sec": 129.5
+  },
+  "fantasy_ext": {
+   "prompt": "a palace balcony at night overlooking a fantasy kingdom with glowing lights, open glass doors, starry sky, fantasy, visual novel background art, anime style illustration, painterly, cinematic soft lighting, detailed, vertical composition, subject in upper half, empty space at bottom",
+   "negative": "text, letters, watermark, signature, logo, lowres, blurry, deformed, extra fingers, bad anatomy, cropped head, nsfw",
+   "seed": 1003,
+   "steps": 30,
+   "cfg": 7.0,
+   "size": [
+    768,
+    1344
+   ],
+   "sec": 134.1
+  },
+  "animal": {
+   "prompt": "a wise old owl perched on the branch of an ancient tree under a full moon in a deep forest, looking at the viewer, fireflies, moonlight, visual novel background art, anime style illustration, painterly, cinematic soft lighting, detailed, vertical composition, subject in upper half, empty space at bottom",
+   "negative": "text, letters, watermark, signature, logo, lowres, blurry, deformed, extra fingers, bad anatomy, cropped head, nsfw",
+   "seed": 1004,
+   "steps": 30,
+   "cfg": 7.0,
+   "size": [
+    768,
+    1344
+   ],
+   "sec": 140.5
+  },
+  "animal_ext": {
+   "prompt": "a calm misty lake at dawn in a forest, an owl flying low over the water, reflections, soft pink and blue sky, visual novel background art, anime style illustration, painterly, cinematic soft lighting, detailed, vertical composition, subject in upper half, empty space at bottom",
+   "negative": "text, letters, watermark, signature, logo, lowres, blurry, deformed, extra fingers, bad anatomy, cropped head, nsfw",
+   "seed": 1005,
+   "steps": 30,
+   "cfg": 7.0,
+   "size": [
+    768,
+    1344
+   ],
+   "sec": 132.5
+  },
+  "gem": {
+   "prompt": "an elderly jeweler with a loupe behind a wooden counter in a small cozy jewelry shop at the end of an alley, glass cases with sparkling gemstones, warm lamps, visual novel background art, anime style illustration, painterly, cinematic soft lighting, detailed, vertical composition, subject in upper half, empty space at bottom",
+   "negative": "text, letters, watermark, signature, logo, lowres, blurry, deformed, extra fingers, bad anatomy, cropped head, nsfw",
+   "seed": 1006,
+   "steps": 30,
+   "cfg": 7.0,
+   "size": [
+    768,
+    1344
+   ],
+   "sec": 129.9
+  },
+  "gem_ext": {
+   "prompt": "a jeweler's back workshop, a wooden workbench with tools, magnifier lamp and loose gemstones glittering, cozy, warm light, visual novel background art, anime style illustration, painterly, cinematic soft lighting, detailed, vertical composition, subject in upper half, empty space at bottom",
+   "negative": "text, letters, watermark, signature, logo, lowres, blurry, deformed, extra fingers, bad anatomy, cropped head, nsfw",
+   "seed": 1007,
+   "steps": 30,
+   "cfg": 7.0,
+   "size": [
+    768,
+    1344
+   ],
+   "sec": 130.8
+  },
+  "manifestation": {
+   "prompt": "a dark surreal void with faint concentric ripples of light and floating translucent fragments of memories, deep purple and black tones, mysterious, dreamlike, visual novel background art, anime style illustration, painterly, cinematic soft lighting, detailed, vertical composition, subject in upper half, empty space at bottom",
+   "negative": "text, letters, watermark, signature, logo, lowres, blurry, deformed, extra fingers, bad anatomy, cropped head, nsfw",
+   "seed": 1008,
+   "steps": 30,
+   "cfg": 7.0,
+   "size": [
+    768,
+    1344
+   ],
+   "sec": 130.4
+  }
+ }
+}

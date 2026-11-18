@@ -1,0 +1,442 @@
+{
+ "version": 1,
+ "questionsPerAttempt": 4,
+ "channels": [
+  {
+   "id": "wuxia",
+   "art": "wuxia",
+   "archetypeCount": 4,
+   "questions": [
+    {
+     "id": "q1",
+     "choices": [
+      {
+       "id": "c1",
+       "archetype": 0
+      },
+      {
+       "id": "c2",
+       "archetype": 1
+      },
+      {
+       "id": "c3",
+       "archetype": 2
+      }
+     ]
+    },
+    {
+     "id": "q2",
+     "choices": [
+      {
+       "id": "c1",
+       "archetype": 3
+      },
+      {
+       "id": "c2",
+       "archetype": 0
+      },
+      {
+       "id": "c3",
+       "archetype": 1
+      }
+     ]
+    },
+    {
+     "id": "q3",
+     "choices": [
+      {
+       "id": "c1",
+       "archetype": 2
+      },
+      {
+       "id": "c2",
+       "archetype": 3
+      },
+      {
+       "id": "c3",
+       "archetype": 0
+      }
+     ]
+    },
+    {
+     "id": "q4",
+     "choices": [
+      {
+       "id": "c1",
+       "archetype": 1
+      },
+      {
+       "id": "c2",
+       "archetype": 2
+      },
+      {
+       "id": "c3",
+       "archetype": 3
+      }
+     ]
+    },
+    {
+     "id": "q5",
+     "choices": [
+      {
+       "id": "c1",
+       "archetype": 0
+      },
+      {
+       "id": "c2",
+       "archetype": 3
+      },
+      {
+       "id": "c3",
+       "archetype": 2
+      }
+     ]
+    },
+    {
+     "id": "q6",
+     "choices": [
+      {
+       "id": "c1",
+       "archetype": 1
+      },
+      {
+       "id": "c2",
+       "archetype": 0
+      },
+      {
+       "id": "c3",
+       "archetype": 3
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "fantasy",
+   "art": "fantasy",
+   "archetypeCount": 4,
+   "questions": [
+    {
+     "id": "q1",
+     "choices": [
+      {
+       "id": "c1",
+       "archetype": 0
+      },
+      {
+       "id": "c2",
+       "archetype": 1
+      },
+      {
+       "id": "c3",
+       "archetype": 3
+      }
+     ]
+    },
+    {
+     "id": "q2",
+     "choices": [
+      {
+       "id": "c1",
+       "archetype": 2
+      },
+      {
+       "id": "c2",
+       "archetype": 0
+      },
+      {
+       "id": "c3",
+       "archetype": 1
+      }
+     ]
+    },
+    {
+     "id": "q3",
+     "choices": [
+      {
+       "id": "c1",
+       "archetype": 3
+      },
+      {
+       "id": "c2",
+       "archetype": 2
+      },
+      {
+       "id": "c3",
+       "archetype": 0
+      }
+     ]
+    },
+    {
+     "id": "q4",
+     "choices": [
+      {
+       "id": "c1",
+       "archetype": 1
+      },
+      {
+       "id": "c2",
+       "archetype": 3
+      },
+      {
+       "id": "c3",
+       "archetype": 2
+      }
+     ]
+    },
+    {
+     "id": "q5",
+     "choices": [
+      {
+       "id": "c1",
+       "archetype": 0
+      },
+      {
+       "id": "c2",
+       "archetype": 2
+      },
+      {
+       "id": "c3",
+       "archetype": 1
+      }
+     ]
+    },
+    {
+     "id": "q6",
+     "choices": [
+      {
+       "id": "c1",
+       "archetype": 3
+      },
+      {
+       "id": "c2",
+       "archetype": 1
+      },
+      {
+       "id": "c3",
+       "archetype": 0
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "animal",
+   "art": "animal",
+   "archetypeCount": 4,
+   "questions": [
+    {
+     "id": "q1",
+     "choices": [
+      {
+       "id": "c1",
+       "archetype": 0
+      },
+      {
+       "id": "c2",
+       "archetype": 2
+      },
+      {
+       "id": "c3",
+       "archetype": 1
+      }
+     ]
+    },
+    {
+     "id": "q2",
+     "choices": [
+      {
+       "id": "c1",
+       "archetype": 3
+      },
+      {
+       "id": "c2",
+       "archetype": 1
+      },
+      {
+       "id": "c3",
+       "archetype": 0
+      }
+     ]
+    },
+    {
+     "id": "q3",
+     "choices": [
+      {
+       "id": "c1",
+       "archetype": 2
+      },
+      {
+       "id": "c2",
+       "archetype": 0
+      },
+      {
+       "id": "c3",
+       "archetype": 3
+      }
+     ]
+    },
+    {
+     "id": "q4",
+     "choices": [
+      {
+       "id": "c1",
+       "archetype": 1
+      },
+      {
+       "id": "c2",
+       "archetype": 3
+      },
+      {
+       "id": "c3",
+       "archetype": 2
+      }
+     ]
+    },
+    {
+     "id": "q5",
+     "choices": [
+      {
+       "id": "c1",
+       "archetype": 0
+      },
+      {
+       "id": "c2",
+       "archetype": 1
+      },
+      {
+       "id": "c3",
+       "archetype": 3
+      }
+     ]
+    },
+    {
+     "id": "q6",
+     "choices": [
+      {
+       "id": "c1",
+       "archetype": 2
+      },
+      {
+       "id": "c2",
+       "archetype": 3
+      },
+      {
+       "id": "c3",
+       "archetype": 1
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "gem",
+   "art": "gem",
+   "archetypeCount": 4,
+   "questions": [
+    {
+     "id": "q1",
+     "choices": [
+      {
+       "id": "c1",
+       "archetype": 0
+      },
+      {
+       "id": "c2",
+       "archetype": 1
+      },
+      {
+       "id": "c3",
+       "archetype": 2
+      }
+     ]
+    },
+    {
+     "id": "q2",
+     "choices": [
+      {
+       "id": "c1",
+       "archetype": 2
+      },
+      {
+       "id": "c2",
+       "archetype": 3
+      },
+      {
+       "id": "c3",
+       "archetype": 0
+      }
+     ]
+    },
+    {
+     "id": "q3",
+     "choices": [
+      {
+       "id": "c1",
+       "archetype": 1
+      },
+      {
+       "id": "c2",
+       "archetype": 0
+      },
+      {
+       "id": "c3",
+       "archetype": 3
+      }
+     ]
+    },
+    {
+     "id": "q4",
+     "choices": [
+      {
+       "id": "c1",
+       "archetype": 3
+      },
+      {
+       "id": "c2",
+       "archetype": 2
+      },
+      {
+       "id": "c3",
+       "archetype": 1
+      }
+     ]
+    },
+    {
+     "id": "q5",
+     "choices": [
+      {
+       "id": "c1",
+       "archetype": 0
+      },
+      {
+       "id": "c2",
+       "archetype": 3
+      },
+      {
+       "id": "c3",
+       "archetype": 1
+      }
+     ]
+    },
+    {
+     "id": "q6",
+     "choices": [
+      {
+       "id": "c1",
+       "archetype": 2
+      },
+      {
+       "id": "c2",
+       "archetype": 1
+      },
+      {
+       "id": "c3",
+       "archetype": 0
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}
