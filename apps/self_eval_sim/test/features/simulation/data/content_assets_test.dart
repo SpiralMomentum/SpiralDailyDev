@@ -10,6 +10,7 @@ import 'package:self_eval_sim/features/simulation/data/engine/template_narration
 import 'package:self_eval_sim/features/simulation/data/mappers/catalog_mapper.dart';
 import 'package:self_eval_sim/features/simulation/data/repositories/content_repository_impl.dart';
 import 'package:self_eval_sim/features/simulation/domain/entities/accumulation.dart';
+import 'package:self_eval_sim/features/simulation/domain/entities/catalog.dart';
 import 'package:self_eval_sim/features/simulation/domain/entities/evaluation.dart';
 import 'package:utils/utils.dart';
 
@@ -20,15 +21,27 @@ void main() {
   Map<String, dynamic> readJson(String path) =>
       jsonDecode(File(path).readAsStringSync()) as Map<String, dynamic>;
 
-  final catalog = CatalogMapper.catalog(readJson(ContentAssetDataSource.structurePath));
+  final catalog = CatalogMapper.catalog(
+    readJson(ContentAssetDataSource.structurePath),
+  );
 
   test('채널 4개, 채널별 6문항 x 3선택지, 유형 번호는 0~3', () {
-    expect(catalog.channels.map((c) => c.id), ['wuxia', 'fantasy', 'animal', 'gem']);
+    expect(catalog.channels.map((c) => c.id), [
+      'wuxia',
+      'fantasy',
+      'animal',
+      'gem',
+    ]);
     for (final c in catalog.channels) {
       expect(c.questions, hasLength(6));
       for (final q in c.questions) {
         expect(q.choices, hasLength(3));
-        expect(q.choices.every((x) => x.archetype >= 0 && x.archetype < c.archetypeCount), isTrue);
+        expect(
+          q.choices.every(
+            (x) => x.archetype >= 0 && x.archetype < c.archetypeCount,
+          ),
+          isTrue,
+        );
       }
     }
     expect(catalog.questionsPerAttempt, 4);
@@ -36,42 +49,151 @@ void main() {
 
   test('채널마다 모든 유형(0~3)이 선택지로 도달 가능하다', () {
     for (final c in catalog.channels) {
-      final reachable = {for (final q in c.questions) for (final x in q.choices) x.archetype};
+      final reachable = {
+        for (final q in c.questions)
+          for (final x in q.choices) x.archetype,
+      };
       expect(reachable, {0, 1, 2, 3}, reason: c.id);
+    }
+  });
+
+  /// 이론의 모든 유형 키. dominant 는 극 하나, code 는 축별 극의 모든 조합.
+  List<String> outcomesOf(Theory t) => switch (t.mode) {
+    TheoryMode.dominant => [for (final a in t.axes) ...a],
+    TheoryMode.code => t.axes.fold<List<String>>(
+      [''],
+      (acc, axis) => [
+        for (final p in acc)
+          for (final x in axis) '$p$x',
+      ],
+    ),
+  };
+
+  test('성격 이론 4종: 빅파이브(10극), 16유형(4축), 에니어그램(9), 4기질(4)', () {
+    expect(catalog.theories.map((t) => t.id), [
+      'bigfive',
+      'type16',
+      'enneagram',
+      'temperament',
+    ]);
+    expect(catalog.theories.map((t) => outcomesOf(t).length), [10, 16, 9, 4]);
+  });
+
+  test('모든 선택지가 모든 이론의 성향 태그를 갖고, 태그는 이론에 정의된 극이다', () {
+    for (final c in catalog.channels) {
+      for (final q in c.questions) {
+        for (final x in q.choices) {
+          for (final t in catalog.theories) {
+            final poles = x.traits[t.id] ?? const [];
+            final defined = {for (final a in t.axes) ...a};
+            expect(
+              poles,
+              isNotEmpty,
+              reason: '${c.id}.${q.id}.${x.id} ${t.id}',
+            );
+            expect(
+              defined.containsAll(poles),
+              isTrue,
+              reason: '${c.id}.${q.id}.${x.id} $poles',
+            );
+          }
+        }
+      }
+    }
+  });
+
+  test('dominant 이론의 모든 극이 최소 2개 선택지에서 드러난다 (유형 도달 가능)', () {
+    for (final t in catalog.theories.where(
+      (t) => t.mode == TheoryMode.dominant,
+    )) {
+      final counts = <String, int>{};
+      for (final c in catalog.channels) {
+        for (final q in c.questions) {
+          for (final x in q.choices) {
+            for (final p in x.traits[t.id]!) {
+              counts[p] = (counts[p] ?? 0) + 1;
+            }
+          }
+        }
+      }
+      // 빅파이브의 낮은 극(C-) 등은 반대 극 점수가 음수일 때 이길 수 있어 0 이어도 되지만,
+      // 한쪽 극만 있는 이론(에니어그램, 4기질)은 모든 유형이 실제로 태그되어야 한다.
+      for (final axis in t.axes.where((a) => a.length == 1)) {
+        expect(
+          counts[axis.single] ?? 0,
+          greaterThanOrEqualTo(2),
+          reason: '${t.id} ${axis.single}',
+        );
+      }
     }
   });
 
   for (final lang in languages) {
     test('[$lang] 구조가 요구하는 문장 키가 모두 있고 비어 있지 않다', () {
-      final text = CatalogMapper.textBook(lang, readJson(ContentAssetDataSource.stringsPath(lang)));
+      final text = CatalogMapper.textBook(
+        lang,
+        readJson(ContentAssetDataSource.stringsPath(lang)),
+      );
       final required = <String>[
         for (final c in catalog.channels) ...[
-          '${c.id}.name', '${c.id}.tagline', '${c.id}.speaker', '${c.id}.place',
-          '${c.id}.ext.place', '${c.id}.ext1', '${c.id}.ext2',
+          '${c.id}.name',
+          '${c.id}.tagline',
+          '${c.id}.speaker',
+          '${c.id}.place',
+          '${c.id}.reveal',
+          '${c.id}.ext.place',
+          '${c.id}.ext1',
+          '${c.id}.ext2',
           for (var a = 0; a < c.archetypeCount; a++) ...[
-            '${c.id}.a$a.title', '${c.id}.a$a.line1', '${c.id}.a$a.line2',
+            '${c.id}.a$a.title',
+            '${c.id}.a$a.line1',
+            '${c.id}.a$a.line2',
+            '${c.id}.a$a.saying1',
+            '${c.id}.a$a.saying2',
           ],
           for (final q in c.questions) ...[
             '${c.id}.${q.id}',
             for (final x in q.choices) '${c.id}.${q.id}.${x.id}',
           ],
         ],
+        for (final t in catalog.theories) ...[
+          'theory.${t.id}.name',
+          if (t.mode == TheoryMode.code)
+            for (final a in t.axes)
+              for (final p in a) 'theory.${t.id}.$p.label',
+          for (final o in outcomesOf(t))
+            for (final f in ['label', 'desc', 'strength', 'weakness'])
+              'theory.${t.id}.$o.$f',
+        ],
       ];
-      final missing = required.where((k) => (text.entries[k] ?? '').trim().isEmpty).toList();
+      final missing = required
+          .where((k) => (text.entries[k] ?? '').trim().isEmpty)
+          .toList();
       expect(missing, isEmpty);
-      expect(text.entries.keys.toSet(), required.toSet(), reason: '쓰이지 않는 키가 없어야 한다');
+      expect(
+        text.entries.keys.toSet(),
+        required.toSet(),
+        reason: '쓰이지 않는 키가 없어야 한다',
+      );
     });
   }
 
   final pack = readJson('assets/narration/templates.json');
   const packKeys = [
-    'mixed.intro', 'recall.attempt', 'recall.manifest', 'close',
-    'separate.speaker', 'separate.place', 'separate.intro',
+    'mixed.intro',
+    'recall.attempt',
+    'recall.manifest',
+    'close',
+    'separate.speaker',
+    'separate.place',
+    'separate.intro',
   ];
 
   for (final lang in languages) {
     test('[$lang] 문장 팩 키가 모두 있고, 재료 템플릿은 {choice} 를 쓴다', () {
-      final t = (pack['languages'] as Map<String, dynamic>)[lang] as Map<String, dynamic>;
+      final t =
+          (pack['languages'] as Map<String, dynamic>)[lang]
+              as Map<String, dynamic>;
       expect(t.keys.toSet(), packKeys.toSet());
       for (final key in ['recall.attempt', 'recall.manifest']) {
         for (final template in (t[key] as List).cast<String>()) {
@@ -90,8 +212,18 @@ void main() {
             speaker: 'S',
             title: 'T',
             materials: const [
-              ResolvedMaterial(kind: MaterialKind.attempt, ago: 3, channelName: 'CH', choiceText: 'PICK'),
-              ResolvedMaterial(kind: MaterialKind.manifestation, ago: 1, channelName: 'CH', choiceText: 'OLD'),
+              ResolvedMaterial(
+                kind: MaterialKind.attempt,
+                ago: 3,
+                channelName: 'CH',
+                choiceText: 'PICK',
+              ),
+              ResolvedMaterial(
+                kind: MaterialKind.manifestation,
+                ago: 1,
+                channelName: 'CH',
+                choiceText: 'OLD',
+              ),
             ],
           ),
           Random(4),
@@ -123,9 +255,15 @@ void main() {
   final prompts = readJson('assets/narration/prompts.json');
   for (final lang in languages) {
     test('[$lang] 프롬프트: 필수 키, 금지 패턴 정규식 컴파일, 자리표시자가 모두 채워진다', () {
-      final spec = PromptSpec((prompts['languages'] as Map<String, dynamic>)[lang] as Map<String, dynamic>);
+      final spec = PromptSpec(
+        (prompts['languages'] as Map<String, dynamic>)[lang]
+            as Map<String, dynamic>,
+      );
       expect(spec.banned, isNotEmpty);
-      final text = CatalogMapper.textBook(lang, readJson(ContentAssetDataSource.stringsPath(lang)));
+      final text = CatalogMapper.textBook(
+        lang,
+        readJson(ContentAssetDataSource.stringsPath(lang)),
+      );
       final base = PromptBuilder.base(
         spec,
         BaseNarrationRequest(
@@ -133,7 +271,9 @@ void main() {
           speaker: text.speaker('gem'),
           place: text.place('gem'),
           title: text.archetypeTitle('gem', 1),
-          answers: [(text.question('gem', 'q1'), text.choice('gem', 'q1', 'c2'))],
+          answers: [
+            (text.question('gem', 'q1'), text.choice('gem', 'q1', 'c2'), 'x'),
+          ],
           examples: text.archetypeLines('gem', 0),
           fallbackLines: text.archetypeLines('gem', 1),
         ),
@@ -146,7 +286,12 @@ void main() {
           speaker: text.speaker('gem'),
           title: text.archetypeTitle('gem', 1),
           materials: const [
-            ResolvedMaterial(kind: MaterialKind.attempt, ago: 2, channelName: 'CH', choiceText: 'PICK'),
+            ResolvedMaterial(
+              kind: MaterialKind.attempt,
+              ago: 2,
+              channelName: 'CH',
+              choiceText: 'PICK',
+            ),
           ],
         ),
       );
@@ -157,6 +302,12 @@ void main() {
       expect(manifest, contains('PICK'));
       expect(manifest, contains(spec.separateVoice));
       expect(manifest, contains(spec.separateStyle));
+      if (lang != 'ko') {
+        // 영어 지시문을 쓰는 언어는 성격 단정 문장의 그 언어 형태를 따로 준다.
+        expect(spec.judge, isNotEmpty);
+        expect(base, contains(spec.judge));
+        expect(manifest, contains(spec.judge));
+      }
     });
   }
 
@@ -166,7 +317,10 @@ void main() {
     final second = await repo.loadCatalog();
     expect(first.dataOrNull!.channels, hasLength(4));
     expect(identical(first.dataOrNull, second.dataOrNull), isTrue);
-    expect((await repo.loadText('zh')).dataOrNull!.channelName('gem'), isNotEmpty);
+    expect(
+      (await repo.loadText('zh')).dataOrNull!.channelName('gem'),
+      isNotEmpty,
+    );
     expect((await repo.loadText('xx')).failureOrNull, isA<ParsingFailure>());
   });
 }

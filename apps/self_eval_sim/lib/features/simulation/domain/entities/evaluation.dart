@@ -1,6 +1,9 @@
 import 'package:equatable/equatable.dart';
 
+import '../policies/personality_scorer.dart';
 import 'accumulation.dart';
+
+export '../policies/personality_scorer.dart' show TraitReading;
 
 enum SceneKind { base, manifestation, extension }
 
@@ -21,12 +24,12 @@ final class Scene extends Equatable {
   final List<String> lines;
 
   Scene withLines(List<String> next) => Scene(
-        kind: kind,
-        art: art,
-        place: place,
-        speaker: speaker,
-        lines: next,
-      );
+    kind: kind,
+    art: art,
+    place: place,
+    speaker: speaker,
+    lines: next,
+  );
 
   @override
   List<Object?> get props => [kind, art, place, speaker, lines];
@@ -43,6 +46,8 @@ final class EvaluationResult extends Equatable {
     this.extended = false,
     this.baseSource = NarrationSource.template,
     this.manifestationSource,
+    this.reading,
+    this.deepReading,
   });
 
   final String channelId;
@@ -63,6 +68,12 @@ final class EvaluationResult extends Equatable {
   /// 발현 대사를 만든 쪽. 발현이 없으면 null.
   final NarrationSource? manifestationSource;
 
+  /// 이번 답으로 읽은 성격 유형.
+  final TraitReading? reading;
+
+  /// 발현 때 누적 기록 전체로 읽은 성격 유형. 발현이 없으면 null.
+  final TraitReading? deepReading;
+
   bool get manifested => manifestationForm != null;
 
   EvaluationResult copyWith({List<Scene>? scenes, bool? extended}) =>
@@ -76,20 +87,24 @@ final class EvaluationResult extends Equatable {
         extended: extended ?? this.extended,
         baseSource: baseSource,
         manifestationSource: manifestationSource,
+        reading: reading,
+        deepReading: deepReading,
       );
 
   @override
   List<Object?> get props => [
-        channelId,
-        attemptIndex,
-        archetype,
-        title,
-        scenes,
-        manifestationForm,
-        extended,
-        baseSource,
-        manifestationSource,
-      ];
+    channelId,
+    attemptIndex,
+    archetype,
+    title,
+    scenes,
+    manifestationForm,
+    extended,
+    baseSource,
+    manifestationSource,
+    reading,
+    deepReading,
+  ];
 }
 
 /// 답변 직후 빠르게 확정되는 시행 계획. 문장 생성(느린 단계) 전에 발현 여부를 알려
@@ -99,16 +114,56 @@ final class AttemptPlan extends Equatable {
     required this.channelId,
     required this.attempt,
     required this.manifestation,
+    this.reading,
+    this.deepReading,
   });
 
   final String channelId;
   final AttemptRecord attempt;
   final ManifestationRecord? manifestation;
 
+  /// 이번 답 4개로 읽은 유형.
+  final TraitReading? reading;
+
+  /// 발현 시 지금까지의 모든 답(이번 포함)으로 읽은 유형.
+  final TraitReading? deepReading;
+
   bool get manifested => manifestation != null;
 
   @override
-  List<Object?> get props => [channelId, attempt, manifestation];
+  List<Object?> get props => [
+    channelId,
+    attempt,
+    manifestation,
+    reading,
+    deepReading,
+  ];
+}
+
+/// 현재 언어로 풀린 성격 유형 설명.
+final class TypeProfile extends Equatable {
+  const TypeProfile({
+    required this.theoryName,
+    required this.label,
+    required this.description,
+    required this.strength,
+    required this.weakness,
+  });
+
+  final String theoryName;
+  final String label;
+  final String description;
+  final String strength;
+  final String weakness;
+
+  @override
+  List<Object?> get props => [
+    theoryName,
+    label,
+    description,
+    strength,
+    weakness,
+  ];
 }
 
 /// 발현 문장을 만들기 위해 텍스트로 풀린 재료.
@@ -118,6 +173,7 @@ final class ResolvedMaterial extends Equatable {
     required this.ago,
     required this.channelName,
     required this.choiceText,
+    this.trait = '',
   });
 
   final MaterialKind kind;
@@ -125,8 +181,11 @@ final class ResolvedMaterial extends Equatable {
   final String channelName;
   final String choiceText;
 
+  /// 이 선택이 누적 유형의 이론에서 드러낸 성향 (예: `성실성 높음`). 없으면 빈 문자열.
+  final String trait;
+
   @override
-  List<Object?> get props => [kind, ago, channelName, choiceText];
+  List<Object?> get props => [kind, ago, channelName, choiceText, trait];
 }
 
 /// 온디바이스 모델 또는 템플릿 엔진이 만든 발현 문장.
@@ -170,6 +229,8 @@ final class BaseNarrationRequest extends Equatable {
     required this.answers,
     required this.examples,
     required this.fallbackLines,
+    this.profile,
+    this.reveal = '',
   });
 
   final String languageCode;
@@ -177,8 +238,14 @@ final class BaseNarrationRequest extends Equatable {
   final String place;
   final String title;
 
-  /// (문항, 고른 선택지) 문장 쌍.
-  final List<(String, String)> answers;
+  /// (문항, 고른 선택지, 그 선택이 드러낸 성향) 문장.
+  final List<(String, String, String)> answers;
+
+  /// 이번 답으로 계산된 성격 유형. 이론 데이터가 없으면 null.
+  final TypeProfile? profile;
+
+  /// 화면 첫 줄에 이미 나간 결과 문장. 모델이 같은 호칭과 말투로 이어 가게 한다.
+  final String reveal;
 
   /// 화자 말투 예시 (채널의 기본 결과 대사들).
   final List<String> examples;
@@ -187,8 +254,17 @@ final class BaseNarrationRequest extends Equatable {
   final List<String> fallbackLines;
 
   @override
-  List<Object?> get props =>
-      [languageCode, speaker, place, title, answers, examples, fallbackLines];
+  List<Object?> get props => [
+    languageCode,
+    speaker,
+    place,
+    title,
+    answers,
+    examples,
+    fallbackLines,
+    profile,
+    reveal,
+  ];
 }
 
 /// 누적 발현 대사 생성 요청.
@@ -200,6 +276,10 @@ final class ManifestationRequest extends Equatable {
     required this.title,
     required this.materials,
     this.examples = const [],
+    this.profile,
+    this.tally = const [],
+    this.totalAnswers = 0,
+    this.today = const [],
   });
 
   final String languageCode;
@@ -211,6 +291,29 @@ final class ManifestationRequest extends Equatable {
   /// 섞임 형태일 때 화자 말투 예시 (별도 장면은 비움).
   final List<String> examples;
 
+  /// 누적 기록 전체로 계산된 성격 유형.
+  final TypeProfile? profile;
+
+  /// (성향, 드러난 횟수). 많은 순.
+  final List<(String, int)> tally;
+
+  /// 누적 유형 계산에 쓴 답 수.
+  final int totalAnswers;
+
+  /// 오늘 고른 선택지 문장.
+  final List<String> today;
+
   @override
-  List<Object?> get props => [languageCode, form, speaker, title, materials, examples];
+  List<Object?> get props => [
+    languageCode,
+    form,
+    speaker,
+    title,
+    materials,
+    examples,
+    profile,
+    tally,
+    totalAnswers,
+    today,
+  ];
 }

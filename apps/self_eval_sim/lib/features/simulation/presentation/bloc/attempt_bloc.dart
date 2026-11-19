@@ -31,13 +31,13 @@ class AttemptBloc extends Bloc<AttemptEvent, AttemptState> {
     required ExtendResultUseCase extendResult,
     required AdOfferDecider decideAdOffer,
     required RewardedAdShower showRewardedAd,
-  })  : _startAttempt = startAttempt,
-        _planAttempt = planAttempt,
-        _composeResult = composeResult,
-        _extendResult = extendResult,
-        _decideAdOffer = decideAdOffer,
-        _showRewardedAd = showRewardedAd,
-        super(const AttemptState()) {
+  }) : _startAttempt = startAttempt,
+       _planAttempt = planAttempt,
+       _composeResult = composeResult,
+       _extendResult = extendResult,
+       _decideAdOffer = decideAdOffer,
+       _showRewardedAd = showRewardedAd,
+       super(const AttemptState()) {
     on<AttemptStarted>(_onStarted);
     on<ChoiceSelected>(_onChoiceSelected);
     on<AdWatchRequested>(_onAdWatchRequested);
@@ -56,12 +56,15 @@ class AttemptBloc extends Bloc<AttemptEvent, AttemptState> {
   Future<EvaluationResult>? _composing;
 
   void _onStarted(AttemptStarted event, Emitter<AttemptState> emit) => emit(
-        AttemptState(
-          questions: _startAttempt(channel, content.catalog.questionsPerAttempt),
-        ),
-      );
+    AttemptState(
+      questions: _startAttempt(channel, content.catalog.questionsPerAttempt),
+    ),
+  );
 
-  Future<void> _onChoiceSelected(ChoiceSelected event, Emitter<AttemptState> emit) async {
+  Future<void> _onChoiceSelected(
+    ChoiceSelected event,
+    Emitter<AttemptState> emit,
+  ) async {
     final question = state.currentQuestion;
     if (state.phase != AttemptPhase.quiz || question == null) return;
     final answers = [
@@ -72,13 +75,27 @@ class AttemptBloc extends Bloc<AttemptEvent, AttemptState> {
     if (answers.length < state.questions.length) return;
 
     emit(state.copyWith(phase: AttemptPhase.generating));
-    final planned = await _planAttempt(channel: channel, answers: answers);
+    final planned = await _planAttempt(
+      catalog: content.catalog,
+      channel: channel,
+      answers: answers,
+    );
     if (planned case ErrorResult(:final failure)) {
-      emit(state.copyWith(phase: AttemptPhase.failure, errorMessage: failure.message));
+      emit(
+        state.copyWith(
+          phase: AttemptPhase.failure,
+          errorMessage: failure.message,
+        ),
+      );
       return;
     }
     final plan = planned.dataOrNull!;
-    _composing = _composeResult(channel: channel, plan: plan, text: content.text);
+    _composing = _composeResult(
+      channel: channel,
+      plan: plan,
+      text: content.text,
+      catalog: content.catalog,
+    );
     if (await _decideAdOffer(manifested: plan.manifested)) {
       emit(state.copyWith(adStatus: AdStatus.offered));
       return;
@@ -86,7 +103,10 @@ class AttemptBloc extends Bloc<AttemptEvent, AttemptState> {
     await _finish(emit, rewarded: false);
   }
 
-  Future<void> _onAdWatchRequested(AdWatchRequested event, Emitter<AttemptState> emit) async {
+  Future<void> _onAdWatchRequested(
+    AdWatchRequested event,
+    Emitter<AttemptState> emit,
+  ) async {
     if (state.adStatus != AdStatus.offered) return;
     emit(state.copyWith(adStatus: AdStatus.watching));
     final shown = await _showRewardedAd();
@@ -96,8 +116,8 @@ class AttemptBloc extends Bloc<AttemptEvent, AttemptState> {
         adStatus: shown.isError
             ? AdStatus.failed
             : rewarded
-                ? AdStatus.rewarded
-                : AdStatus.declined,
+            ? AdStatus.rewarded
+            : AdStatus.declined,
       ),
     );
     await _finish(emit, rewarded: rewarded);
@@ -109,9 +129,14 @@ class AttemptBloc extends Bloc<AttemptEvent, AttemptState> {
     await _finish(emit, rewarded: false);
   }
 
-  Future<void> _finish(Emitter<AttemptState> emit, {required bool rewarded}) async {
+  Future<void> _finish(
+    Emitter<AttemptState> emit, {
+    required bool rewarded,
+  }) async {
     final composed = await _composing!;
-    final result = rewarded ? _extendResult(composed, channel, content.text) : composed;
+    final result = rewarded
+        ? _extendResult(composed, channel, content.text)
+        : composed;
     emit(state.copyWith(phase: AttemptPhase.result, result: result));
   }
 }

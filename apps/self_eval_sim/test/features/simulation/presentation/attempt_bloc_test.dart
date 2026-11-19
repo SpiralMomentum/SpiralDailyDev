@@ -21,12 +21,14 @@ class _Plan extends Mock implements PlanAttemptUseCase {}
 
 class _Compose extends Mock implements ComposeResultUseCase {}
 
-
 void main() {
   setUpAll(() {
     registerFallbackValue(testChannel());
-    registerFallbackValue(AttemptPlan(channelId: 'x', attempt: attempt(1), manifestation: null));
+    registerFallbackValue(
+      AttemptPlan(channelId: 'x', attempt: attempt(1), manifestation: null),
+    );
     registerFallbackValue(testText());
+    registerFallbackValue(testCatalog());
   });
 
   final channel = testChannel(questions: 2);
@@ -39,15 +41,27 @@ void main() {
     attemptIndex: 1,
     archetype: 0,
     title: 't',
-    scenes: const [Scene(kind: SceneKind.base, art: 'wuxia', place: 'p', speaker: 's', lines: ['a'])],
+    scenes: const [
+      Scene(
+        kind: SceneKind.base,
+        art: 'wuxia',
+        place: 'p',
+        speaker: 's',
+        lines: ['a'],
+      ),
+    ],
   );
   AttemptPlan plan({bool manifested = false}) => AttemptPlan(
-        channelId: 'wuxia',
-        attempt: attempt(1),
-        manifestation: manifested
-            ? ManifestationRecord(attemptIndex: 1, form: ManifestationForm.mixed, materials: [ref(MaterialKind.attempt, 1)])
-            : null,
-      );
+    channelId: 'wuxia',
+    attempt: attempt(1),
+    manifestation: manifested
+        ? ManifestationRecord(
+            attemptIndex: 1,
+            form: ManifestationForm.mixed,
+            materials: [ref(MaterialKind.attempt, 1)],
+          )
+        : null,
+  );
 
   late _Start start;
   late _Plan planUseCase;
@@ -64,28 +78,39 @@ void main() {
     adRewarded = true;
     adFails = false;
     when(() => start(any(), any())).thenReturn(channel.questions);
-    when(() => compose(channel: any(named: 'channel'), plan: any(named: 'plan'), text: any(named: 'text')))
-        .thenAnswer((_) async => base);
+    when(
+      () => compose(
+        channel: any(named: 'channel'),
+        plan: any(named: 'plan'),
+        text: any(named: 'text'),
+        catalog: any(named: 'catalog'),
+      ),
+    ).thenAnswer((_) async => base);
   });
 
   AttemptBloc build({bool online = true}) => AttemptBloc(
-        channel: channel,
-        content: content,
-        startAttempt: start,
-        planAttempt: planUseCase,
-        composeResult: compose,
-        extendResult: const ExtendResultUseCase(),
-        decideAdOffer: ({required manifested}) async {
-          offerAsked.add(manifested);
-          return manifested && online;
-        },
-        showRewardedAd: () async =>
-            adFails ? const ErrorResult(NetworkFailure(message: 'ad')) : Success(adRewarded),
-      );
+    channel: channel,
+    content: content,
+    startAttempt: start,
+    planAttempt: planUseCase,
+    composeResult: compose,
+    extendResult: const ExtendResultUseCase(),
+    decideAdOffer: ({required manifested}) async {
+      offerAsked.add(manifested);
+      return manifested && online;
+    },
+    showRewardedAd: () async => adFails
+        ? const ErrorResult(NetworkFailure(message: 'ad'))
+        : Success(adRewarded),
+  );
 
-  void stubPlan(Result<AttemptPlan> r) =>
-      when(() => planUseCase(channel: any(named: 'channel'), answers: any(named: 'answers')))
-          .thenAnswer((_) async => r);
+  void stubPlan(Result<AttemptPlan> r) => when(
+    () => planUseCase(
+      catalog: any(named: 'catalog'),
+      channel: any(named: 'channel'),
+      answers: any(named: 'answers'),
+    ),
+  ).thenAnswer((_) async => r);
 
   blocTest<AttemptBloc, AttemptState>(
     'start: 문항을 받아 quiz 상태',
@@ -107,7 +132,11 @@ void main() {
     expect: () => [
       isA<AttemptState>().having((s) => s.answers.length, 'answers', 1),
       isA<AttemptState>().having((s) => s.answers.length, 'answers', 2),
-      isA<AttemptState>().having((s) => s.phase, 'phase', AttemptPhase.generating),
+      isA<AttemptState>().having(
+        (s) => s.phase,
+        'phase',
+        AttemptPhase.generating,
+      ),
       isA<AttemptState>()
           .having((s) => s.phase, 'phase', AttemptPhase.result)
           .having((s) => s.result, 'result', base)
@@ -135,7 +164,11 @@ void main() {
       isA<AttemptState>()
           .having((s) => s.phase, 'phase', AttemptPhase.result)
           .having((s) => s.result!.extended, 'extended', isTrue)
-          .having((s) => s.result!.scenes.last.kind, 'last', SceneKind.extension),
+          .having(
+            (s) => s.result!.scenes.last.kind,
+            'last',
+            SceneKind.extension,
+          ),
     ],
   );
 
@@ -156,7 +189,11 @@ void main() {
     skip: 6,
     expect: () => [
       isA<AttemptState>().having((s) => s.adStatus, 'ad', AdStatus.declined),
-      isA<AttemptState>().having((s) => s.result!.extended, 'extended', isFalse),
+      isA<AttemptState>().having(
+        (s) => s.result!.extended,
+        'extended',
+        isFalse,
+      ),
     ],
   );
 
@@ -196,7 +233,11 @@ void main() {
     skip: 5,
     expect: () => [
       isA<AttemptState>().having((s) => s.adStatus, 'ad', AdStatus.declined),
-      isA<AttemptState>().having((s) => s.result!.extended, 'extended', isFalse),
+      isA<AttemptState>().having(
+        (s) => s.result!.extended,
+        'extended',
+        isFalse,
+      ),
     ],
   );
 
@@ -220,7 +261,8 @@ void main() {
 
   blocTest<AttemptBloc, AttemptState>(
     '기록 저장 실패: failure 상태',
-    setUp: () => stubPlan(const ErrorResult(LocalStorageFailure(message: 'disk'))),
+    setUp: () =>
+        stubPlan(const ErrorResult(LocalStorageFailure(message: 'disk'))),
     build: build,
     act: (c) async {
       c.add(const AttemptStarted());
@@ -232,7 +274,10 @@ void main() {
       const AttemptState().copyWith(
         phase: AttemptPhase.failure,
         questions: channel.questions,
-        answers: const [Answer(questionId: 'q1', choiceId: 'c1'), Answer(questionId: 'q2', choiceId: 'c2')],
+        answers: const [
+          Answer(questionId: 'q1', choiceId: 'c1'),
+          Answer(questionId: 'q2', choiceId: 'c2'),
+        ],
         errorMessage: 'disk',
       ),
     ],
@@ -249,7 +294,9 @@ void main() {
       c.add(const ChoiceSelected('c2'));
     },
     skip: 4,
-    expect: () => [isA<AttemptState>().having((s) => s.adStatus, 'ad', AdStatus.offered)],
+    expect: () => [
+      isA<AttemptState>().having((s) => s.adStatus, 'ad', AdStatus.offered),
+    ],
   );
 
   blocTest<AttemptBloc, AttemptState>(

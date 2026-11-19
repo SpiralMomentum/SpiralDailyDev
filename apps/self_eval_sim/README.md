@@ -13,12 +13,13 @@ lib/
   features/
     model_pack/        최초 실행 온디바이스 모델(Gemma 4 E2B, 2.4GB) 내려받기 관문, 용량 상한
     simulation/        채널, 문항, 결과 장면, 누적 기록, 발현 규칙, 미연시형 결과 화면,
+                       성격 이론 채점(빅파이브/16유형/에니어그램/4기질, 시행마다 교체),
                        온디바이스 LLM 대사 생성(flutter_gemma) + 템플릿 대체
     monetization/      보상형 광고 제안 규칙, 연결 상태, 시뮬레이션 광고
     share/             결과 장면 GIF 인코딩과 공유
     settings/          언어 설정, 기록 요약/전체 삭제 화면
 assets/
-  content/             채널 구조(structure.json)와 언어별 문장(strings/{ko,en,ja,zh}.json)
+  content/             채널 구조와 성격 이론/선택지 성향 태그(structure.json), 언어별 문장(strings/{ko,en,ja,zh}.json)
   narration/           모델 프롬프트(prompts.json: 언어별 지시문, 줄 수, 길이, 금지 패턴)와 대체 템플릿(templates.json)
   images/scenes/       장면 배경 샘플 이미지 (SDXL 1.0 생성, 생성 조건은 doc 의 이미지 절)
 ```

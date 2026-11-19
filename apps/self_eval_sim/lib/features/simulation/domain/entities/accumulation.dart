@@ -12,6 +12,7 @@ final class Answer extends Equatable {
 }
 
 /// 개별 시행 원본 로그. [index] 는 1부터 시작하는 전체 통합 시행 순번이다.
+/// [theoryId] 는 이 시행 결과를 읽은 성격 이론이다 (이론 도입 전 기록은 null).
 final class AttemptRecord extends Equatable {
   const AttemptRecord({
     required this.index,
@@ -19,6 +20,7 @@ final class AttemptRecord extends Equatable {
     required this.answers,
     required this.archetype,
     required this.at,
+    this.theoryId,
   });
 
   final int index;
@@ -26,9 +28,17 @@ final class AttemptRecord extends Equatable {
   final List<Answer> answers;
   final int archetype;
   final DateTime at;
+  final String? theoryId;
 
   @override
-  List<Object?> get props => [index, channelId, answers, archetype, at];
+  List<Object?> get props => [
+    index,
+    channelId,
+    answers,
+    archetype,
+    at,
+    theoryId,
+  ];
 }
 
 enum MaterialKind { attempt, manifestation }
@@ -54,25 +64,33 @@ final class MaterialRef extends Equatable {
   String get signatureToken => '${kind.name}:$sourceIndex:$choiceKey';
 
   @override
-  List<Object?> get props =>
-      [kind, sourceIndex, channelId, questionId, choiceId];
+  List<Object?> get props => [
+    kind,
+    sourceIndex,
+    channelId,
+    questionId,
+    choiceId,
+  ];
 }
 
 enum ManifestationForm { mixed, separate }
 
+/// [theoryId] 는 누적 기록 전체를 읽은 성격 이론이다 (이론 도입 전 기록은 null).
 final class ManifestationRecord extends Equatable {
   const ManifestationRecord({
     required this.attemptIndex,
     required this.form,
     required this.materials,
+    this.theoryId,
   });
 
   final int attemptIndex;
   final ManifestationForm form;
   final List<MaterialRef> materials;
+  final String? theoryId;
 
   @override
-  List<Object?> get props => [attemptIndex, form, materials];
+  List<Object?> get props => [attemptIndex, form, materials, theoryId];
 }
 
 /// 기기 안에 보관되는 누적 상태 전체.
@@ -96,12 +114,11 @@ final class AccumulationState extends Equatable {
     List<AttemptRecord>? attempts,
     List<ManifestationRecord>? manifestations,
     int? gaugePermille,
-  }) =>
-      AccumulationState(
-        attempts: attempts ?? this.attempts,
-        manifestations: manifestations ?? this.manifestations,
-        gaugePermille: gaugePermille ?? this.gaugePermille,
-      );
+  }) => AccumulationState(
+    attempts: attempts ?? this.attempts,
+    manifestations: manifestations ?? this.manifestations,
+    gaugePermille: gaugePermille ?? this.gaugePermille,
+  );
 
   @override
   List<Object?> get props => [attempts, manifestations, gaugePermille];

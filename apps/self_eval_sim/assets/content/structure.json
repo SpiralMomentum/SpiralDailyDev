@@ -12,15 +12,61 @@
      "choices": [
       {
        "id": "c1",
-       "archetype": 0
+       "archetype": 0,
+       "traits": {
+        "bigfive": [
+         "E+",
+         "N-"
+        ],
+        "type16": [
+         "E",
+         "T"
+        ],
+        "enneagram": [
+         "8"
+        ],
+        "temperament": [
+         "choleric"
+        ]
+       }
       },
       {
        "id": "c2",
-       "archetype": 1
+       "archetype": 1,
+       "traits": {
+        "bigfive": [
+         "C+"
+        ],
+        "type16": [
+         "I",
+         "T"
+        ],
+        "enneagram": [
+         "5"
+        ],
+        "temperament": [
+         "melancholic"
+        ]
+       }
       },
       {
        "id": "c3",
-       "archetype": 2
+       "archetype": 2,
+       "traits": {
+        "bigfive": [
+         "A+"
+        ],
+        "type16": [
+         "I",
+         "P"
+        ],
+        "enneagram": [
+         "9"
+        ],
+        "temperament": [
+         "phlegmatic"
+        ]
+       }
       }
      ]
     },
@@ -29,15 +75,60 @@
      "choices": [
       {
        "id": "c1",
-       "archetype": 3
+       "archetype": 3,
+       "traits": {
+        "bigfive": [
+         "O+"
+        ],
+        "type16": [
+         "N",
+         "T"
+        ],
+        "enneagram": [
+         "5"
+        ],
+        "temperament": [
+         "melancholic"
+        ]
+       }
       },
       {
        "id": "c2",
-       "archetype": 0
+       "archetype": 0,
+       "traits": {
+        "bigfive": [
+         "C+"
+        ],
+        "type16": [
+         "S",
+         "J"
+        ],
+        "enneagram": [
+         "1"
+        ],
+        "temperament": [
+         "phlegmatic"
+        ]
+       }
       },
       {
        "id": "c3",
-       "archetype": 1
+       "archetype": 1,
+       "traits": {
+        "bigfive": [
+         "E-"
+        ],
+        "type16": [
+         "I",
+         "P"
+        ],
+        "enneagram": [
+         "9"
+        ],
+        "temperament": [
+         "phlegmatic"
+        ]
+       }
       }
      ]
     },
@@ -46,15 +137,62 @@
      "choices": [
       {
        "id": "c1",
-       "archetype": 2
+       "archetype": 2,
+       "traits": {
+        "bigfive": [
+         "A+",
+         "E-"
+        ],
+        "type16": [
+         "I",
+         "P"
+        ],
+        "enneagram": [
+         "9"
+        ],
+        "temperament": [
+         "phlegmatic"
+        ]
+       }
       },
       {
        "id": "c2",
-       "archetype": 3
+       "archetype": 3,
+       "traits": {
+        "bigfive": [
+         "C+"
+        ],
+        "type16": [
+         "S",
+         "T"
+        ],
+        "enneagram": [
+         "6"
+        ],
+        "temperament": [
+         "melancholic"
+        ]
+       }
       },
       {
        "id": "c3",
-       "archetype": 0
+       "archetype": 0,
+       "traits": {
+        "bigfive": [
+         "A-",
+         "E+"
+        ],
+        "type16": [
+         "E",
+         "J"
+        ],
+        "enneagram": [
+         "1"
+        ],
+        "temperament": [
+         "choleric"
+        ]
+       }
       }
      ]
     },
@@ -63,15 +201,60 @@
      "choices": [
       {
        "id": "c1",
-       "archetype": 1
+       "archetype": 1,
+       "traits": {
+        "bigfive": [
+         "O+"
+        ],
+        "type16": [
+         "N",
+         "P"
+        ],
+        "enneagram": [
+         "7"
+        ],
+        "temperament": [
+         "sanguine"
+        ]
+       }
       },
       {
        "id": "c2",
-       "archetype": 2
+       "archetype": 2,
+       "traits": {
+        "bigfive": [
+         "O-"
+        ],
+        "type16": [
+         "S",
+         "J"
+        ],
+        "enneagram": [
+         "9"
+        ],
+        "temperament": [
+         "phlegmatic"
+        ]
+       }
       },
       {
        "id": "c3",
-       "archetype": 3
+       "archetype": 3,
+       "traits": {
+        "bigfive": [
+         "E-"
+        ],
+        "type16": [
+         "I",
+         "T"
+        ],
+        "enneagram": [
+         "5"
+        ],
+        "temperament": [
+         "melancholic"
+        ]
+       }
       }
      ]
     },
@@ -80,15 +263,61 @@
      "choices": [
       {
        "id": "c1",
-       "archetype": 0
+       "archetype": 0,
+       "traits": {
+        "bigfive": [
+         "A+"
+        ],
+        "type16": [
+         "F",
+         "J"
+        ],
+        "enneagram": [
+         "1"
+        ],
+        "temperament": [
+         "phlegmatic"
+        ]
+       }
       },
       {
        "id": "c2",
-       "archetype": 3
+       "archetype": 3,
+       "traits": {
+        "bigfive": [
+         "A-",
+         "C+"
+        ],
+        "type16": [
+         "T",
+         "J"
+        ],
+        "enneagram": [
+         "3"
+        ],
+        "temperament": [
+         "choleric"
+        ]
+       }
       },
       {
        "id": "c3",
-       "archetype": 2
+       "archetype": 2,
+       "traits": {
+        "bigfive": [
+         "O+"
+        ],
+        "type16": [
+         "F",
+         "P"
+        ],
+        "enneagram": [
+         "4"
+        ],
+        "temperament": [
+         "sanguine"
+        ]
+       }
       }
      ]
     },
@@ -97,15 +326,61 @@
      "choices": [
       {
        "id": "c1",
-       "archetype": 1
+       "archetype": 1,
+       "traits": {
+        "bigfive": [
+         "E-",
+         "N-"
+        ],
+        "type16": [
+         "I",
+         "T"
+        ],
+        "enneagram": [
+         "8"
+        ],
+        "temperament": [
+         "choleric"
+        ]
+       }
       },
       {
        "id": "c2",
-       "archetype": 0
+       "archetype": 0,
+       "traits": {
+        "bigfive": [
+         "A+"
+        ],
+        "type16": [
+         "F",
+         "J"
+        ],
+        "enneagram": [
+         "2"
+        ],
+        "temperament": [
+         "sanguine"
+        ]
+       }
       },
       {
        "id": "c3",
-       "archetype": 3
+       "archetype": 3,
+       "traits": {
+        "bigfive": [
+         "E-"
+        ],
+        "type16": [
+         "I",
+         "N"
+        ],
+        "enneagram": [
+         "5"
+        ],
+        "temperament": [
+         "melancholic"
+        ]
+       }
       }
      ]
     }
@@ -121,15 +396,63 @@
      "choices": [
       {
        "id": "c1",
-       "archetype": 0
+       "archetype": 0,
+       "traits": {
+        "bigfive": [
+         "E+",
+         "N-"
+        ],
+        "type16": [
+         "E",
+         "S"
+        ],
+        "enneagram": [
+         "8"
+        ],
+        "temperament": [
+         "choleric"
+        ]
+       }
       },
       {
        "id": "c2",
-       "archetype": 1
+       "archetype": 1,
+       "traits": {
+        "bigfive": [
+         "O+",
+         "C+"
+        ],
+        "type16": [
+         "I",
+         "N"
+        ],
+        "enneagram": [
+         "5"
+        ],
+        "temperament": [
+         "melancholic"
+        ]
+       }
       },
       {
        "id": "c3",
-       "archetype": 3
+       "archetype": 3,
+       "traits": {
+        "bigfive": [
+         "O+",
+         "E+"
+        ],
+        "type16": [
+         "N",
+         "F"
+        ],
+        "enneagram": [
+         "7"
+        ],
+        "temperament": [
+         "sanguine"
+        ]
+       }
       }
      ]
     },
@@ -138,15 +461,61 @@
      "choices": [
       {
        "id": "c1",
-       "archetype": 2
+       "archetype": 2,
+       "traits": {
+        "bigfive": [
+         "E-"
+        ],
+        "type16": [
+         "I",
+         "P"
+        ],
+        "enneagram": [
+         "4"
+        ],
+        "temperament": [
+         "choleric"
+        ]
+       }
       },
       {
        "id": "c2",
-       "archetype": 0
+       "archetype": 0,
+       "traits": {
+        "bigfive": [
+         "E+",
+         "A+"
+        ],
+        "type16": [
+         "E",
+         "F"
+        ],
+        "enneagram": [
+         "6"
+        ],
+        "temperament": [
+         "sanguine"
+        ]
+       }
       },
       {
        "id": "c3",
-       "archetype": 1
+       "archetype": 1,
+       "traits": {
+        "bigfive": [
+         "C+"
+        ],
+        "type16": [
+         "S",
+         "J"
+        ],
+        "enneagram": [
+         "1"
+        ],
+        "temperament": [
+         "melancholic"
+        ]
+       }
       }
      ]
     },
@@ -155,15 +524,61 @@
      "choices": [
       {
        "id": "c1",
-       "archetype": 3
+       "archetype": 3,
+       "traits": {
+        "bigfive": [
+         "E+"
+        ],
+        "type16": [
+         "E",
+         "F"
+        ],
+        "enneagram": [
+         "2"
+        ],
+        "temperament": [
+         "sanguine"
+        ]
+       }
       },
       {
        "id": "c2",
-       "archetype": 2
+       "archetype": 2,
+       "traits": {
+        "bigfive": [
+         "E-",
+         "C+"
+        ],
+        "type16": [
+         "I",
+         "T"
+        ],
+        "enneagram": [
+         "6"
+        ],
+        "temperament": [
+         "melancholic"
+        ]
+       }
       },
       {
        "id": "c3",
-       "archetype": 0
+       "archetype": 0,
+       "traits": {
+        "bigfive": [
+         "E+"
+        ],
+        "type16": [
+         "S",
+         "P"
+        ],
+        "enneagram": [
+         "8"
+        ],
+        "temperament": [
+         "choleric"
+        ]
+       }
       }
      ]
     },
@@ -172,15 +587,61 @@
      "choices": [
       {
        "id": "c1",
-       "archetype": 1
+       "archetype": 1,
+       "traits": {
+        "bigfive": [
+         "O+"
+        ],
+        "type16": [
+         "I",
+         "N"
+        ],
+        "enneagram": [
+         "5"
+        ],
+        "temperament": [
+         "melancholic"
+        ]
+       }
       },
       {
        "id": "c2",
-       "archetype": 3
+       "archetype": 3,
+       "traits": {
+        "bigfive": [
+         "E+",
+         "O+"
+        ],
+        "type16": [
+         "E",
+         "F"
+        ],
+        "enneagram": [
+         "7"
+        ],
+        "temperament": [
+         "sanguine"
+        ]
+       }
       },
       {
        "id": "c3",
-       "archetype": 2
+       "archetype": 2,
+       "traits": {
+        "bigfive": [
+         "E-"
+        ],
+        "type16": [
+         "I",
+         "P"
+        ],
+        "enneagram": [
+         "9"
+        ],
+        "temperament": [
+         "phlegmatic"
+        ]
+       }
       }
      ]
     },
@@ -189,15 +650,62 @@
      "choices": [
       {
        "id": "c1",
-       "archetype": 0
+       "archetype": 0,
+       "traits": {
+        "bigfive": [
+         "A+",
+         "C+"
+        ],
+        "type16": [
+         "S",
+         "F"
+        ],
+        "enneagram": [
+         "2"
+        ],
+        "temperament": [
+         "phlegmatic"
+        ]
+       }
       },
       {
        "id": "c2",
-       "archetype": 2
+       "archetype": 2,
+       "traits": {
+        "bigfive": [
+         "N+"
+        ],
+        "type16": [
+         "I",
+         "S"
+        ],
+        "enneagram": [
+         "6"
+        ],
+        "temperament": [
+         "melancholic"
+        ]
+       }
       },
       {
        "id": "c3",
-       "archetype": 1
+       "archetype": 1,
+       "traits": {
+        "bigfive": [
+         "O+",
+         "C+"
+        ],
+        "type16": [
+         "N",
+         "T"
+        ],
+        "enneagram": [
+         "5"
+        ],
+        "temperament": [
+         "melancholic"
+        ]
+       }
       }
      ]
     },
@@ -206,15 +714,61 @@
      "choices": [
       {
        "id": "c1",
-       "archetype": 3
+       "archetype": 3,
+       "traits": {
+        "bigfive": [
+         "E+"
+        ],
+        "type16": [
+         "E",
+         "F"
+        ],
+        "enneagram": [
+         "3"
+        ],
+        "temperament": [
+         "sanguine"
+        ]
+       }
       },
       {
        "id": "c2",
-       "archetype": 1
+       "archetype": 1,
+       "traits": {
+        "bigfive": [
+         "O+"
+        ],
+        "type16": [
+         "N",
+         "T"
+        ],
+        "enneagram": [
+         "5"
+        ],
+        "temperament": [
+         "melancholic"
+        ]
+       }
       },
       {
        "id": "c3",
-       "archetype": 0
+       "archetype": 0,
+       "traits": {
+        "bigfive": [
+         "C+",
+         "N-"
+        ],
+        "type16": [
+         "S",
+         "J"
+        ],
+        "enneagram": [
+         "6"
+        ],
+        "temperament": [
+         "phlegmatic"
+        ]
+       }
       }
      ]
     }
@@ -230,15 +784,62 @@
      "choices": [
       {
        "id": "c1",
-       "archetype": 0
+       "archetype": 0,
+       "traits": {
+        "bigfive": [
+         "A+",
+         "C+"
+        ],
+        "type16": [
+         "S",
+         "F"
+        ],
+        "enneagram": [
+         "2"
+        ],
+        "temperament": [
+         "phlegmatic"
+        ]
+       }
       },
       {
        "id": "c2",
-       "archetype": 2
+       "archetype": 2,
+       "traits": {
+        "bigfive": [
+         "N-",
+         "E-"
+        ],
+        "type16": [
+         "S",
+         "P"
+        ],
+        "enneagram": [
+         "9"
+        ],
+        "temperament": [
+         "phlegmatic"
+        ]
+       }
       },
       {
        "id": "c3",
-       "archetype": 1
+       "archetype": 1,
+       "traits": {
+        "bigfive": [
+         "E-"
+        ],
+        "type16": [
+         "I",
+         "N"
+        ],
+        "enneagram": [
+         "5"
+        ],
+        "temperament": [
+         "melancholic"
+        ]
+       }
       }
      ]
     },
@@ -247,15 +848,63 @@
      "choices": [
       {
        "id": "c1",
-       "archetype": 3
+       "archetype": 3,
+       "traits": {
+        "bigfive": [
+         "E+",
+         "O+"
+        ],
+        "type16": [
+         "E",
+         "P"
+        ],
+        "enneagram": [
+         "7"
+        ],
+        "temperament": [
+         "sanguine"
+        ]
+       }
       },
       {
        "id": "c2",
-       "archetype": 1
+       "archetype": 1,
+       "traits": {
+        "bigfive": [
+         "E-",
+         "N+"
+        ],
+        "type16": [
+         "I",
+         "S"
+        ],
+        "enneagram": [
+         "6"
+        ],
+        "temperament": [
+         "melancholic"
+        ]
+       }
       },
       {
        "id": "c3",
-       "archetype": 0
+       "archetype": 0,
+       "traits": {
+        "bigfive": [
+         "E+",
+         "N-"
+        ],
+        "type16": [
+         "E",
+         "J"
+        ],
+        "enneagram": [
+         "8"
+        ],
+        "temperament": [
+         "choleric"
+        ]
+       }
       }
      ]
     },
@@ -264,15 +913,61 @@
      "choices": [
       {
        "id": "c1",
-       "archetype": 2
+       "archetype": 2,
+       "traits": {
+        "bigfive": [
+         "C+"
+        ],
+        "type16": [
+         "S",
+         "F"
+        ],
+        "enneagram": [
+         "2"
+        ],
+        "temperament": [
+         "melancholic"
+        ]
+       }
       },
       {
        "id": "c2",
-       "archetype": 0
+       "archetype": 0,
+       "traits": {
+        "bigfive": [
+         "A+",
+         "E-"
+        ],
+        "type16": [
+         "I",
+         "F"
+        ],
+        "enneagram": [
+         "9"
+        ],
+        "temperament": [
+         "phlegmatic"
+        ]
+       }
       },
       {
        "id": "c3",
-       "archetype": 3
+       "archetype": 3,
+       "traits": {
+        "bigfive": [
+         "E+"
+        ],
+        "type16": [
+         "E",
+         "F"
+        ],
+        "enneagram": [
+         "7"
+        ],
+        "temperament": [
+         "sanguine"
+        ]
+       }
       }
      ]
     },
@@ -281,15 +976,61 @@
      "choices": [
       {
        "id": "c1",
-       "archetype": 1
+       "archetype": 1,
+       "traits": {
+        "bigfive": [
+         "A-"
+        ],
+        "type16": [
+         "I",
+         "T"
+        ],
+        "enneagram": [
+         "5"
+        ],
+        "temperament": [
+         "melancholic"
+        ]
+       }
       },
       {
        "id": "c2",
-       "archetype": 3
+       "archetype": 3,
+       "traits": {
+        "bigfive": [
+         "E+",
+         "O+"
+        ],
+        "type16": [
+         "E",
+         "T"
+        ],
+        "enneagram": [
+         "3"
+        ],
+        "temperament": [
+         "choleric"
+        ]
+       }
       },
       {
        "id": "c3",
-       "archetype": 2
+       "archetype": 2,
+       "traits": {
+        "bigfive": [
+         "A+"
+        ],
+        "type16": [
+         "F",
+         "J"
+        ],
+        "enneagram": [
+         "2"
+        ],
+        "temperament": [
+         "phlegmatic"
+        ]
+       }
       }
      ]
     },
@@ -298,15 +1039,61 @@
      "choices": [
       {
        "id": "c1",
-       "archetype": 0
+       "archetype": 0,
+       "traits": {
+        "bigfive": [
+         "E+"
+        ],
+        "type16": [
+         "E",
+         "P"
+        ],
+        "enneagram": [
+         "7"
+        ],
+        "temperament": [
+         "sanguine"
+        ]
+       }
       },
       {
        "id": "c2",
-       "archetype": 1
+       "archetype": 1,
+       "traits": {
+        "bigfive": [
+         "C+",
+         "E-"
+        ],
+        "type16": [
+         "I",
+         "J"
+        ],
+        "enneagram": [
+         "1"
+        ],
+        "temperament": [
+         "melancholic"
+        ]
+       }
       },
       {
        "id": "c3",
-       "archetype": 3
+       "archetype": 3,
+       "traits": {
+        "bigfive": [
+         "N-"
+        ],
+        "type16": [
+         "S",
+         "P"
+        ],
+        "enneagram": [
+         "7"
+        ],
+        "temperament": [
+         "sanguine"
+        ]
+       }
       }
      ]
     },
@@ -315,15 +1102,61 @@
      "choices": [
       {
        "id": "c1",
-       "archetype": 2
+       "archetype": 2,
+       "traits": {
+        "bigfive": [
+         "A+"
+        ],
+        "type16": [
+         "F",
+         "J"
+        ],
+        "enneagram": [
+         "6"
+        ],
+        "temperament": [
+         "phlegmatic"
+        ]
+       }
       },
       {
        "id": "c2",
-       "archetype": 3
+       "archetype": 3,
+       "traits": {
+        "bigfive": [
+         "E+",
+         "O+"
+        ],
+        "type16": [
+         "E",
+         "N"
+        ],
+        "enneagram": [
+         "7"
+        ],
+        "temperament": [
+         "sanguine"
+        ]
+       }
       },
       {
        "id": "c3",
-       "archetype": 1
+       "archetype": 1,
+       "traits": {
+        "bigfive": [
+         "C+"
+        ],
+        "type16": [
+         "N",
+         "T"
+        ],
+        "enneagram": [
+         "3"
+        ],
+        "temperament": [
+         "choleric"
+        ]
+       }
       }
      ]
     }
@@ -339,15 +1172,61 @@
      "choices": [
       {
        "id": "c1",
-       "archetype": 0
+       "archetype": 0,
+       "traits": {
+        "bigfive": [
+         "E+"
+        ],
+        "type16": [
+         "E",
+         "F"
+        ],
+        "enneagram": [
+         "8"
+        ],
+        "temperament": [
+         "choleric"
+        ]
+       }
       },
       {
        "id": "c2",
-       "archetype": 1
+       "archetype": 1,
+       "traits": {
+        "bigfive": [
+         "E-",
+         "O+"
+        ],
+        "type16": [
+         "I",
+         "N"
+        ],
+        "enneagram": [
+         "4"
+        ],
+        "temperament": [
+         "melancholic"
+        ]
+       }
       },
       {
        "id": "c3",
-       "archetype": 2
+       "archetype": 2,
+       "traits": {
+        "bigfive": [
+         "A+"
+        ],
+        "type16": [
+         "S",
+         "F"
+        ],
+        "enneagram": [
+         "9"
+        ],
+        "temperament": [
+         "phlegmatic"
+        ]
+       }
       }
      ]
     },
@@ -356,15 +1235,62 @@
      "choices": [
       {
        "id": "c1",
-       "archetype": 2
+       "archetype": 2,
+       "traits": {
+        "bigfive": [
+         "A+",
+         "C+"
+        ],
+        "type16": [
+         "F",
+         "J"
+        ],
+        "enneagram": [
+         "2"
+        ],
+        "temperament": [
+         "phlegmatic"
+        ]
+       }
       },
       {
        "id": "c2",
-       "archetype": 3
+       "archetype": 3,
+       "traits": {
+        "bigfive": [
+         "E+"
+        ],
+        "type16": [
+         "T",
+         "J"
+        ],
+        "enneagram": [
+         "3"
+        ],
+        "temperament": [
+         "choleric"
+        ]
+       }
       },
       {
        "id": "c3",
-       "archetype": 0
+       "archetype": 0,
+       "traits": {
+        "bigfive": [
+         "A-",
+         "O+"
+        ],
+        "type16": [
+         "N",
+         "P"
+        ],
+        "enneagram": [
+         "4"
+        ],
+        "temperament": [
+         "sanguine"
+        ]
+       }
       }
      ]
     },
@@ -373,15 +1299,62 @@
      "choices": [
       {
        "id": "c1",
-       "archetype": 1
+       "archetype": 1,
+       "traits": {
+        "bigfive": [
+         "C+"
+        ],
+        "type16": [
+         "I",
+         "J"
+        ],
+        "enneagram": [
+         "6"
+        ],
+        "temperament": [
+         "melancholic"
+        ]
+       }
       },
       {
        "id": "c2",
-       "archetype": 0
+       "archetype": 0,
+       "traits": {
+        "bigfive": [
+         "A+",
+         "E+"
+        ],
+        "type16": [
+         "E",
+         "F"
+        ],
+        "enneagram": [
+         "2"
+        ],
+        "temperament": [
+         "sanguine"
+        ]
+       }
       },
       {
        "id": "c3",
-       "archetype": 3
+       "archetype": 3,
+       "traits": {
+        "bigfive": [
+         "A-",
+         "N-"
+        ],
+        "type16": [
+         "T",
+         "J"
+        ],
+        "enneagram": [
+         "1"
+        ],
+        "temperament": [
+         "choleric"
+        ]
+       }
       }
      ]
     },
@@ -390,15 +1363,63 @@
      "choices": [
       {
        "id": "c1",
-       "archetype": 3
+       "archetype": 3,
+       "traits": {
+        "bigfive": [
+         "O+",
+         "N-"
+        ],
+        "type16": [
+         "F",
+         "P"
+        ],
+        "enneagram": [
+         "4"
+        ],
+        "temperament": [
+         "phlegmatic"
+        ]
+       }
       },
       {
        "id": "c2",
-       "archetype": 2
+       "archetype": 2,
+       "traits": {
+        "bigfive": [
+         "O+",
+         "A+"
+        ],
+        "type16": [
+         "N",
+         "F"
+        ],
+        "enneagram": [
+         "2"
+        ],
+        "temperament": [
+         "sanguine"
+        ]
+       }
       },
       {
        "id": "c3",
-       "archetype": 1
+       "archetype": 1,
+       "traits": {
+        "bigfive": [
+         "C+",
+         "E-"
+        ],
+        "type16": [
+         "S",
+         "J"
+        ],
+        "enneagram": [
+         "1"
+        ],
+        "temperament": [
+         "melancholic"
+        ]
+       }
       }
      ]
     },
@@ -407,15 +1428,62 @@
      "choices": [
       {
        "id": "c1",
-       "archetype": 0
+       "archetype": 0,
+       "traits": {
+        "bigfive": [
+         "N-"
+        ],
+        "type16": [
+         "E",
+         "S"
+        ],
+        "enneagram": [
+         "8"
+        ],
+        "temperament": [
+         "choleric"
+        ]
+       }
       },
       {
        "id": "c2",
-       "archetype": 3
+       "archetype": 3,
+       "traits": {
+        "bigfive": [
+         "E-",
+         "N+"
+        ],
+        "type16": [
+         "I",
+         "S"
+        ],
+        "enneagram": [
+         "6"
+        ],
+        "temperament": [
+         "phlegmatic"
+        ]
+       }
       },
       {
        "id": "c3",
-       "archetype": 1
+       "archetype": 1,
+       "traits": {
+        "bigfive": [
+         "N-",
+         "C+"
+        ],
+        "type16": [
+         "I",
+         "N"
+        ],
+        "enneagram": [
+         "5"
+        ],
+        "temperament": [
+         "melancholic"
+        ]
+       }
       }
      ]
     },
@@ -424,18 +1492,166 @@
      "choices": [
       {
        "id": "c1",
-       "archetype": 2
+       "archetype": 2,
+       "traits": {
+        "bigfive": [
+         "A+",
+         "E+"
+        ],
+        "type16": [
+         "E",
+         "F"
+        ],
+        "enneagram": [
+         "2"
+        ],
+        "temperament": [
+         "sanguine"
+        ]
+       }
       },
       {
        "id": "c2",
-       "archetype": 1
+       "archetype": 1,
+       "traits": {
+        "bigfive": [
+         "E-",
+         "O+"
+        ],
+        "type16": [
+         "I",
+         "F"
+        ],
+        "enneagram": [
+         "4"
+        ],
+        "temperament": [
+         "melancholic"
+        ]
+       }
       },
       {
        "id": "c3",
-       "archetype": 0
+       "archetype": 0,
+       "traits": {
+        "bigfive": [
+         "C+"
+        ],
+        "type16": [
+         "S",
+         "J"
+        ],
+        "enneagram": [
+         "3"
+        ],
+        "temperament": [
+         "choleric"
+        ]
+       }
       }
      ]
     }
+   ]
+  }
+ ],
+ "theories": [
+  {
+   "id": "bigfive",
+   "mode": "dominant",
+   "axes": [
+    [
+     "O+",
+     "O-"
+    ],
+    [
+     "C+",
+     "C-"
+    ],
+    [
+     "E+",
+     "E-"
+    ],
+    [
+     "A+",
+     "A-"
+    ],
+    [
+     "N+",
+     "N-"
+    ]
+   ]
+  },
+  {
+   "id": "type16",
+   "mode": "code",
+   "axes": [
+    [
+     "E",
+     "I"
+    ],
+    [
+     "S",
+     "N"
+    ],
+    [
+     "T",
+     "F"
+    ],
+    [
+     "J",
+     "P"
+    ]
+   ]
+  },
+  {
+   "id": "enneagram",
+   "mode": "dominant",
+   "axes": [
+    [
+     "1"
+    ],
+    [
+     "2"
+    ],
+    [
+     "3"
+    ],
+    [
+     "4"
+    ],
+    [
+     "5"
+    ],
+    [
+     "6"
+    ],
+    [
+     "7"
+    ],
+    [
+     "8"
+    ],
+    [
+     "9"
+    ]
+   ]
+  },
+  {
+   "id": "temperament",
+   "mode": "dominant",
+   "axes": [
+    [
+     "sanguine"
+    ],
+    [
+     "choleric"
+    ],
+    [
+     "melancholic"
+    ],
+    [
+     "phlegmatic"
+    ]
    ]
   }
  ]

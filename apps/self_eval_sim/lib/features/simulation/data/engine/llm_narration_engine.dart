@@ -16,7 +16,11 @@ class NarrationRejected extends ParsingFailure {
 
 /// 온디바이스 LLM 으로 결과/발현 대사를 만든다.
 class LlmNarrationEngine implements NarrationEngine {
-  LlmNarrationEngine(this._client, this._readPrompts, {this.timeout = const Duration(seconds: 60)});
+  LlmNarrationEngine(
+    this._client,
+    this._readPrompts, {
+    this.timeout = const Duration(seconds: 60),
+  });
 
   final LlmClient _client;
 
@@ -26,9 +30,12 @@ class LlmNarrationEngine implements NarrationEngine {
   Map<String, dynamic>? _prompts;
 
   Future<PromptSpec> _spec(String languageCode) async {
-    final prompts = _prompts ??= jsonDecode(await _readPrompts()) as Map<String, dynamic>;
+    final prompts = _prompts ??=
+        jsonDecode(await _readPrompts()) as Map<String, dynamic>;
     final languages = prompts['languages'] as Map<String, dynamic>;
-    return PromptSpec((languages[languageCode] ?? languages['en']) as Map<String, dynamic>);
+    return PromptSpec(
+      (languages[languageCode] ?? languages['en']) as Map<String, dynamic>,
+    );
   }
 
   Future<List<String>> _run(
@@ -38,6 +45,7 @@ class LlmNarrationEngine implements NarrationEngine {
     required PromptSpec spec,
     required int maxLines,
     required int minLines,
+    List<String> avoid = const [],
   }) async {
     final raw = await _client
         .generate(prompt, seed: random.nextInt(1 << 31))
@@ -48,55 +56,60 @@ class LlmNarrationEngine implements NarrationEngine {
       maxLength: spec.maxLength,
       maxLines: maxLines,
       banned: spec.banned,
+      avoid: avoid,
     );
     if (lines.length < minLines) throw NarrationRejected(raw);
     return lines;
   }
 
-  static Failure _failure(Object e, StackTrace st) =>
-      e is Failure ? e : ParsingFailure(message: 'llm', cause: e, stackTrace: st);
+  static Failure _failure(Object e, StackTrace st) => e is Failure
+      ? e
+      : ParsingFailure(message: 'llm', cause: e, stackTrace: st);
 
   @override
-  Future<Result<Narration>> baseLines(BaseNarrationRequest request, Random random) =>
-      guardAsync(
-        action: () async {
-          final spec = await _spec(request.languageCode);
-          final lines = await _run(
-            PromptBuilder.base(spec, request),
-            random: random,
-            title: request.title,
-            spec: spec,
-            maxLines: spec.baseLines,
-            minLines: spec.minBaseLines,
-          );
-          return Narration(lines: lines, source: NarrationSource.model);
-        },
-        onError: _failure,
+  Future<Result<Narration>> baseLines(
+    BaseNarrationRequest request,
+    Random random,
+  ) => guardAsync(
+    action: () async {
+      final spec = await _spec(request.languageCode);
+      final lines = await _run(
+        PromptBuilder.base(spec, request),
+        random: random,
+        title: request.title,
+        spec: spec,
+        maxLines: spec.baseLines,
+        minLines: spec.minBaseLines,
+        avoid: request.examples,
       );
+      return Narration(lines: lines, source: NarrationSource.model);
+    },
+    onError: _failure,
+  );
 
   @override
   Future<Result<ManifestationText>> manifestation(
     ManifestationRequest request,
     Random random,
-  ) =>
-      guardAsync(
-        action: () async {
-          final spec = await _spec(request.languageCode);
-          final lines = await _run(
-            PromptBuilder.manifestation(spec, request),
-            random: random,
-            title: request.title,
-            spec: spec,
-            maxLines: spec.manifestLines,
-            minLines: spec.minManifestLines,
-          );
-          return ManifestationText(
-            lines: lines,
-            separateSpeaker: spec.separateVoice,
-            separatePlace: '',
-            source: NarrationSource.model,
-          );
-        },
-        onError: _failure,
+  ) => guardAsync(
+    action: () async {
+      final spec = await _spec(request.languageCode);
+      final lines = await _run(
+        PromptBuilder.manifestation(spec, request),
+        random: random,
+        title: request.title,
+        spec: spec,
+        maxLines: spec.manifestLines,
+        minLines: spec.minManifestLines,
+        avoid: request.examples,
       );
+      return ManifestationText(
+        lines: lines,
+        separateSpeaker: spec.separateVoice,
+        separatePlace: '',
+        source: NarrationSource.model,
+      );
+    },
+    onError: _failure,
+  );
 }

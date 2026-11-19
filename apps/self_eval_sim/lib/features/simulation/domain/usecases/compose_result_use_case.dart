@@ -1,6 +1,5 @@
 import 'dart:math';
 
-
 import '../entities/accumulation.dart';
 import '../entities/catalog.dart';
 import '../entities/evaluation.dart';
@@ -22,22 +21,24 @@ class ComposeResultUseCase {
     required Channel channel,
     required AttemptPlan plan,
     required TextBook text,
+    required ContentCatalog catalog,
   }) async {
-    final baseRequest = ResultComposer.baseRequest(channel, plan.attempt, text);
+    final baseRequest = ResultComposer.baseRequest(
+      channel,
+      plan,
+      text,
+      catalog: catalog,
+    );
     final base = await _engine.baseLines(baseRequest, _random);
     final manifestation = plan.manifestation;
     final manifest = manifestation == null
         ? null
         : await _engine.manifestation(
-            ManifestationRequest(
-              languageCode: text.languageCode,
-              form: manifestation.form,
-              speaker: text.speaker(channel.id),
-              title: text.archetypeTitle(channel.id, plan.attempt.archetype),
-              materials: [
-                for (final ref in manifestation.materials)
-                  ResultComposer.resolve(ref, plan.attempt.index, text),
-              ],
+            ResultComposer.manifestationRequest(
+              channel,
+              plan,
+              text,
+              catalog: catalog,
               examples: manifestation.form == ManifestationForm.mixed
                   ? baseRequest.examples
                   : const [],

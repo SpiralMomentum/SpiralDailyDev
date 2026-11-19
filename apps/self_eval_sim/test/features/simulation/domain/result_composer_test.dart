@@ -25,7 +25,7 @@ void main() {
     expect(r.scenes.single.kind, SceneKind.base);
     expect(r.scenes.single.place, 'wuxia-place');
     expect(r.scenes.single.speaker, 'wuxia-speaker');
-    expect(r.scenes.single.lines, ['wuxia-a2-l1', 'wuxia-a2-l2']);
+    expect(r.scenes.single.lines, ['wuxia-reveal wuxia-title2', 'wuxia-a2-l1', 'wuxia-a2-l2', 'wuxia-a2-s2']);
   });
 
   test('mixed: 기본 장면 대사 뒤에 발현 대사가 섞인다', () {
@@ -36,7 +36,7 @@ void main() {
       manifest: manifest,
     );
     expect(r.manifestationForm, ManifestationForm.mixed);
-    expect(r.scenes.single.lines, ['wuxia-a2-l1', 'wuxia-a2-l2', 'm1', 'm2']);
+    expect(r.scenes.single.lines, ['wuxia-reveal wuxia-title2', 'wuxia-a2-l1', 'wuxia-a2-l2', 'wuxia-a2-s2', 'm1', 'm2']);
   });
 
   test('separate: 기본 장면 뒤에 별도 발현 장면이 붙는다', () {

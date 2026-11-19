@@ -42,7 +42,10 @@ class VnSceneView extends StatelessWidget {
               ),
               const SizedBox(width: 8),
               Flexible(
-                child: _Chip(text: '$titleLabel · $title', key: const Key('scene_title')),
+                child: _Chip(
+                  text: '$titleLabel · $title',
+                  key: const Key('scene_title'),
+                ),
               ),
             ],
           ),
@@ -56,10 +59,17 @@ class VnSceneView extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 6,
+                ),
                 decoration: BoxDecoration(
-                  color: dark ? const Color(0xFF6C5B7B) : const Color(0xFFB08D57),
-                  borderRadius: const BorderRadius.vertical(top: Radius.circular(8)),
+                  color: dark
+                      ? const Color(0xFF6C5B7B)
+                      : const Color(0xFFB08D57),
+                  borderRadius: const BorderRadius.vertical(
+                    top: Radius.circular(8),
+                  ),
                 ),
                 child: Text(
                   scene.speaker,
@@ -88,7 +98,11 @@ class VnSceneView extends StatelessWidget {
                 child: Text(
                   shown,
                   key: const Key('dialogue_text'),
-                  style: const TextStyle(color: Colors.white, fontSize: 16, height: 1.5),
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                    height: 1.5,
+                  ),
                 ),
               ),
               ?footer,
@@ -107,15 +121,15 @@ class _Chip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Container(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-        decoration: BoxDecoration(
-          color: Colors.black.withValues(alpha: 0.45),
-          borderRadius: BorderRadius.circular(20),
-        ),
-        child: Text(
-          text,
-          overflow: TextOverflow.ellipsis,
-          style: const TextStyle(color: Colors.white, fontSize: 12),
-        ),
-      );
+    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+    decoration: BoxDecoration(
+      color: Colors.black.withValues(alpha: 0.45),
+      borderRadius: BorderRadius.circular(20),
+    ),
+    child: Text(
+      text,
+      overflow: TextOverflow.ellipsis,
+      style: const TextStyle(color: Colors.white, fontSize: 12),
+    ),
+  );
 }

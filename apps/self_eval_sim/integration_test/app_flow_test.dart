@@ -53,7 +53,8 @@ class _RecordingShareSink implements ShareSink {
   final paths = <String>[];
 
   @override
-  Future<void> shareFile(String path, {required String text}) async => paths.add(path);
+  Future<void> shareFile(String path, {required String text}) async =>
+      paths.add(path);
 }
 
 void main() {
@@ -68,17 +69,27 @@ void main() {
     await tester.pump();
   }
 
-  Future<void> waitFor(WidgetTester tester, Finder finder, {int seconds = 30}) async {
+  Future<void> waitFor(
+    WidgetTester tester,
+    Finder finder, {
+    int seconds = 30,
+  }) async {
     final end = DateTime.now().add(Duration(seconds: seconds));
     while (finder.evaluate().isEmpty) {
-      if (DateTime.now().isAfter(end)) throw TestFailure('timeout waiting for $finder');
+      if (DateTime.now().isAfter(end)) {
+        throw TestFailure('timeout waiting for $finder');
+      }
       await Future<void>.delayed(const Duration(milliseconds: 100));
       await tester.pump();
     }
     await tester.pump();
   }
 
-  Future<void> tapKey(WidgetTester tester, String key, {int holdMs = 700}) async {
+  Future<void> tapKey(
+    WidgetTester tester,
+    String key, {
+    int holdMs = 700,
+  }) async {
     await tester.tap(find.byKey(Key(key)));
     await tester.pump();
     await hold(tester, holdMs);
@@ -96,26 +107,51 @@ void main() {
   }
 
   /// 결과 대사를 한 줄씩 넘기며 지나간 화자/장소/대사를 모은다.
-  Future<({Set<String> speakers, Set<String> places, List<String> lines})> readThrough(
-    WidgetTester tester,
-  ) async {
+  Future<
+    ({
+      Set<String> speakers,
+      Set<String> places,
+      List<String> lines,
+    })
+  >
+  readThrough(WidgetTester tester) async {
     final speakers = <String>{};
     final places = <String>{};
     final lines = <String>[];
     for (var i = 0; i < 30; i++) {
       await hold(tester, 1300);
-      speakers.add(tester.widget<Text>(find.byKey(const Key('speaker_name'))).data!);
-      places.add(
-        tester.widget<Text>(
-          find.descendant(of: find.byKey(const Key('scene_place')), matching: find.byType(Text)),
-        ).data!,
+      // 긴 줄은 1.3초 안에 다 타자되지 않는다. 글자가 더 늘지 않을 때까지 기다린 뒤 읽는다.
+      for (var settled = dialogue(tester), k = 0; k < 40; k++) {
+        await hold(tester, 150);
+        if (dialogue(tester) == settled) break;
+        settled = dialogue(tester);
+      }
+      speakers.add(
+        tester.widget<Text>(find.byKey(const Key('speaker_name'))).data!,
       );
-      if (lines.isEmpty || lines.last != dialogue(tester)) lines.add(dialogue(tester));
+      places.add(
+        tester
+            .widget<Text>(
+              find.descendant(
+                of: find.byKey(const Key('scene_place')),
+                matching: find.byType(Text),
+              ),
+            )
+            .data!,
+      );
+      if (lines.isEmpty || lines.last != dialogue(tester)) {
+        lines.add(dialogue(tester));
+      }
       if (find.byKey(const Key('share_button')).evaluate().isNotEmpty) break;
       await tester.tap(find.byKey(const Key('result_tap_area')));
       await tester.pump();
     }
     expect(find.byKey(const Key('share_button')), findsOneWidget);
+    // 성격 이론/유형 이름은 사용자에게 보이지 않는다.
+    final theoryNames = RegExp(
+      r'빅파이브|에니어그램|MBTI|16유형|4기질|[EI][SN][TF][JP]|(개방|성실|외향|우호|신경)성|(다혈|담즙|우울|점액)질',
+    );
+    expect(lines.where(theoryNames.hasMatch), isEmpty, reason: '$lines');
     return (speakers: speakers, places: places, lines: lines);
   }
 
@@ -146,7 +182,11 @@ void main() {
       await tester.tap(find.byKey(const Key('gate_download')));
       await tester.pump();
       await waitFor(tester, find.byKey(const Key('gate_progress')));
-      await waitFor(tester, find.byKey(const Key('channel_wuxia')), seconds: 1200);
+      await waitFor(
+        tester,
+        find.byKey(const Key('channel_wuxia')),
+        seconds: 1200,
+      );
     }
     await waitFor(tester, find.byKey(const Key('channel_wuxia')));
     await hold(tester, 1500);
@@ -154,11 +194,20 @@ void main() {
     // 2. 1회차 무협: 확률 0% 이므로 개별 시행 결과
     await tapKey(tester, 'channel_wuxia');
     await answer(tester, [0, 1, 0, 2]);
-    await waitFor(tester, find.byKey(const Key('result_tap_area')), seconds: 240);
+    await waitFor(
+      tester,
+      find.byKey(const Key('result_tap_area')),
+      seconds: 240,
+    );
     expect(find.byKey(const Key('ad_offer')), findsNothing);
     final first = await readThrough(tester);
     expect(first.speakers, {'백발의 검객'});
-    expect(first.lines, hasLength(2));
+    // 첫 줄은 결과 유형을 밝히는 문장, 이어서 성격 설명 3~4줄, 끝 줄은 명언.
+    expect(
+      first.lines.first,
+      allOf(startsWith('너는 '), endsWith(' 같은 사람이다.')),
+    );
+    expect(first.lines.length, inInclusiveRange(5, 6));
 
     // 공유: 미연시 장면 GIF 생성
     await tapKey(tester, 'share_button', holdMs: 300);
@@ -179,22 +228,40 @@ void main() {
     await hold(tester, 1500);
     await tapKey(tester, 'watch_ad', holdMs: 300);
     await waitFor(tester, find.byKey(const Key('ad_countdown')));
-    await waitFor(tester, find.byKey(const Key('result_tap_area')), seconds: 240);
+    await waitFor(
+      tester,
+      find.byKey(const Key('result_tap_area')),
+      seconds: 240,
+    );
     final second = await readThrough(tester);
-    expect(second.speakers, containsAll(['백발의 검객', '낯선 목소리'])); // separate 형태: 별도 장면
+    expect(
+      second.speakers,
+      containsAll(['백발의 검객', '낯선 목소리']),
+    ); // separate 형태: 별도 장면
     expect(second.places, contains('산 아래, 너를 지켜보던 사람들')); // 광고 보상 추가 장면
-    expect(second.lines.length, greaterThanOrEqualTo(2 + 2 + 2)); // 기본 2 + 발현 2~4 + 확장 2
+    expect(
+      second.lines.length,
+      greaterThanOrEqualTo(5 + 2 + 2),
+    ); // 기본 5~6 + 발현 2~3 + 확장 2
     await hold(tester, 1200);
 
     // 4. 3회차 보석: 발현 직후라 확률 0% -> 광고 제안 없음
     await tapKey(tester, 'home_button');
     await tapKey(tester, 'channel_gem');
     await answer(tester, [1, 0, 2, 1]);
-    await waitFor(tester, find.byKey(const Key('result_tap_area')), seconds: 240);
+    await waitFor(
+      tester,
+      find.byKey(const Key('result_tap_area')),
+      seconds: 240,
+    );
     expect(find.byKey(const Key('ad_offer')), findsNothing);
     final third = await readThrough(tester);
     expect(third.speakers, {'보석상 주인'});
-    expect(third.lines, hasLength(2));
+    expect(
+      third.lines.first,
+      allOf(startsWith('당신은 '), endsWith('처럼 보이네요.')),
+    );
+    expect(third.lines.length, inInclusiveRange(5, 6));
 
     // 5. 4회차 동물, 오프라인: 발현은 일어나지만 광고는 없다 (mixed 형태: 같은 장면에 섞임)
     connectivity.online = false;
@@ -203,11 +270,15 @@ void main() {
     await tester.pumpAndSettle();
     await tapKey(tester, 'channel_animal');
     await answer(tester, [0, 0, 1, 2]);
-    await waitFor(tester, find.byKey(const Key('result_tap_area')), seconds: 240);
+    await waitFor(
+      tester,
+      find.byKey(const Key('result_tap_area')),
+      seconds: 240,
+    );
     expect(find.byKey(const Key('ad_offer')), findsNothing);
     final fourth = await readThrough(tester);
     expect(fourth.speakers, {'숲의 늙은 올빼미'});
-    expect(fourth.lines.length, greaterThan(2));
+    expect(fourth.lines.length, greaterThan(5));
     expect(fourth.places, isNot(contains('새벽 안개 낀 호숫가')));
 
     // 6. 설정: 누적 기록, 언어 변경, 전체 삭제

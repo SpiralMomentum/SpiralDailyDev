@@ -8,24 +8,29 @@ abstract final class LineSanitizer {
 
   static String _stripQuotes(String s) {
     var t = s.trim();
-    while (t.length >= 2 && _quotes.contains(t[0]) && _quotes.contains(t[t.length - 1])) {
+    while (t.length >= 2 &&
+        _quotes.contains(t[0]) &&
+        _quotes.contains(t[t.length - 1])) {
       t = t.substring(1, t.length - 1).trim();
     }
     return t;
   }
 
-  static String cleanLine(String line) =>
-      _stripQuotes(line.replaceFirst(_bullet, '').replaceFirst(_label, '').trim());
+  static String cleanLine(String line) => _stripQuotes(
+    line.replaceFirst(_bullet, '').replaceFirst(_label, '').trim(),
+  );
 
-  /// 정리한 줄 목록. [maxLength] 의 1.5배를 넘는 줄, 결과 이름이 든 줄, 금지 패턴 줄, 중복은 버린다.
+  /// 정리한 줄 목록. [maxLength] 의 1.5배를 넘는 줄, 결과 이름이 든 줄, 금지 패턴 줄, 중복,
+  /// 말투 예시를 그대로 옮긴 줄([avoid])은 버린다.
   static List<String> clean(
     String raw, {
     required String title,
     required int maxLength,
     required int maxLines,
     List<RegExp> banned = const [],
+    List<String> avoid = const [],
   }) {
-    final seen = <String>{};
+    final seen = <String>{...avoid.map(cleanLine)};
     return raw
         .replaceAll(_specialTokens, '')
         .split('\n')
