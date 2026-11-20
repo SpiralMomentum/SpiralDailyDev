@@ -1,0 +1,11 @@
+# 릴스 게시 예시. media는 render_and_validate.py 가 만든 shorts_reels_tiktok_9x16.mp4 경로로 교체. 아직 게시하지 않음.
+name: daily_memo_reel
+type: reel
+media:
+  - ../../out/shorts_reels_tiktok_9x16.mp4
+share_to_feed: true
+caption: |-
+  미, 메모
+  복잡함을 덜어낸 메모 앱. 열면 바로 쓸 수 있다.
+
+  #메모앱 #미메모 #생산성

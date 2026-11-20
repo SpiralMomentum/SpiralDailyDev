@@ -1,0 +1,14 @@
+# world_of_beast 카피. 앱 화면에서 확인되는 사실만 쓴다: 몬스터 이름 + 설명 목록, 별(즐겨찾기), 목록/지도 전환, 국가 코드 표시.
+language: ko
+register: honorific
+voices:
+  mutter:   # 혼잣말체
+    - {headline: "가루다라는 새를\n처음 알았어요", body: "", screen: list, with: [detail]}
+    - {headline: "이름 아래\n한 줄 설명이 있어요", body: "읽다 보면 다음 카드가 궁금해져요", screen: list_top}
+    - {headline: "마음에 들면\n[[별]]만 누르면 돼요", body: "", screen: detail_fav}
+    - {headline: "지도로도\n볼 수 있어요", body: "야수의 세계", screen: map}
+  facts:    # 사실 나열
+    - {headline: "카드 한 장에\n[[한 마리]]예요", body: "이름과 설명", screen: list_top, with: [detail]}
+    - {headline: "나라는\n[[코드]]로 표시돼요", body: "예: IN", screen: detail}
+    - {headline: "즐겨찾기는\n[[별]] 하나예요", body: "", screen: detail_fav}
+    - {headline: "목록과 지도,\n[[두 가지]]예요", body: "야수의 세계", screen: map}

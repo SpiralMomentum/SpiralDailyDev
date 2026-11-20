@@ -1,0 +1,15 @@
+# luck_insight 카피. 결과 화면은 무작위라 특정 결과(등수·이름·%)를 문구에 쓰지 않는다.
+# 화면에서 확인되는 사실만: 물음표 4개 중 하나 선택, 결과는 등수·이름·상위 %·한 줄 문구, 다시하기, 1등 기록 버튼.
+language: ko
+register: honorific
+voices:
+  mutter:
+    - {headline: "아침마다\n물음표 하나를 눌러요", body: "", screen: pick}
+    - {headline: "오늘 결과는\n[[이렇게]] 나와요", body: "등수와 한 줄 문구", screen: result}
+    - {headline: "마음에 안 들면\n[[다시하기]]", body: "", screen: result}
+    - {headline: "1등은\n아직이에요", body: "{{app.name}}", screen: history}
+  facts:
+    - {headline: "물음표는\n[[4개]]예요", body: "하나만 고르면 돼요", screen: pick}
+    - {headline: "결과는\n[[등수]]로 나와요", body: "상위 몇 %인지도 같이 보여요", screen: result}
+    - {headline: "다시 고를 수\n[[있어요]]", body: "다시하기 버튼", screen: result}
+    - {headline: "1등은\n[[따로]] 모아 둬요", body: "{{app.name}}", screen: history}

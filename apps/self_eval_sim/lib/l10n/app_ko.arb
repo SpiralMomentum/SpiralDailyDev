@@ -1,0 +1,74 @@
+{
+ "@@locale": "ko",
+ "appTitle": "누적 평가",
+ "gateTitle": "처음 한 번, 모델을 내려받아야 해요",
+ "gateBody": "내려받은 뒤에는 인터넷 없이도 모든 평가가 동작합니다.",
+ "gateDownload": "내려받기",
+ "gateDownloading": "내려받는 중 {percent}%",
+ "@gateDownloading": {
+  "placeholders": {
+   "percent": {
+    "type": "int"
+   }
+  }
+ },
+ "gateFailed": "내려받지 못했어요. 연결을 확인하고 다시 시도해 주세요.",
+ "gateTooLarge": "모델 용량이 허용 상한을 넘었어요.",
+ "gateRetry": "다시 시도",
+ "homeTitle": "어디에서 평가받을까요?",
+ "homeSettings": "설정",
+ "quizProgress": "{current} / {total}",
+ "@quizProgress": {
+  "placeholders": {
+   "current": {
+    "type": "int"
+   },
+   "total": {
+    "type": "int"
+   }
+  }
+ },
+ "generatingTitle": "결과를 만드는 중",
+ "generatingAdOffer": "기다리는 동안 광고를 보면 장면이 더 길어져요",
+ "generatingWatchAd": "광고 보기",
+ "generatingSkipAd": "그냥 기다리기",
+ "adPlaying": "광고 재생 중 · {seconds}초",
+ "@adPlaying": {
+  "placeholders": {
+   "seconds": {
+    "type": "int"
+   }
+  }
+ },
+ "adRewarded": "추가 장면이 열렸어요",
+ "adFailed": "광고를 불러오지 못했어요",
+ "resultTapToContinue": "탭해서 계속",
+ "resultTitleLabel": "평가",
+ "resultShare": "공유",
+ "resultAgain": "한 번 더",
+ "resultHome": "처음으로",
+ "shareMaking": "공유 이미지를 만드는 중",
+ "shareFailed": "공유 이미지를 만들지 못했어요",
+ "settingsTitle": "설정",
+ "settingsLanguage": "언어",
+ "settingsLanguageSystem": "기기 설정 따르기",
+ "settingsHistory": "누적 기록",
+ "settingsHistoryCount": "시행 {attempts}회 · 발현 {manifestations}회",
+ "@settingsHistoryCount": {
+  "placeholders": {
+   "attempts": {
+    "type": "int"
+   },
+   "manifestations": {
+    "type": "int"
+   }
+  }
+ },
+ "settingsDeleteAll": "기록 전체 삭제",
+ "settingsDeleteConfirmTitle": "기록을 모두 지울까요?",
+ "settingsDeleteConfirmBody": "지운 기록은 되돌릴 수 없어요.",
+ "settingsDeleted": "기록을 모두 지웠어요",
+ "commonCancel": "취소",
+ "commonDelete": "삭제",
+ "commonError": "문제가 생겼어요. 다시 시도해 주세요."
+}

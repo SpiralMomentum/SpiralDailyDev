@@ -1,0 +1,32 @@
+{
+ "id": "sim-text",
+ "version": 1,
+ "languages": {
+  "ko": {
+   "mixed.intro": [
+    "말을 마치려다 잠깐 멈춘다.",
+    "목소리가 조금 낮아진다."
+   ],
+   "recall.attempt": [
+    "{ago}번 전, {channel}. 그때 넌 '{choice}' 쪽이었지.",
+    "'{choice}'. 예전에 이걸 고른 적 있지?",
+    "{channel}에서 고른 '{choice}', 아직 기억하고 있어."
+   ],
+   "recall.manifest": [
+    "{ago}번 전에도 이런 순간이 있었지. 그때 떠오른 건 '{choice}'였어.",
+    "전에 한 번 이 얘기를 했었지. '{choice}' 말이야."
+   ],
+   "close": [
+    "그게 다 모여서 지금이 된 거야.",
+    "쌓인 건 어디 가지 않아.",
+    "오늘 고른 것도 언젠가 다시 나올 거야."
+   ],
+   "separate.speaker": "낯선 목소리",
+   "separate.place": "아무도 없는 곳",
+   "separate.intro": [
+    "주변이 조용해진다. 어디선가 목소리가 들린다.",
+    "갑자기 모든 소리가 멎는다."
+   ]
+  }
+ }
+}

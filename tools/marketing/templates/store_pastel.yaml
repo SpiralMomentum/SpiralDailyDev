@@ -1,0 +1,76 @@
+# 프리셋 근거: 07_템플릿_스펙.md 11.3 `store_goodnotes_pastel` (직접 raw/07, 벤더 raw/02 #59)
+# 관측값: 장마다 파스텔 배경 + 옅은 격자 패턴, 상단 중앙 정렬 2~3줄 굵은 캡션(한글 15~33자, "~세요|~합니다"),
+#         검정 베젤 기기 폭 약 75%, 기기 하단 잘림, UI 팝아웃 카드(흰 배경·둥근 모서리·그림자).
+# 캔버스: App Store 필수 규격 1206x2622 (Dynamic Island medium, 공식 raw/02 #1), 알파 불가.
+# 베젤: Apple Design Resources는 Apple 플랫폼 UI 목업 전용 라이선스(raw/05 #2)라 generic 단색 베젤을 그린다.
+#       Apple 마케팅 가이드라인은 베젤 크롭·기울임을 금지하지만(raw/02 #9) 스토어 상위 앱 7/7이 하단을 잘라 쓴다(raw/07).
+template:
+  id: store_pastel
+  channel: app_store_iphone
+  spec_ref: 07_템플릿_스펙.md 11.3
+
+canvas: {width_px: 1206, height_px: 2622, aspect: "19.5:9", format: png, alpha: false, density: 2.2}
+
+typography:
+  families: {headline: "{{app.font}}", body: "{{app.font}}"}
+  headline: {size_px: 84, weight: 700, line_height: 1.25}
+  body: {size_px: 44, weight: 400, line_height: 1.4}
+
+color:
+  palette: {primary: "{{app.brand.primary}}", accent: "{{app.brand.accent}}", neutral: ["#111111"]}
+  background_mode: light
+
+layers:
+  - type: background
+    kind: pattern
+    per_slide_color: true
+    palette_per_slide: ["#FFF3C4", "#E6E1F7", "#D6ECFA", "#E3F1D6"]
+    pattern: {kind: grid, spacing_px: 96, color: "#000000", opacity: 0.05}
+  - type: caption
+    position: top
+    align: center
+    margin_x_pct: 8
+    margin_top_pct: 7
+    gap_px: 24
+    text_color: "#111111"
+    body_color: "#5A5A5A"
+    emphasis_color: "{{app.brand.accent}}"
+  - type: device_frame
+    present: true
+    kind: solid
+    color_hex: "#111111"
+    width_fraction: 0.75
+    bezel_fraction: 0.03
+    outer_radius_fraction: 0.16
+    screen_radius_fraction: 0.13
+    bottom_cropped: true
+    y_pct: 29
+    tilt_deg: 0
+  - type: ui_popout
+    present: false
+    width_fraction: 0.9
+    card_style: {bg: "#FFFFFF", radius_px: 40, padding_px: 0, shadow: tailwind_2xl}
+    anchor: top_center
+  - type: brand
+    logo: {present: false}
+    page_number: {present: false}
+
+slides:
+  - headline: "{{headline}}"
+    body: "{{body?}}"
+    screenshot: "{{shot}}"
+  - headline: "{{headline}}"
+    body: "{{body?}}"
+    screenshot: "{{shot}}"
+    layers:
+      ui_popout: {present: true, crop: "{{crop}}", width_fraction: 0.98, y_pct: 55, x_pct: 52}
+  - headline: "{{headline}}"
+    body: "{{body?}}"
+    screenshot: "{{shot}}"
+    layers:
+      ui_popout: {present: true, crop: "{{crop}}", width_fraction: 0.9, y_pct: 62, x_pct: 52}
+  - headline: "{{headline}}"
+    body: "{{body?}}"
+    screenshot: "{{shot}}"
+    layers:
+      ui_popout: {present: true, crop: "{{crop}}", width_fraction: 0.95, y_pct: 56, x_pct: 52}

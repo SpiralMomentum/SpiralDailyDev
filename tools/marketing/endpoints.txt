@@ -1,0 +1,21 @@
+YouTube videos.insert|POST|https://www.googleapis.com/upload/youtube/v3/videos?part=snippet&uploadType=resumable
+TikTok creator_info|POST|https://open.tiktokapis.com/v2/post/publish/creator_info/query/
+TikTok video init|POST|https://open.tiktokapis.com/v2/post/publish/video/init/
+Instagram(FB login) media|POST|https://graph.facebook.com/v24.0/me/media
+Instagram(IG login) media|POST|https://graph.instagram.com/v24.0/me/media
+Threads|POST|https://graph.threads.net/v1.0/me/threads
+X posts|POST|https://api.x.com/2/tweets
+X media upload v2|POST|https://api.x.com/2/media/upload/initialize
+LinkedIn posts|POST|https://api.linkedin.com/rest/posts
+Reddit submit|POST|https://oauth.reddit.com/api/submit
+Pinterest pins|POST|https://api.pinterest.com/v5/pins
+Medium me|GET|https://api.medium.com/v1/me
+Dev.to articles|POST|https://dev.to/api/articles
+Hashnode gql (유료화 확인)|POST|https://gql.hashnode.com
+Bluesky createRecord|POST|https://bsky.social/xrpc/com.atproto.repo.createRecord
+Telegram bot|GET|https://api.telegram.org/bot0:invalid/getMe
+Discord webhook|POST|https://discord.com/api/webhooks/0/invalid
+NaverCafe write|POST|https://openapi.naver.com/v1/cafe/1/menu/1/articles
+Tistory post (종료확인)|POST|https://www.tistory.com/apis/post/write
+ASC apps|GET|https://api.appstoreconnect.apple.com/v1/apps
+Play edits|POST|https://androidpublisher.googleapis.com/androidpublisher/v3/applications/com.example/edits

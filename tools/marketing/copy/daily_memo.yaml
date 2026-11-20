@@ -1,0 +1,76 @@
+# 카피 세트 (앱 이름은 파일명으로 연결: --app apps/<이름>.yaml, copy/<이름>.yaml). 문구만 고치면 되는 파일이다.
+# 규칙
+#   - 말투: 앱 프로필의 register 를 따른다 (이 파일은 존댓말 해요체). 후기·수치 주장 없이 앱에서 확인되는 사실만 쓴다
+#     (입력 칸 2개, 추가 버튼, 수정일·생성일 자동 기록).
+#   - 줄바꿈 \n, 강조 [[단어]]. 한 줄 16자 안팎 권장 (넘침 자동 축소는 아직 없다).
+#   - screen: 화면 이름(앱 프로필의 screens) 하나, 또는 2개 목록(나란히 배치). 화면을 안 쓰는 스타일에서는 무시된다.
+#   - with: 겹쳐 쌓기(stack) 스타일에서만 뒤에 함께 깔 화면 이름 목록 (뒤 -> 앞 순서로 with, screen 이 이어진다). 최대 합계 3개.
+language: ko
+register: honorific
+# 렌더 조합 (말투, 스타일). 생략하면 모든 말투 x 모든 스타일.
+combos:
+  - [mutter, text_only]
+  - [mutter, screen_crop]
+  - [mutter, screen_contain]
+  - [maker, screen_dark]
+  - [maker, screen_crop]
+  - [maker, left_tilt]
+  - [question, screen_contain]
+  - [question, screen_crop]
+  - [question, big_card]
+  - [facts, text_only]
+  - [facts, screen_dark]
+  - [facts, screen_contain]
+  - [maker, stack_tilt]
+  - [question, stack_dark]
+  - [facts, stack_tilt]
+  - [mutter, edge_diag]
+  - [question, edge_diag]
+  - [maker, stack_dark]
+  - [maker, cover_3d]
+  - [question, cover_3d]
+  - [facts, cover_3d_dark]
+  - [mutter, cover_3d_dark]
+  - [maker, cover_3d_stack]
+voices:
+  mutter:   # 혼잣말 메모체
+    - {headline: "장보기 목록 적다가\n알게 된 게 있어요", body: "", screen: list, with: [saved]}
+    - {headline: "칸이 두 개뿐이라\n오히려 [[편했어요]]", body: "제목과 내용, 끝이에요", screen: [form_full, saved]}
+    - {headline: "언제 적었는지는\n앱이 [[기억해 줘요]]", body: "수정일과 생성일이 자동으로 남아요", screen: list_top}
+    - {headline: "그래서 요즘은\n여기에 적고 있어요", body: "미, 메모", screen: saved}
+  maker:    # 만든 사람의 일기체
+    - {headline: "메모 앱을\n직접 만들었어요", body: "", screen: list, with: [form]}
+    - {headline: "기능은 일부러\n[[적게]] 뒀어요", body: "입력 칸은 두 개, 버튼은 하나예요", screen: form, with: [saved]}
+    - {headline: "날짜는 손대지 않아도\n[[자동으로]] 남아요", body: "수정일과 생성일", screen: list_top}
+    - {headline: "써 보시고 불편하면\n말씀해 주세요", body: "미, 메모", screen: saved}
+  question: # 질문형
+    - {headline: "메모하려고 켰는데\n설정부터 열어 보셨나요?", body: "", screen: list_top}
+    - {headline: "여기는 열면\n[[바로]] 입력 칸이에요", body: "", screen: form, with: [saved]}
+    - {headline: "추가하면 날짜는\n[[알아서]] 붙어요", body: "", screen: list_top}
+    - {headline: "그게 전부예요", body: "미, 메모", screen: saved}
+  facts:    # 사실 나열
+    - {headline: "입력 칸은\n[[2개]]예요", body: "제목, 내용", screen: form, with: [saved]}
+    - {headline: "추가 버튼은\n[[1개]]예요", body: "목록 오른쪽 위에 있어요", screen: list_top, with: [form]}
+    - {headline: "자동 기록은\n[[2개]]예요", body: "수정일, 생성일", screen: list_top}
+    - {headline: "미, 메모", body: "그게 전부예요", screen: saved}
+  legacy_ig_carousel:
+    - {"body": "열면 바로 쓸 수 있어요", "headline": "복잡함을 덜어낸\n메모 앱, [[미, 메모]]", "screen": "list_top"}
+    - {"body": "목록 오른쪽 위에서 새 메모를 시작합니다", "headline": "[[추가]] 버튼 하나로\n메모를 바로 남기세요", "screen": "appbar"}
+    - {"body": "입력 칸은 두 개뿐입니다", "headline": "제목과 내용만 적고\n[[추가]]를 누르면 끝나요", "screen": "extra1"}
+    - {"body": "언제 적었는지 따로 메모하지 않아도 됩니다", "headline": "수정일과 생성일을\n[[자동으로]] 기록해요", "screen": "dates"}
+    - {"body": "App Store와 Google Play에서 무료", "headline": "지금 [[미, 메모]]로\n가볍게 시작하세요", "screen": "extra2"}
+  legacy_ig_feed:
+    - {"headline": "열면 바로 쓰는\n메모 앱", "screen": "extra3"}
+    - {"headline": "추가 버튼 하나로\n바로 기록", "screen": "extra4"}
+    - {"headline": "제목과 내용,\n그게 전부", "screen": "extra1"}
+    - {"headline": "작성 시각은\n자동으로", "screen": "item"}
+  legacy_play:
+    - {"body": "열면 바로 쓸 수 있습니다", "headline": "복잡함을 덜어낸\n메모 앱을 만나보세요", "screen": "extra5"}
+    - {"headline": "[[추가]] 버튼 하나로\n메모를 바로 남기세요", "screen": "extra5"}
+    - {"headline": "제목과 내용만 적고\n[[추가]]를 누르면 끝납니다", "screen": "extra6"}
+    - {"headline": "작성 시각은\n[[자동으로]] 기록됩니다", "screen": "item"}
+  legacy_store_pastel:
+    - {"body": "열면 바로 쓸 수 있습니다", "headline": "복잡함을 덜어낸\n메모 앱을 만나보세요", "screen": "list"}
+    - {"headline": "[[추가]] 버튼 하나로\n메모를 바로 남기세요", "screen": "appbar"}
+    - {"headline": "제목과 내용만 적고\n[[추가]]를 누르면 끝납니다", "screen": "extra7"}
+    - {"headline": "작성 시각은\n[[자동으로]] 기록됩니다", "screen": "dates"}
