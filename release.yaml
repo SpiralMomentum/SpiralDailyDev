@@ -288,3 +288,30 @@ apps:
     fastlane:
       androidLane: android_play_production
       iosLane: ios_appstore_release
+  self_eval_sim:
+    appId: com.spiralmomentum.self_eval_sim
+    iosBundleId: com.spiralmomentum.selfEvalSim
+    displayName: 누적 평가
+    projectPath: apps/self_eval_sim
+    ci: {}
+    metadata:
+      android: store_metadata/self_eval_sim/android.yaml
+      ios: store_metadata/self_eval_sim/ios.yaml
+    autoGenerateIcon: false
+    autoCaptureScreenshots: false
+    build:
+      android:
+        command:
+        - flutter
+        - build
+        - appbundle
+        - --release
+      ios:
+        command:
+        - flutter
+        - build
+        - ipa
+        - --release
+    fastlane:
+      androidLane: android_play_production
+      iosLane: ios_appstore_release
