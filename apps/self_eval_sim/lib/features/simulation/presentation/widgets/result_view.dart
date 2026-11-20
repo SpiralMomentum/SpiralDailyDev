@@ -12,6 +12,7 @@ class ResultView extends StatefulWidget {
     required this.onShare,
     required this.onAgain,
     required this.onHome,
+    this.onReport,
     this.charInterval = const Duration(milliseconds: 35),
   });
 
@@ -19,6 +20,9 @@ class ResultView extends StatefulWidget {
   final VoidCallback onShare;
   final VoidCallback onAgain;
   final VoidCallback onHome;
+
+  /// 생성 대사 신고. null 이면 신고 버튼을 숨긴다.
+  final VoidCallback? onReport;
   final Duration charInterval;
 
   @override
@@ -130,20 +134,33 @@ class _ResultViewState extends State<ResultView> with SingleTickerProviderStateM
                         child: Text(l10n.resultHome),
                       ),
                     ),
+                    if (widget.onReport != null) _reportButton(l10n),
                   ],
                 )
-              : Align(
-                  alignment: Alignment.centerRight,
-                  child: Text(
-                    '${l10n.resultTapToContinue}  ${_sceneProgress()}',
-                    key: const Key('tap_hint'),
-                    style: const TextStyle(color: Colors.white70, fontSize: 12),
-                  ),
+              : Row(
+                  children: [
+                    if (widget.onReport != null) _reportButton(l10n),
+                    const Spacer(),
+                    Text(
+                      '${l10n.resultTapToContinue}  ${_sceneProgress()}',
+                      key: const Key('tap_hint'),
+                      style: const TextStyle(color: Colors.white70, fontSize: 12),
+                    ),
+                  ],
                 ),
         ),
       ),
     );
   }
+
+  Widget _reportButton(AppLocalizations l10n) => IconButton(
+        key: const Key('report_button'),
+        tooltip: l10n.resultReport,
+        visualDensity: VisualDensity.compact,
+        color: Colors.white70,
+        onPressed: widget.onReport,
+        icon: const Icon(Icons.outlined_flag),
+      );
 
   String _sceneProgress() {
     final total = widget.result.scenes.fold<int>(0, (n, s) => n + s.lines.length);

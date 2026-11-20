@@ -6,6 +6,30 @@ pipeline:
   artifactRoot: artifacts
   fastlaneBinary: bundle exec fastlane
   enableNotifications: false
+org:
+  name: Spiral Dev
+  contactEmail: spiraldailydev@gmail.com
+  reviewFirstName: Spiral
+  reviewLastName: Dev
+  copyright: 2026 Spiral Dev
+  packagePrefix: com.spiraldev
+  keystoreDname: OU=SpiralDev, O=SpiralDev, L=Seoul, ST=Seoul, C=KR
+  githubRepo: SpiralMomentum/SpiralDailyDev
+  playDeveloperId: "7643103087859976209"
+paths:
+  signing: signing/{app}/android
+  storeListing: apps/{app}/store_listing.json
+  storeMetadata: store_metadata/{app}
+  iosMetadata: fastlane/metadata/{app}
+  iosScreenshots: fastlane/screenshots/{app}
+  androidMetadata: fastlane/metadata_android/{app}
+defaults:
+  coverageThreshold: 50
+  primaryCategory: LIFESTYLE
+  registrationBackend: chrome_extension
+  locales:
+    - en-US
+    - ko
 apps:
   adage_spark:
     appId: com.spiraldev.adage_spark
@@ -261,6 +285,33 @@ apps:
           - build
           - ipa
           - --release
+    fastlane:
+      androidLane: android_play_production
+      iosLane: ios_appstore_release
+  self_eval_sim:
+    appId: com.spiralmomentum.self_eval_sim
+    iosBundleId: com.spiralmomentum.selfEvalSim
+    displayName: 누적 평가
+    projectPath: apps/self_eval_sim
+    ci: {}
+    metadata:
+      android: store_metadata/self_eval_sim/android.yaml
+      ios: store_metadata/self_eval_sim/ios.yaml
+    autoGenerateIcon: false
+    autoCaptureScreenshots: false
+    build:
+      android:
+        command:
+        - flutter
+        - build
+        - appbundle
+        - --release
+      ios:
+        command:
+        - flutter
+        - build
+        - ipa
+        - --release
     fastlane:
       androidLane: android_play_production
       iosLane: ios_appstore_release

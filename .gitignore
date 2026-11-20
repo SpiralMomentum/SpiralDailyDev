@@ -156,3 +156,7 @@ artifacts/
 
 # Worktrees
 .worktrees/
+
+# Play Console 등록 자동화
+tools/store/registration/backends/playwright/node_modules/
+tools/store/registration/backends/chrome_extension/host/*.installed.json

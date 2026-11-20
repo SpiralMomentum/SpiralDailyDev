@@ -1,0 +1,74 @@
+{
+  "version": "1.0",
+  "description": "Play Console 등록 백엔드 CLI 계약. 모든 백엔드는 이 계약을 준수해야 한다.",
+
+  "cli": {
+    "invocation": "<backend_cli> --step <step> --config <json> [--app-id <id>] [--developer-id <id>]",
+    "output": "stdout에 JSON 한 줄, stderr에 로그",
+    "exit_code": "0 = 성공, 1 = 실패"
+  },
+
+  "backends": {
+    "playwright": {
+      "entrypoint": "backends/playwright/index.js",
+      "runtime": "node (>=20)",
+      "auth": "별도 Chrome 프로필 — 첫 실행 시 수동 로그인 필요",
+      "note": "Google 자동화 감지 우회 불완전"
+    },
+    "claude_chrome": {
+      "entrypoint": "backends/claude_chrome/run.sh",
+      "runtime": "bash + claude CLI",
+      "auth": "claude login 완료 필요, Chrome에 Claude in Chrome 익스텐션 필요"
+    },
+    "chrome_extension": {
+      "entrypoint": "backends/chrome_extension/host/host.py",
+      "runtime": "python3 (표준 라이브러리만)",
+      "auth": "이미 로그인된 Chrome 세션 재사용 — Google 감지 없음",
+      "setup": "install.sh 한 번 실행 후 Chrome Extension 로드 필요"
+    }
+  },
+
+  "output_schema": {
+    "success": "boolean",
+    "app_id": "string | null — create_app 단계에서만 반환",
+    "message": "string — 에러 시 사유"
+  },
+
+  "steps": {
+    "create_app": {
+      "description": "앱 생성. app_id 반환",
+      "required_config_fields": ["name_en", "package_name", "default_language", "app_type", "monetization"],
+      "note": "법적 동의 체크박스는 사용자 직접 처리. 백엔드는 대기 후 진행."
+    },
+    "set_store_settings": {
+      "description": "카테고리, 연락처 설정",
+      "required_config_fields": ["category", "support_url"],
+      "requires_app_id": true
+    },
+    "set_privacy_policy": {
+      "description": "개인정보처리방침 URL 설정",
+      "required_config_fields": ["privacy_policy_url"],
+      "requires_app_id": true
+    },
+    "set_ads": {
+      "description": "광고 여부 설정",
+      "required_config_fields": ["ads"],
+      "requires_app_id": true
+    },
+    "set_app_access": {
+      "description": "앱 액세스 설정",
+      "required_config_fields": ["requires_login"],
+      "requires_app_id": true
+    },
+    "set_content_rating": {
+      "description": "IARC 콘텐츠 등급 설문",
+      "required_config_fields": ["category", "content_violence", "content_gambling", "content_adult"],
+      "requires_app_id": true
+    },
+    "set_target_audience": {
+      "description": "타겟층 설정",
+      "required_config_fields": ["target_age"],
+      "requires_app_id": true
+    }
+  }
+}

@@ -1,0 +1,183 @@
+# store_listing.yaml 필드 정의 및 허용 값 목록
+# apps/<앱>/store_listing.yaml 작성 시 이 파일을 참조한다.
+
+fields:
+
+  name_ko:
+    type: string
+    description: 스토어에 표시되는 앱 이름 (한국어)
+    limits:
+      android: 30자
+      ios: 30자
+
+  name_en:
+    type: string
+    description: 스토어에 표시되는 앱 이름 (영어) — Play Console 앱 생성 시 입력값
+
+  package_name:
+    type: string
+    description: Android 패키지 ID — Play Console 앱 생성 시 입력, 이후 변경 불가
+    example: com.spiralmomentum.color_snap
+
+  bundle_id:
+    type: string
+    description: iOS Bundle Identifier — Fastlane deliver, App Store Connect 등록 시 사용
+    example: com.spiralmomentum.colorSnap
+
+  one_liner_ko:
+    type: string
+    description: Claude 메타데이터 생성 프롬프트에 전달되는 앱 한 줄 설명 (한국어)
+
+  category:
+    type: enum
+    description: 앱 카테고리 — Play Console 스토어 설정 / ASC 카테고리
+    android_values:
+      - art_and_design
+      - auto_and_vehicles
+      - beauty
+      - books_and_reference
+      - business
+      - comics
+      - communication
+      - dating
+      - education
+      - entertainment
+      - events
+      - finance
+      - food_and_drink
+      - health_and_fitness
+      - house_and_home
+      - libraries_and_demo
+      - lifestyle
+      - maps_and_navigation
+      - medical
+      - music_and_audio
+      - news_and_magazines
+      - parenting
+      - personalization
+      - photography
+      - productivity
+      - shopping
+      - social
+      - sports
+      - tools
+      - travel_and_local
+      - trivia
+      - utilities
+      - video_players
+      - weather
+    ios_values:
+      - books
+      - business
+      - developer_tools
+      - education
+      - entertainment
+      - finance
+      - food_and_drink
+      - games
+      - graphics_and_design
+      - health_and_fitness
+      - lifestyle
+      - magazines_and_newspapers
+      - medical
+      - music
+      - navigation
+      - news
+      - photo_and_video
+      - productivity
+      - reference
+      - shopping
+      - social_networking
+      - sports
+      - travel
+      - utilities
+      - weather
+
+  app_type:
+    type: enum
+    description: 앱 또는 게임 — Play Console 스토어 설정에서 선택
+    values:
+      - app
+      - game
+
+  default_language:
+    type: enum
+    description: Play Console 앱 생성 시 기본 언어
+    values:
+      - ko-KR
+      - en-US
+      - ja-JP
+      - zh-TW
+      - zh-CN
+      - fr-FR
+      - de-DE
+      - es-ES
+      - pt-BR
+
+  monetization:
+    type: enum
+    description: 수익화 모델
+    values:
+      - free          # 완전 무료
+      - paid          # 유료 앱 (가격 지정 필요)
+      - iap           # 무료 + 인앱 결제
+      - subscription  # 무료 + 구독
+
+  ads:
+    type: boolean
+    description: 광고 포함 여부 — 앱 콘텐츠 → 광고 여부
+
+  requires_login:
+    type: boolean
+    description: 로그인 없이 앱의 모든 기능 사용 가능 여부 — 앱 콘텐츠 → 앱 액세스
+    note: >
+      false = 모든 기능 사용 가능 (로그인 불필요).
+      true  = 일부 또는 전체 기능에 로그인 필요 → Play Console에서 테스트 계정 정보 추가 입력 필요.
+
+  content_violence:
+    type: boolean
+    description: 폭력 콘텐츠 포함 여부 — IARC 콘텐츠 등급 설문
+
+  content_gambling:
+    type: boolean
+    description: 도박/카지노 콘텐츠 포함 여부 — IARC 콘텐츠 등급 설문
+
+  content_adult:
+    type: boolean
+    description: 성인 콘텐츠 포함 여부 — IARC 콘텐츠 등급 설문
+
+  target_age:
+    type: enum
+    description: 타겟 연령층 — 앱 콘텐츠 → 타겟층 및 콘텐츠
+    values:
+      - all    # 전체 이용가 (만 18세 미만 포함)
+      - teen   # 만 13세 이상
+      - adult  # 만 18세 이상
+    note: >
+      all을 선택하면 아동 타겟 앱 추가 정책이 적용될 수 있음.
+      광고가 있는 경우 아동 대상 광고 정책도 준수해야 함.
+
+  languages:
+    type: list
+    description: 메타데이터를 생성할 언어 목록 — generate_metadata.py 에서 사용
+    values:
+      - ko   # 한국어 → ko-KR (Android), ko (iOS)
+      - en   # 영어   → en-US (Android), en-US (iOS)
+      - ja   # 일본어 → ja-JP (Android), ja (iOS)
+      - zh   # 중국어 (번체) → zh-TW (Android), zh-Hant (iOS)
+      - fr   # 프랑스어
+      - de   # 독일어
+      - es   # 스페인어
+
+  privacy_policy_url:
+    type: string
+    description: 개인정보처리방침 URL — 앱 콘텐츠 → 개인정보처리방침, 스토어 등록정보에 표시
+    note: https:// 로 시작, 공개 접근 가능해야 함
+
+  support_url:
+    type: string
+    description: 개발자 지원 웹사이트 URL — 스토어 설정 연락처 / iOS 메타데이터
+
+  marketing_url:
+    type: string
+    description: 앱 마케팅 사이트 URL — iOS 메타데이터 (optional)

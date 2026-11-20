@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../l10n/app_localizations.dart';
+import '../../report/content_report.dart';
+import '../domain/entities/evaluation.dart';
 import 'bloc/attempt_bloc.dart';
 import 'bloc/attempt_event.dart';
 import 'bloc/attempt_state.dart';
@@ -13,23 +16,39 @@ import 'widgets/scene_recorder.dart';
 /// 공유 프레임을 넘겨받아 공유를 끝내면 true. 공유 기능은 앱 조립 영역이 연결한다.
 typedef FramesSharer = Future<bool> Function(List<CapturedFrame> frames, String caption);
 
+/// 생성 대사 신고 창구(메일 앱)를 열면 true. 앱 조립 영역이 연결한다.
+typedef ContentReporter = Future<bool> Function(EvaluationResult result);
+
 class AttemptPage extends StatelessWidget {
-  const AttemptPage({super.key, required this.createBloc, required this.shareFrames});
+  const AttemptPage({super.key, required this.createBloc, required this.shareFrames, this.reportContent});
 
   final AttemptBloc Function() createBloc;
   final FramesSharer shareFrames;
 
+  /// null 이면 결과 화면에 신고 버튼을 두지 않는다.
+  final ContentReporter? reportContent;
+
   @override
   Widget build(BuildContext context) => BlocProvider(
         create: (_) => createBloc()..add(const AttemptStarted()),
-        child: _AttemptBody(shareFrames: shareFrames),
+        child: _AttemptBody(shareFrames: shareFrames, reportContent: reportContent),
       );
 }
 
 class _AttemptBody extends StatelessWidget {
-  const _AttemptBody({required this.shareFrames});
+  const _AttemptBody({required this.shareFrames, this.reportContent});
 
   final FramesSharer shareFrames;
+  final ContentReporter? reportContent;
+
+  /// 메일 앱을 열지 못하면 신고 본문을 복사해 두고 보낼 주소를 알려 준다.
+  Future<void> _report(BuildContext context, EvaluationResult result) async {
+    final l10n = AppLocalizations.of(context);
+    final messenger = ScaffoldMessenger.of(context);
+    if (await reportContent!(result)) return;
+    await Clipboard.setData(ClipboardData(text: contentReportBody(result)));
+    messenger.showSnackBar(SnackBar(content: Text(l10n.reportCopied(contentReportEmail))));
+  }
 
   Future<void> _share(BuildContext context, AttemptState state) async {
     final l10n = AppLocalizations.of(context);
@@ -78,6 +97,7 @@ class _AttemptBody extends StatelessWidget {
                 onShare: () => _share(context, state),
                 onAgain: () => bloc.add(const AttemptStarted()),
                 onHome: () => Navigator.of(context).pop(),
+                onReport: reportContent == null ? null : () => _report(context, state.result!),
               ),
             ),
           AttemptPhase.failure => Center(

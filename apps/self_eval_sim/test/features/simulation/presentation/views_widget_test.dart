@@ -197,6 +197,29 @@ void main() {
       await tester.pumpAndSettle();
       expect(dialogue(tester), '발현 줄');
     });
+
+    testWidgets('신고 콜백이 있으면 진행 중에도, 끝난 뒤에도 신고 버튼이 보인다', (tester) async {
+      var reported = 0;
+      await tester.pumpLocalized(
+        ResultView(result: result, onShare: () {}, onAgain: () {}, onHome: () {}, onReport: () => reported++),
+      );
+      await tester.pump(const Duration(milliseconds: 36));
+      await tester.tap(find.byKey(const Key('report_button')));
+      expect(reported, 1);
+      for (var i = 0; i < 6; i++) {
+        await tester.tap(find.byKey(const Key('result_tap_area')));
+        await tester.pumpAndSettle();
+      }
+      expect(find.byKey(const Key('share_button')), findsOneWidget);
+      await tester.tap(find.byKey(const Key('report_button')));
+      expect(reported, 2);
+    });
+
+    testWidgets('신고 콜백이 없으면 신고 버튼이 없다', (tester) async {
+      await tester.pumpLocalized(ResultView(result: result, onShare: () {}, onAgain: () {}, onHome: () {}));
+      await tester.pump(const Duration(milliseconds: 36));
+      expect(find.byKey(const Key('report_button')), findsNothing);
+    });
   });
 
   group('FramePlan', () {

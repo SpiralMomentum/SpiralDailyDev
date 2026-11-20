@@ -78,6 +78,14 @@ class AppLocalizationsKo extends AppLocalizations {
   String get resultShare => '공유';
 
   @override
+  String get resultReport => '대사 신고';
+
+  @override
+  String reportCopied(String email) {
+    return '메일 앱을 열 수 없어 신고 내용을 복사했어요. $email 로 보내 주세요.';
+  }
+
+  @override
   String get resultAgain => '한 번 더';
 
   @override
