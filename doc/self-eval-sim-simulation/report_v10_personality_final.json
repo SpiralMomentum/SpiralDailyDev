@@ -1,0 +1,2668 @@
+{
+ "model": "gemma-4-E2B-it.litertlm (flutter_gemma 0.16.5, CPU)",
+ "device": "Android emulator API 34 arm64, 8GB RAM, 6 cores (M1 Pro host)",
+ "attempts": 36,
+ "langs": [
+  "ko",
+  "ko",
+  "ko",
+  "en",
+  "ja",
+  "zh"
+ ],
+ "loadMs": 3550,
+ "records": [
+  {
+   "index": 1,
+   "lang": "ko",
+   "channel": "무협",
+   "speaker": "백발의 검객",
+   "answers": [
+    {
+     "q": "산길에서 산적 무리가 길을 막는다.",
+     "c": "다른 길로 돌아간다. 굳이 싸울 이유가 없다",
+     "t": "다정함"
+    },
+    {
+     "q": "객잔에서 시비가 붙었다.",
+     "c": "먼저 사과하라고 똑바로 말한다",
+     "t": "단호함, 사람들 속에서 힘이 남"
+    },
+    {
+     "q": "하나만 고를 수 있다면 어떤 병기를 쥐겠는가.",
+     "c": "부드럽게 휘는 연검",
+     "t": "호기심이 많음"
+    },
+    {
+     "q": "강호에 남기고 싶은 이름은?",
+     "c": "아무도 모르지만 모두가 피해 가는 사람",
+     "t": "혼자서 힘을 채움, 침착함"
+    }
+   ],
+   "title": "무당의 태극권사",
+   "reading": {
+    "id": "bigfive",
+    "theory": "빅파이브",
+    "outcome": "O+",
+    "label": "호기심이 많음",
+    "desc": "낯선 것에 먼저 손을 뻗는 사람이다",
+    "answers": 4,
+    "tally": {
+     "다정함": 1,
+     "단호함": 1,
+     "사람들 속에서 힘이 남": 1,
+     "호기심이 많음": 1,
+     "혼자서 힘을 채움": 1,
+     "침착함": 1
+    }
+   },
+   "deepReading": null,
+   "gaugeBeforePermille": 0,
+   "manifested": false,
+   "form": null,
+   "materials": [],
+   "baseSource": "model",
+   "manifestationSource": null,
+   "scenes": [
+    {
+     "kind": "base",
+     "speaker": "백발의 검객",
+     "place": "안개 낀 산 정상의 비무장",
+     "lines": [
+      "너는 무당의 태극권사 같은 사람이다.",
+      "산적 무리가 길을 막을 때 다른 길로 돌아가는 모습에서 그대의 포용력이 드러난다.",
+      "객잔에서 시비가 생겼을 때 먼저 사과하라고 말하는 데서 그대의 강한 중심을 엿본다.",
+      "혼자 힘을 채우고 모두가 피하는 존재라는 말에서 그대의 침착함과 깊이를 알 수 있다.",
+      "남들이 보지 못하는 가능성을 보는 눈이 그대의 큰 장점이다.",
+      "부드러움이 오래 버티고, 오래 버틴 것이 이긴다."
+     ]
+    }
+   ],
+   "composeMs": 13359
+  },
+  {
+   "index": 2,
+   "lang": "ko",
+   "channel": "동물",
+   "speaker": "숲의 늙은 올빼미",
+   "answers": [
+    {
+     "q": "숲에 큰 비가 내린다.",
+     "c": "가장 큰 나무 밑에서 기다린다",
+     "t": "평화를 지키는 사람"
+    },
+    {
+     "q": "오래전 친구를 다시 만났다.",
+     "c": "반가워서 소리부터 지른다",
+     "t": "즐거움을 찾는 사람"
+    },
+    {
+     "q": "먹이가 하나 남았다.",
+     "c": "아무도 모르게 챙겨 둔다",
+     "t": "알아 두는 사람"
+    },
+    {
+     "q": "숲을 떠나야 한다면?",
+     "c": "떠나기 전에 지름길부터 알아 둔다",
+     "t": "해내는 사람"
+    }
+   ],
+   "title": "꼬리 긴 여우",
+   "reading": {
+    "id": "enneagram",
+    "theory": "에니어그램",
+    "outcome": "9",
+    "label": "9번 · 평화를 지키는 사람",
+    "desc": "부딪히느니 한발 물러서는 사람이다",
+    "answers": 4,
+    "tally": {
+     "9번 · 평화를 지키는 사람": 1,
+     "7번 · 즐거움을 찾는 사람": 1,
+     "5번 · 알아 두는 사람": 1,
+     "3번 · 해내는 사람": 1
+    }
+   },
+   "deepReading": null,
+   "gaugeBeforePermille": 96,
+   "manifested": false,
+   "form": null,
+   "materials": [],
+   "baseSource": "model",
+   "manifestationSource": null,
+   "scenes": [
+    {
+     "kind": "base",
+     "speaker": "숲의 늙은 올빼미",
+     "place": "달빛 드는 고목 아래",
+     "lines": [
+      "너는 꼭 꼬리 긴 여우 같구나.",
+      "숲에 비가 올 때 가장 큰 나무 밑에서 조용히 기다리는 모습이 그대의 성품을 보여주네.",
+      "오래된 친구를 만나면 기쁨을 크게 드러내는 것은 그대의 즐거움을 찾는 본성을 나타낸다.",
+      "먹이가 남았을 때 그것을 몰래 챙기는 것은 세심하고 상황을 읽는 지혜를 지녔음을 말해준다.",
+      "숲을 떠나야 할 때 지름길을 먼저 파악하는 것은 스스로 일을 해내는 능력이 탁월함을 보여준다.",
+      "가장 먼저 눈치챈 이가 가장 오래 살아남는 게 숲의 법이란다."
+     ]
+    }
+   ],
+   "composeMs": 10578
+  },
+  {
+   "index": 3,
+   "lang": "ko",
+   "channel": "보석",
+   "speaker": "보석상 주인",
+   "answers": [
+    {
+     "q": "쇼윈도 앞에서 먼저 눈이 가는 것은?",
+     "c": "이끼 같은 초록",
+     "t": "느긋함"
+    },
+    {
+     "q": "곤란한 부탁을 받았다.",
+     "c": "하루 생각해 보고 답한다",
+     "t": "섬세함"
+    },
+    {
+     "q": "흠집이 난 반지를 받았다면?",
+     "c": "어떤 사연이 있었는지 묻는다",
+     "t": "명랑함"
+    },
+    {
+     "q": "조명이 꺼진 가게 안에서 나는?",
+     "c": "제자리에서 움직이지 않는다",
+     "t": "느긋함"
+    }
+   ],
+   "title": "숲을 닮은 에메랄드",
+   "reading": {
+    "id": "temperament",
+    "theory": "4기질",
+    "outcome": "phlegmatic",
+    "label": "느긋함",
+    "desc": "서두르지 않고 고른 숨으로 가는 사람이다",
+    "answers": 4,
+    "tally": {
+     "느긋함": 2,
+     "섬세함": 1,
+     "명랑함": 1
+    }
+   },
+   "deepReading": null,
+   "gaugeBeforePermille": 103,
+   "manifested": false,
+   "form": null,
+   "materials": [],
+   "baseSource": "model",
+   "manifestationSource": null,
+   "scenes": [
+    {
+     "kind": "base",
+     "speaker": "보석상 주인",
+     "place": "골목 끝 작은 보석상",
+     "lines": [
+      "당신은 숲을 닮은 에메랄드처럼 보이네요.",
+      "이끼처럼 느긋하게 모든 것을 받아들이는 성품이 돋보입니다.",
+      "곤란한 부탁에 대해 깊이 숙고하는 모습에서 섬세함이 느껴집니다.",
+      "조명이 꺼진 곳에서도 흔들림 없이 자신의 자리를 지키는 강인함이 있습니다.",
+      "쉽게 무너지지 않는 단단함이 당신의 큰 장점입니다.",
+      "초록은 오래 볼수록 눈을 쉬게 하는 색이에요."
+     ]
+    }
+   ],
+   "composeMs": 10380
+  },
+  {
+   "index": 4,
+   "lang": "en",
+   "channel": "Wuxia",
+   "speaker": "White-Haired Swordsman",
+   "answers": [
+    {
+     "q": "Your master vanished and left one secret manual behind.",
+     "c": "Train from page one, every single day",
+     "t": "sees the facts, decides ahead"
+    },
+    {
+     "q": "A quarrel breaks out at the inn.",
+     "c": "Pay for my drinks and leave quietly",
+     "t": "thinks alone, keeps options open"
+    },
+    {
+     "q": "If you could hold only one weapon, which would it be?",
+     "c": "A soft sword that bends",
+     "t": "sees hidden possibilities, keeps options open"
+    },
+    {
+     "q": "Tournament final. Your opponent has hurt his leg.",
+     "c": "Stay away from the hurt side",
+     "t": "reads hearts, decides ahead"
+    }
+   ],
+   "title": "Plum Blossom Sword of Mount Hua",
+   "reading": {
+    "id": "type16",
+    "theory": "16 Types",
+    "outcome": "INFJ",
+    "label": "INFJ · The Deep Foreseer",
+    "desc": "You're someone who reads people's hearts first, then chooses the way.",
+    "answers": 4,
+    "tally": {
+     "sees the facts (S)": 1,
+     "decides ahead (J)": 2,
+     "thinks alone (I)": 1,
+     "keeps options open (P)": 2,
+     "sees hidden possibilities (N)": 1,
+     "reads hearts (F)": 1
+    }
+   },
+   "deepReading": null,
+   "gaugeBeforePermille": 110,
+   "manifested": false,
+   "form": null,
+   "materials": [],
+   "baseSource": "model",
+   "manifestationSource": null,
+   "scenes": [
+    {
+     "kind": "base",
+     "speaker": "White-Haired Swordsman",
+     "place": "Dueling ground on a misty peak",
+     "lines": [
+      "You are like the Plum Blossom Sword of Mount Hua.",
+      "You are someone who reads intentions before acting.",
+      "Your decision to quietly pay the debts and depart shows a careful assessment of your surroundings.",
+      "The choice of a flexible weapon demonstrates your ability to perceive hidden paths.",
+      "This foresight grants you great advantage, yet it drains the spirit when you walk the path alone.",
+      "The plum that won't bend is the last to bloom. A straight blade is the same."
+     ]
+    }
+   ],
+   "composeMs": 5348
+  },
+  {
+   "index": 5,
+   "lang": "ja",
+   "channel": "武侠",
+   "speaker": "白髪の剣客",
+   "answers": [
+    {
+     "q": "山道で山賊の一団が行く手をふさぐ。",
+     "c": "別の道を行く。戦う理由はない",
+     "t": "やさしい"
+    },
+    {
+     "q": "師匠が秘伝書を一冊残して姿を消した。",
+     "c": "急いで開かず、時が来るまで置いておく",
+     "t": "一人で力をためる"
+    },
+    {
+     "q": "宿屋で揉め事になった。",
+     "c": "酒代だけ払って静かに出る",
+     "t": "やさしい, 一人で力をためる"
+    },
+    {
+     "q": "江湖に残したい名は？",
+     "c": "弱い者の側に立った者",
+     "t": "やさしい"
+    }
+   ],
+   "title": "風のような浪人",
+   "reading": {
+    "id": "bigfive",
+    "theory": "ビッグファイブ",
+    "outcome": "A+",
+    "label": "やさしい",
+    "desc": "争うよりもそばに残るほうを選ぶ人だ",
+    "answers": 4,
+    "tally": {
+     "やさしい": 3,
+     "一人で力をためる": 2
+    }
+   },
+   "deepReading": null,
+   "gaugeBeforePermille": 210,
+   "manifested": false,
+   "form": null,
+   "materials": [],
+   "baseSource": "model",
+   "manifestationSource": null,
+   "scenes": [
+    {
+     "kind": "base",
+     "speaker": "白髪の剣客",
+     "place": "霧に包まれた山頂の比武場",
+     "lines": [
+      "お前はまるで風のような浪人だ。",
+      "山道で敵を避け、戦いを拒む選択は、その自由奔放さを物語っている。",
+      "師の遺産をただ置いておく態度は、自らの道を深く探ろうとする姿勢を示している。",
+      "揉め事の際、ただ静かに場を去る行動は、他者との関わりを避ける傾向を明確にする。",
+      "一人で立つ強さは、他者と共にいる時の安らぎと、内に秘めた疲弊の両面を持つ。",
+      "門派のない剣は軽い。だから遠くまで行ける。"
+     ]
+    }
+   ],
+   "composeMs": 7125
+  },
+  {
+   "index": 6,
+   "lang": "zh",
+   "channel": "武侠",
+   "speaker": "白发剑客",
+   "answers": [
+    {
+     "q": "山路上，一伙山贼拦住了去路。",
+     "c": "绕道走。没必要打",
+     "t": "独自思考, 留有余地"
+    },
+    {
+     "q": "师父留下一本秘籍，人不见了。",
+     "c": "从第一页练起，一天不落",
+     "t": "看眼前事实, 提前定好"
+    },
+    {
+     "q": "在客栈里跟人起了争执。",
+     "c": "先打听对方的靠山",
+     "t": "看眼前事实, 讲道理"
+    },
+    {
+     "q": "只能选一件兵器，你握哪一件？",
+     "c": "藏在袖里的匕首",
+     "t": "独自思考, 讲道理"
+    }
+   ],
+   "title": "唐门暗器高手",
+   "reading": {
+    "id": "type16",
+    "theory": "16型",
+    "outcome": "ISTJ",
+    "label": "ISTJ · 默默的管理者",
+    "desc": "你是守住约定与顺序才安心的人。",
+    "answers": 4,
+    "tally": {
+     "独自思考(I)": 2,
+     "留有余地(P)": 1,
+     "看眼前事实(S)": 2,
+     "提前定好(J)": 1,
+     "讲道理(T)": 2
+    }
+   },
+   "deepReading": {
+    "id": "enneagram",
+    "theory": "九型人格",
+    "outcome": "9",
+    "label": "9号 · 守护和平的人",
+    "desc": "你是宁可退一步也不冲突的人。",
+    "answers": 24,
+    "tally": {
+     "9号 · 守护和平的人": 8,
+     "1号 · 纠正的人": 4,
+     "7号 · 寻找乐趣的人": 3,
+     "8号 · 迎面而上的人": 1,
+     "5号 · 先弄明白的人": 2,
+     "3号 · 做成事的人": 1,
+     "6号 · 做好防备的人": 3,
+     "2号 · 先伸援手的人": 2
+    }
+   },
+   "gaugeBeforePermille": 223,
+   "manifested": true,
+   "form": "mixed",
+   "materials": [
+    {
+     "kind": "attempt",
+     "ago": 5,
+     "channel": "武侠",
+     "choice": "柔韧的软剑",
+     "trait": "寻找乐趣的人"
+    },
+    {
+     "kind": "attempt",
+     "ago": 3,
+     "channel": "宝石",
+     "choice": "想一天再回答",
+     "trait": "做好防备的人"
+    },
+    {
+     "kind": "attempt",
+     "ago": 1,
+     "channel": "武侠",
+     "choice": "先不急着翻，等时候到了再说",
+     "trait": "守护和平的人"
+    },
+    {
+     "kind": "attempt",
+     "ago": 4,
+     "channel": "动物",
+     "choice": "高兴得先叫出声来",
+     "trait": "寻找乐趣的人"
+    },
+    {
+     "kind": "attempt",
+     "ago": 2,
+     "channel": "武侠",
+     "choice": "从第一页练起，一天不落",
+     "trait": "纠正的人"
+    }
+   ],
+   "baseSource": "model",
+   "manifestationSource": "model",
+   "scenes": [
+    {
+     "kind": "base",
+     "speaker": "白发剑客",
+     "place": "雾锁山巅的比武场",
+     "lines": [
+      "你就像唐门暗器高手。",
+      "你是暗器之人的人。",
+      "你选择绕道走，说明你倾向于独自思考，留有余地，不轻易与冲突正面迎战。",
+      "你处理争执时，先探寻对方的背景，这显示了你讲道理，审视全局的特质。",
+      "这份韧劲能让你守住承诺，但突如其来的变动会让你瞬间停滞不前。",
+      "刀未及身，胜负已在脑中分晓。",
+      "你以为绕路是逃避。",
+      "四次前，你坚持从头开始练习，一天不停止，这与你今天选择的路径一样，是坚持的体现。",
+      "你是宁可退一步也不冲突的人。"
+     ]
+    }
+   ],
+   "composeMs": 10764
+  },
+  {
+   "index": 7,
+   "lang": "ko",
+   "channel": "무협",
+   "speaker": "백발의 검객",
+   "answers": [
+    {
+     "q": "객잔에서 시비가 붙었다.",
+     "c": "상대 일행의 뒷배부터 알아본다",
+     "t": "섬세함"
+    },
+    {
+     "q": "하나만 고를 수 있다면 어떤 병기를 쥐겠는가.",
+     "c": "소매에 숨기는 비수",
+     "t": "섬세함"
+    },
+    {
+     "q": "무림대회 결승, 상대가 다리를 다쳤다.",
+     "c": "다친 쪽은 노리지 않는다",
+     "t": "느긋함"
+    },
+    {
+     "q": "강호에 남기고 싶은 이름은?",
+     "c": "약한 사람 편에 섰던 사람",
+     "t": "명랑함"
+    }
+   ],
+   "title": "화산의 매화검수",
+   "reading": {
+    "id": "temperament",
+    "theory": "4기질",
+    "outcome": "melancholic",
+    "label": "섬세함",
+    "desc": "깊이 생각하고 완성도를 따지는 사람이다",
+    "answers": 4,
+    "tally": {
+     "섬세함": 2,
+     "느긋함": 1,
+     "명랑함": 1
+    }
+   },
+   "deepReading": null,
+   "gaugeBeforePermille": 0,
+   "manifested": false,
+   "form": null,
+   "materials": [],
+   "baseSource": "model",
+   "manifestationSource": null,
+   "scenes": [
+    {
+     "kind": "base",
+     "speaker": "백발의 검객",
+     "place": "안개 낀 산 정상의 비무장",
+     "lines": [
+      "너는 화산의 매화검수 같은 사람이다.",
+      "깊은 산의 돌처럼 굳건하나, 그 속은 맑은 물과 같구나.",
+      "객잔의 시비를 꿰뚫어 보는 눈빛은 네가 겉모습보다 본질을 보려 함을 보여준다.",
+      "가장 소중한 것을 숨기는 비수의 선택은 네 섬세함이 곧 신중함임을 말해준다.",
+      "결승전에서 다친 이를 외면하는 태도는 겉으로 드러나지 않는 고독한 끈기를 보여준다.",
+      "검이 곧으면 길이 굽어도 끝내 닿는다."
+     ]
+    }
+   ],
+   "composeMs": 12090
+  },
+  {
+   "index": 8,
+   "lang": "ko",
+   "channel": "보석",
+   "speaker": "보석상 주인",
+   "answers": [
+    {
+     "q": "쇼윈도 앞에서 먼저 눈이 가는 것은?",
+     "c": "빛을 받아 붉게 타는 것",
+     "t": "맞서는 사람"
+    },
+    {
+     "q": "선물을 고를 때 나는?",
+     "c": "받는 사람 얼굴을 떠올리며 오래 고른다",
+     "t": "먼저 돕는 사람"
+    },
+    {
+     "q": "흠집이 난 반지를 받았다면?",
+     "c": "조용히 수리를 맡긴다",
+     "t": "바로잡는 사람"
+    },
+    {
+     "q": "오래 간직하고 싶은 것은?",
+     "c": "처음 받은 상장",
+     "t": "해내는 사람"
+    }
+   ],
+   "title": "타오르는 루비",
+   "reading": {
+    "id": "enneagram",
+    "theory": "에니어그램",
+    "outcome": "8",
+    "label": "8번 · 맞서는 사람",
+    "desc": "밀리면 더 세게 나가는 사람이다",
+    "answers": 4,
+    "tally": {
+     "8번 · 맞서는 사람": 1,
+     "2번 · 먼저 돕는 사람": 1,
+     "1번 · 바로잡는 사람": 1,
+     "3번 · 해내는 사람": 1
+    }
+   },
+   "deepReading": null,
+   "gaugeBeforePermille": 49,
+   "manifested": false,
+   "form": null,
+   "materials": [],
+   "baseSource": "model",
+   "manifestationSource": null,
+   "scenes": [
+    {
+     "kind": "base",
+     "speaker": "보석상 주인",
+     "place": "골목 끝 작은 보석상",
+     "lines": [
+      "당신은 타오르는 루비처럼 보이네요.",
+      "빛을 받아 붉게 타오르는 모습에서 당신은 먼저 맞서는 사람입니다.",
+      "선물을 고를 때 받는 사람을 생각하며 오래 고민하는 모습에서 당신은 먼저 돕는 사람이라는 것을 알 수 있어요.",
+      "흠집 난 것을 조용히 수리 맡기는 행동은 당신이 바로잡는 사람의 성향을 보여줍니다.",
+      "오래 간직하고 싶은 것을 처음 받은 상장으로 여긴 것은 당신이 해내는 사람임을 말해줍니다.",
+      "불 속에서 태어난 돌은 식어도 그 붉음을 잃지 않아요."
+     ]
+    }
+   ],
+   "composeMs": 20171
+  },
+  {
+   "index": 9,
+   "lang": "ko",
+   "channel": "보석",
+   "speaker": "보석상 주인",
+   "answers": [
+    {
+     "q": "선물을 고를 때 나는?",
+     "c": "한번 정하면 바로 산다",
+     "t": "따져 봄, 미리 정해 둠"
+    },
+    {
+     "q": "곤란한 부탁을 받았다.",
+     "c": "안 되는 건 안 된다고 말한다",
+     "t": "따져 봄, 미리 정해 둠"
+    },
+    {
+     "q": "흠집이 난 반지를 받았다면?",
+     "c": "어떤 사연이 있었는지 묻는다",
+     "t": "숨은 가능성을 봄, 마음을 살핌"
+    },
+    {
+     "q": "오래 간직하고 싶은 것은?",
+     "c": "함께 찍은 사진",
+     "t": "사람 속으로 감, 마음을 살핌"
+    }
+   ],
+   "title": "숲을 닮은 에메랄드",
+   "reading": {
+    "id": "type16",
+    "theory": "16유형",
+    "outcome": "ENFJ",
+    "label": "ENFJ · 사람을 이끄는 사람",
+    "desc": "남의 가능성을 먼저 믿어 주는 사람이다",
+    "answers": 4,
+    "tally": {
+     "따져 봄(T)": 2,
+     "미리 정해 둠(J)": 2,
+     "숨은 가능성을 봄(N)": 1,
+     "마음을 살핌(F)": 2,
+     "사람 속으로 감(E)": 1
+    }
+   },
+   "deepReading": null,
+   "gaugeBeforePermille": 80,
+   "manifested": false,
+   "form": null,
+   "materials": [],
+   "baseSource": "model",
+   "manifestationSource": null,
+   "scenes": [
+    {
+     "kind": "base",
+     "speaker": "보석상 주인",
+     "place": "골목 끝 작은 보석상",
+     "lines": [
+      "당신은 숲을 닮은 에메랄드처럼 보이네요.",
+      "선물을 고를 때 바로 정하는 모습에서 단단한 결단력을 엿볼 수 있어요.",
+      "곤란한 부탁을 거절하는 태도는 스스로의 경계를 명확히 하는 마음을 보여줍니다.",
+      "오래 간직하고 싶은 것을 사진으로 고르는 것은 사람의 마음을 깊이 헤아리는 성향이죠.",
+      "이러한 모습은 사람의 가능성을 먼저 믿어주는 성향이 강하다는 것을 말해줍니다.",
+      "초록은 오래 볼수록 눈을 쉬게 하는 색이에요."
+     ]
+    }
+   ],
+   "composeMs": 15307
+  },
+  {
+   "index": 10,
+   "lang": "en",
+   "channel": "Animals",
+   "speaker": "Old Forest Owl",
+   "answers": [
+    {
+     "q": "Heavy rain falls on the forest.",
+     "c": "Go to a cave no one else knows",
+     "t": "The One Who Knows Ahead"
+    },
+    {
+     "q": "An animal you've never seen comes closer.",
+     "c": "Stand in front of the pack to meet it",
+     "t": "The One Who Stands Up"
+    },
+    {
+     "q": "You run into an old friend.",
+     "c": "Recall every detail from back then",
+     "t": "The First to Help"
+    },
+    {
+     "q": "There's only one bite of food left.",
+     "c": "Play a game. Winner eats",
+     "t": "The One Who Gets It Done"
+    }
+   ],
+   "title": "Wave-Riding Dolphin",
+   "reading": {
+    "id": "enneagram",
+    "theory": "Enneagram",
+    "outcome": "5",
+    "label": "Type 5 · The One Who Knows Ahead",
+    "desc": "You're someone who must understand before you move.",
+    "answers": 4,
+    "tally": {
+     "Type 5 · The One Who Knows Ahead": 1,
+     "Type 8 · The One Who Stands Up": 1,
+     "Type 2 · The First to Help": 1,
+     "Type 3 · The One Who Gets It Done": 1
+    }
+   },
+   "deepReading": null,
+   "gaugeBeforePermille": 180,
+   "manifested": false,
+   "form": null,
+   "materials": [],
+   "baseSource": "model",
+   "manifestationSource": null,
+   "scenes": [
+    {
+     "kind": "base",
+     "speaker": "Old Forest Owl",
+     "place": "Under an old tree in the moonlight",
+     "lines": [
+      "You are a lot like the Wave-Riding Dolphin.",
+      "You are someone who flows with the currents, adapting to the shifting tides of the world around you.",
+      "When faced with an unknown threat, you choose to stand firm against it, showing a strong sense of self-reliance.",
+      "Your habit of remembering every small detail shows a deep need to hold onto what matters.",
+      "This sharp observation is a great gift, yet it can make you retreat when things become too much.",
+      "Fight the waves and you'll tire. Ride them and you'll laugh."
+     ]
+    }
+   ],
+   "composeMs": 6078
+  },
+  {
+   "index": 11,
+   "lang": "ja",
+   "channel": "宝石",
+   "speaker": "宝石店の主人",
+   "answers": [
+    {
+     "q": "ショーウィンドウの前で、まず目がいくのは？",
+     "c": "苔のような緑",
+     "t": "おおらか"
+    },
+    {
+     "q": "困った頼みごとをされた。",
+     "c": "その場で引き受ける",
+     "t": "朗らか"
+    },
+    {
+     "q": "傷のついた指輪をもらったら？",
+     "c": "そのままはめる。傷も自分のものだ",
+     "t": "おおらか"
+    },
+    {
+     "q": "長く大切にしたいものは？",
+     "c": "初めてもらった賞状",
+     "t": "押しが強い"
+    }
+   ],
+   "title": "燃えるルビー",
+   "reading": {
+    "id": "temperament",
+    "theory": "四気質",
+    "outcome": "phlegmatic",
+    "label": "おおらか",
+    "desc": "急がず落ち着いた息で進む人だ",
+    "answers": 4,
+    "tally": {
+     "おおらか": 2,
+     "朗らか": 1,
+     "押しが強い": 1
+    }
+   },
+   "deepReading": null,
+   "gaugeBeforePermille": 217,
+   "manifested": false,
+   "form": null,
+   "materials": [],
+   "baseSource": "model",
+   "manifestationSource": null,
+   "scenes": [
+    {
+     "kind": "base",
+     "speaker": "宝石店の主人",
+     "place": "路地の奥の小さな宝石店",
+     "lines": [
+      "あなたは燃えるルビーのように見えますね。",
+      "あなたは、静かに熱を秘めた宝石のような方です。",
+      "苔のような緑の目に映るように、あなたは穏やかで自然な心をお持ちですね。",
+      "頼みごとを即座に引き受けるのは、その朗らかな心と親切さが表れています。",
+      "その性質は、決して揺るがない強みですが、時として進むべき時を待ってしまう弱みもあります。",
+      "ルビーは暗がりでこそ赤く見える、と言われています。"
+     ]
+    }
+   ],
+   "composeMs": 5911
+  },
+  {
+   "index": 12,
+   "lang": "zh",
+   "channel": "奇幻",
+   "speaker": "宫中的公主",
+   "answers": [
+    {
+     "q": "城门前出现了一条龙。",
+     "c": "去书库查龙的弱点",
+     "t": "独自思考, 看隐藏可能"
+    },
+    {
+     "q": "国王想交给你一项秘密任务。",
+     "c": "召集同伴，先立誓",
+     "t": "走向人群, 体察人心"
+    },
+    {
+     "q": "如果只能拥有一样？",
+     "c": "在哪儿都能弹响的鲁特琴",
+     "t": "走向人群, 体察人心"
+    },
+    {
+     "q": "如果成为传说，会是什么故事？",
+     "c": "解开无人能解之谜的人",
+     "t": "看隐藏可能, 讲道理"
+    }
+   ],
+   "title": "观星大法师",
+   "reading": {
+    "id": "type16",
+    "theory": "16型",
+    "outcome": "ENFJ",
+    "label": "ENFJ · 引领他人的人",
+    "desc": "你是先相信别人潜力的人。",
+    "answers": 4,
+    "tally": {
+     "独自思考(I)": 1,
+     "看隐藏可能(N)": 2,
+     "走向人群(E)": 2,
+     "体察人心(F)": 2,
+     "讲道理(T)": 1
+    }
+   },
+   "deepReading": null,
+   "gaugeBeforePermille": 272,
+   "manifested": false,
+   "form": null,
+   "materials": [],
+   "baseSource": "model",
+   "manifestationSource": null,
+   "scenes": [
+    {
+     "kind": "base",
+     "speaker": "宫中的公主",
+     "place": "王宫谒见厅",
+     "lines": [
+      "您就像观星大法师一样。",
+      "您是探索深邃奥秘的人。",
+      "您对龙的弱点去查阅书库，显示出您善于独自思考，去挖掘那些隐藏的可能。",
+      "您渴望解开无人能解之谜，展现了您既能讲道理又懂得探究深层真相的特质。",
+      "您能打动人心，但有时会把别人的重担都揽在自己身上。",
+      "星星不会给出答案，只为久怀疑问的人指路。"
+     ]
+    }
+   ],
+   "composeMs": 5949
+  },
+  {
+   "index": 13,
+   "lang": "ko",
+   "channel": "동물",
+   "speaker": "숲의 늙은 올빼미",
+   "answers": [
+    {
+     "q": "숲에 큰 비가 내린다.",
+     "c": "친구들이 다 모였는지 먼저 센다",
+     "t": "먼저 돕는 사람"
+    },
+    {
+     "q": "처음 보는 동물이 다가온다.",
+     "c": "멀리서 한참 지켜본다",
+     "t": "대비하는 사람"
+    },
+    {
+     "q": "가장 좋아하는 시간은?",
+     "c": "물장구치는 한낮",
+     "t": "즐거움을 찾는 사람"
+    },
+    {
+     "q": "숲을 떠나야 한다면?",
+     "c": "떠나기 전에 지름길부터 알아 둔다",
+     "t": "해내는 사람"
+    }
+   ],
+   "title": "꼬리 긴 여우",
+   "reading": {
+    "id": "enneagram",
+    "theory": "에니어그램",
+    "outcome": "2",
+    "label": "2번 · 먼저 돕는 사람",
+    "desc": "남이 필요로 할 때 먼저 손을 내미는 사람이다",
+    "answers": 4,
+    "tally": {
+     "2번 · 먼저 돕는 사람": 1,
+     "6번 · 대비하는 사람": 1,
+     "7번 · 즐거움을 찾는 사람": 1,
+     "3번 · 해내는 사람": 1
+    }
+   },
+   "deepReading": null,
+   "gaugeBeforePermille": 370,
+   "manifested": false,
+   "form": null,
+   "materials": [],
+   "baseSource": "model",
+   "manifestationSource": null,
+   "scenes": [
+    {
+     "kind": "base",
+     "speaker": "숲의 늙은 올빼미",
+     "place": "달빛 드는 고목 아래",
+     "lines": [
+      "너는 꼭 꼬리 긴 여우 같구나.",
+      "네가 친구들이 모일 때 먼저 나서서 돕는 모습이 그 모습과 닮았구나.",
+      "처음 보는 동물이 나타나도 늘 조용히 지켜보는 그 눈빛에서 네 깊은 통찰을 읽는다.",
+      "떠나기 전에 미리 길을 확인하는 모습에서 네가 모든 것을 계획하는 마음을 알 수 있단다.",
+      "네가 곁에 있는 이들에게 따뜻한 울타리가 되어주는 것은 큰 장점이지만, 그만큼 서운함도 깊이 쌓이는 법이다.",
+      "꾀는 이빨보다 조용하지만 더 깊이 문단다."
+     ]
+    }
+   ],
+   "composeMs": 8003
+  },
+  {
+   "index": 14,
+   "lang": "ko",
+   "channel": "무협",
+   "speaker": "백발의 검객",
+   "answers": [
+    {
+     "q": "사부가 비급 한 권을 남기고 사라졌다.",
+     "c": "다른 문파 것과 비교해 약점부터 찾는다",
+     "t": "호기심이 많음"
+    },
+    {
+     "q": "하나만 고를 수 있다면 어떤 병기를 쥐겠는가.",
+     "c": "부드럽게 휘는 연검",
+     "t": "호기심이 많음"
+    },
+    {
+     "q": "무림대회 결승, 상대가 다리를 다쳤다.",
+     "c": "기권하고 내려온다. 이런 승부는 재미없다",
+     "t": "호기심이 많음"
+    },
+    {
+     "q": "강호에 남기고 싶은 이름은?",
+     "c": "아무도 모르지만 모두가 피해 가는 사람",
+     "t": "혼자서 힘을 채움, 침착함"
+    }
+   ],
+   "title": "무당의 태극권사",
+   "reading": {
+    "id": "bigfive",
+    "theory": "빅파이브",
+    "outcome": "O+",
+    "label": "호기심이 많음",
+    "desc": "낯선 것에 먼저 손을 뻗는 사람이다",
+    "answers": 4,
+    "tally": {
+     "호기심이 많음": 3,
+     "혼자서 힘을 채움": 1,
+     "침착함": 1
+    }
+   },
+   "deepReading": {
+    "id": "temperament",
+    "theory": "4기질",
+    "outcome": "phlegmatic",
+    "label": "느긋함",
+    "desc": "서두르지 않고 고른 숨으로 가는 사람이다",
+    "answers": 56,
+    "tally": {
+     "느긋함": 17,
+     "밀어붙임": 12,
+     "명랑함": 14,
+     "섬세함": 13
+    }
+   },
+   "gaugeBeforePermille": 412,
+   "manifested": true,
+   "form": "mixed",
+   "materials": [
+    {
+     "kind": "manifestation",
+     "ago": 8,
+     "channel": "보석",
+     "choice": "하루 생각해 보고 답한다",
+     "trait": "섬세함"
+    },
+    {
+     "kind": "manifestation",
+     "ago": 8,
+     "channel": "동물",
+     "choice": "반가워서 소리부터 지른다",
+     "trait": "명랑함"
+    },
+    {
+     "kind": "manifestation",
+     "ago": 8,
+     "channel": "무협",
+     "choice": "급하게 펼치지 않고 때가 올 때까지 둔다",
+     "trait": "느긋함"
+    },
+    {
+     "kind": "attempt",
+     "ago": 4,
+     "channel": "동물",
+     "choice": "남들이 모르는 동굴로 간다",
+     "trait": "섬세함"
+    },
+    {
+     "kind": "attempt",
+     "ago": 2,
+     "channel": "판타지",
+     "choice": "어디서든 소리가 나는 류트",
+     "trait": "명랑함"
+    }
+   ],
+   "baseSource": "model",
+   "manifestationSource": "model",
+   "scenes": [
+    {
+     "kind": "base",
+     "speaker": "백발의 검객",
+     "place": "안개 낀 산 정상의 비무장",
+     "lines": [
+      "너는 무당의 태극권사 같은 사람이다.",
+      "그대의 마음은 겉보기엔 고요하나 깊은 곳에 복잡한 흐름을 품고 있다.",
+      "사부가 비급을 남기고 사라진 것을 보고 다른 길을 탐색하는 것은 낯선 것에 손을 뻗는 본능이다.",
+      "가장 부드러운 연검을 선택하는 것은 익숙한 틀에서 벗어나 새로운 가능성을 엿보려는 호기심의 발현이다.",
+      "승부의 가치를 보지 않는 것은 덧없는 것에 매몰되지 않으려는 맑은 시야를 갖는다는 증거다.",
+      "물은 다투지 않으나 끝내 바위를 뚫는다.",
+      "오늘 고른 답에서, 움직여야 할 때도 기다리는 그 태도가 떠오른다.",
+      "8번 전에도 '급하게 펼치지 않고 때가 올 때까지 둔다'고 했던 것을 기억한다.",
+      "너는 쉽게 무너지지 않는 끈기가 있지만, 때로는 움직여야 할 때 멈추는군."
+     ]
+    }
+   ],
+   "composeMs": 40650
+  },
+  {
+   "index": 15,
+   "lang": "ko",
+   "channel": "보석",
+   "speaker": "보석상 주인",
+   "answers": [
+    {
+     "q": "선물을 고를 때 나는?",
+     "c": "내가 받고 싶은 걸 고른다",
+     "t": "명랑함"
+    },
+    {
+     "q": "곤란한 부탁을 받았다.",
+     "c": "안 되는 건 안 된다고 말한다",
+     "t": "밀어붙임"
+    },
+    {
+     "q": "흠집이 난 반지를 받았다면?",
+     "c": "그대로 낀다. 흠도 내 거다",
+     "t": "느긋함"
+    },
+    {
+     "q": "오래 간직하고 싶은 것은?",
+     "c": "혼자 쓴 일기장",
+     "t": "섬세함"
+    }
+   ],
+   "title": "흔들리지 않는 다이아몬드",
+   "reading": {
+    "id": "temperament",
+    "theory": "4기질",
+    "outcome": "sanguine",
+    "label": "명랑함",
+    "desc": "사람과 즐거움 쪽으로 몸이 먼저 가는 사람이다",
+    "answers": 4,
+    "tally": {
+     "명랑함": 1,
+     "밀어붙임": 1,
+     "느긋함": 1,
+     "섬세함": 1
+    }
+   },
+   "deepReading": null,
+   "gaugeBeforePermille": 0,
+   "manifested": false,
+   "form": null,
+   "materials": [],
+   "baseSource": "model",
+   "manifestationSource": null,
+   "scenes": [
+    {
+     "kind": "base",
+     "speaker": "보석상 주인",
+     "place": "골목 끝 작은 보석상",
+     "lines": [
+      "당신은 흔들리지 않는 다이아몬드처럼 보이네요.",
+      "선물을 고를 때 원하는 것을 선택하는 모습에서 단단함이 느껴져요.",
+      "곤란한 부탁을 거절하는 것은 당신의 중심을 지키는 방식이죠.",
+      "오래 간직하고 싶은 것을 섬세하게 여기는 것은 깊은 감성을 보여줍니다.",
+      "사람의 마음을 쉽게 얻는 것은 큰 장점이지만 흥미가 쉽게 사라지는 것도 그림자예요.",
+      "다이아몬드는 다이아몬드로만 깎을 수 있대요."
+     ]
+    }
+   ],
+   "composeMs": 18415
+  },
+  {
+   "index": 16,
+   "lang": "en",
+   "channel": "Wuxia",
+   "speaker": "White-Haired Swordsman",
+   "answers": [
+    {
+     "q": "Your master vanished and left one secret manual behind.",
+     "c": "Compare it with other sects' manuals and find its weak spots",
+     "t": "sees hidden possibilities, weighs things"
+    },
+    {
+     "q": "A quarrel breaks out at the inn.",
+     "c": "Find out who's backing them first",
+     "t": "sees the facts, weighs things"
+    },
+    {
+     "q": "If you could hold only one weapon, which would it be?",
+     "c": "An old saber with a chipped edge",
+     "t": "sees the facts, decides ahead"
+    },
+    {
+     "q": "Tournament final. Your opponent has hurt his leg.",
+     "c": "Stay away from the hurt side",
+     "t": "reads hearts, decides ahead"
+    }
+   ],
+   "title": "Hidden Weapons Expert of the Tang Clan",
+   "reading": {
+    "id": "type16",
+    "theory": "16 Types",
+    "outcome": "ESTJ",
+    "label": "ESTJ · The Line-Up Chief",
+    "desc": "You're someone who makes things run the way they were set.",
+    "answers": 4,
+    "tally": {
+     "sees hidden possibilities (N)": 1,
+     "weighs things (T)": 2,
+     "sees the facts (S)": 2,
+     "decides ahead (J)": 2,
+     "reads hearts (F)": 1
+    }
+   },
+   "deepReading": null,
+   "gaugeBeforePermille": 41,
+   "manifested": false,
+   "form": null,
+   "materials": [],
+   "baseSource": "model",
+   "manifestationSource": null,
+   "scenes": [
+    {
+     "kind": "base",
+     "speaker": "White-Haired Swordsman",
+     "place": "Dueling ground on a misty peak",
+     "lines": [
+      "You are like the Hidden Weapons Expert of the Tang Clan.",
+      "You're someone who masters the shadows, seeing the hidden pathways others miss.",
+      "Your instinct to examine the secret manual shows a mind that seeks out concealed knowledge and potential.",
+      "Deciding which weapon to hold reveals a focus on immediate, practical choices over abstract ideals.",
+      "This drives you to see the end result, though that stubbornness can blind you to alternative paths.",
+      "The fight is settled in the head before the blade ever lands."
+     ]
+    }
+   ],
+   "composeMs": 5566
+  },
+  {
+   "index": 17,
+   "lang": "ja",
+   "channel": "ファンタジー",
+   "speaker": "宮殿の姫",
+   "answers": [
+    {
+     "q": "王が秘密の任務を任せようとしている。",
+     "c": "仲間を集めて、まず誓いを立てる",
+     "t": "人の中で元気になる, やさしい"
+    },
+    {
+     "q": "一つだけ持てるとしたら？",
+     "c": "足音のしないブーツ",
+     "t": "一人で力をためる"
+    },
+    {
+     "q": "道に迷った森で夜になった。",
+     "c": "星座で方角を割り出す",
+     "t": "好奇心が強い, 几帳面"
+    },
+    {
+     "q": "伝説に残るなら、どんな物語で？",
+     "c": "誰も解けなかった謎を解いた人として",
+     "t": "好奇心が強い"
+    }
+   ],
+   "title": "星を読む大魔法使い",
+   "reading": {
+    "id": "bigfive",
+    "theory": "ビッグファイブ",
+    "outcome": "O+",
+    "label": "好奇心が強い",
+    "desc": "見慣れないものに先に手を伸ばす人だ",
+    "answers": 4,
+    "tally": {
+     "人の中で元気になる": 1,
+     "やさしい": 1,
+     "一人で力をためる": 1,
+     "好奇心が強い": 2,
+     "几帳面": 1
+    }
+   },
+   "deepReading": null,
+   "gaugeBeforePermille": 106,
+   "manifested": false,
+   "form": null,
+   "materials": [],
+   "baseSource": "model",
+   "manifestationSource": null,
+   "scenes": [
+    {
+     "kind": "base",
+     "speaker": "宮殿の姫",
+     "place": "王宮の謁見の間",
+     "lines": [
+      "あなたは星を読む大魔法使いのような方ですね。",
+      "あなたは、未知なるものへの探求心を持つ者です。",
+      "道に迷った時に星を使って方角を見つけたことは、その強い好奇心と几帳面さを表しています。",
+      "誰も解けなかった謎を解くことを望む心は、見過ごされがちな可能性を見抜く強みにつながります。",
+      "しかし、慣れた仕事に飽きてしまうのは、その探求心が飽きっぽい面を示しています。",
+      "すべての魔法は、'なぜ'という一言から始まったそうです。"
+     ]
+    }
+   ],
+   "composeMs": 6208
+  },
+  {
+   "index": 18,
+   "lang": "zh",
+   "channel": "武侠",
+   "speaker": "白发剑客",
+   "answers": [
+    {
+     "q": "师父留下一本秘籍，人不见了。",
+     "c": "拿别派的功夫对比，先找弱点",
+     "t": "细腻"
+    },
+    {
+     "q": "在客栈里跟人起了争执。",
+     "c": "付了酒钱，悄悄离开",
+     "t": "从容"
+    },
+    {
+     "q": "只能选一件兵器，你握哪一件？",
+     "c": "藏在袖里的匕首",
+     "t": "细腻"
+    },
+    {
+     "q": "武林大会决赛，对手伤了腿。",
+     "c": "不攻他受伤的那条腿",
+     "t": "从容"
+    }
+   ],
+   "title": "唐门暗器高手",
+   "reading": {
+    "id": "temperament",
+    "theory": "四种气质",
+    "outcome": "melancholic",
+    "label": "细腻",
+    "desc": "你是深思熟虑、讲究完成度的人。",
+    "answers": 4,
+    "tally": {
+     "细腻": 2,
+     "从容": 2
+    }
+   },
+   "deepReading": null,
+   "gaugeBeforePermille": 186,
+   "manifested": false,
+   "form": null,
+   "materials": [],
+   "baseSource": "model",
+   "manifestationSource": null,
+   "scenes": [
+    {
+     "kind": "base",
+     "speaker": "白发剑客",
+     "place": "雾锁山巅的比武场",
+     "lines": [
+      "你就像唐门暗器高手。",
+      "你是暗器之匠的人。",
+      "你那份对细节的把控，像暗器一样精确无误。",
+      "在争执时选择悄然离去，展露了你内心的从容。",
+      "细腻与精确是你的锋芒，但自卑是你的桎梏。",
+      "刀未及身，胜负已在脑中分晓。"
+     ]
+    }
+   ],
+   "composeMs": 5218
+  },
+  {
+   "index": 19,
+   "lang": "ko",
+   "channel": "동물",
+   "speaker": "숲의 늙은 올빼미",
+   "answers": [
+    {
+     "q": "숲에 큰 비가 내린다.",
+     "c": "가장 큰 나무 밑에서 기다린다",
+     "t": "평화를 지키는 사람"
+    },
+    {
+     "q": "오래전 친구를 다시 만났다.",
+     "c": "반가워서 소리부터 지른다",
+     "t": "즐거움을 찾는 사람"
+    },
+    {
+     "q": "가장 좋아하는 시간은?",
+     "c": "물장구치는 한낮",
+     "t": "즐거움을 찾는 사람"
+    },
+    {
+     "q": "숲을 떠나야 한다면?",
+     "c": "모두가 따라올 수 있게 천천히 간다",
+     "t": "대비하는 사람"
+    }
+   ],
+   "title": "기억하는 코끼리",
+   "reading": {
+    "id": "enneagram",
+    "theory": "에니어그램",
+    "outcome": "7",
+    "label": "7번 · 즐거움을 찾는 사람",
+    "desc": "재미있는 쪽으로 먼저 발이 가는 사람이다",
+    "answers": 4,
+    "tally": {
+     "9번 · 평화를 지키는 사람": 1,
+     "7번 · 즐거움을 찾는 사람": 2,
+     "6번 · 대비하는 사람": 1
+    }
+   },
+   "deepReading": null,
+   "gaugeBeforePermille": 190,
+   "manifested": false,
+   "form": null,
+   "materials": [],
+   "baseSource": "model",
+   "manifestationSource": null,
+   "scenes": [
+    {
+     "kind": "base",
+     "speaker": "숲의 늙은 올빼미",
+     "place": "달빛 드는 고목 아래",
+     "lines": [
+      "너는 꼭 기억하는 코끼리 같구나.",
+      "그대의 마음속에 깊은 기억의 바다를 품고 있구나.",
+      "가장 좋아하는 시간이 물장구치는 한낮에서 보이듯 즐거움을 찾는 마음이 크단다.",
+      "어디서든 길을 찾을 수 있는 그 영리함은 숲의 가장 빛나는 별과 같아.",
+      "하지만 불편한 감정으로부터 멀리 도망치는 모습은 짙은 그림자를 드리우기도 하지.",
+      "코끼리가 지나간 길에는 풀이 다시 자란다. 기억은 그렇게 남지."
+     ]
+    }
+   ],
+   "composeMs": 8056
+  },
+  {
+   "index": 20,
+   "lang": "ko",
+   "channel": "판타지",
+   "speaker": "궁전의 공주",
+   "answers": [
+    {
+     "q": "왕이 비밀 임무를 맡기려 한다.",
+     "c": "임무 기록부터 꼼꼼히 읽는다",
+     "t": "꼼꼼함"
+    },
+    {
+     "q": "연회장에서 독이 든 잔을 발견했다.",
+     "c": "누가 잔을 놨는지 조용히 뒤를 밟는다",
+     "t": "혼자서 힘을 채움, 꼼꼼함"
+    },
+    {
+     "q": "하나만 가질 수 있다면?",
+     "c": "어디서든 소리가 나는 류트",
+     "t": "사람들 속에서 힘이 남, 호기심이 많음"
+    },
+    {
+     "q": "전설에 남는다면 어떤 이야기로?",
+     "c": "아무도 못 푼 수수께끼를 푼 사람으로",
+     "t": "호기심이 많음"
+    }
+   ],
+   "title": "별을 읽는 대마법사",
+   "reading": {
+    "id": "bigfive",
+    "theory": "빅파이브",
+    "outcome": "C+",
+    "label": "꼼꼼함",
+    "desc": "정한 일은 끝까지 챙기는 사람이다",
+    "answers": 4,
+    "tally": {
+     "꼼꼼함": 2,
+     "혼자서 힘을 채움": 1,
+     "사람들 속에서 힘이 남": 1,
+     "호기심이 많음": 2
+    }
+   },
+   "deepReading": null,
+   "gaugeBeforePermille": 223,
+   "manifested": false,
+   "form": null,
+   "materials": [],
+   "baseSource": "model",
+   "manifestationSource": null,
+   "scenes": [
+    {
+     "kind": "base",
+     "speaker": "궁전의 공주",
+     "place": "왕궁 알현실",
+     "lines": [
+      "당신은 별을 읽는 대마법사 같은 분이에요.",
+      "당신은 마치 별처럼 모든 것을 깊이 들여다보며 통찰하는 분이에요.",
+      "연회장에서 독이 든 잔을 발견했을 때 조용히 뒤를 밟은 것은 숨겨진 진실을 파헤치는 꼼꼼함을 보여줍니다.",
+      "또한 전설에 남을 이야기로 아무도 모르는 수수께끼를 푸는 모습에서 깊은 호기심이 느껴집니다.",
+      "맡은 일에 빈틈이 없다는 것은 당신의 강점이며, 다만 계획이 흔들리면 마음이 불편해진다는 점도 기억해야 해요.",
+      "별은 답을 주지 않아요. 질문을 오래 품은 사람에게 길을 보여 줄 뿐이죠."
+     ]
+    }
+   ],
+   "composeMs": 10554
+  },
+  {
+   "index": 21,
+   "lang": "ko",
+   "channel": "보석",
+   "speaker": "보석상 주인",
+   "answers": [
+    {
+     "q": "선물을 고를 때 나는?",
+     "c": "내가 받고 싶은 걸 고른다",
+     "t": "자기 결이 있는 사람"
+    },
+    {
+     "q": "곤란한 부탁을 받았다.",
+     "c": "안 되는 건 안 된다고 말한다",
+     "t": "바로잡는 사람"
+    },
+    {
+     "q": "흠집이 난 반지를 받았다면?",
+     "c": "그대로 낀다. 흠도 내 거다",
+     "t": "자기 결이 있는 사람"
+    },
+    {
+     "q": "조명이 꺼진 가게 안에서 나는?",
+     "c": "먼저 문 쪽으로 걸어간다",
+     "t": "맞서는 사람"
+    }
+   ],
+   "title": "타오르는 루비",
+   "reading": {
+    "id": "enneagram",
+    "theory": "에니어그램",
+    "outcome": "4",
+    "label": "4번 · 자기 결이 있는 사람",
+    "desc": "남과 같지 않은 자기만의 결을 찾는 사람이다",
+    "answers": 4,
+    "tally": {
+     "4번 · 자기 결이 있는 사람": 2,
+     "1번 · 바로잡는 사람": 1,
+     "8번 · 맞서는 사람": 1
+    }
+   },
+   "deepReading": null,
+   "gaugeBeforePermille": 299,
+   "manifested": false,
+   "form": null,
+   "materials": [],
+   "baseSource": "model",
+   "manifestationSource": null,
+   "scenes": [
+    {
+     "kind": "base",
+     "speaker": "보석상 주인",
+     "place": "골목 끝 작은 보석상",
+     "lines": [
+      "당신은 타오르는 루비처럼 보이네요.",
+      "선물을 고를 때 원하는 것을 선택하는 모습에서 자기만의 기준이 확고함을 알 수 있어요.",
+      "곤란한 부탁을 거절하는 태도는 자신의 경계를 지키고자 하는 단단함을 보여줍니다.",
+      "흠집이 난 것을 그대로 두는 것은 자신의 가치를 스스로 지키려는 깊은 마음이 있음을 말해줍니다.",
+      "깊은 감정을 품고 진실을 추구하는 것이 당신의 가장 큰 빛입니다.",
+      "루비는 어둠 속에서 더 붉게 보인다고들 하죠."
+     ]
+    }
+   ],
+   "composeMs": 8537
+  },
+  {
+   "index": 22,
+   "lang": "en",
+   "channel": "Fantasy",
+   "speaker": "The Princess",
+   "answers": [
+    {
+     "q": "The king wants to give you a secret mission.",
+     "c": "Read the mission records carefully first",
+     "t": "thorough"
+    },
+    {
+     "q": "At the banquet, you spot a poisoned cup.",
+     "c": "Knock the cup to the floor",
+     "t": "energized by people"
+    },
+    {
+     "q": "If you could keep only one?",
+     "c": "A lute that plays anywhere",
+     "t": "energized by people, curious"
+    },
+    {
+     "q": "You're lost in a forest, and night falls.",
+     "c": "Build a fire and guard the group",
+     "t": "warm, thorough"
+    }
+   ],
+   "title": "Paladin of the Dawn",
+   "reading": {
+    "id": "bigfive",
+    "theory": "Big Five",
+    "outcome": "C+",
+    "label": "thorough",
+    "desc": "You're someone who sees what you commit to through to the end.",
+    "answers": 4,
+    "tally": {
+     "thorough": 2,
+     "energized by people": 2,
+     "curious": 1,
+     "warm": 1
+    }
+   },
+   "deepReading": null,
+   "gaugeBeforePermille": 333,
+   "manifested": false,
+   "form": null,
+   "materials": [],
+   "baseSource": "model",
+   "manifestationSource": null,
+   "scenes": [
+    {
+     "kind": "base",
+     "speaker": "The Princess",
+     "place": "Throne room",
+     "lines": [
+      "You are just like the Paladin of the Dawn.",
+      "You are someone who embodies a steadfast protector, mirroring the unwavering commitment of the dawn's champion.",
+      "Spotting a danger like a poisoned cup and acting decisively shows a fierce sense of duty and readiness to defend.",
+      "Building a fire and guarding a group when lost demonstrates a thoroughness in ensuring the safety of everyone present.",
+      "This gives you a strength in unwavering dedication, balanced by a deep unease when things deviate from the expected path.",
+      "Only those who keep watch through the darkest hour get to greet the dawn."
+     ]
+    }
+   ],
+   "composeMs": 6076
+  },
+  {
+   "index": 23,
+   "lang": "ja",
+   "channel": "ファンタジー",
+   "speaker": "宮殿の姫",
+   "answers": [
+    {
+     "q": "王が秘密の任務を任せようとしている。",
+     "c": "誰にも言わずに夜のうちに発つ",
+     "t": "一人で考える, 余白を残す"
+    },
+    {
+     "q": "宴の席で毒入りの杯を見つけた。",
+     "c": "歌を止めて皆の目を集める",
+     "t": "人の中へ行く, 気持ちを汲む"
+    },
+    {
+     "q": "一つだけ持てるとしたら？",
+     "c": "終わりのない本",
+     "t": "一人で考える, 隠れた可能性を見る"
+    },
+    {
+     "q": "伝説に残るなら、どんな物語で？",
+     "c": "誰も解けなかった謎を解いた人として",
+     "t": "隠れた可能性を見る, 筋道で考える"
+    }
+   ],
+   "title": "星を読む大魔法使い",
+   "reading": {
+    "id": "type16",
+    "theory": "16タイプ",
+    "outcome": "INTP",
+    "label": "INTP · とことん問う探究者",
+    "desc": "なぜそうなのか分かるまで掘り下げる人だ",
+    "answers": 4,
+    "tally": {
+     "一人で考える(I)": 2,
+     "余白を残す(P)": 1,
+     "人の中へ行く(E)": 1,
+     "気持ちを汲む(F)": 1,
+     "隠れた可能性を見る(N)": 2,
+     "筋道で考える(T)": 1
+    }
+   },
+   "deepReading": {
+    "id": "temperament",
+    "theory": "四気質",
+    "outcome": "phlegmatic",
+    "label": "おおらか",
+    "desc": "急がず落ち着いた息で進む人だ",
+    "answers": 92,
+    "tally": {
+     "おおらか": 27,
+     "押しが強い": 17,
+     "朗らか": 22,
+     "繊細": 26
+    }
+   },
+   "gaugeBeforePermille": 377,
+   "manifested": true,
+   "form": "mixed",
+   "materials": [
+    {
+     "kind": "manifestation",
+     "ago": 17,
+     "channel": "宝石",
+     "choice": "一日考えてから答える",
+     "trait": "繊細"
+    },
+    {
+     "kind": "manifestation",
+     "ago": 9,
+     "channel": "動物",
+     "choice": "ほかの誰も知らない洞穴へ行く",
+     "trait": "繊細"
+    },
+    {
+     "kind": "manifestation",
+     "ago": 17,
+     "channel": "武侠",
+     "choice": "しなやかに曲がる軟剣",
+     "trait": "朗らか"
+    },
+    {
+     "kind": "attempt",
+     "ago": 14,
+     "channel": "宝石",
+     "choice": "一緒に撮った写真",
+     "trait": "朗らか"
+    },
+    {
+     "kind": "attempt",
+     "ago": 12,
+     "channel": "宝石",
+     "choice": "苔のような緑",
+     "trait": "おおらか"
+    }
+   ],
+   "baseSource": "model",
+   "manifestationSource": "model",
+   "scenes": [
+    {
+     "kind": "base",
+     "speaker": "宮殿の姫",
+     "place": "王宮の謁見の間",
+     "lines": [
+      "あなたは星を読む大魔法使いのような方ですね。",
+      "あなたは、物事の奥にある構造を読み解く者です。",
+      "夜中に一人で計画を立てる仕草は、隠された可能性を見抜く力を示しています。",
+      "宴の場で場の空気を察知し、他者の感情を理解しようとする行動もまた、深い洞察力を表しています。",
+      "人の見落としがちな仕組みを見抜く強さを持つが、行動に移すのが遅いのが玉に瑕です。",
+      "すべての魔法は、'なぜ'という一言から始まったそうです。",
+      "その静けさの中に、何か決定的な真実が見えてくる。",
+      "十一番前、君が一人で深く考え込んでいた夜の記憶が、今、その夜に打ち明けることへの衝動と繋がっている。",
+      "君は、動き出すべき時でも待ってしまう、静かなる強さを持つ者だ。"
+     ]
+    }
+   ],
+   "composeMs": 11682
+  },
+  {
+   "index": 24,
+   "lang": "zh",
+   "channel": "动物",
+   "speaker": "森林里的老猫头鹰",
+   "answers": [
+    {
+     "q": "森林里下起了大雨。",
+     "c": "去别人不知道的山洞",
+     "t": "细腻"
+    },
+    {
+     "q": "只剩下一份食物了。",
+     "c": "给年纪最小的朋友",
+     "t": "从容"
+    },
+    {
+     "q": "最喜欢什么时候？",
+     "c": "大家一起奔跑的夜晚",
+     "t": "开朗"
+    },
+    {
+     "q": "如果必须离开森林？",
+     "c": "想到能交新朋友就很兴奋",
+     "t": "开朗"
+    }
+   ],
+   "title": "踏浪的海豚",
+   "reading": {
+    "id": "temperament",
+    "theory": "四种气质",
+    "outcome": "sanguine",
+    "label": "开朗",
+    "desc": "你是身体先奔向人群与快乐的人。",
+    "answers": 4,
+    "tally": {
+     "细腻": 1,
+     "从容": 1,
+     "开朗": 2
+    }
+   },
+   "deepReading": null,
+   "gaugeBeforePermille": 0,
+   "manifested": false,
+   "form": null,
+   "materials": [],
+   "baseSource": "model",
+   "manifestationSource": null,
+   "scenes": [
+    {
+     "kind": "base",
+     "speaker": "森林里的老猫头鹰",
+     "place": "月光下的老树底下",
+     "lines": [
+      "你真像踏浪的海豚啊。",
+      "你是奔向光亮的人。",
+      "你给年幼的朋友分食食物，展现了从容的特质。",
+      "你渴望在热闹的夜晚中与众人共舞，是开朗的体现。",
+      "你擅长在任何地方迅速建立联系，但热情也容易消散。",
+      "想战胜海浪的会累，乘着海浪的会笑啊。"
+     ]
+    }
+   ],
+   "composeMs": 5085
+  },
+  {
+   "index": 25,
+   "lang": "ko",
+   "channel": "보석",
+   "speaker": "보석상 주인",
+   "answers": [
+    {
+     "q": "쇼윈도 앞에서 먼저 눈이 가는 것은?",
+     "c": "이끼 같은 초록",
+     "t": "다정함"
+    },
+    {
+     "q": "선물을 고를 때 나는?",
+     "c": "내가 받고 싶은 걸 고른다",
+     "t": "단호함, 호기심이 많음"
+    },
+    {
+     "q": "흠집이 난 반지를 받았다면?",
+     "c": "어떤 사연이 있었는지 묻는다",
+     "t": "호기심이 많음, 다정함"
+    },
+    {
+     "q": "오래 간직하고 싶은 것은?",
+     "c": "함께 찍은 사진",
+     "t": "다정함, 사람들 속에서 힘이 남"
+    }
+   ],
+   "title": "숲을 닮은 에메랄드",
+   "reading": {
+    "id": "bigfive",
+    "theory": "빅파이브",
+    "outcome": "A+",
+    "label": "다정함",
+    "desc": "다툼보다 곁에 남는 쪽을 고르는 사람이다",
+    "answers": 4,
+    "tally": {
+     "다정함": 3,
+     "단호함": 1,
+     "호기심이 많음": 2,
+     "사람들 속에서 힘이 남": 1
+    }
+   },
+   "deepReading": null,
+   "gaugeBeforePermille": 92,
+   "manifested": false,
+   "form": null,
+   "materials": [],
+   "baseSource": "model",
+   "manifestationSource": null,
+   "scenes": [
+    {
+     "kind": "base",
+     "speaker": "보석상 주인",
+     "place": "골목 끝 작은 보석상",
+     "lines": [
+      "당신은 숲을 닮은 에메랄드처럼 보이네요.",
+      "이끼처럼 먼저 눈에 띄는 모습에서 당신의 다정함이 느껴집니다.",
+      "선물을 고를 때 원하는 것을 선택하는 모습에서 단호함과 깊은 호기심이 엿보입니다.",
+      "오래 간직하고 싶은 것을 사진으로 고르는 것은 곁에 남는 것에 대한 깊은 애착을 보여주지요.",
+      "함께 있을 때 편안함을 느끼지만, 마음속의 짐을 혼자 감당하려 할 때 지치기 쉽습니다.",
+      "초록은 오래 볼수록 눈을 쉬게 하는 색이에요."
+     ]
+    }
+   ],
+   "composeMs": 9219
+  },
+  {
+   "index": 26,
+   "lang": "ko",
+   "channel": "무협",
+   "speaker": "백발의 검객",
+   "answers": [
+    {
+     "q": "산길에서 산적 무리가 길을 막는다.",
+     "c": "검을 뽑고 정면으로 걸어간다",
+     "t": "밀어붙임"
+    },
+    {
+     "q": "사부가 비급 한 권을 남기고 사라졌다.",
+     "c": "첫 장부터 하루도 빼지 않고 수련한다",
+     "t": "느긋함"
+    },
+    {
+     "q": "객잔에서 시비가 붙었다.",
+     "c": "먼저 사과하라고 똑바로 말한다",
+     "t": "밀어붙임"
+    },
+    {
+     "q": "강호에 남기고 싶은 이름은?",
+     "c": "끝까지 속을 알 수 없던 사람",
+     "t": "섬세함"
+    }
+   ],
+   "title": "화산의 매화검수",
+   "reading": {
+    "id": "temperament",
+    "theory": "4기질",
+    "outcome": "choleric",
+    "label": "밀어붙임",
+    "desc": "앞에 서서 밀고 나가는 사람이다",
+    "answers": 4,
+    "tally": {
+     "밀어붙임": 2,
+     "느긋함": 1,
+     "섬세함": 1
+    }
+   },
+   "deepReading": null,
+   "gaugeBeforePermille": 131,
+   "manifested": false,
+   "form": null,
+   "materials": [],
+   "baseSource": "model",
+   "manifestationSource": null,
+   "scenes": [
+    {
+     "kind": "base",
+     "speaker": "백발의 검객",
+     "place": "안개 낀 산 정상의 비무장",
+     "lines": [
+      "너는 화산의 매화검수 같은 사람이다.",
+      "산길에서 산적 무리가 막아도 곧장 정면으로 나아가는 모습이 그 검처럼 굳건하다.",
+      "객잔에서 시비가 붙었을 때 먼저 사과하라고 똑바로 말하는 태도는 그 칼날이 흔들리지 않음을 보여준다.",
+      "끝까지 속을 알 수 없던 사람을 지향하는 마음은 그 안에 숨겨진 깊은 신중함을 드러낸다.",
+      "추진력이 강하나 참을성이 부족하여 성급함이라는 그림자를 항상 지니고 있다.",
+      "꺾이지 않는 매화가 가장 늦게 핀다. 곧은 검도 그렇다."
+     ]
+    }
+   ],
+   "composeMs": 10697
+  },
+  {
+   "index": 27,
+   "lang": "ko",
+   "channel": "무협",
+   "speaker": "백발의 검객",
+   "answers": [
+    {
+     "q": "산길에서 산적 무리가 길을 막는다.",
+     "c": "물러서는 척하며 빈틈을 기다린다",
+     "t": "꼼꼼함"
+    },
+    {
+     "q": "객잔에서 시비가 붙었다.",
+     "c": "상대 일행의 뒷배부터 알아본다",
+     "t": "꼼꼼함"
+    },
+    {
+     "q": "하나만 고를 수 있다면 어떤 병기를 쥐겠는가.",
+     "c": "부드럽게 휘는 연검",
+     "t": "호기심이 많음"
+    },
+    {
+     "q": "무림대회 결승, 상대가 다리를 다쳤다.",
+     "c": "이길 수 있을 때 확실히 이긴다",
+     "t": "단호함, 꼼꼼함"
+    }
+   ],
+   "title": "당문의 암기술사",
+   "reading": {
+    "id": "bigfive",
+    "theory": "빅파이브",
+    "outcome": "C+",
+    "label": "꼼꼼함",
+    "desc": "정한 일은 끝까지 챙기는 사람이다",
+    "answers": 4,
+    "tally": {
+     "꼼꼼함": 3,
+     "호기심이 많음": 1,
+     "단호함": 1
+    }
+   },
+   "deepReading": null,
+   "gaugeBeforePermille": 148,
+   "manifested": false,
+   "form": null,
+   "materials": [],
+   "baseSource": "model",
+   "manifestationSource": null,
+   "scenes": [
+    {
+     "kind": "base",
+     "speaker": "백발의 검객",
+     "place": "안개 낀 산 정상의 비무장",
+     "lines": [
+      "너는 당문의 암기술사 같은 사람이다.",
+      "너는 굳건한 바위와 같다.",
+      "어떤 상황에서도 흔들리지 않고 중심을 잡는 모습이다.",
+      "산길에서 함정을 피하려 하듯, 네가 상황을 꼼꼼히 살피는 것은 그 꼼꼼함이다.",
+      "하지만 그 계획이 틀어지면 마음속 깊은 곳에서 불편함을 느낀다는 것을 알겠다.",
+      "보이는 칼은 막아도, 읽힌 수는 막지 못한다."
+     ]
+    }
+   ],
+   "composeMs": 13105
+  },
+  {
+   "index": 28,
+   "lang": "en",
+   "channel": "Wuxia",
+   "speaker": "White-Haired Swordsman",
+   "answers": [
+    {
+     "q": "Your master vanished and left one secret manual behind.",
+     "c": "Leave it closed until the time is right",
+     "t": "thinks alone, keeps options open"
+    },
+    {
+     "q": "A quarrel breaks out at the inn.",
+     "c": "Tell them straight to apologize first",
+     "t": "goes toward people, decides ahead"
+    },
+    {
+     "q": "Tournament final. Your opponent has hurt his leg.",
+     "c": "Forfeit and step down. No fun in a fight like this",
+     "t": "reads hearts, keeps options open"
+    },
+    {
+     "q": "What name do you want to leave in the martial world?",
+     "c": "Someone no one could read to the end",
+     "t": "thinks alone, sees hidden possibilities"
+    }
+   ],
+   "title": "Hidden Weapons Expert of the Tang Clan",
+   "reading": {
+    "id": "type16",
+    "theory": "16 Types",
+    "outcome": "INFP",
+    "label": "INFP · The Heart-Led Idealist",
+    "desc": "You're someone who goes where you feel is right.",
+    "answers": 4,
+    "tally": {
+     "thinks alone (I)": 2,
+     "keeps options open (P)": 2,
+     "goes toward people (E)": 1,
+     "decides ahead (J)": 1,
+     "reads hearts (F)": 1,
+     "sees hidden possibilities (N)": 1
+    }
+   },
+   "deepReading": null,
+   "gaugeBeforePermille": 242,
+   "manifested": false,
+   "form": null,
+   "materials": [],
+   "baseSource": "model",
+   "manifestationSource": null,
+   "scenes": [
+    {
+     "kind": "base",
+     "speaker": "White-Haired Swordsman",
+     "place": "Dueling ground on a misty peak",
+     "lines": [
+      "You are like the Hidden Weapons Expert of the Tang Clan.",
+      "You're someone who navigates the shadows and unseen paths, much like a master who hides their true capabilities.",
+      "Your choice to keep the secret manual closed shows a tendency to observe and wait for the perfect moment to act.",
+      "The desire to leave a name that cannot be deciphered reveals a deep inclination toward hidden potential and ambiguity.",
+      "Your sincerity holds firm, yet the inability to meet immediate demands proves a flaw in your path.",
+      "The fight is settled in the head before the blade ever lands."
+     ]
+    }
+   ],
+   "composeMs": 6006
+  },
+  {
+   "index": 29,
+   "lang": "ja",
+   "channel": "ファンタジー",
+   "speaker": "宮殿の姫",
+   "answers": [
+    {
+     "q": "王が秘密の任務を任せようとしている。",
+     "c": "まず任務の記録をじっくり読む",
+     "t": "繊細"
+    },
+    {
+     "q": "一つだけ持てるとしたら？",
+     "c": "終わりのない本",
+     "t": "繊細"
+    },
+    {
+     "q": "道に迷った森で夜になった。",
+     "c": "木に登ってあたりを見渡す",
+     "t": "繊細"
+    },
+    {
+     "q": "伝説に残るなら、どんな物語で？",
+     "c": "誰も解けなかった謎を解いた人として",
+     "t": "繊細"
+    }
+   ],
+   "title": "星を読む大魔法使い",
+   "reading": {
+    "id": "temperament",
+    "theory": "四気質",
+    "outcome": "melancholic",
+    "label": "繊細",
+    "desc": "深く考え完成度にこだわる人だ",
+    "answers": 4,
+    "tally": {
+     "繊細": 4
+    }
+   },
+   "deepReading": null,
+   "gaugeBeforePermille": 271,
+   "manifested": false,
+   "form": null,
+   "materials": [],
+   "baseSource": "model",
+   "manifestationSource": null,
+   "scenes": [
+    {
+     "kind": "base",
+     "speaker": "宮殿の姫",
+     "place": "王宮の謁見の間",
+     "lines": [
+      "あなたは星を読む大魔法使いのような方ですね。",
+      "あなたは、深く物事を深く探求する者です。",
+      "秘密の記録をじっくり読むことから、あなたは細部にわたる正確さを求めます。",
+      "誰も解けなかった謎を解いたという物語への憧れは、その探求心の深さを物語っています。",
+      "あなたの繊細さと正確さは強みですが、己を過度に低く見積もる傾向がありますね。",
+      "すべての魔法は、'なぜ'という一言から始まったそうです。"
+     ]
+    }
+   ],
+   "composeMs": 5809
+  },
+  {
+   "index": 30,
+   "lang": "zh",
+   "channel": "武侠",
+   "speaker": "白发剑客",
+   "answers": [
+    {
+     "q": "师父留下一本秘籍，人不见了。",
+     "c": "拿别派的功夫对比，先找弱点",
+     "t": "看隐藏可能, 讲道理"
+    },
+    {
+     "q": "在客栈里跟人起了争执。",
+     "c": "先打听对方的靠山",
+     "t": "看眼前事实, 讲道理"
+    },
+    {
+     "q": "只能选一件兵器，你握哪一件？",
+     "c": "缺了口的旧刀",
+     "t": "看眼前事实, 提前定好"
+    },
+    {
+     "q": "武林大会决赛，对手伤了腿。",
+     "c": "弃权下台。这种胜负没意思",
+     "t": "体察人心, 留有余地"
+    }
+   ],
+   "title": "如风的浪人",
+   "reading": {
+    "id": "type16",
+    "theory": "16型",
+    "outcome": "ESTP",
+    "label": "ESTP · 率先冲入的搏击手",
+    "desc": "你是先碰一碰才明白的人。",
+    "answers": 4,
+    "tally": {
+     "看隐藏可能(N)": 1,
+     "讲道理(T)": 2,
+     "看眼前事实(S)": 2,
+     "提前定好(J)": 1,
+     "体察人心(F)": 1,
+     "留有余地(P)": 1
+    }
+   },
+   "deepReading": {
+    "id": "bigfive",
+    "theory": "大五人格",
+    "outcome": "O+",
+    "label": "好奇心强",
+    "desc": "你是先向陌生事物伸手的人。",
+    "answers": 120,
+    "tally": {
+     "温和": 28,
+     "果断": 11,
+     "在人群中来劲": 22,
+     "好奇心强": 35,
+     "独处时充电": 23,
+     "沉着": 15,
+     "细致": 26,
+     "敏感": 3,
+     "守着熟悉的东西": 2
+    }
+   },
+   "gaugeBeforePermille": 326,
+   "manifested": true,
+   "form": "mixed",
+   "materials": [
+    {
+     "kind": "manifestation",
+     "ago": 16,
+     "channel": "动物",
+     "choice": "高兴得先叫出声来",
+     "trait": "在人群中来劲"
+    },
+    {
+     "kind": "manifestation",
+     "ago": 24,
+     "channel": "武侠",
+     "choice": "柔韧的软剑",
+     "trait": "好奇心强"
+    },
+    {
+     "kind": "manifestation",
+     "ago": 16,
+     "channel": "动物",
+     "choice": "去别人不知道的山洞",
+     "trait": "独处时充电"
+    },
+    {
+     "kind": "attempt",
+     "ago": 1,
+     "channel": "奇幻",
+     "choice": "读不完的书",
+     "trait": "好奇心强"
+    },
+    {
+     "kind": "attempt",
+     "ago": 25,
+     "channel": "武侠",
+     "choice": "先不急着翻，等时候到了再说",
+     "trait": "独处时充电"
+    }
+   ],
+   "baseSource": "model",
+   "manifestationSource": "model",
+   "scenes": [
+    {
+     "kind": "base",
+     "speaker": "白发剑客",
+     "place": "雾锁山巅的比武场",
+     "lines": [
+      "你就像如风的浪人。",
+      "你是风的浪人。",
+      "你擅长先摸清局势，才能找到突破口。",
+      "你总能从冲突中迅速判断出最实际的生存之道。",
+      "你速度极快，却容易将目光从最终目标上移开。",
+      "风不寻栖处。所过之处，便是路。",
+      "你看到的是最锋利的破绽。",
+      "像十六次前去无人知的山洞一样，你懂得在孤寂中寻找立足之地。",
+      "你是能看透局势的人。"
+     ]
+    }
+   ],
+   "composeMs": 9132
+  },
+  {
+   "index": 31,
+   "lang": "ko",
+   "channel": "보석",
+   "speaker": "보석상 주인",
+   "answers": [
+    {
+     "q": "쇼윈도 앞에서 먼저 눈이 가는 것은?",
+     "c": "빛을 받아 붉게 타는 것",
+     "t": "밀어붙임"
+    },
+    {
+     "q": "선물을 고를 때 나는?",
+     "c": "내가 받고 싶은 걸 고른다",
+     "t": "명랑함"
+    },
+    {
+     "q": "흠집이 난 반지를 받았다면?",
+     "c": "어떤 사연이 있었는지 묻는다",
+     "t": "명랑함"
+    },
+    {
+     "q": "조명이 꺼진 가게 안에서 나는?",
+     "c": "제자리에서 움직이지 않는다",
+     "t": "느긋함"
+    }
+   ],
+   "title": "타오르는 루비",
+   "reading": {
+    "id": "temperament",
+    "theory": "4기질",
+    "outcome": "sanguine",
+    "label": "명랑함",
+    "desc": "사람과 즐거움 쪽으로 몸이 먼저 가는 사람이다",
+    "answers": 4,
+    "tally": {
+     "밀어붙임": 1,
+     "명랑함": 2,
+     "느긋함": 1
+    }
+   },
+   "deepReading": null,
+   "gaugeBeforePermille": 0,
+   "manifested": false,
+   "form": null,
+   "materials": [],
+   "baseSource": "model",
+   "manifestationSource": null,
+   "scenes": [
+    {
+     "kind": "base",
+     "speaker": "보석상 주인",
+     "place": "골목 끝 작은 보석상",
+     "lines": [
+      "당신은 타오르는 루비처럼 보이네요.",
+      "쇼윈도 앞에서 먼저 시선을 끄는 모습에서 당신은 강한 추진력을 가졌네요.",
+      "받고 싶은 것을 고르는 모습은 당신의 마음이 순수하고 즐거움으로 가득 차 있음을 보여줍니다.",
+      "하지만 흥미가 쉽게 식는 것은 그 뜨거운 열정이 잠시 식을까 두려워하는 마음 때문일지도 모릅니다.",
+      "당신은 사람과 즐거움 쪽으로 몸이 먼저 가는 사람입니다.",
+      "루비는 어둠 속에서 더 붉게 보인다고들 하죠."
+     ]
+    }
+   ],
+   "composeMs": 15837
+  },
+  {
+   "index": 32,
+   "lang": "ko",
+   "channel": "동물",
+   "speaker": "숲의 늙은 올빼미",
+   "answers": [
+    {
+     "q": "처음 보는 동물이 다가온다.",
+     "c": "무리 앞에 서서 맞는다",
+     "t": "사람들 속에서 힘이 남, 침착함"
+    },
+    {
+     "q": "오래전 친구를 다시 만났다.",
+     "c": "그때 일을 하나하나 다 기억해 낸다",
+     "t": "꼼꼼함"
+    },
+    {
+     "q": "먹이가 하나 남았다.",
+     "c": "아무도 모르게 챙겨 둔다",
+     "t": "단호함"
+    },
+    {
+     "q": "가장 좋아하는 시간은?",
+     "c": "혼자 계획을 세우는 새벽",
+     "t": "꼼꼼함, 혼자서 힘을 채움"
+    }
+   ],
+   "title": "꼬리 긴 여우",
+   "reading": {
+    "id": "bigfive",
+    "theory": "빅파이브",
+    "outcome": "C+",
+    "label": "꼼꼼함",
+    "desc": "정한 일은 끝까지 챙기는 사람이다",
+    "answers": 4,
+    "tally": {
+     "사람들 속에서 힘이 남": 1,
+     "침착함": 1,
+     "꼼꼼함": 2,
+     "단호함": 1,
+     "혼자서 힘을 채움": 1
+    }
+   },
+   "deepReading": null,
+   "gaugeBeforePermille": 68,
+   "manifested": false,
+   "form": null,
+   "materials": [],
+   "baseSource": "model",
+   "manifestationSource": null,
+   "scenes": [
+    {
+     "kind": "base",
+     "speaker": "숲의 늙은 올빼미",
+     "place": "달빛 드는 고목 아래",
+     "lines": [
+      "너는 꼭 꼬리 긴 여우 같구나.",
+      "그대의 그 모습은 꼬리가 길고 섬세한 여우처럼 깊은 통찰력을 지니고 있구나.",
+      "오래된 인연을 기억해내는 그 꼼꼼함은 모든 것을 세밀하게 살피는 모습과 맞닿아 있단다.",
+      "혼자 조용히 시간을 보내며 계획을 세우는 모습에서 스스로의 힘을 다지는 강인함이 느껴진다.",
+      "맡은 일에는 빈틈이 없으나, 계획이 틀어지면 그만큼 큰 불편함을 느끼는 것이 그대의 그림자이니라.",
+      "가장 먼저 눈치챈 이가 가장 오래 살아남는 게 숲의 법이란다."
+     ]
+    }
+   ],
+   "composeMs": 8170
+  },
+  {
+   "index": 33,
+   "lang": "ko",
+   "channel": "동물",
+   "speaker": "숲의 늙은 올빼미",
+   "answers": [
+    {
+     "q": "오래전 친구를 다시 만났다.",
+     "c": "말없이 옆에 나란히 걷는다",
+     "t": "느긋함"
+    },
+    {
+     "q": "먹이가 하나 남았다.",
+     "c": "제일 어린 친구에게 준다",
+     "t": "느긋함"
+    },
+    {
+     "q": "가장 좋아하는 시간은?",
+     "c": "혼자 계획을 세우는 새벽",
+     "t": "섬세함"
+    },
+    {
+     "q": "숲을 떠나야 한다면?",
+     "c": "새 친구를 사귈 생각에 들뜬다",
+     "t": "명랑함"
+    }
+   ],
+   "title": "파도 타는 돌고래",
+   "reading": {
+    "id": "temperament",
+    "theory": "4기질",
+    "outcome": "phlegmatic",
+    "label": "느긋함",
+    "desc": "서두르지 않고 고른 숨으로 가는 사람이다",
+    "answers": 4,
+    "tally": {
+     "느긋함": 2,
+     "섬세함": 1,
+     "명랑함": 1
+    }
+   },
+   "deepReading": null,
+   "gaugeBeforePermille": 139,
+   "manifested": false,
+   "form": null,
+   "materials": [],
+   "baseSource": "model",
+   "manifestationSource": null,
+   "scenes": [
+    {
+     "kind": "base",
+     "speaker": "숲의 늙은 올빼미",
+     "place": "달빛 드는 고목 아래",
+     "lines": [
+      "너는 꼭 파도 타는 돌고래 같구나.",
+      "오래전 친구를 다시 만났을 때 말없이 나란히 걷는 모습에서 그 끈기와 여유가 엿보인다.",
+      "가장 좋아하는 시간이 새벽 혼자 계획을 세우는 것에서 그 안에 깊은 사려 깊음이 숨겨져 있다.",
+      "숲을 떠나야 할 때도 새로운 관계에 들뜨는 모습은 그 안에 숨겨진 활력을 보여주지.",
+      "쉽게 흔들리지 않는 단단함이 장점이지만, 때로는 움직여야 할 때도 기다리는 것이 멈춤이 될 수 있단다.",
+      "물이 웃으면 숲도 따라 웃는 법이지."
+     ]
+    }
+   ],
+   "composeMs": 12017
+  },
+  {
+   "index": 34,
+   "lang": "en",
+   "channel": "Fantasy",
+   "speaker": "The Princess",
+   "answers": [
+    {
+     "q": "At the banquet, you spot a poisoned cup.",
+     "c": "Quietly follow whoever set the cup down",
+     "t": "The One Who Prepares"
+    },
+    {
+     "q": "If you could keep only one?",
+     "c": "A book that never ends",
+     "t": "The One Who Knows Ahead"
+    },
+    {
+     "q": "You're lost in a forest, and night falls.",
+     "c": "Climb a tree and look around",
+     "t": "The One Who Prepares"
+    },
+    {
+     "q": "If you became a legend, what would the story be?",
+     "c": "The one who held the castle to the end",
+     "t": "The One Who Prepares"
+    }
+   ],
+   "title": "Shadow Scout",
+   "reading": {
+    "id": "enneagram",
+    "theory": "Enneagram",
+    "outcome": "6",
+    "label": "Type 6 · The One Who Prepares",
+    "desc": "You're someone who first weighs what could go wrong.",
+    "answers": 4,
+    "tally": {
+     "Type 6 · The One Who Prepares": 3,
+     "Type 5 · The One Who Knows Ahead": 1
+    }
+   },
+   "deepReading": null,
+   "gaugeBeforePermille": 212,
+   "manifested": false,
+   "form": null,
+   "materials": [],
+   "baseSource": "model",
+   "manifestationSource": null,
+   "scenes": [
+    {
+     "kind": "base",
+     "speaker": "The Princess",
+     "place": "Throne room",
+     "lines": [
+      "You are just like the Shadow Scout.",
+      "You are someone who moves with the caution and stealth of a shadow, keenly observing the unseen paths.",
+      "Spotting the poisoned cup shows a deep sense of foresight, assessing hidden dangers before they manifest.",
+      "Your desire for an unending book reflects a need for knowledge and preparation against any unknown threat.",
+      "This makes you immensely trustworthy, though your hesitation sometimes causes your own path to falter.",
+      "Shadows only form beside the light. The quietest one is often the closest."
+     ]
+    }
+   ],
+   "composeMs": 5684
+  },
+  {
+   "index": 35,
+   "lang": "ja",
+   "channel": "動物",
+   "speaker": "森の年老いたフクロウ",
+   "answers": [
+    {
+     "q": "森に大雨が降る。",
+     "c": "友だちがみんないるか、まず数える",
+     "t": "おおらか"
+    },
+    {
+     "q": "見たことのない動物が近づいてくる。",
+     "c": "まずちょっかいを出してみる",
+     "t": "朗らか"
+    },
+    {
+     "q": "昔の友だちにまた会えた。",
+     "c": "黙って隣を並んで歩く",
+     "t": "おおらか"
+    },
+    {
+     "q": "森を出なければならないなら？",
+     "c": "出る前に近道を調べておく",
+     "t": "押しが強い"
+    }
+   ],
+   "title": "月下の狼",
+   "reading": {
+    "id": "temperament",
+    "theory": "四気質",
+    "outcome": "phlegmatic",
+    "label": "おおらか",
+    "desc": "急がず落ち着いた息で進む人だ",
+    "answers": 4,
+    "tally": {
+     "おおらか": 2,
+     "朗らか": 1,
+     "押しが強い": 1
+    }
+   },
+   "deepReading": null,
+   "gaugeBeforePermille": 254,
+   "manifested": false,
+   "form": null,
+   "materials": [],
+   "baseSource": "model",
+   "manifestationSource": null,
+   "scenes": [
+    {
+     "kind": "base",
+     "speaker": "森の年老いたフクロウ",
+     "place": "月明かりの差す古木の下",
+     "lines": [
+      "お前は月下の狼にそっくりだな。",
+      "森の奥で、仲間といるときの瞳の鋭さが、その狼の気概を映し出している。",
+      "予期せぬ出来事に対して、すぐに試してみるその行動は、その狼の持つ活発さを表している。",
+      "その強靭さは、脆さを抱え込むことで、時に立ち止まってしまう弱さと共存しているのだ。",
+      "群れの力は狼から、狼の力は群れから生まれるんだよ。"
+     ]
+    }
+   ],
+   "composeMs": 6092
+  },
+  {
+   "index": 36,
+   "lang": "zh",
+   "channel": "奇幻",
+   "speaker": "宫中的公主",
+   "answers": [
+    {
+     "q": "城门前出现了一条龙。",
+     "c": "举起盾牌，站在最前面",
+     "t": "在人群中来劲, 沉着"
+    },
+    {
+     "q": "如果只能拥有一样？",
+     "c": "走路没有声音的靴子",
+     "t": "独处时充电"
+    },
+    {
+     "q": "在森林里迷了路，天黑了。",
+     "c": "生火守着同伴",
+     "t": "温和, 细致"
+    },
+    {
+     "q": "如果成为传说，会是什么故事？",
+     "c": "解开无人能解之谜的人",
+     "t": "好奇心强"
+    }
+   ],
+   "title": "黎明圣骑士",
+   "reading": {
+    "id": "bigfive",
+    "theory": "大五人格",
+    "outcome": "N-",
+    "label": "沉着",
+    "desc": "你是动荡中也气息平稳的人。",
+    "answers": 4,
+    "tally": {
+     "在人群中来劲": 1,
+     "沉着": 1,
+     "独处时充电": 1,
+     "温和": 1,
+     "细致": 1,
+     "好奇心强": 1
+    }
+   },
+   "deepReading": {
+    "id": "type16",
+    "theory": "16型",
+    "outcome": "ISFJ",
+    "label": "ISFJ · 安静的保护者",
+    "desc": "你是默默照顾身边人的人。",
+    "answers": 144,
+    "tally": {
+     "独自思考(I)": 40,
+     "留有余地(P)": 32,
+     "走向人群(E)": 26,
+     "提前定好(J)": 35,
+     "看隐藏可能(N)": 36,
+     "讲道理(T)": 36,
+     "看眼前事实(S)": 38,
+     "体察人心(F)": 45
+    }
+   },
+   "gaugeBeforePermille": 288,
+   "manifested": true,
+   "form": "separate",
+   "materials": [
+    {
+     "kind": "manifestation",
+     "ago": 13,
+     "channel": "宝石",
+     "choice": "想一天再回答",
+     "trait": "独自思考, 提前定好"
+    },
+    {
+     "kind": "manifestation",
+     "ago": 13,
+     "channel": "宝石",
+     "choice": "青苔一样的绿",
+     "trait": "看眼前事实, 体察人心"
+    },
+    {
+     "kind": "manifestation",
+     "ago": 6,
+     "channel": "武侠",
+     "choice": "先不急着翻，等时候到了再说",
+     "trait": "独自思考, 留有余地"
+    },
+    {
+     "kind": "attempt",
+     "ago": 2,
+     "channel": "奇幻",
+     "choice": "悄悄跟踪放杯子的人",
+     "trait": "独自思考, 讲道理"
+    },
+    {
+     "kind": "attempt",
+     "ago": 31,
+     "channel": "武侠",
+     "choice": "付了酒钱，悄悄离开",
+     "trait": "独自思考, 留有余地"
+    }
+   ],
+   "baseSource": "model",
+   "manifestationSource": "model",
+   "scenes": [
+    {
+     "kind": "base",
+     "speaker": "宫中的公主",
+     "place": "王宫谒见厅",
+     "lines": [
+      "您就像黎明圣骑士一样。",
+      "您是坚韧的守护者。",
+      "您举起盾牌站在最前面，展现出在混乱中保持镇定的决心。",
+      "您选择用火守着同伴，也体现了您细致而温和的关怀。",
+      "您拥有清晰的判断力，但有时会过于轻视他人的不安。",
+      "唯有守过最黑暗时刻的人，才能迎来黎明。"
+     ]
+    },
+    {
+     "kind": "manifestation",
+     "speaker": "陌生的声音",
+     "place": "空无一人的地方",
+     "lines": [
+      "你现在要做的，是举起盾牌。",
+      "三十二次前，你悄悄地付了酒钱，然后离开了。",
+      "你是默默照顾身边人的人。"
+     ]
+    }
+   ],
+   "composeMs": 9421
+  }
+ ]
+}

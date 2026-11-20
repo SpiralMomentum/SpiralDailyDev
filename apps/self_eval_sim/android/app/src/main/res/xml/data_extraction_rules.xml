@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Android 12 이상 클라우드 백업/기기 이전 규칙. backup_rules.xml 과 같은 정책. -->
+<data-extraction-rules>
+    <cloud-backup>
+        <exclude domain="root" path="app_flutter/gemma-4-E2B-it.litertlm" />
+    </cloud-backup>
+    <device-transfer>
+        <exclude domain="root" path="app_flutter/gemma-4-E2B-it.litertlm" />
+    </device-transfer>
+</data-extraction-rules>
