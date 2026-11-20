@@ -1,0 +1,41 @@
+{
+  "name_ko": "누적 평가",
+  "name_en": "Cumulative Self-Evaluation",
+  "package_name": "com.spiralmomentum.self_eval_sim",
+  "bundle_id": "com.spiralmomentum.selfEvalSim",
+  "one_liner_ko": "이야기 속 인물과 대화하며 성격이 누적 평가되는 온디바이스 시뮬레이션 앱",
+  "category": "entertainment",
+  "app_type": "app",
+  "default_language": "ko-KR",
+  "monetization": "free",
+  "ads": true,
+  "requires_login": false,
+  "content_violence": false,
+  "content_gambling": false,
+  "content_adult": false,
+  "target_age": "teen",
+  "languages": [
+    "ko"
+  ],
+  "privacy_policy_url": "https://spiralmomentum.github.io/SpiralDailyDev/privacy-policy.html",
+  "support_url": "https://spiralmomentum.github.io/SpiralDailyDev/support.html",
+  "marketing_url": "https://spiralmomentum.github.io/SpiralDailyDev/",
+  "store_text": {
+    "ios": {
+      "ko": {
+        "name": "누적 평가",
+        "subtitle": "이야기 속 인물이 보는 나의 성격",
+        "keywords": "성격테스트,심리테스트,자기평가,무협,판타지,시뮬레이션,성격유형,이야기,온디바이스,AI",
+        "promotional_text": "무협, 판타지, 동물, 보석. 네 세계의 인물이 당신을 평가합니다. 답이 쌓일수록 평가가 깊어집니다.",
+        "description": "누적 평가는 이야기 속 인물과 대화하며 나를 알아 가는 성격 시뮬레이션입니다.\n\n무협, 판타지, 동물, 보석 네 세계 가운데 하나를 골라 질문에 답하면, 그 세계의 인물이 당신을 어떻게 보았는지 장면과 대사로 들려줍니다.\n\n기능\n쌓일수록 깊어지는 평가\n한 번의 답으로 끝나지 않습니다. 시행이 쌓이면 지난 답과 이번 답이 섞여 새로운 장면이 발현됩니다.\n\n네 개의 세계\n무협, 판타지, 동물, 보석. 세계마다 다른 질문과 다른 인물이 기다립니다.\n\n기기 안에서 만드는 대사\n대사는 기기에 내려받은 언어 모델이 직접 만듭니다. 처음 한 번 모델을 내려받으면 이후에는 인터넷 없이도 동작합니다.\n\n결과 공유\n마음에 드는 결과 장면을 움직이는 이미지로 만들어 공유할 수 있습니다.\n\n기록 관리\n설정에서 누적 기록을 확인하고 언제든 전체 삭제할 수 있습니다.\n\n※ 처음 실행할 때 약 2.4GB의 모델 파일을 내려받습니다. Wi-Fi 환경을 권장합니다."
+      }
+    },
+    "android": {
+      "ko": {
+        "title": "누적 평가 - 이야기 속 성격 시뮬레이션",
+        "short_description": "네 세계의 인물과 대화하며 쌓여 가는 나의 성격 평가. 기기 안에서 만드는 대사.",
+        "full_description": "누적 평가는 이야기 속 인물과 대화하며 나를 알아 가는 성격 시뮬레이션입니다.\n\n무협, 판타지, 동물, 보석 네 세계 가운데 하나를 골라 질문에 답하면, 그 세계의 인물이 당신을 어떻게 보았는지 장면과 대사로 들려줍니다.\n\n■ 주요 기능\n\n쌓일수록 깊어지는 평가\n한 번의 답으로 끝나지 않습니다. 시행이 쌓이면 지난 답과 이번 답이 섞여 새로운 장면이 발현됩니다.\n\n네 개의 세계\n무협, 판타지, 동물, 보석. 세계마다 다른 질문과 다른 인물이 기다립니다.\n\n기기 안에서 만드는 대사\n대사는 기기에 내려받은 언어 모델이 직접 만듭니다. 처음 한 번 모델을 내려받으면 이후에는 인터넷 없이도 동작합니다.\n\n결과 공유\n마음에 드는 결과 장면을 움직이는 이미지로 만들어 공유할 수 있습니다.\n\n기록 관리\n설정에서 누적 기록을 확인하고 언제든 전체 삭제할 수 있습니다.\n\n※ 처음 실행할 때 약 2.4GB의 모델 파일을 내려받습니다. Wi-Fi 환경을 권장합니다."
+      }
+    }
+  }
+}
