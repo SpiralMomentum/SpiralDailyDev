@@ -1,0 +1,17 @@
+# 앱 프로필 (world_of_beast). 양식은 apps/_template.yaml.
+# 스크린샷: apps/world_of_beast/integration_test/screenshots_test.dart (내장 데이터, 즐겨찾기 비운 상태에서 시작).
+#   0 목록 / 1 상세(즐겨찾기 전) / 2 상세(즐겨찾기 후, 별 채움) / 3 세계 지도
+# 크롭 값은 1242x2688 스크린샷을 눈으로 재서 정했다.
+id: "world_of_beast"
+name: "야수의 세계"
+language: "ko"
+register: "honorific"
+font: "system_sd_gothic"
+shots_dir: "assets/shots/world_of_beast/ko"
+brand: {"primary": "#0B3F6A", "accent": "#0B3F6A", "logo": "logo_world_of_beast.png"}
+screens:
+  list:       {shot: 0}
+  list_top:   {shot: 0, crop: [0, 0, 1, 0.62]}
+  detail:     {shot: 1, crop: [0, 0, 1, 0.4]}
+  detail_fav: {shot: 2, crop: [0, 0, 1, 0.4]}
+  map:        {shot: 3, crop: [0, 0.32, 1, 0.62]}   # suggest-crop 결과 (높이 0.30 유지). 위쪽 크롭 [0,0,1,0.6] 은 내용 14.4% 로 경고

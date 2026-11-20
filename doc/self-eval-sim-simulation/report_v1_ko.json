@@ -1,0 +1,1921 @@
+{
+ "model": "gemma-4-E2B-it.litertlm (flutter_gemma 0.16.5, CPU)",
+ "device": "Android emulator API 34 arm64, 8GB RAM, 6 cores (M1 Pro host)",
+ "attempts": 40,
+ "langs": [
+  "ko"
+ ],
+ "loadMs": 4883,
+ "records": [
+  {
+   "index": 1,
+   "lang": "ko",
+   "channel": "무협",
+   "speaker": "백발의 검객",
+   "answers": [
+    {
+     "q": "산길에서 산적 무리가 길을 막는다.",
+     "c": "다른 길로 돌아간다. 굳이 싸울 이유가 없다"
+    },
+    {
+     "q": "객잔에서 시비가 붙었다.",
+     "c": "먼저 사과하라고 똑바로 말한다"
+    },
+    {
+     "q": "하나만 고를 수 있다면 어떤 병기를 쥐겠는가.",
+     "c": "부드럽게 휘는 연검"
+    },
+    {
+     "q": "강호에 남기고 싶은 이름은?",
+     "c": "아무도 모르지만 모두가 피해 가는 사람"
+    }
+   ],
+   "title": "무당의 태극권사",
+   "gaugeBeforePermille": 0,
+   "manifested": false,
+   "form": null,
+   "materials": [],
+   "baseSource": "model",
+   "manifestationSource": null,
+   "scenes": [
+    {
+     "kind": "base",
+     "speaker": "백발의 검객",
+     "place": "안개 낀 산 정상의 비무장",
+     "lines": [
+      "산길에서 멈추는 법을 모르는구나.",
+      "그 멈춤이 곧 네 쇠락의 시작이다."
+     ]
+    }
+   ],
+   "composeMs": 6197
+  },
+  {
+   "index": 2,
+   "lang": "ko",
+   "channel": "동물",
+   "speaker": "숲의 늙은 올빼미",
+   "answers": [
+    {
+     "q": "숲에 큰 비가 내린다.",
+     "c": "가장 큰 나무 밑에서 기다린다"
+    },
+    {
+     "q": "오래전 친구를 다시 만났다.",
+     "c": "반가워서 소리부터 지른다"
+    },
+    {
+     "q": "먹이가 하나 남았다.",
+     "c": "아무도 모르게 챙겨 둔다"
+    },
+    {
+     "q": "가장 좋아하는 시간은?",
+     "c": "물장구치는 한낮"
+    }
+   ],
+   "title": "파도 타는 돌고래",
+   "gaugeBeforePermille": 21,
+   "manifested": false,
+   "form": null,
+   "materials": [],
+   "baseSource": "template",
+   "manifestationSource": null,
+   "scenes": [
+    {
+     "kind": "base",
+     "speaker": "숲의 늙은 올빼미",
+     "place": "달빛 드는 고목 아래",
+     "lines": [
+      "네가 오면 물결부터 달라지는구나.",
+      "심심한 숲에 너 같은 아이가 하나쯤은 있어야지."
+     ]
+    }
+   ],
+   "composeMs": 4297
+  },
+  {
+   "index": 3,
+   "lang": "ko",
+   "channel": "보석",
+   "speaker": "보석상 주인",
+   "answers": [
+    {
+     "q": "쇼윈도 앞에서 먼저 눈이 가는 것은?",
+     "c": "이끼 같은 초록"
+    },
+    {
+     "q": "선물을 고를 때 나는?",
+     "c": "받는 사람 얼굴을 떠올리며 오래 고른다"
+    },
+    {
+     "q": "흠집이 난 반지를 받았다면?",
+     "c": "어떤 사연이 있었는지 묻는다"
+    },
+    {
+     "q": "오래 간직하고 싶은 것은?",
+     "c": "혼자 쓴 일기장"
+    }
+   ],
+   "title": "숲을 닮은 에메랄드",
+   "gaugeBeforePermille": 65,
+   "manifested": false,
+   "form": null,
+   "materials": [],
+   "baseSource": "model",
+   "manifestationSource": null,
+   "scenes": [
+    {
+     "kind": "base",
+     "speaker": "보석상 주인",
+     "place": "골목 끝 작은 보석상",
+     "lines": [
+      "그 초록빛은 깊은 침묵을 담고 있네요.",
+      "그 눈빛은 내면의 풍경을 읽는 듯합니다."
+     ]
+    }
+   ],
+   "composeMs": 4239
+  },
+  {
+   "index": 4,
+   "lang": "ko",
+   "channel": "무협",
+   "speaker": "백발의 검객",
+   "answers": [
+    {
+     "q": "산길에서 산적 무리가 길을 막는다.",
+     "c": "물러서는 척하며 빈틈을 기다린다"
+    },
+    {
+     "q": "객잔에서 시비가 붙었다.",
+     "c": "술값만 내고 조용히 나간다"
+    },
+    {
+     "q": "무림대회 결승, 상대가 다리를 다쳤다.",
+     "c": "다친 쪽은 노리지 않는다"
+    },
+    {
+     "q": "강호에 남기고 싶은 이름은?",
+     "c": "아무도 모르지만 모두가 피해 가는 사람"
+    }
+   ],
+   "title": "무당의 태극권사",
+   "gaugeBeforePermille": 96,
+   "manifested": false,
+   "form": null,
+   "materials": [],
+   "baseSource": "model",
+   "manifestationSource": null,
+   "scenes": [
+    {
+     "kind": "base",
+     "speaker": "백발의 검객",
+     "place": "안개 낀 산 정상의 비무장",
+     "lines": [
+      "산길을 막아도 굳건하구나.",
+      "그 끈기가 네 길을 굳건히 만들 것이다."
+     ]
+    }
+   ],
+   "composeMs": 4068
+  },
+  {
+   "index": 5,
+   "lang": "ko",
+   "channel": "무협",
+   "speaker": "백발의 검객",
+   "answers": [
+    {
+     "q": "산길에서 산적 무리가 길을 막는다.",
+     "c": "다른 길로 돌아간다. 굳이 싸울 이유가 없다"
+    },
+    {
+     "q": "객잔에서 시비가 붙었다.",
+     "c": "먼저 사과하라고 똑바로 말한다"
+    },
+    {
+     "q": "무림대회 결승, 상대가 다리를 다쳤다.",
+     "c": "다친 쪽은 노리지 않는다"
+    },
+    {
+     "q": "강호에 남기고 싶은 이름은?",
+     "c": "약한 사람 편에 섰던 사람"
+    }
+   ],
+   "title": "화산의 매화검수",
+   "gaugeBeforePermille": 187,
+   "manifested": false,
+   "form": null,
+   "materials": [],
+   "baseSource": "model",
+   "manifestationSource": null,
+   "scenes": [
+    {
+     "kind": "base",
+     "speaker": "백발의 검객",
+     "place": "안개 낀 산 정상의 비무장",
+     "lines": [
+      "산길을 벗어나는 건 지혜다.",
+      "그 길을 택한 건 짐을 버리는 용기다."
+     ]
+    }
+   ],
+   "composeMs": 4069
+  },
+  {
+   "index": 6,
+   "lang": "ko",
+   "channel": "무협",
+   "speaker": "백발의 검객",
+   "answers": [
+    {
+     "q": "산길에서 산적 무리가 길을 막는다.",
+     "c": "다른 길로 돌아간다. 굳이 싸울 이유가 없다"
+    },
+    {
+     "q": "사부가 비급 한 권을 남기고 사라졌다.",
+     "c": "첫 장부터 하루도 빼지 않고 수련한다"
+    },
+    {
+     "q": "객잔에서 시비가 붙었다.",
+     "c": "상대 일행의 뒷배부터 알아본다"
+    },
+    {
+     "q": "무림대회 결승, 상대가 다리를 다쳤다.",
+     "c": "기권하고 내려온다. 이런 승부는 재미없다"
+    }
+   ],
+   "title": "바람 같은 낭인",
+   "gaugeBeforePermille": 262,
+   "manifested": false,
+   "form": null,
+   "materials": [],
+   "baseSource": "model",
+   "manifestationSource": null,
+   "scenes": [
+    {
+     "kind": "base",
+     "speaker": "백발의 검객",
+     "place": "안개 낀 산 정상의 비무장",
+     "lines": [
+      "다른 길로 가는 것은 현명한 판단이다.",
+      "그 좁은 길에 갇히지 않는 것이 너의 길이다."
+     ]
+    }
+   ],
+   "composeMs": 4127
+  },
+  {
+   "index": 7,
+   "lang": "ko",
+   "channel": "무협",
+   "speaker": "백발의 검객",
+   "answers": [
+    {
+     "q": "산길에서 산적 무리가 길을 막는다.",
+     "c": "물러서는 척하며 빈틈을 기다린다"
+    },
+    {
+     "q": "사부가 비급 한 권을 남기고 사라졌다.",
+     "c": "급하게 펼치지 않고 때가 올 때까지 둔다"
+    },
+    {
+     "q": "객잔에서 시비가 붙었다.",
+     "c": "술값만 내고 조용히 나간다"
+    },
+    {
+     "q": "하나만 고를 수 있다면 어떤 병기를 쥐겠는가.",
+     "c": "이 빠진 낡은 도"
+    }
+   ],
+   "title": "바람 같은 낭인",
+   "gaugeBeforePermille": 317,
+   "manifested": false,
+   "form": null,
+   "materials": [],
+   "baseSource": "model",
+   "manifestationSource": null,
+   "scenes": [
+    {
+     "kind": "base",
+     "speaker": "백발의 검객",
+     "place": "안개 낀 산 정상의 비무장",
+     "lines": [
+      "산길의 틈을 기다리는구나.",
+      "그 침묵이 곧 기회가 될 것이다."
+     ]
+    }
+   ],
+   "composeMs": 3784
+  },
+  {
+   "index": 8,
+   "lang": "ko",
+   "channel": "보석",
+   "speaker": "보석상 주인",
+   "answers": [
+    {
+     "q": "쇼윈도 앞에서 먼저 눈이 가는 것은?",
+     "c": "빛을 받아 붉게 타는 것"
+    },
+    {
+     "q": "선물을 고를 때 나는?",
+     "c": "받는 사람 얼굴을 떠올리며 오래 고른다"
+    },
+    {
+     "q": "곤란한 부탁을 받았다.",
+     "c": "안 되는 건 안 된다고 말한다"
+    },
+    {
+     "q": "흠집이 난 반지를 받았다면?",
+     "c": "조용히 수리를 맡긴다"
+    }
+   ],
+   "title": "깊은 바다의 사파이어",
+   "gaugeBeforePermille": 323,
+   "manifested": false,
+   "form": null,
+   "materials": [],
+   "baseSource": "model",
+   "manifestationSource": null,
+   "scenes": [
+    {
+     "kind": "base",
+     "speaker": "보석상 주인",
+     "place": "골목 끝 작은 보석상",
+     "lines": [
+      "빛을 받아 붉게 타는 것은 강렬하군요.",
+      "그 눈빛 속 깊은 불꽃이 매력적입니다."
+     ]
+    }
+   ],
+   "composeMs": 4067
+  },
+  {
+   "index": 9,
+   "lang": "ko",
+   "channel": "보석",
+   "speaker": "보석상 주인",
+   "answers": [
+    {
+     "q": "쇼윈도 앞에서 먼저 눈이 가는 것은?",
+     "c": "깊고 어두운 파랑"
+    },
+    {
+     "q": "선물을 고를 때 나는?",
+     "c": "내가 받고 싶은 걸 고른다"
+    },
+    {
+     "q": "곤란한 부탁을 받았다.",
+     "c": "그 자리에서 해 주겠다고 한다"
+    },
+    {
+     "q": "흠집이 난 반지를 받았다면?",
+     "c": "그대로 낀다. 흠도 내 거다"
+    }
+   ],
+   "title": "타오르는 루비",
+   "gaugeBeforePermille": 361,
+   "manifested": false,
+   "form": null,
+   "materials": [],
+   "baseSource": "model",
+   "manifestationSource": null,
+   "scenes": [
+    {
+     "kind": "base",
+     "speaker": "보석상 주인",
+     "place": "골목 끝 작은 보석상",
+     "lines": [
+      "깊고 어두운 파랑이 마음을 사네요.",
+      "받고 싶은 것을 고르는 눈빛이 맑습니다."
+     ]
+    }
+   ],
+   "composeMs": 4015
+  },
+  {
+   "index": 10,
+   "lang": "ko",
+   "channel": "동물",
+   "speaker": "숲의 늙은 올빼미",
+   "answers": [
+    {
+     "q": "숲에 큰 비가 내린다.",
+     "c": "남들이 모르는 동굴로 간다"
+    },
+    {
+     "q": "처음 보는 동물이 다가온다.",
+     "c": "무리 앞에 서서 맞는다"
+    },
+    {
+     "q": "오래전 친구를 다시 만났다.",
+     "c": "그때 일을 하나하나 다 기억해 낸다"
+    },
+    {
+     "q": "숲을 떠나야 한다면?",
+     "c": "새 친구를 사귈 생각에 들뜬다"
+    }
+   ],
+   "title": "파도 타는 돌고래",
+   "gaugeBeforePermille": 449,
+   "manifested": true,
+   "form": "separate",
+   "materials": [
+    {
+     "kind": "attempt",
+     "ago": 3,
+     "channel": "무협",
+     "choice": "술값만 내고 조용히 나간다"
+    },
+    {
+     "kind": "attempt",
+     "ago": 8,
+     "channel": "동물",
+     "choice": "반가워서 소리부터 지른다"
+    },
+    {
+     "kind": "attempt",
+     "ago": 8,
+     "channel": "동물",
+     "choice": "가장 큰 나무 밑에서 기다린다"
+    },
+    {
+     "kind": "attempt",
+     "ago": 5,
+     "channel": "무협",
+     "choice": "먼저 사과하라고 똑바로 말한다"
+    },
+    {
+     "kind": "attempt",
+     "ago": 6,
+     "channel": "무협",
+     "choice": "아무도 모르지만 모두가 피해 가는 사람"
+    }
+   ],
+   "baseSource": "template",
+   "manifestationSource": "model",
+   "scenes": [
+    {
+     "kind": "base",
+     "speaker": "숲의 늙은 올빼미",
+     "place": "달빛 드는 고목 아래",
+     "lines": [
+      "네가 오면 물결부터 달라지는구나.",
+      "심심한 숲에 너 같은 아이가 하나쯤은 있어야지."
+     ]
+    },
+    {
+     "kind": "manifestation",
+     "speaker": "낯선 목소리",
+     "place": "아무도 없는 곳",
+     "lines": [
+      "술값만 내고 조용히 떠남.",
+      "8번 전의 동물처럼 기쁨을 표현하는 모습과 6번 전의 숨겨진 존재감이 교차한다.",
+      "이 모든 순간들이 나를 이끄는 조각들이다."
+     ]
+    }
+   ],
+   "composeMs": 8903
+  },
+  {
+   "index": 11,
+   "lang": "ko",
+   "channel": "보석",
+   "speaker": "보석상 주인",
+   "answers": [
+    {
+     "q": "쇼윈도 앞에서 먼저 눈이 가는 것은?",
+     "c": "이끼 같은 초록"
+    },
+    {
+     "q": "선물을 고를 때 나는?",
+     "c": "한번 정하면 바로 산다"
+    },
+    {
+     "q": "조명이 꺼진 가게 안에서 나는?",
+     "c": "먼저 문 쪽으로 걸어간다"
+    },
+    {
+     "q": "오래 간직하고 싶은 것은?",
+     "c": "처음 받은 상장"
+    }
+   ],
+   "title": "타오르는 루비",
+   "gaugeBeforePermille": 0,
+   "manifested": false,
+   "form": null,
+   "materials": [],
+   "baseSource": "model",
+   "manifestationSource": null,
+   "scenes": [
+    {
+     "kind": "base",
+     "speaker": "보석상 주인",
+     "place": "골목 끝 작은 보석상",
+     "lines": [
+      "초록빛은 묵묵히 자신의 자리를 지키네요.",
+      "선택은 한 번 하면 끝내는 용기입니다."
+     ]
+    }
+   ],
+   "composeMs": 4143
+  },
+  {
+   "index": 12,
+   "lang": "ko",
+   "channel": "판타지",
+   "speaker": "궁전의 공주",
+   "answers": [
+    {
+     "q": "성문 앞에 용이 나타났다.",
+     "c": "서고에서 용의 약점부터 찾는다"
+    },
+    {
+     "q": "연회장에서 독이 든 잔을 발견했다.",
+     "c": "누가 잔을 놨는지 조용히 뒤를 밟는다"
+    },
+    {
+     "q": "하나만 가질 수 있다면?",
+     "c": "어디서든 소리가 나는 류트"
+    },
+    {
+     "q": "전설에 남는다면 어떤 이야기로?",
+     "c": "아무도 못 푼 수수께끼를 푼 사람으로"
+    }
+   ],
+   "title": "별을 읽는 대마법사",
+   "gaugeBeforePermille": 34,
+   "manifested": false,
+   "form": null,
+   "materials": [],
+   "baseSource": "model",
+   "manifestationSource": null,
+   "scenes": [
+    {
+     "kind": "base",
+     "speaker": "궁전의 공주",
+     "place": "왕궁 알현실",
+     "lines": [
+      "그대의 선택은 흥미롭군요.",
+      "깊은 그림자 속의 진실을 엿보는 것 같습니다."
+     ]
+    }
+   ],
+   "composeMs": 4049
+  },
+  {
+   "index": 13,
+   "lang": "ko",
+   "channel": "동물",
+   "speaker": "숲의 늙은 올빼미",
+   "answers": [
+    {
+     "q": "숲에 큰 비가 내린다.",
+     "c": "친구들이 다 모였는지 먼저 센다"
+    },
+    {
+     "q": "처음 보는 동물이 다가온다.",
+     "c": "멀리서 한참 지켜본다"
+    },
+    {
+     "q": "먹이가 하나 남았다.",
+     "c": "제일 어린 친구에게 준다"
+    },
+    {
+     "q": "숲을 떠나야 한다면?",
+     "c": "떠나기 전에 지름길부터 알아 둔다"
+    }
+   ],
+   "title": "꼬리 긴 여우",
+   "gaugeBeforePermille": 53,
+   "manifested": false,
+   "form": null,
+   "materials": [],
+   "baseSource": "model",
+   "manifestationSource": null,
+   "scenes": [
+    {
+     "kind": "base",
+     "speaker": "숲의 늙은 올빼미",
+     "place": "달빛 드는 고목 아래",
+     "lines": [
+      "그 눈빛 속에 깊은 계산이 서려 있구나.",
+      "숨겨진 뜻을 읽는 것이 너의 길일 것 같아."
+     ]
+    }
+   ],
+   "composeMs": 4139
+  },
+  {
+   "index": 14,
+   "lang": "ko",
+   "channel": "무협",
+   "speaker": "백발의 검객",
+   "answers": [
+    {
+     "q": "사부가 비급 한 권을 남기고 사라졌다.",
+     "c": "다른 문파 것과 비교해 약점부터 찾는다"
+    },
+    {
+     "q": "객잔에서 시비가 붙었다.",
+     "c": "술값만 내고 조용히 나간다"
+    },
+    {
+     "q": "하나만 고를 수 있다면 어떤 병기를 쥐겠는가.",
+     "c": "소매에 숨기는 비수"
+    },
+    {
+     "q": "강호에 남기고 싶은 이름은?",
+     "c": "아무도 모르지만 모두가 피해 가는 사람"
+    }
+   ],
+   "title": "당문의 암기술사",
+   "gaugeBeforePermille": 119,
+   "manifested": false,
+   "form": null,
+   "materials": [],
+   "baseSource": "model",
+   "manifestationSource": null,
+   "scenes": [
+    {
+     "kind": "base",
+     "speaker": "백발의 검객",
+     "place": "안개 낀 산 정상의 비무장",
+     "lines": [
+      "사부가 남긴 비급을 두고 다른 길을 보는군.",
+      "그 끈기가 결국 너를 이끌 것이다."
+     ]
+    }
+   ],
+   "composeMs": 5997
+  },
+  {
+   "index": 15,
+   "lang": "ko",
+   "channel": "보석",
+   "speaker": "보석상 주인",
+   "answers": [
+    {
+     "q": "쇼윈도 앞에서 먼저 눈이 가는 것은?",
+     "c": "이끼 같은 초록"
+    },
+    {
+     "q": "선물을 고를 때 나는?",
+     "c": "내가 받고 싶은 걸 고른다"
+    },
+    {
+     "q": "곤란한 부탁을 받았다.",
+     "c": "하루 생각해 보고 답한다"
+    },
+    {
+     "q": "흠집이 난 반지를 받았다면?",
+     "c": "어떤 사연이 있었는지 묻는다"
+    }
+   ],
+   "title": "숲을 닮은 에메랄드",
+   "gaugeBeforePermille": 212,
+   "manifested": false,
+   "form": null,
+   "materials": [],
+   "baseSource": "model",
+   "manifestationSource": null,
+   "scenes": [
+    {
+     "kind": "base",
+     "speaker": "보석상 주인",
+     "place": "골목 끝 작은 보석상",
+     "lines": [
+      "그 초록빛은 깊은 침묵을 담고 있네요.",
+      "겉보기엔 싱그럽지만 속은 단단한 보석입니다."
+     ]
+    }
+   ],
+   "composeMs": 4356
+  },
+  {
+   "index": 16,
+   "lang": "ko",
+   "channel": "무협",
+   "speaker": "백발의 검객",
+   "answers": [
+    {
+     "q": "산길에서 산적 무리가 길을 막는다.",
+     "c": "검을 뽑고 정면으로 걸어간다"
+    },
+    {
+     "q": "객잔에서 시비가 붙었다.",
+     "c": "상대 일행의 뒷배부터 알아본다"
+    },
+    {
+     "q": "하나만 고를 수 있다면 어떤 병기를 쥐겠는가.",
+     "c": "이 빠진 낡은 도"
+    },
+    {
+     "q": "무림대회 결승, 상대가 다리를 다쳤다.",
+     "c": "다친 쪽은 노리지 않는다"
+    }
+   ],
+   "title": "화산의 매화검수",
+   "gaugeBeforePermille": 230,
+   "manifested": false,
+   "form": null,
+   "materials": [],
+   "baseSource": "model",
+   "manifestationSource": null,
+   "scenes": [
+    {
+     "kind": "base",
+     "speaker": "백발의 검객",
+     "place": "안개 낀 산 정상의 비무장",
+     "lines": [
+      "산길을 막는 자를 정면으로 맞추는구나.",
+      "그 끈기가 결국 너를 벼려낼 것이다."
+     ]
+    }
+   ],
+   "composeMs": 4010
+  },
+  {
+   "index": 17,
+   "lang": "ko",
+   "channel": "판타지",
+   "speaker": "궁전의 공주",
+   "answers": [
+    {
+     "q": "성문 앞에 용이 나타났다.",
+     "c": "서고에서 용의 약점부터 찾는다"
+    },
+    {
+     "q": "연회장에서 독이 든 잔을 발견했다.",
+     "c": "잔을 쳐서 떨어뜨린다"
+    },
+    {
+     "q": "하나만 가질 수 있다면?",
+     "c": "발소리가 나지 않는 장화"
+    },
+    {
+     "q": "전설에 남는다면 어떤 이야기로?",
+     "c": "아무도 못 푼 수수께끼를 푼 사람으로"
+    }
+   ],
+   "title": "별을 읽는 대마법사",
+   "gaugeBeforePermille": 284,
+   "manifested": true,
+   "form": "mixed",
+   "materials": [
+    {
+     "kind": "manifestation",
+     "ago": 7,
+     "channel": "동물",
+     "choice": "가장 큰 나무 밑에서 기다린다"
+    },
+    {
+     "kind": "manifestation",
+     "ago": 7,
+     "channel": "무협",
+     "choice": "먼저 사과하라고 똑바로 말한다"
+    },
+    {
+     "kind": "manifestation",
+     "ago": 7,
+     "channel": "무협",
+     "choice": "술값만 내고 조용히 나간다"
+    },
+    {
+     "kind": "attempt",
+     "ago": 15,
+     "channel": "동물",
+     "choice": "아무도 모르게 챙겨 둔다"
+    },
+    {
+     "kind": "attempt",
+     "ago": 11,
+     "channel": "무협",
+     "choice": "기권하고 내려온다. 이런 승부는 재미없다"
+    }
+   ],
+   "baseSource": "model",
+   "manifestationSource": "model",
+   "scenes": [
+    {
+     "kind": "base",
+     "speaker": "궁전의 공주",
+     "place": "왕궁 알현실",
+     "lines": [
+      "그 대답들은 흥미롭군요.",
+      "깊은 생각의 흔적이 느껴집니다.",
+      "가장 큰 나무 밑에서 기다려야겠구나.",
+      "7번 전의 기다림과 15번 전의 은밀한 준비가 겹쳐진다.",
+      "그 모든 순간이 나를 이 자리에 데려왔다."
+     ]
+    }
+   ],
+   "composeMs": 8588
+  },
+  {
+   "index": 18,
+   "lang": "ko",
+   "channel": "무협",
+   "speaker": "백발의 검객",
+   "answers": [
+    {
+     "q": "산길에서 산적 무리가 길을 막는다.",
+     "c": "검을 뽑고 정면으로 걸어간다"
+    },
+    {
+     "q": "객잔에서 시비가 붙었다.",
+     "c": "술값만 내고 조용히 나간다"
+    },
+    {
+     "q": "하나만 고를 수 있다면 어떤 병기를 쥐겠는가.",
+     "c": "소매에 숨기는 비수"
+    },
+    {
+     "q": "강호에 남기고 싶은 이름은?",
+     "c": "아무도 모르지만 모두가 피해 가는 사람"
+    }
+   ],
+   "title": "무당의 태극권사",
+   "gaugeBeforePermille": 0,
+   "manifested": false,
+   "form": null,
+   "materials": [],
+   "baseSource": "model",
+   "manifestationSource": null,
+   "scenes": [
+    {
+     "kind": "base",
+     "speaker": "백발의 검객",
+     "place": "안개 낀 산 정상의 비무장",
+     "lines": [
+      "산적 무리에 맞서는 건 결국 네 의지다.",
+      "그 고집이 네 길을 곧게 세워주리라."
+     ]
+    }
+   ],
+   "composeMs": 3982
+  },
+  {
+   "index": 19,
+   "lang": "ko",
+   "channel": "동물",
+   "speaker": "숲의 늙은 올빼미",
+   "answers": [
+    {
+     "q": "숲에 큰 비가 내린다.",
+     "c": "가장 큰 나무 밑에서 기다린다"
+    },
+    {
+     "q": "처음 보는 동물이 다가온다.",
+     "c": "무리 앞에 서서 맞는다"
+    },
+    {
+     "q": "오래전 친구를 다시 만났다.",
+     "c": "반가워서 소리부터 지른다"
+    },
+    {
+     "q": "먹이가 하나 남았다.",
+     "c": "아무도 모르게 챙겨 둔다"
+    }
+   ],
+   "title": "꼬리 긴 여우",
+   "gaugeBeforePermille": 37,
+   "manifested": false,
+   "form": null,
+   "materials": [],
+   "baseSource": "model",
+   "manifestationSource": null,
+   "scenes": [
+    {
+     "kind": "base",
+     "speaker": "숲의 늙은 올빼미",
+     "place": "달빛 드는 고목 아래",
+     "lines": [
+      "그 영리함, 숨겨 두는 편이 좋을 때도 있단다.",
+      "작은 일까지 다 품고 사는구나."
+     ]
+    }
+   ],
+   "composeMs": 3896
+  },
+  {
+   "index": 20,
+   "lang": "ko",
+   "channel": "판타지",
+   "speaker": "궁전의 공주",
+   "answers": [
+    {
+     "q": "왕이 비밀 임무를 맡기려 한다.",
+     "c": "임무 기록부터 꼼꼼히 읽는다"
+    },
+    {
+     "q": "연회장에서 독이 든 잔을 발견했다.",
+     "c": "누가 잔을 놨는지 조용히 뒤를 밟는다"
+    },
+    {
+     "q": "하나만 가질 수 있다면?",
+     "c": "어디서든 소리가 나는 류트"
+    },
+    {
+     "q": "길을 잃은 숲에서 밤이 왔다.",
+     "c": "나무 위에 올라 주변을 살핀다"
+    }
+   ],
+   "title": "그림자 정찰자",
+   "gaugeBeforePermille": 113,
+   "manifested": false,
+   "form": null,
+   "materials": [],
+   "baseSource": "model",
+   "manifestationSource": null,
+   "scenes": [
+    {
+     "kind": "base",
+     "speaker": "궁전의 공주",
+     "place": "왕궁 알현실",
+     "lines": [
+      "그 그림자처럼 조용하네.",
+      "나의 그림자처럼 숨 쉬는 법을 배웠군."
+     ]
+    }
+   ],
+   "composeMs": 3715
+  },
+  {
+   "index": 21,
+   "lang": "ko",
+   "channel": "보석",
+   "speaker": "보석상 주인",
+   "answers": [
+    {
+     "q": "쇼윈도 앞에서 먼저 눈이 가는 것은?",
+     "c": "이끼 같은 초록"
+    },
+    {
+     "q": "곤란한 부탁을 받았다.",
+     "c": "안 되는 건 안 된다고 말한다"
+    },
+    {
+     "q": "조명이 꺼진 가게 안에서 나는?",
+     "c": "먼저 문 쪽으로 걸어간다"
+    },
+    {
+     "q": "오래 간직하고 싶은 것은?",
+     "c": "함께 찍은 사진"
+    }
+   ],
+   "title": "숲을 닮은 에메랄드",
+   "gaugeBeforePermille": 201,
+   "manifested": false,
+   "form": null,
+   "materials": [],
+   "baseSource": "model",
+   "manifestationSource": null,
+   "scenes": [
+    {
+     "kind": "base",
+     "speaker": "보석상 주인",
+     "place": "골목 끝 작은 보석상",
+     "lines": [
+      "이끼 같은 초록이군요.",
+      "고요함 속에 깊이가 숨어있습니다."
+     ]
+    }
+   ],
+   "composeMs": 3636
+  },
+  {
+   "index": 22,
+   "lang": "ko",
+   "channel": "판타지",
+   "speaker": "궁전의 공주",
+   "answers": [
+    {
+     "q": "성문 앞에 용이 나타났다.",
+     "c": "용에게 말을 걸어 본다"
+    },
+    {
+     "q": "왕이 비밀 임무를 맡기려 한다.",
+     "c": "임무 기록부터 꼼꼼히 읽는다"
+    },
+    {
+     "q": "연회장에서 독이 든 잔을 발견했다.",
+     "c": "누가 잔을 놨는지 조용히 뒤를 밟는다"
+    },
+    {
+     "q": "길을 잃은 숲에서 밤이 왔다.",
+     "c": "불을 피우고 일행을 지킨다"
+    }
+   ],
+   "title": "새벽의 성기사",
+   "gaugeBeforePermille": 277,
+   "manifested": false,
+   "form": null,
+   "materials": [],
+   "baseSource": "model",
+   "manifestationSource": null,
+   "scenes": [
+    {
+     "kind": "base",
+     "speaker": "궁전의 공주",
+     "place": "왕궁 알현실",
+     "lines": [
+      "성문 앞 용과 대화를 시도하는군요.",
+      "용의 눈빛이 당신의 용기를 시험할 거예요."
+     ]
+    }
+   ],
+   "composeMs": 3856
+  },
+  {
+   "index": 23,
+   "lang": "ko",
+   "channel": "판타지",
+   "speaker": "궁전의 공주",
+   "answers": [
+    {
+     "q": "성문 앞에 용이 나타났다.",
+     "c": "방패를 들고 맨 앞에 선다"
+    },
+    {
+     "q": "왕이 비밀 임무를 맡기려 한다.",
+     "c": "아무에게도 말하지 않고 밤에 떠난다"
+    },
+    {
+     "q": "연회장에서 독이 든 잔을 발견했다.",
+     "c": "노래를 멈춰 사람들의 시선을 모은다"
+    },
+    {
+     "q": "전설에 남는다면 어떤 이야기로?",
+     "c": "아무도 못 푼 수수께끼를 푼 사람으로"
+    }
+   ],
+   "title": "별을 읽는 대마법사",
+   "gaugeBeforePermille": 292,
+   "manifested": false,
+   "form": null,
+   "materials": [],
+   "baseSource": "model",
+   "manifestationSource": null,
+   "scenes": [
+    {
+     "kind": "base",
+     "speaker": "궁전의 공주",
+     "place": "왕궁 알현실",
+     "lines": [
+      "용이 나타난 상황이군요.",
+      "당신의 용기 있는 행동이 인상 깊습니다."
+     ]
+    }
+   ],
+   "composeMs": 3665
+  },
+  {
+   "index": 24,
+   "lang": "ko",
+   "channel": "동물",
+   "speaker": "숲의 늙은 올빼미",
+   "answers": [
+    {
+     "q": "처음 보는 동물이 다가온다.",
+     "c": "무리 앞에 서서 맞는다"
+    },
+    {
+     "q": "먹이가 하나 남았다.",
+     "c": "제일 어린 친구에게 준다"
+    },
+    {
+     "q": "가장 좋아하는 시간은?",
+     "c": "다 같이 달리는 밤"
+    },
+    {
+     "q": "숲을 떠나야 한다면?",
+     "c": "새 친구를 사귈 생각에 들뜬다"
+    }
+   ],
+   "title": "달 아래 늑대",
+   "gaugeBeforePermille": 337,
+   "manifested": true,
+   "form": "separate",
+   "materials": [
+    {
+     "kind": "manifestation",
+     "ago": 14,
+     "channel": "동물",
+     "choice": "반가워서 소리부터 지른다"
+    },
+    {
+     "kind": "manifestation",
+     "ago": 14,
+     "channel": "동물",
+     "choice": "가장 큰 나무 밑에서 기다린다"
+    },
+    {
+     "kind": "manifestation",
+     "ago": 7,
+     "channel": "동물",
+     "choice": "아무도 모르게 챙겨 둔다"
+    },
+    {
+     "kind": "attempt",
+     "ago": 2,
+     "channel": "판타지",
+     "choice": "임무 기록부터 꼼꼼히 읽는다"
+    },
+    {
+     "kind": "attempt",
+     "ago": 14,
+     "channel": "동물",
+     "choice": "남들이 모르는 동굴로 간다"
+    }
+   ],
+   "baseSource": "model",
+   "manifestationSource": "model",
+   "scenes": [
+    {
+     "kind": "base",
+     "speaker": "숲의 늙은 올빼미",
+     "place": "달빛 드는 고목 아래",
+     "lines": [
+      "새로운 것에 대한 갈망이 깊구나.",
+      "네 마음속에 늘 새로운 불꽃이 타오르는구나."
+     ]
+    },
+    {
+     "kind": "manifestation",
+     "speaker": "낯선 목소리",
+     "place": "아무도 없는 곳",
+     "lines": [
+      "14번 전의 반가움에 소리치는 모습과, 가장 큰 나무 밑에서 기다리는 모습이 겹친다.",
+      "7번 전의 아무도 모르게 챙기는 행동과 오늘의 나를 연결한다.",
+      "이 모든 순간들이 하나의 그림을 만들고 있다."
+     ]
+    }
+   ],
+   "composeMs": 9220
+  },
+  {
+   "index": 25,
+   "lang": "ko",
+   "channel": "보석",
+   "speaker": "보석상 주인",
+   "answers": [
+    {
+     "q": "쇼윈도 앞에서 먼저 눈이 가는 것은?",
+     "c": "이끼 같은 초록"
+    },
+    {
+     "q": "선물을 고를 때 나는?",
+     "c": "내가 받고 싶은 걸 고른다"
+    },
+    {
+     "q": "곤란한 부탁을 받았다.",
+     "c": "그 자리에서 해 주겠다고 한다"
+    },
+    {
+     "q": "오래 간직하고 싶은 것은?",
+     "c": "함께 찍은 사진"
+    }
+   ],
+   "title": "숲을 닮은 에메랄드",
+   "gaugeBeforePermille": 0,
+   "manifested": false,
+   "form": null,
+   "materials": [],
+   "baseSource": "model",
+   "manifestationSource": null,
+   "scenes": [
+    {
+     "kind": "base",
+     "speaker": "보석상 주인",
+     "place": "골목 끝 작은 보석상",
+     "lines": [
+      "이끼 같은 초록이군요.",
+      "그 눈빛이 숲의 깊이를 담고 있네요."
+     ]
+    }
+   ],
+   "composeMs": 3681
+  },
+  {
+   "index": 26,
+   "lang": "ko",
+   "channel": "무협",
+   "speaker": "백발의 검객",
+   "answers": [
+    {
+     "q": "산길에서 산적 무리가 길을 막는다.",
+     "c": "검을 뽑고 정면으로 걸어간다"
+    },
+    {
+     "q": "사부가 비급 한 권을 남기고 사라졌다.",
+     "c": "첫 장부터 하루도 빼지 않고 수련한다"
+    },
+    {
+     "q": "객잔에서 시비가 붙었다.",
+     "c": "먼저 사과하라고 똑바로 말한다"
+    },
+    {
+     "q": "강호에 남기고 싶은 이름은?",
+     "c": "끝까지 속을 알 수 없던 사람"
+    }
+   ],
+   "title": "화산의 매화검수",
+   "gaugeBeforePermille": 95,
+   "manifested": false,
+   "form": null,
+   "materials": [],
+   "baseSource": "model",
+   "manifestationSource": null,
+   "scenes": [
+    {
+     "kind": "base",
+     "speaker": "백발의 검객",
+     "place": "안개 낀 산 정상의 비무장",
+     "lines": [
+      "산적을 막는 건 보여주기식이다.",
+      "그 고집이 결국 길을 열어주리라."
+     ]
+    }
+   ],
+   "composeMs": 3808
+  },
+  {
+   "index": 27,
+   "lang": "ko",
+   "channel": "무협",
+   "speaker": "백발의 검객",
+   "answers": [
+    {
+     "q": "산길에서 산적 무리가 길을 막는다.",
+     "c": "물러서는 척하며 빈틈을 기다린다"
+    },
+    {
+     "q": "사부가 비급 한 권을 남기고 사라졌다.",
+     "c": "첫 장부터 하루도 빼지 않고 수련한다"
+    },
+    {
+     "q": "객잔에서 시비가 붙었다.",
+     "c": "술값만 내고 조용히 나간다"
+    },
+    {
+     "q": "강호에 남기고 싶은 이름은?",
+     "c": "약한 사람 편에 섰던 사람"
+    }
+   ],
+   "title": "화산의 매화검수",
+   "gaugeBeforePermille": 172,
+   "manifested": false,
+   "form": null,
+   "materials": [],
+   "baseSource": "model",
+   "manifestationSource": null,
+   "scenes": [
+    {
+     "kind": "base",
+     "speaker": "백발의 검객",
+     "place": "안개 낀 산 정상의 비무장",
+     "lines": [
+      "산적의 틈을 노리는군.",
+      "그 끈기가 결국 덫이 될 것이다."
+     ]
+    }
+   ],
+   "composeMs": 3647
+  },
+  {
+   "index": 28,
+   "lang": "ko",
+   "channel": "무협",
+   "speaker": "백발의 검객",
+   "answers": [
+    {
+     "q": "사부가 비급 한 권을 남기고 사라졌다.",
+     "c": "급하게 펼치지 않고 때가 올 때까지 둔다"
+    },
+    {
+     "q": "하나만 고를 수 있다면 어떤 병기를 쥐겠는가.",
+     "c": "소매에 숨기는 비수"
+    },
+    {
+     "q": "무림대회 결승, 상대가 다리를 다쳤다.",
+     "c": "기권하고 내려온다. 이런 승부는 재미없다"
+    },
+    {
+     "q": "강호에 남기고 싶은 이름은?",
+     "c": "끝까지 속을 알 수 없던 사람"
+    }
+   ],
+   "title": "당문의 암기술사",
+   "gaugeBeforePermille": 245,
+   "manifested": false,
+   "form": null,
+   "materials": [],
+   "baseSource": "model",
+   "manifestationSource": null,
+   "scenes": [
+    {
+     "kind": "base",
+     "speaker": "백발의 검객",
+     "place": "안개 낀 산 정상의 비무장",
+     "lines": [
+      "사부가 남긴 비급을 굳건히 간직하려는구나.",
+      "그 끈기가 결국 너를 벼려낼 것이다."
+     ]
+    }
+   ],
+   "composeMs": 3974
+  },
+  {
+   "index": 29,
+   "lang": "ko",
+   "channel": "판타지",
+   "speaker": "궁전의 공주",
+   "answers": [
+    {
+     "q": "성문 앞에 용이 나타났다.",
+     "c": "용에게 말을 걸어 본다"
+    },
+    {
+     "q": "왕이 비밀 임무를 맡기려 한다.",
+     "c": "아무에게도 말하지 않고 밤에 떠난다"
+    },
+    {
+     "q": "연회장에서 독이 든 잔을 발견했다.",
+     "c": "누가 잔을 놨는지 조용히 뒤를 밟는다"
+    },
+    {
+     "q": "전설에 남는다면 어떤 이야기로?",
+     "c": "아무도 못 푼 수수께끼를 푼 사람으로"
+    }
+   ],
+   "title": "그림자 정찰자",
+   "gaugeBeforePermille": 260,
+   "manifested": false,
+   "form": null,
+   "materials": [],
+   "baseSource": "model",
+   "manifestationSource": null,
+   "scenes": [
+    {
+     "kind": "base",
+     "speaker": "궁전의 공주",
+     "place": "왕궁 알현실",
+     "lines": [
+      "그 그림자처럼 조용히 움직이는군요.",
+      "당신의 그림자는 깊은 곳을 보게 합니다."
+     ]
+    }
+   ],
+   "composeMs": 3772
+  },
+  {
+   "index": 30,
+   "lang": "ko",
+   "channel": "무협",
+   "speaker": "백발의 검객",
+   "answers": [
+    {
+     "q": "산길에서 산적 무리가 길을 막는다.",
+     "c": "검을 뽑고 정면으로 걸어간다"
+    },
+    {
+     "q": "객잔에서 시비가 붙었다.",
+     "c": "상대 일행의 뒷배부터 알아본다"
+    },
+    {
+     "q": "무림대회 결승, 상대가 다리를 다쳤다.",
+     "c": "이길 수 있을 때 확실히 이긴다"
+    },
+    {
+     "q": "강호에 남기고 싶은 이름은?",
+     "c": "끝까지 속을 알 수 없던 사람"
+    }
+   ],
+   "title": "당문의 암기술사",
+   "gaugeBeforePermille": 321,
+   "manifested": false,
+   "form": null,
+   "materials": [],
+   "baseSource": "model",
+   "manifestationSource": null,
+   "scenes": [
+    {
+     "kind": "base",
+     "speaker": "백발의 검객",
+     "place": "안개 낀 산 정상의 비무장",
+     "lines": [
+      "산길의 짐승처럼 덤벼드는군.",
+      "그 끈기가 결국 너를 짓밟을 것이다."
+     ]
+    }
+   ],
+   "composeMs": 3870
+  },
+  {
+   "index": 31,
+   "lang": "ko",
+   "channel": "보석",
+   "speaker": "보석상 주인",
+   "answers": [
+    {
+     "q": "선물을 고를 때 나는?",
+     "c": "받는 사람 얼굴을 떠올리며 오래 고른다"
+    },
+    {
+     "q": "흠집이 난 반지를 받았다면?",
+     "c": "조용히 수리를 맡긴다"
+    },
+    {
+     "q": "조명이 꺼진 가게 안에서 나는?",
+     "c": "제자리에서 움직이지 않는다"
+    },
+    {
+     "q": "오래 간직하고 싶은 것은?",
+     "c": "혼자 쓴 일기장"
+    }
+   ],
+   "title": "깊은 바다의 사파이어",
+   "gaugeBeforePermille": 363,
+   "manifested": false,
+   "form": null,
+   "materials": [],
+   "baseSource": "model",
+   "manifestationSource": null,
+   "scenes": [
+    {
+     "kind": "base",
+     "speaker": "보석상 주인",
+     "place": "골목 끝 작은 보석상",
+     "lines": [
+      "받는 얼굴을 떠올리며 오래 고르셨군요.",
+      "그 마음이 흠집 없이 투명하네요."
+     ]
+    }
+   ],
+   "composeMs": 3874
+  },
+  {
+   "index": 32,
+   "lang": "ko",
+   "channel": "동물",
+   "speaker": "숲의 늙은 올빼미",
+   "answers": [
+    {
+     "q": "숲에 큰 비가 내린다.",
+     "c": "남들이 모르는 동굴로 간다"
+    },
+    {
+     "q": "처음 보는 동물이 다가온다.",
+     "c": "먼저 장난을 걸어 본다"
+    },
+    {
+     "q": "오래전 친구를 다시 만났다.",
+     "c": "그때 일을 하나하나 다 기억해 낸다"
+    },
+    {
+     "q": "숲을 떠나야 한다면?",
+     "c": "새 친구를 사귈 생각에 들뜬다"
+    }
+   ],
+   "title": "파도 타는 돌고래",
+   "gaugeBeforePermille": 411,
+   "manifested": false,
+   "form": null,
+   "materials": [],
+   "baseSource": "template",
+   "manifestationSource": null,
+   "scenes": [
+    {
+     "kind": "base",
+     "speaker": "숲의 늙은 올빼미",
+     "place": "달빛 드는 고목 아래",
+     "lines": [
+      "네가 오면 물결부터 달라지는구나.",
+      "심심한 숲에 너 같은 아이가 하나쯤은 있어야지."
+     ]
+    }
+   ],
+   "composeMs": 3625
+  },
+  {
+   "index": 33,
+   "lang": "ko",
+   "channel": "동물",
+   "speaker": "숲의 늙은 올빼미",
+   "answers": [
+    {
+     "q": "숲에 큰 비가 내린다.",
+     "c": "가장 큰 나무 밑에서 기다린다"
+    },
+    {
+     "q": "처음 보는 동물이 다가온다.",
+     "c": "무리 앞에 서서 맞는다"
+    },
+    {
+     "q": "먹이가 하나 남았다.",
+     "c": "게임을 해서 이긴 쪽이 먹자고 한다"
+    },
+    {
+     "q": "가장 좋아하는 시간은?",
+     "c": "혼자 계획을 세우는 새벽"
+    }
+   ],
+   "title": "꼬리 긴 여우",
+   "gaugeBeforePermille": 455,
+   "manifested": true,
+   "form": "mixed",
+   "materials": [
+    {
+     "kind": "manifestation",
+     "ago": 16,
+     "channel": "동물",
+     "choice": "가장 큰 나무 밑에서 기다린다"
+    },
+    {
+     "kind": "manifestation",
+     "ago": 9,
+     "channel": "동물",
+     "choice": "아무도 모르게 챙겨 둔다"
+    },
+    {
+     "kind": "manifestation",
+     "ago": 23,
+     "channel": "동물",
+     "choice": "가장 큰 나무 밑에서 기다린다"
+    },
+    {
+     "kind": "attempt",
+     "ago": 4,
+     "channel": "판타지",
+     "choice": "누가 잔을 놨는지 조용히 뒤를 밟는다"
+    },
+    {
+     "kind": "attempt",
+     "ago": 25,
+     "channel": "보석",
+     "choice": "조용히 수리를 맡긴다"
+    }
+   ],
+   "baseSource": "model",
+   "manifestationSource": "model",
+   "scenes": [
+    {
+     "kind": "base",
+     "speaker": "숲의 늙은 올빼미",
+     "place": "달빛 드는 고목 아래",
+     "lines": [
+      "혼자만의 시간을 갈망하는구나.",
+      "그 깊은 곳에 지혜가 깃들어 있구나.",
+      "가장 큰 나무 밑에서 기다리는 그림자가 드리운다.",
+      "16번 전과 23번 전에서 반복된 기다림의 모습이 겹쳐진다.",
+      "고요함 속에서 나는 그저 순리를 지켜볼 뿐."
+     ]
+    }
+   ],
+   "composeMs": 8568
+  },
+  {
+   "index": 34,
+   "lang": "ko",
+   "channel": "판타지",
+   "speaker": "궁전의 공주",
+   "answers": [
+    {
+     "q": "성문 앞에 용이 나타났다.",
+     "c": "서고에서 용의 약점부터 찾는다"
+    },
+    {
+     "q": "하나만 가질 수 있다면?",
+     "c": "끝이 없는 책"
+    },
+    {
+     "q": "길을 잃은 숲에서 밤이 왔다.",
+     "c": "나무 위에 올라 주변을 살핀다"
+    },
+    {
+     "q": "전설에 남는다면 어떤 이야기로?",
+     "c": "마지막까지 성을 지킨 사람으로"
+    }
+   ],
+   "title": "별을 읽는 대마법사",
+   "gaugeBeforePermille": 0,
+   "manifested": false,
+   "form": null,
+   "materials": [],
+   "baseSource": "model",
+   "manifestationSource": null,
+   "scenes": [
+    {
+     "kind": "base",
+     "speaker": "궁전의 공주",
+     "place": "왕궁 알현실",
+     "lines": [
+      "서고의 깊은 곳을 탐색하려는군요.",
+      "당신의 탐구심이 마음에 드네요."
+     ]
+    }
+   ],
+   "composeMs": 3882
+  },
+  {
+   "index": 35,
+   "lang": "ko",
+   "channel": "동물",
+   "speaker": "숲의 늙은 올빼미",
+   "answers": [
+    {
+     "q": "숲에 큰 비가 내린다.",
+     "c": "친구들이 다 모였는지 먼저 센다"
+    },
+    {
+     "q": "오래전 친구를 다시 만났다.",
+     "c": "그때 일을 하나하나 다 기억해 낸다"
+    },
+    {
+     "q": "먹이가 하나 남았다.",
+     "c": "게임을 해서 이긴 쪽이 먹자고 한다"
+    },
+    {
+     "q": "가장 좋아하는 시간은?",
+     "c": "물장구치는 한낮"
+    }
+   ],
+   "title": "파도 타는 돌고래",
+   "gaugeBeforePermille": 31,
+   "manifested": false,
+   "form": null,
+   "materials": [],
+   "baseSource": "template",
+   "manifestationSource": null,
+   "scenes": [
+    {
+     "kind": "base",
+     "speaker": "숲의 늙은 올빼미",
+     "place": "달빛 드는 고목 아래",
+     "lines": [
+      "네가 오면 물결부터 달라지는구나.",
+      "심심한 숲에 너 같은 아이가 하나쯤은 있어야지."
+     ]
+    }
+   ],
+   "composeMs": 4025
+  },
+  {
+   "index": 36,
+   "lang": "ko",
+   "channel": "판타지",
+   "speaker": "궁전의 공주",
+   "answers": [
+    {
+     "q": "연회장에서 독이 든 잔을 발견했다.",
+     "c": "노래를 멈춰 사람들의 시선을 모은다"
+    },
+    {
+     "q": "하나만 가질 수 있다면?",
+     "c": "발소리가 나지 않는 장화"
+    },
+    {
+     "q": "길을 잃은 숲에서 밤이 왔다.",
+     "c": "불을 피우고 일행을 지킨다"
+    },
+    {
+     "q": "전설에 남는다면 어떤 이야기로?",
+     "c": "아무도 못 푼 수수께끼를 푼 사람으로"
+    }
+   ],
+   "title": "별을 읽는 대마법사",
+   "gaugeBeforePermille": 118,
+   "manifested": false,
+   "form": null,
+   "materials": [],
+   "baseSource": "model",
+   "manifestationSource": null,
+   "scenes": [
+    {
+     "kind": "base",
+     "speaker": "궁전의 공주",
+     "place": "왕궁 알현실",
+     "lines": [
+      "그 선택은 깊은 생각을 보여주네요.",
+      "당신의 지혜는 왕궁의 빛입니다."
+     ]
+    }
+   ],
+   "composeMs": 3642
+  },
+  {
+   "index": 37,
+   "lang": "ko",
+   "channel": "동물",
+   "speaker": "숲의 늙은 올빼미",
+   "answers": [
+    {
+     "q": "숲에 큰 비가 내린다.",
+     "c": "가장 큰 나무 밑에서 기다린다"
+    },
+    {
+     "q": "처음 보는 동물이 다가온다.",
+     "c": "먼저 장난을 걸어 본다"
+    },
+    {
+     "q": "오래전 친구를 다시 만났다.",
+     "c": "그때 일을 하나하나 다 기억해 낸다"
+    },
+    {
+     "q": "먹이가 하나 남았다.",
+     "c": "게임을 해서 이긴 쪽이 먹자고 한다"
+    }
+   ],
+   "title": "파도 타는 돌고래",
+   "gaugeBeforePermille": 197,
+   "manifested": true,
+   "form": "separate",
+   "materials": [
+    {
+     "kind": "manifestation",
+     "ago": 4,
+     "channel": "동물",
+     "choice": "가장 큰 나무 밑에서 기다린다"
+    },
+    {
+     "kind": "manifestation",
+     "ago": 20,
+     "channel": "동물",
+     "choice": "가장 큰 나무 밑에서 기다린다"
+    },
+    {
+     "kind": "manifestation",
+     "ago": 27,
+     "channel": "동물",
+     "choice": "반가워서 소리부터 지른다"
+    },
+    {
+     "kind": "attempt",
+     "ago": 30,
+     "channel": "무협",
+     "choice": "이 빠진 낡은 도"
+    },
+    {
+     "kind": "attempt",
+     "ago": 20,
+     "channel": "판타지",
+     "choice": "발소리가 나지 않는 장화"
+    }
+   ],
+   "baseSource": "model",
+   "manifestationSource": "model",
+   "scenes": [
+    {
+     "kind": "base",
+     "speaker": "숲의 늙은 올빼미",
+     "place": "달빛 드는 고목 아래",
+     "lines": [
+      "파도를 타고 흐르는 너의 기운이 느껴진다.",
+      "깊은 곳의 지혜를 품고 있구나."
+     ]
+    },
+    {
+     "kind": "manifestation",
+     "speaker": "낯선 목소리",
+     "place": "아무도 없는 곳",
+     "lines": [
+      "가장 큰 나무 밑에서 기다림이 스친다.",
+      "4번 전과 20번 전의 기다림이 겹쳐 보인다."
+     ]
+    }
+   ],
+   "composeMs": 8439
+  },
+  {
+   "index": 38,
+   "lang": "ko",
+   "channel": "무협",
+   "speaker": "백발의 검객",
+   "answers": [
+    {
+     "q": "사부가 비급 한 권을 남기고 사라졌다.",
+     "c": "다른 문파 것과 비교해 약점부터 찾는다"
+    },
+    {
+     "q": "객잔에서 시비가 붙었다.",
+     "c": "술값만 내고 조용히 나간다"
+    },
+    {
+     "q": "무림대회 결승, 상대가 다리를 다쳤다.",
+     "c": "기권하고 내려온다. 이런 승부는 재미없다"
+    },
+    {
+     "q": "강호에 남기고 싶은 이름은?",
+     "c": "아무도 모르지만 모두가 피해 가는 사람"
+    }
+   ],
+   "title": "바람 같은 낭인",
+   "gaugeBeforePermille": 0,
+   "manifested": false,
+   "form": null,
+   "materials": [],
+   "baseSource": "model",
+   "manifestationSource": null,
+   "scenes": [
+    {
+     "kind": "base",
+     "speaker": "백발의 검객",
+     "place": "안개 낀 산 정상의 비무장",
+     "lines": [
+      "사부가 떠났으니 약점을 꿰뚫어 보려는구나.",
+      "그 눈빛이 오히려 너를 옭아매는 족쇄다."
+     ]
+    }
+   ],
+   "composeMs": 4176
+  },
+  {
+   "index": 39,
+   "lang": "ko",
+   "channel": "동물",
+   "speaker": "숲의 늙은 올빼미",
+   "answers": [
+    {
+     "q": "숲에 큰 비가 내린다.",
+     "c": "남들이 모르는 동굴로 간다"
+    },
+    {
+     "q": "오래전 친구를 다시 만났다.",
+     "c": "말없이 옆에 나란히 걷는다"
+    },
+    {
+     "q": "가장 좋아하는 시간은?",
+     "c": "다 같이 달리는 밤"
+    },
+    {
+     "q": "숲을 떠나야 한다면?",
+     "c": "떠나기 전에 지름길부터 알아 둔다"
+    }
+   ],
+   "title": "꼬리 긴 여우",
+   "gaugeBeforePermille": 57,
+   "manifested": false,
+   "form": null,
+   "materials": [],
+   "baseSource": "model",
+   "manifestationSource": null,
+   "scenes": [
+    {
+     "kind": "base",
+     "speaker": "숲의 늙은 올빼미",
+     "place": "달빛 드는 고목 아래",
+     "lines": [
+      "그 숲의 길을 미리 읽는구나.",
+      "네 그림자는 늘 조용히 앞서가는구나."
+     ]
+    }
+   ],
+   "composeMs": 3783
+  },
+  {
+   "index": 40,
+   "lang": "ko",
+   "channel": "보석",
+   "speaker": "보석상 주인",
+   "answers": [
+    {
+     "q": "쇼윈도 앞에서 먼저 눈이 가는 것은?",
+     "c": "이끼 같은 초록"
+    },
+    {
+     "q": "곤란한 부탁을 받았다.",
+     "c": "그 자리에서 해 주겠다고 한다"
+    },
+    {
+     "q": "조명이 꺼진 가게 안에서 나는?",
+     "c": "먼저 문 쪽으로 걸어간다"
+    },
+    {
+     "q": "오래 간직하고 싶은 것은?",
+     "c": "혼자 쓴 일기장"
+    }
+   ],
+   "title": "타오르는 루비",
+   "gaugeBeforePermille": 61,
+   "manifested": false,
+   "form": null,
+   "materials": [],
+   "baseSource": "model",
+   "manifestationSource": null,
+   "scenes": [
+    {
+     "kind": "base",
+     "speaker": "보석상 주인",
+     "place": "골목 끝 작은 보석상",
+     "lines": [
+      "이 초록은 묵직한 침묵을 품고 있네요.",
+      "그 눈빛이 깊이를 말해주고 있습니다."
+     ]
+    }
+   ],
+   "composeMs": 3908
+  }
+ ]
+}
