@@ -185,6 +185,8 @@ abstract final class ResultComposer {
         channel.id,
         text.archetypeTitle(channel.id, attempt.archetype),
       ),
+      style: text.style(channel.id),
+      avoid: text.avoid(channel.id),
     );
   }
 
@@ -228,6 +230,10 @@ abstract final class ResultComposer {
         for (final a in plan.attempt.answers)
           text.choice(channel.id, a.questionId, a.choiceId),
       ],
+      style: manifestation.form == ManifestationForm.mixed
+          ? text.style(channel.id)
+          : '',
+      avoid: text.avoid(channel.id),
     );
   }
 

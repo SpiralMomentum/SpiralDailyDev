@@ -17,6 +17,9 @@ import '../../features/simulation/data/engine/flutter_gemma_client.dart';
 import '../../features/simulation/data/engine/llm_narration_engine.dart';
 import '../../features/simulation/data/engine/template_narration_engine.dart';
 import '../../features/simulation/data/repositories/accumulation_repository_impl.dart';
+import '../../features/simulation/data/story/story_repository_impl.dart';
+import '../../features/simulation/domain/story/story_repository.dart';
+import '../../features/simulation/domain/story/story_use_cases.dart';
 import '../../features/simulation/data/repositories/content_repository_impl.dart';
 import '../../features/simulation/domain/repositories/accumulation_repository.dart';
 import '../../features/simulation/domain/repositories/narration_engine.dart';
@@ -53,6 +56,9 @@ abstract final class ServiceLocator {
       ..registerLazySingleton(
         () => ContentRepositoryImpl(ContentAssetDataSource(config.bundle)),
       )
+      ..registerLazySingleton<StoryRepository>(
+        () => StoryRepositoryImpl(config.documentsDirectory),
+      )
       ..registerLazySingleton<AccumulationRepository>(
         () => AccumulationRepositoryImpl(
           AccumulationFileDataSource(config.documentsDirectory),
@@ -79,8 +85,13 @@ abstract final class ServiceLocator {
       ..registerFactory(() => PlanAttemptUseCase(sl(), config.random, config.clock))
       ..registerFactory(() => ComposeResultUseCase(sl(), config.random))
       ..registerFactory(() => const ExtendResultUseCase())
+      ..registerFactory(() => StartMeetingUseCase(sl(), config.random))
+      ..registerFactory(
+        () => PlanMeetingUseCase(sl(), sl(), config.random, config.clock),
+      )
+      ..registerFactory(() => ComposeMeetingUseCase(sl(), config.random))
       ..registerFactory(() => GetHistorySummaryUseCase(sl()))
-      ..registerFactory(() => ClearHistoryUseCase(sl()))
+      ..registerFactory(() => ClearHistoryUseCase(sl(), sl()))
       // monetization
       ..registerSingleton<ConnectivityRepository>(config.connectivity)
       ..registerLazySingleton<RewardedAdRepository>(

@@ -29,6 +29,18 @@ class ChannelArt extends StatelessWidget {
     'animal': [Color(0xFF0F2A1D), Color(0xFF2D6A4F), Color(0xFFB7E4C7)],
     'gem': [Color(0xFF1B1B2F), Color(0xFF7A1F3D), Color(0xFFE9C46A)],
     'manifestation': [Color(0xFF050505), Color(0xFF1F1A2E), Color(0xFF6C5B7B)],
+    // 무협 이야기 인물별 배경 (인물 그림이 생기기 전까지 색으로만 구분한다).
+    'wuxia_innkeeper': [Color(0xFF3E2A1E), Color(0xFFA0673A), Color(0xFFF2D3A5)],
+    'wuxia_smith': [Color(0xFF2B1A14), Color(0xFFB3471F), Color(0xFFF4A259)],
+    'wuxia_escort': [Color(0xFF3A3326), Color(0xFF9C8A5E), Color(0xFFE3D6B0)],
+    'wuxia_physiognomist': [Color(0xFF3D1F2B), Color(0xFFA34A5E), Color(0xFFF0C9C2)],
+    'wuxia_physician': [Color(0xFF1F3328), Color(0xFF5E8C6A), Color(0xFFD8E8CF)],
+    'wuxia_ronin': [Color(0xFF1E2830), Color(0xFF5B7083), Color(0xFFC9D3DB)],
+    'wuxia_strategist': [Color(0xFF141E33), Color(0xFF3E5A8A), Color(0xFFC4CFE6)],
+    'wuxia_diviner': [Color(0xFF25213A), Color(0xFF6E6491), Color(0xFFD9D3EA)],
+    'wuxia_hermit': [Color(0xFF1E3534), Color(0xFF6FA39B), Color(0xFFE4F0EC)],
+    'wuxia_sectleader': [Color(0xFF3A3220), Color(0xFFB8975A), Color(0xFFF5EBD3)],
+    'wuxia_demonlord': [Color(0xFF0D0A0C), Color(0xFF5C1420), Color(0xFFA63A3A)],
   };
 
   static List<Color> paletteOf(String art) =>
@@ -76,7 +88,7 @@ class _ScenePainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     switch (kind) {
-      case 'wuxia':
+      case final k when k == 'wuxia' || k.startsWith('wuxia_'):
         _mountains(canvas, size);
       case 'fantasy':
         _palace(canvas, size);

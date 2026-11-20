@@ -330,23 +330,29 @@ void main() {
     Iterable<String> visible(EvaluationResult r) =>
         r.scenes.expand((x) => [x.place, x.speaker, ...x.lines]);
 
-    test('첫 줄은 결과 유형 문장, 가운데는 성격 설명(모델이 없으면 설명/장점/약점), 끝 줄은 명언. 이론/유형 이름은 화면에 없다', () {
-      final r = ResultComposer.compose(
-        channel: channel,
-        plan: planWith(null),
-        text: text,
-      );
-      expect(r.scenes.single.lines, [
-        'wuxia-reveal wuxia-title1',
-        'theory.enneagram.5.desc',
-        'theory.enneagram.5.strength',
-        'theory.enneagram.5.weakness',
-        'wuxia-a1-s2', // 시행 7회차 -> 명언 2번
-      ]);
-      expect(visible(r).where((t) => t.contains('.name') || t.contains('.label')), isEmpty);
-      expect(r.reading, reading);
-      expect(r.deepReading, isNull);
-    });
+    test(
+      '첫 줄은 결과 유형 문장, 가운데는 성격 설명(모델이 없으면 설명/장점/약점), 끝 줄은 명언. 이론/유형 이름은 화면에 없다',
+      () {
+        final r = ResultComposer.compose(
+          channel: channel,
+          plan: planWith(null),
+          text: text,
+        );
+        expect(r.scenes.single.lines, [
+          'wuxia-reveal wuxia-title1',
+          'theory.enneagram.5.desc',
+          'theory.enneagram.5.strength',
+          'theory.enneagram.5.weakness',
+          'wuxia-a1-s2', // 시행 7회차 -> 명언 2번
+        ]);
+        expect(
+          visible(r).where((t) => t.contains('.name') || t.contains('.label')),
+          isEmpty,
+        );
+        expect(r.reading, reading);
+        expect(r.deepReading, isNull);
+      },
+    );
 
     test('발현이 있으면 누적 유형을 결과에 남기되 화면에는 이론/유형 이름을 내지 않는다', () {
       for (final form in ManifestationForm.values) {
@@ -357,11 +363,14 @@ void main() {
           manifest: manifest,
         );
         expect(r.deepReading, deep);
-        expect(visible(r).where((t) => t.contains('.name') || t.contains('.label')), isEmpty);
+        expect(
+          visible(r).where((t) => t.contains('.name') || t.contains('.label')),
+          isEmpty,
+        );
       }
     });
 
-    test('명언은 시행 순번에 따라 결과 유형의 2개 중 번갈아 나온다', () {
+    test('명언은 시행 순번에 따라 결과 유형의 3개를 돌아가며 쓴다', () {
       String last(int index) => ResultComposer.baseScene(
         channel,
         3,
@@ -369,7 +378,10 @@ void main() {
         lines: const ['x'],
         sayingIndex: index,
       ).lines.last;
-      expect([last(1), last(2), last(3), last(4)], ['wuxia-a3-s2', 'wuxia-a3-s1', 'wuxia-a3-s2', 'wuxia-a3-s1']);
+      expect(
+        [last(1), last(2), last(3), last(4)],
+        ['wuxia-a3-s2', 'wuxia-a3-s3', 'wuxia-a3-s1', 'wuxia-a3-s2'],
+      );
     });
 
     test('plainLabel: 유형 번호/코드를 떼어 프롬프트에 이론이 드러나지 않게 한다', () {
@@ -407,10 +419,36 @@ void main() {
       expect(m.materials.single.trait, 'theory.bigfive.E-.label');
       expect(m.today, ['wuxia-q1-c2', 'wuxia-q2-c1']);
     });
+
+    test('대사 요청에 채널 말투 규칙과 금지 표현이 실린다 (별도 장면은 말투 규칙 없음)', () {
+      final base = ResultComposer.baseRequest(
+        channel,
+        planWith(ManifestationForm.separate),
+        text,
+      );
+      expect(base.style, 'wuxia-style');
+      expect(base.avoid, ['금지어']);
+      final separate = ResultComposer.manifestationRequest(
+        channel,
+        planWith(ManifestationForm.separate),
+        text,
+      );
+      expect(separate.style, isEmpty);
+      expect(separate.avoid, ['금지어']);
+      final mixed = ResultComposer.manifestationRequest(
+        channel,
+        planWith(ManifestationForm.mixed),
+        text,
+      );
+      expect(mixed.style, 'wuxia-style');
+    });
   });
 
   group('ResultComposer.supportingFirst', () {
-    final catalog = testCatalog(channel: taggedChannel(), theories: const [enneagram, type16]);
+    final catalog = testCatalog(
+      channel: taggedChannel(),
+      theories: const [enneagram, type16],
+    );
     final mats = [
       ref(MaterialKind.attempt, 1, c: 'c1'), // 에니어그램 8, 16유형 E S
       ref(MaterialKind.attempt, 2, c: 'c2'), // 5, I N
@@ -419,18 +457,36 @@ void main() {
     ];
 
     test('dominant: 누적 유형과 같은 극의 기록이 먼저, 나머지는 원래 순서', () {
-      const deep = TraitReading(theoryId: 'enneagram', outcome: '5', tally: {}, answers: 0);
+      const deep = TraitReading(
+        theoryId: 'enneagram',
+        outcome: '5',
+        tally: {},
+        answers: 0,
+      );
       expect(
-        ResultComposer.supportingFirst(mats, catalog, deep).map((m) => m.sourceIndex),
+        ResultComposer.supportingFirst(
+          mats,
+          catalog,
+          deep,
+        ).map((m) => m.sourceIndex),
         [2, 4, 1, 3],
       );
     });
 
     test('code: 유형 글자와 겹치는 극이 많은 순', () {
-      const deep = TraitReading(theoryId: 'type16', outcome: 'INTJ', tally: {}, answers: 0);
+      const deep = TraitReading(
+        theoryId: 'type16',
+        outcome: 'INTJ',
+        tally: {},
+        answers: 0,
+      );
       // c1: E S -> 0, c2: I N -> 2, c3: I T -> 2
       expect(
-        ResultComposer.supportingFirst(mats, catalog, deep).map((m) => m.sourceIndex),
+        ResultComposer.supportingFirst(
+          mats,
+          catalog,
+          deep,
+        ).map((m) => m.sourceIndex),
         [2, 3, 4, 1],
       );
     });

@@ -41,4 +41,5 @@ flutter:
     - assets/content/
     - assets/content/strings/
     - assets/narration/
+    - assets/story/wuxia/
     - assets/images/scenes/

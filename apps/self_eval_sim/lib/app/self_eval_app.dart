@@ -14,6 +14,8 @@ import '../features/simulation/domain/usecases/history_use_cases.dart';
 import '../features/simulation/domain/usecases/load_content_use_case.dart';
 import '../features/simulation/presentation/attempt_page.dart';
 import '../features/simulation/presentation/bloc/attempt_bloc.dart';
+import '../features/simulation/presentation/flow/attempt_flow.dart';
+import '../features/simulation/presentation/flow/story_flow.dart';
 import '../features/simulation/presentation/home_page.dart';
 import '../features/simulation/presentation/widgets/scene_recorder.dart';
 import '../features/monetization/domain/monetization.dart';
@@ -27,7 +29,7 @@ class SelfEvalApp extends StatelessWidget {
   final GlobalKey<NavigatorState> navigatorKey;
   final ValueNotifier<String?> language;
 
-  static const supportedLocales = [Locale('ko'), Locale('en'), Locale('ja'), Locale('zh')];
+  static final supportedLocales = [for (final c in SupportedLanguages.codes) Locale(c)];
 
   static Locale resolveLocale(Locale? device, Iterable<Locale> supported) =>
       Locale(SupportedLanguages.resolve(device?.languageCode));
@@ -73,12 +75,14 @@ class SelfEvalApp extends StatelessWidget {
       MaterialPageRoute<void>(
         builder: (_) => AttemptPage(
           createBloc: () => AttemptBloc(
-            channel: channel,
-            content: content,
-            startAttempt: sl(),
-            planAttempt: sl(),
-            composeResult: sl(),
-            extendResult: sl(),
+            // 이야기가 있는 채널(무협)은 이야기 만남으로, 나머지는 기존 채널 시행으로 들어간다.
+            createFlow: AttemptFlows.select(
+              channel: channel,
+              content: content,
+              channelFlow: () => ChannelFlow(channel, content, sl(), sl(), sl(), sl()),
+              storyFlow: (world, channel) =>
+                  StoryFlow(world, content, sl(), sl(), sl(), channelArt: channel.art),
+            ),
             decideAdOffer: sl<DecideAdOfferUseCase>().call,
             showRewardedAd: sl<ShowRewardedAdUseCase>().call,
           ),

@@ -64,7 +64,7 @@ void main() {
 
   testWidgets('네트워크 실패 문구', (tester) async {
     final repo = _Repo(installed: false);
-    await tester.pumpLocalized(gate(repo), locale: 'ja');
+    await tester.pumpLocalized(gate(repo));
     await tester.pumpAndSettle();
     await tester.tap(find.byKey(const Key('gate_download')));
     await tester.pump();

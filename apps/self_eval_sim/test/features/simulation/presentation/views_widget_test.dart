@@ -1,35 +1,88 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:self_eval_sim/features/simulation/domain/entities/evaluation.dart';
+import 'package:self_eval_sim/features/simulation/domain/entities/quiz_question.dart';
 import 'package:self_eval_sim/features/simulation/presentation/bloc/attempt_state.dart';
 import 'package:self_eval_sim/features/simulation/presentation/widgets/frame_plan.dart';
 import 'package:self_eval_sim/features/simulation/presentation/widgets/generating_view.dart';
 import 'package:self_eval_sim/features/simulation/presentation/widgets/quiz_view.dart';
 import 'package:self_eval_sim/features/simulation/presentation/widgets/result_view.dart';
 
-import '../../../support/fixtures.dart';
 import '../../../support/pump.dart';
 
 void main() {
   group('QuizView', () {
-    testWidgets('진행도, 질문, 선택지 3개를 보이고 탭하면 선택 id 를 넘긴다', (tester) async {
-      final channel = testChannel();
-      String? picked;
-      await tester.pumpLocalized(
+    const question = QuizQuestion(
+      id: 'q2',
+      text: '풀린 질문 2',
+      choices: [
+        QuizChoice(id: 'c1', text: '풀린 선택 1'),
+        QuizChoice(id: 'c2', text: '풀린 선택 2'),
+        QuizChoice(id: 'c3', text: '풀린 선택 3'),
+      ],
+    );
+
+    Widget view({required int current, ValueChanged<String>? onChoice}) =>
         QuizView(
-          channel: channel,
-          text: testText(),
-          question: channel.questions[1],
-          current: 2,
+          art: 'wuxia',
+          question: question,
+          intro: const ['도입 첫 줄', '도입 둘째 줄'],
+          current: current,
           total: 4,
-          onChoice: (id) => picked = id,
-        ),
-      );
+          onChoice: onChoice ?? (_) {},
+        );
+
+    testWidgets('진행도, 질문, 선택지 3개를 보이고 탭하면 선택 id 를 넘긴다', (tester) async {
+      String? picked;
+      await tester.pumpLocalized(view(current: 2, onChoice: (id) => picked = id));
       expect(find.text('2 / 4'), findsOneWidget);
-      expect(find.text('wuxia-q2'), findsOneWidget);
-      expect(find.text('wuxia-q2-c3'), findsOneWidget);
+      expect(
+        tester.widget<Text>(find.byKey(const Key('question_text'))).data,
+        '풀린 질문 2',
+      );
+      expect(find.text('풀린 선택 3'), findsOneWidget);
       await tester.tap(find.byKey(const Key('choice_2')));
       expect(picked, 'c3');
+    });
+
+    testWidgets('첫 질문에는 도입 문장이 보이고 둘째 질문부터는 안 보인다', (tester) async {
+      await tester.pumpLocalized(view(current: 1));
+      expect(find.byKey(const Key('quiz_intro')), findsOneWidget);
+      expect(find.textContaining('도입 첫 줄'), findsOneWidget);
+      expect(find.textContaining('도입 둘째 줄'), findsOneWidget);
+
+      await tester.pumpLocalized(view(current: 2));
+      expect(find.byKey(const Key('quiz_intro')), findsNothing);
+      expect(find.textContaining('도입 첫 줄'), findsNothing);
+    });
+
+    testWidgets('도입 문장이 길어도 넘치지 않고 선택지가 보인다', (tester) async {
+      await tester.pumpLocalized(
+        QuizView(
+          art: 'wuxia',
+          question: question,
+          intro: [for (var i = 0; i < 40; i++) '긴 도입 문장 $i'],
+          current: 1,
+          total: 4,
+          onChoice: (_) {},
+        ),
+      );
+      expect(tester.takeException(), isNull);
+      expect(find.byKey(const Key('choice_2')).hitTestable(), findsOneWidget);
+    });
+
+    testWidgets('도입 문장이 없으면 첫 질문에도 도입 영역이 없다', (tester) async {
+      await tester.pumpLocalized(
+        QuizView(
+          art: 'wuxia',
+          question: question,
+          intro: const [],
+          current: 1,
+          total: 4,
+          onChoice: (_) {},
+        ),
+      );
+      expect(find.byKey(const Key('quiz_intro')), findsNothing);
     });
   });
 

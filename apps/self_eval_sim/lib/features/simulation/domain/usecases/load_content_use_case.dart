@@ -6,6 +6,9 @@ import '../repositories/content_repository.dart';
 class LoadContentUseCase {
   const LoadContentUseCase(this._repository);
 
+  /// 함께 싣는 이야기 세계. 불러오지 못하면 빠지고 그 채널은 기존 시행 흐름으로 동작한다.
+  static const storyWorlds = ['wuxia'];
+
   final ContentRepository _repository;
 
   Future<Result<LocalizedContent>> call(String languageCode) async {
@@ -14,8 +17,19 @@ class LoadContentUseCase {
       return ErrorResult(failure);
     }
     final text = await _repository.loadText(languageCode);
-    return text.map(
-      (t) => LocalizedContent(catalog: catalog.dataOrNull!, text: t),
+    if (text case ErrorResult(:final failure)) {
+      return ErrorResult(failure);
+    }
+    final stories = {
+      for (final id in storyWorlds)
+        id: ?(await _repository.loadStoryWorld(id)).dataOrNull,
+    };
+    return Success(
+      LocalizedContent(
+        catalog: catalog.dataOrNull!,
+        text: text.dataOrNull!,
+        stories: stories,
+      ),
     );
   }
 }

@@ -231,6 +231,12 @@ final class BaseNarrationRequest extends Equatable {
     required this.fallbackLines,
     this.profile,
     this.reveal = '',
+    this.style = '',
+    this.avoid = const [],
+    this.context = const [],
+    this.story = false,
+    this.echoes = const [],
+    this.ending = '',
   });
 
   final String languageCode;
@@ -247,11 +253,29 @@ final class BaseNarrationRequest extends Equatable {
   /// 화면 첫 줄에 이미 나간 결과 문장. 모델이 같은 호칭과 말투로 이어 가게 한다.
   final String reveal;
 
+  /// 화자 말투 규칙 (채널별).
+  final String style;
+
+  /// 채널별로 버릴 표현의 정규식.
+  final List<String> avoid;
+
   /// 화자 말투 예시 (채널의 기본 결과 대사들).
   final List<String> examples;
 
   /// 모델을 쓸 수 없을 때 보여 줄 콘텐츠 대사.
   final List<String> fallbackLines;
+
+  /// 화자가 상대에 대해 아는 것 (관계, 판단 흐름, 지난 근거, 소문). 이야기 모드만 채운다.
+  final List<String> context;
+
+  /// 이야기 모드 요청이면 이야기 전용 프롬프트(짧은 대사, 상황 문장 없이 고른 행동만)를 쓴다.
+  final bool story;
+
+  /// 대사가 되풀이하면 안 되는 문장 (칭호 첫 줄, 질문 상황). 길게 겹치는 줄은 버린다.
+  final List<String> echoes;
+
+  /// 줄 끝(문장부호를 뗀 뒤)이 맞아야 하는 정규식. 비면 검사하지 않는다 (인물 말끝 강제).
+  final String ending;
 
   @override
   List<Object?> get props => [
@@ -264,6 +288,12 @@ final class BaseNarrationRequest extends Equatable {
     fallbackLines,
     profile,
     reveal,
+    style,
+    avoid,
+    context,
+    story,
+    echoes,
+    ending,
   ];
 }
 
@@ -280,6 +310,8 @@ final class ManifestationRequest extends Equatable {
     this.tally = const [],
     this.totalAnswers = 0,
     this.today = const [],
+    this.style = '',
+    this.avoid = const [],
   });
 
   final String languageCode;
@@ -303,6 +335,12 @@ final class ManifestationRequest extends Equatable {
   /// 오늘 고른 선택지 문장.
   final List<String> today;
 
+  /// 섞임 형태일 때 화자 말투 규칙 (별도 장면은 비움).
+  final String style;
+
+  /// 채널별로 버릴 표현의 정규식.
+  final List<String> avoid;
+
   @override
   List<Object?> get props => [
     languageCode,
@@ -315,5 +353,7 @@ final class ManifestationRequest extends Equatable {
     tally,
     totalAnswers,
     today,
+    style,
+    avoid,
   ];
 }

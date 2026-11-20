@@ -24,9 +24,9 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.text('시행 7회 · 발현 2회'), findsOneWidget);
 
-    await tester.tap(find.byKey(const Key('language_ja')));
+    await tester.tap(find.byKey(const Key('language_ko')));
     await tester.pumpAndSettle();
-    expect(languages, ['ja']);
+    expect(languages, ['ko']);
 
     await tester.tap(find.byKey(const Key('delete_all')));
     await tester.pumpAndSettle();

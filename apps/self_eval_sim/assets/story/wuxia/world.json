@@ -1,0 +1,4305 @@
+{
+ "id": "wuxia",
+ "chars": [
+  {
+   "id": "innkeeper",
+   "theory": "bigfive",
+   "unlockAt": 0,
+   "places": [
+    "inn",
+    "ferry"
+   ]
+  },
+  {
+   "id": "smith",
+   "theory": "holland",
+   "unlockAt": 2,
+   "places": [
+    "smithy",
+    "market"
+   ]
+  },
+  {
+   "id": "escort",
+   "theory": "conflict",
+   "unlockAt": 4,
+   "places": [
+    "yard",
+    "gate",
+    "road"
+   ]
+  },
+  {
+   "id": "physiognomist",
+   "theory": "type16",
+   "unlockAt": 6,
+   "places": [
+    "market",
+    "village"
+   ]
+  },
+  {
+   "id": "physician",
+   "theory": "temperament",
+   "unlockAt": 8,
+   "places": [
+    "alley",
+    "village"
+   ]
+  },
+  {
+   "id": "ronin",
+   "theory": "sensation",
+   "unlockAt": 10,
+   "places": [
+    "hill",
+    "road"
+   ]
+  },
+  {
+   "id": "strategist",
+   "theory": "regfocus",
+   "unlockAt": 13,
+   "places": [
+    "camp",
+    "gate"
+   ]
+  },
+  {
+   "id": "diviner",
+   "theory": "locus",
+   "unlockAt": 16,
+   "places": [
+    "bridge",
+    "ferry"
+   ]
+  },
+  {
+   "id": "hermit",
+   "theory": "values",
+   "unlockAt": 20,
+   "requires": {
+    "innkeeper": 3
+   },
+   "places": [
+    "hut",
+    "hill"
+   ]
+  },
+  {
+   "id": "sectleader",
+   "theory": "honesty",
+   "unlockAt": 24,
+   "requires": {
+    "hermit": 2
+   },
+   "places": [
+    "sect",
+    "gate"
+   ]
+  },
+  {
+   "id": "demonlord",
+   "theory": "moral",
+   "unlockAt": 30,
+   "requires": {
+    "hermit": 3,
+    "sectleader": 1
+   },
+   "places": [
+    "peak",
+    "hill"
+   ]
+  }
+ ],
+ "theories": [
+  {
+   "id": "bigfive",
+   "mode": "dominant",
+   "axes": [
+    [
+     "O+",
+     "O-"
+    ],
+    [
+     "C+",
+     "C-"
+    ],
+    [
+     "E+",
+     "E-"
+    ],
+    [
+     "A+",
+     "A-"
+    ],
+    [
+     "N+",
+     "N-"
+    ]
+   ]
+  },
+  {
+   "id": "holland",
+   "mode": "dominant",
+   "axes": [
+    [
+     "R"
+    ],
+    [
+     "I"
+    ],
+    [
+     "A"
+    ],
+    [
+     "S"
+    ],
+    [
+     "E"
+    ],
+    [
+     "C"
+    ]
+   ]
+  },
+  {
+   "id": "conflict",
+   "mode": "dominant",
+   "axes": [
+    [
+     "compete"
+    ],
+    [
+     "collaborate"
+    ],
+    [
+     "compromise"
+    ],
+    [
+     "avoid"
+    ],
+    [
+     "accommodate"
+    ]
+   ]
+  },
+  {
+   "id": "type16",
+   "mode": "code",
+   "axes": [
+    [
+     "E",
+     "I"
+    ],
+    [
+     "S",
+     "N"
+    ],
+    [
+     "T",
+     "F"
+    ],
+    [
+     "J",
+     "P"
+    ]
+   ],
+   "measures": "bigfive",
+   "poleAlias": {
+    "E+": "E",
+    "E-": "I",
+    "O+": "N",
+    "O-": "S",
+    "A+": "F",
+    "A-": "T",
+    "C+": "J",
+    "C-": "P"
+   }
+  },
+  {
+   "id": "temperament",
+   "mode": "code",
+   "axes": [
+    [
+     "E+",
+     "E-"
+    ],
+    [
+     "N+",
+     "N-"
+    ]
+   ],
+   "measures": "bigfive",
+   "outcomeAlias": {
+    "E+N-": "sanguine",
+    "E+N+": "choleric",
+    "E-N+": "melancholic",
+    "E-N-": "phlegmatic"
+   }
+  },
+  {
+   "id": "sensation",
+   "mode": "code",
+   "axes": [
+    [
+     "TAS+",
+     "TAS-"
+    ],
+    [
+     "DIS+",
+     "DIS-"
+    ]
+   ]
+  },
+  {
+   "id": "regfocus",
+   "mode": "dominant",
+   "axes": [
+    [
+     "promotion",
+     "prevention"
+    ]
+   ]
+  },
+  {
+   "id": "locus",
+   "mode": "dominant",
+   "axes": [
+    [
+     "internal",
+     "external"
+    ]
+   ]
+  },
+  {
+   "id": "values",
+   "mode": "dominant",
+   "axes": [
+    [
+     "SD"
+    ],
+    [
+     "ST"
+    ],
+    [
+     "HE"
+    ],
+    [
+     "AC"
+    ],
+    [
+     "PO"
+    ],
+    [
+     "SE"
+    ],
+    [
+     "CO"
+    ],
+    [
+     "TR"
+    ],
+    [
+     "BE"
+    ],
+    [
+     "UN"
+    ]
+   ]
+  },
+  {
+   "id": "honesty",
+   "mode": "dominant",
+   "axes": [
+    [
+     "H+",
+     "H-"
+    ]
+   ]
+  },
+  {
+   "id": "moral",
+   "mode": "dominant",
+   "axes": [
+    [
+     "care"
+    ],
+    [
+     "fairness"
+    ],
+    [
+     "loyalty"
+    ],
+    [
+     "authority"
+    ],
+    [
+     "sanctity"
+    ]
+   ]
+  }
+ ],
+ "frames": [
+  {
+   "id": "f_spill",
+   "axes": [
+    "who",
+    "where"
+   ],
+   "choices": [
+    {
+     "id": "c1",
+     "traits": {
+      "bigfive": [
+       "A+"
+      ],
+      "conflict": [
+       "accommodate"
+      ],
+      "honesty": [
+       "H+"
+      ]
+     }
+    },
+    {
+     "id": "c2",
+     "traits": {
+      "bigfive": [
+       "A-",
+       "N+"
+      ],
+      "conflict": [
+       "compete"
+      ],
+      "locus": [
+       "external"
+      ]
+     }
+    },
+    {
+     "id": "c3",
+     "traits": {
+      "conflict": [
+       "compromise"
+      ],
+      "locus": [
+       "internal"
+      ],
+      "bigfive": [
+       "A-"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "f_change",
+   "axes": [
+    "who"
+   ],
+   "choices": [
+    {
+     "id": "c1",
+     "traits": {
+      "honesty": [
+       "H+"
+      ],
+      "moral": [
+       "fairness"
+      ],
+      "values": [
+       "UN"
+      ]
+     }
+    },
+    {
+     "id": "c2",
+     "traits": {
+      "honesty": [
+       "H-"
+      ],
+      "values": [
+       "PO"
+      ],
+      "bigfive": [
+       "A-"
+      ]
+     }
+    },
+    {
+     "id": "c3",
+     "traits": {
+      "honesty": [
+       "H+"
+      ],
+      "values": [
+       "CO"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "f_far_job",
+   "axes": [
+    "where"
+   ],
+   "choices": [
+    {
+     "id": "c1",
+     "traits": {
+      "regfocus": [
+       "promotion"
+      ],
+      "values": [
+       "AC"
+      ],
+      "bigfive": [
+       "O+"
+      ]
+     }
+    },
+    {
+     "id": "c2",
+     "traits": {
+      "regfocus": [
+       "prevention"
+      ],
+      "values": [
+       "SE"
+      ],
+      "bigfive": [
+       "O-"
+      ]
+     }
+    },
+    {
+     "id": "c3",
+     "traits": {
+      "regfocus": [
+       "prevention"
+      ],
+      "locus": [
+       "internal"
+      ],
+      "bigfive": [
+       "O-"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "f_cart",
+   "axes": [
+    "who",
+    "where"
+   ],
+   "choices": [
+    {
+     "id": "c1",
+     "traits": {
+      "holland": [
+       "R"
+      ],
+      "bigfive": [
+       "E-"
+      ]
+     }
+    },
+    {
+     "id": "c2",
+     "traits": {
+      "holland": [
+       "E"
+      ],
+      "bigfive": [
+       "E+"
+      ]
+     }
+    },
+    {
+     "id": "c3",
+     "traits": {
+      "holland": [
+       "I"
+      ],
+      "bigfive": [
+       "O+"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "f_inn_slow",
+   "axes": [
+    "stake"
+   ],
+   "choices": [
+    {
+     "id": "c1",
+     "traits": {
+      "holland": [
+       "A"
+      ],
+      "bigfive": [
+       "O+"
+      ]
+     }
+    },
+    {
+     "id": "c2",
+     "traits": {
+      "holland": [
+       "C"
+      ],
+      "bigfive": [
+       "C+"
+      ]
+     }
+    },
+    {
+     "id": "c3",
+     "traits": {
+      "holland": [
+       "E"
+      ],
+      "bigfive": [
+       "E+"
+      ],
+      "regfocus": [
+       "promotion"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "f_sick_guest",
+   "axes": [
+    "who"
+   ],
+   "choices": [
+    {
+     "id": "c1",
+     "traits": {
+      "holland": [
+       "S"
+      ],
+      "moral": [
+       "care"
+      ],
+      "bigfive": [
+       "A+"
+      ]
+     }
+    },
+    {
+     "id": "c2",
+     "traits": {
+      "holland": [
+       "I"
+      ],
+      "bigfive": [
+       "O+"
+      ]
+     }
+    },
+    {
+     "id": "c3",
+     "traits": {
+      "holland": [
+       "C"
+      ],
+      "moral": [
+       "authority"
+      ],
+      "values": [
+       "CO"
+      ],
+      "bigfive": [
+       "A-"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "f_shortcut",
+   "axes": [
+    "stake"
+   ],
+   "choices": [
+    {
+     "id": "c1",
+     "traits": {
+      "sensation": [
+       "TAS+"
+      ],
+      "regfocus": [
+       "promotion"
+      ],
+      "bigfive": [
+       "C-"
+      ]
+     }
+    },
+    {
+     "id": "c2",
+     "traits": {
+      "sensation": [
+       "TAS-"
+      ],
+      "regfocus": [
+       "prevention"
+      ]
+     }
+    },
+    {
+     "id": "c3",
+     "traits": {
+      "regfocus": [
+       "prevention"
+      ],
+      "bigfive": [
+       "C+"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "f_gamble",
+   "axes": [
+    "who",
+    "where"
+   ],
+   "choices": [
+    {
+     "id": "c1",
+     "traits": {
+      "sensation": [
+       "DIS+"
+      ],
+      "values": [
+       "ST"
+      ],
+      "regfocus": [
+       "promotion"
+      ],
+      "bigfive": [
+       "C-"
+      ]
+     }
+    },
+    {
+     "id": "c2",
+     "traits": {
+      "sensation": [
+       "DIS-"
+      ],
+      "values": [
+       "SE"
+      ],
+      "regfocus": [
+       "prevention"
+      ]
+     }
+    },
+    {
+     "id": "c3",
+     "traits": {
+      "sensation": [
+       "DIS-"
+      ],
+      "values": [
+       "BE"
+      ],
+      "moral": [
+       "care"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "f_debt",
+   "axes": [
+    "who"
+   ],
+   "choices": [
+    {
+     "id": "c1",
+     "traits": {
+      "conflict": [
+       "compete"
+      ],
+      "moral": [
+       "fairness"
+      ],
+      "bigfive": [
+       "A-"
+      ]
+     }
+    },
+    {
+     "id": "c2",
+     "traits": {
+      "conflict": [
+       "accommodate"
+      ],
+      "moral": [
+       "care"
+      ],
+      "bigfive": [
+       "A+"
+      ]
+     }
+    },
+    {
+     "id": "c3",
+     "traits": {
+      "conflict": [
+       "compromise"
+      ],
+      "bigfive": [
+       "A-"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "f_noise",
+   "axes": [
+    "who"
+   ],
+   "choices": [
+    {
+     "id": "c1",
+     "traits": {
+      "conflict": [
+       "compete"
+      ],
+      "bigfive": [
+       "E+"
+      ]
+     }
+    },
+    {
+     "id": "c2",
+     "traits": {
+      "conflict": [
+       "avoid"
+      ],
+      "bigfive": [
+       "E-",
+       "N-"
+      ]
+     }
+    },
+    {
+     "id": "c3",
+     "traits": {
+      "conflict": [
+       "collaborate"
+      ],
+      "bigfive": [
+       "A+",
+       "E+"
+      ],
+      "sensation": [
+       "DIS+"
+      ],
+      "values": [
+       "HE"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "f_queue",
+   "axes": [
+    "where"
+   ],
+   "choices": [
+    {
+     "id": "c1",
+     "traits": {
+      "conflict": [
+       "compete"
+      ],
+      "moral": [
+       "fairness"
+      ],
+      "bigfive": [
+       "E+"
+      ]
+     }
+    },
+    {
+     "id": "c2",
+     "traits": {
+      "conflict": [
+       "accommodate"
+      ],
+      "bigfive": [
+       "A+"
+      ]
+     }
+    },
+    {
+     "id": "c3",
+     "traits": {
+      "conflict": [
+       "collaborate"
+      ],
+      "moral": [
+       "fairness"
+      ],
+      "values": [
+       "UN"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "f_purse",
+   "axes": [
+    "where"
+   ],
+   "choices": [
+    {
+     "id": "c1",
+     "traits": {
+      "honesty": [
+       "H+"
+      ],
+      "moral": [
+       "authority"
+      ],
+      "values": [
+       "CO"
+      ]
+     }
+    },
+    {
+     "id": "c2",
+     "traits": {
+      "honesty": [
+       "H-"
+      ],
+      "values": [
+       "PO"
+      ]
+     }
+    },
+    {
+     "id": "c3",
+     "traits": {
+      "honesty": [
+       "H+"
+      ],
+      "moral": [
+       "care"
+      ],
+      "values": [
+       "UN"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "f_boast",
+   "axes": [
+    "who"
+   ],
+   "choices": [
+    {
+     "id": "c1",
+     "traits": {
+      "honesty": [
+       "H+"
+      ],
+      "bigfive": [
+       "A+"
+      ]
+     }
+    },
+    {
+     "id": "c2",
+     "traits": {
+      "honesty": [
+       "H-"
+      ],
+      "values": [
+       "AC"
+      ],
+      "regfocus": [
+       "promotion"
+      ]
+     }
+    },
+    {
+     "id": "c3",
+     "traits": {
+      "honesty": [
+       "H+"
+      ],
+      "values": [
+       "SD"
+      ],
+      "regfocus": [
+       "promotion"
+      ],
+      "locus": [
+       "internal"
+      ],
+      "bigfive": [
+       "O+"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "f_storm",
+   "axes": [
+    "where",
+    "stake"
+   ],
+   "choices": [
+    {
+     "id": "c1",
+     "traits": {
+      "locus": [
+       "external"
+      ],
+      "bigfive": [
+       "N-"
+      ]
+     }
+    },
+    {
+     "id": "c2",
+     "traits": {
+      "locus": [
+       "internal"
+      ],
+      "holland": [
+       "R"
+      ],
+      "bigfive": [
+       "N-"
+      ]
+     }
+    },
+    {
+     "id": "c3",
+     "traits": {
+      "locus": [
+       "external"
+      ],
+      "bigfive": [
+       "N+"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "f_late",
+   "axes": [
+    "who"
+   ],
+   "choices": [
+    {
+     "id": "c1",
+     "traits": {
+      "locus": [
+       "external"
+      ],
+      "conflict": [
+       "compete"
+      ],
+      "bigfive": [
+       "N+"
+      ]
+     }
+    },
+    {
+     "id": "c2",
+     "traits": {
+      "locus": [
+       "internal"
+      ],
+      "bigfive": [
+       "N-"
+      ],
+      "conflict": [
+       "accommodate"
+      ]
+     }
+    },
+    {
+     "id": "c3",
+     "traits": {
+      "conflict": [
+       "avoid"
+      ],
+      "bigfive": [
+       "E-",
+       "N+"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "f_fortune",
+   "axes": [
+    "where"
+   ],
+   "choices": [
+    {
+     "id": "c1",
+     "traits": {
+      "locus": [
+       "external"
+      ],
+      "regfocus": [
+       "prevention"
+      ],
+      "values": [
+       "TR"
+      ],
+      "bigfive": [
+       "N+"
+      ]
+     }
+    },
+    {
+     "id": "c2",
+     "traits": {
+      "locus": [
+       "internal"
+      ],
+      "regfocus": [
+       "promotion"
+      ],
+      "values": [
+       "SD"
+      ]
+     }
+    },
+    {
+     "id": "c3",
+     "traits": {
+      "locus": [
+       "internal"
+      ],
+      "regfocus": [
+       "prevention"
+      ],
+      "bigfive": [
+       "N-"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "f_partner",
+   "axes": [
+    "who",
+    "stake"
+   ],
+   "choices": [
+    {
+     "id": "c1",
+     "traits": {
+      "regfocus": [
+       "promotion"
+      ],
+      "values": [
+       "PO"
+      ],
+      "bigfive": [
+       "O+",
+       "N-"
+      ]
+     }
+    },
+    {
+     "id": "c2",
+     "traits": {
+      "regfocus": [
+       "prevention"
+      ],
+      "values": [
+       "SE"
+      ],
+      "bigfive": [
+       "N+"
+      ]
+     }
+    },
+    {
+     "id": "c3",
+     "traits": {
+      "regfocus": [
+       "prevention"
+      ],
+      "bigfive": [
+       "N+"
+      ],
+      "conflict": [
+       "compromise"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "f_new_dish",
+   "axes": [
+    "who"
+   ],
+   "choices": [
+    {
+     "id": "c1",
+     "traits": {
+      "bigfive": [
+       "O+"
+      ],
+      "values": [
+       "HE"
+      ]
+     }
+    },
+    {
+     "id": "c2",
+     "traits": {
+      "bigfive": [
+       "O-"
+      ],
+      "values": [
+       "TR"
+      ]
+     }
+    },
+    {
+     "id": "c3",
+     "traits": {
+      "holland": [
+       "I"
+      ],
+      "values": [
+       "SD"
+      ],
+      "bigfive": [
+       "O+"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "f_festival",
+   "axes": [
+    "where"
+   ],
+   "choices": [
+    {
+     "id": "c1",
+     "traits": {
+      "holland": [
+       "A"
+      ],
+      "bigfive": [
+       "O+",
+       "E-"
+      ]
+     }
+    },
+    {
+     "id": "c2",
+     "traits": {
+      "holland": [
+       "S"
+      ],
+      "bigfive": [
+       "E+"
+      ]
+     }
+    },
+    {
+     "id": "c3",
+     "traits": {
+      "holland": [
+       "C"
+      ],
+      "bigfive": [
+       "C+",
+       "E-"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "f_tool",
+   "axes": [
+    "who"
+   ],
+   "choices": [
+    {
+     "id": "c1",
+     "traits": {
+      "holland": [
+       "R"
+      ],
+      "values": [
+       "BE"
+      ],
+      "bigfive": [
+       "E-"
+      ]
+     }
+    },
+    {
+     "id": "c2",
+     "traits": {
+      "holland": [
+       "I"
+      ],
+      "bigfive": [
+       "O+"
+      ],
+      "values": [
+       "SD"
+      ]
+     }
+    },
+    {
+     "id": "c3",
+     "traits": {
+      "holland": [
+       "E"
+      ],
+      "bigfive": [
+       "E+"
+      ],
+      "values": [
+       "BE"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "f_letter",
+   "axes": [
+    "who"
+   ],
+   "choices": [
+    {
+     "id": "c1",
+     "traits": {
+      "holland": [
+       "S"
+      ],
+      "moral": [
+       "care"
+      ]
+     }
+    },
+    {
+     "id": "c2",
+     "traits": {
+      "holland": [
+       "A"
+      ],
+      "bigfive": [
+       "O+"
+      ]
+     }
+    },
+    {
+     "id": "c3",
+     "traits": {
+      "holland": [
+       "C"
+      ],
+      "bigfive": [
+       "C+"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "f_shop_watch",
+   "axes": [
+    "stake"
+   ],
+   "choices": [
+    {
+     "id": "c1",
+     "traits": {
+      "holland": [
+       "E"
+      ],
+      "regfocus": [
+       "promotion"
+      ],
+      "bigfive": [
+       "E+",
+       "C+"
+      ]
+     }
+    },
+    {
+     "id": "c2",
+     "traits": {
+      "holland": [
+       "C"
+      ],
+      "regfocus": [
+       "prevention"
+      ],
+      "bigfive": [
+       "C+"
+      ]
+     }
+    },
+    {
+     "id": "c3",
+     "traits": {
+      "values": [
+       "HE"
+      ],
+      "bigfive": [
+       "C-"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "f_herb",
+   "axes": [
+    "who"
+   ],
+   "choices": [
+    {
+     "id": "c1",
+     "traits": {
+      "holland": [
+       "I"
+      ],
+      "bigfive": [
+       "O+"
+      ]
+     }
+    },
+    {
+     "id": "c2",
+     "traits": {
+      "holland": [
+       "E"
+      ],
+      "regfocus": [
+       "promotion"
+      ],
+      "values": [
+       "PO"
+      ]
+     }
+    },
+    {
+     "id": "c3",
+     "traits": {
+      "holland": [
+       "S"
+      ],
+      "moral": [
+       "care"
+      ],
+      "values": [
+       "BE"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "f_bridge",
+   "axes": [
+    "who"
+   ],
+   "choices": [
+    {
+     "id": "c1",
+     "traits": {
+      "holland": [
+       "R"
+      ],
+      "locus": [
+       "internal"
+      ],
+      "bigfive": [
+       "E-"
+      ]
+     }
+    },
+    {
+     "id": "c2",
+     "traits": {
+      "holland": [
+       "C"
+      ],
+      "moral": [
+       "authority"
+      ],
+      "locus": [
+       "external"
+      ]
+     }
+    },
+    {
+     "id": "c3",
+     "traits": {
+      "holland": [
+       "E"
+      ],
+      "bigfive": [
+       "E+"
+      ],
+      "locus": [
+       "internal"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "f_song",
+   "axes": [
+    "where"
+   ],
+   "choices": [
+    {
+     "id": "c1",
+     "traits": {
+      "holland": [
+       "A"
+      ],
+      "bigfive": [
+       "O+",
+       "E+"
+      ],
+      "sensation": [
+       "DIS+"
+      ],
+      "values": [
+       "ST"
+      ]
+     }
+    },
+    {
+     "id": "c2",
+     "traits": {
+      "bigfive": [
+       "E-",
+       "N+"
+      ],
+      "sensation": [
+       "DIS-"
+      ]
+     }
+    },
+    {
+     "id": "c3",
+     "traits": {
+      "holland": [
+       "S"
+      ],
+      "bigfive": [
+       "E+"
+      ],
+      "values": [
+       "HE"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "f_learn",
+   "axes": [
+    "who"
+   ],
+   "choices": [
+    {
+     "id": "c1",
+     "traits": {
+      "holland": [
+       "R"
+      ],
+      "regfocus": [
+       "prevention"
+      ],
+      "values": [
+       "SE"
+      ],
+      "bigfive": [
+       "O-"
+      ]
+     }
+    },
+    {
+     "id": "c2",
+     "traits": {
+      "holland": [
+       "I"
+      ],
+      "bigfive": [
+       "O+"
+      ],
+      "values": [
+       "SD"
+      ]
+     }
+    },
+    {
+     "id": "c3",
+     "traits": {
+      "holland": [
+       "E"
+      ],
+      "regfocus": [
+       "promotion"
+      ],
+      "values": [
+       "AC"
+      ],
+      "bigfive": [
+       "O-"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "f_storeroom",
+   "axes": [
+    "stake"
+   ],
+   "choices": [
+    {
+     "id": "c1",
+     "traits": {
+      "holland": [
+       "C"
+      ],
+      "bigfive": [
+       "C+"
+      ]
+     }
+    },
+    {
+     "id": "c2",
+     "traits": {
+      "holland": [
+       "R"
+      ],
+      "bigfive": [
+       "C-"
+      ]
+     }
+    },
+    {
+     "id": "c3",
+     "traits": {
+      "holland": [
+       "E"
+      ],
+      "bigfive": [
+       "E+"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "f_stall",
+   "axes": [
+    "where"
+   ],
+   "choices": [
+    {
+     "id": "c1",
+     "traits": {
+      "holland": [
+       "A"
+      ],
+      "values": [
+       "SD"
+      ],
+      "bigfive": [
+       "O+"
+      ]
+     }
+    },
+    {
+     "id": "c2",
+     "traits": {
+      "holland": [
+       "E"
+      ],
+      "values": [
+       "AC"
+      ],
+      "bigfive": [
+       "E+",
+       "O-"
+      ]
+     }
+    },
+    {
+     "id": "c3",
+     "traits": {
+      "holland": [
+       "R"
+      ],
+      "values": [
+       "SE"
+      ],
+      "regfocus": [
+       "prevention"
+      ],
+      "bigfive": [
+       "O-"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "f_wrong_order",
+   "axes": [
+    "who"
+   ],
+   "choices": [
+    {
+     "id": "c1",
+     "traits": {
+      "conflict": [
+       "compete"
+      ],
+      "bigfive": [
+       "A-"
+      ]
+     }
+    },
+    {
+     "id": "c2",
+     "traits": {
+      "conflict": [
+       "accommodate"
+      ],
+      "bigfive": [
+       "A+"
+      ]
+     }
+    },
+    {
+     "id": "c3",
+     "traits": {
+      "conflict": [
+       "collaborate"
+      ],
+      "bigfive": [
+       "C+"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "f_borrowed",
+   "axes": [
+    "who"
+   ],
+   "choices": [
+    {
+     "id": "c1",
+     "traits": {
+      "conflict": [
+       "compete"
+      ],
+      "moral": [
+       "fairness"
+      ],
+      "bigfive": [
+       "A-"
+      ]
+     }
+    },
+    {
+     "id": "c2",
+     "traits": {
+      "conflict": [
+       "accommodate"
+      ],
+      "moral": [
+       "care"
+      ],
+      "bigfive": [
+       "A+"
+      ]
+     }
+    },
+    {
+     "id": "c3",
+     "traits": {
+      "conflict": [
+       "avoid"
+      ],
+      "bigfive": [
+       "N+"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "f_split_pay",
+   "axes": [
+    "who"
+   ],
+   "choices": [
+    {
+     "id": "c1",
+     "traits": {
+      "conflict": [
+       "compete"
+      ],
+      "moral": [
+       "fairness"
+      ],
+      "bigfive": [
+       "A-"
+      ]
+     }
+    },
+    {
+     "id": "c2",
+     "traits": {
+      "conflict": [
+       "compromise"
+      ],
+      "bigfive": [
+       "A+"
+      ]
+     }
+    },
+    {
+     "id": "c3",
+     "traits": {
+      "conflict": [
+       "accommodate"
+      ],
+      "moral": [
+       "care"
+      ],
+      "values": [
+       "BE"
+      ],
+      "bigfive": [
+       "A+"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "f_seat",
+   "axes": [
+    "where"
+   ],
+   "choices": [
+    {
+     "id": "c1",
+     "traits": {
+      "conflict": [
+       "compete"
+      ],
+      "moral": [
+       "fairness"
+      ],
+      "bigfive": [
+       "A-"
+      ]
+     }
+    },
+    {
+     "id": "c2",
+     "traits": {
+      "conflict": [
+       "avoid"
+      ],
+      "regfocus": [
+       "prevention"
+      ],
+      "bigfive": [
+       "E-"
+      ]
+     }
+    },
+    {
+     "id": "c3",
+     "traits": {
+      "conflict": [
+       "collaborate"
+      ],
+      "bigfive": [
+       "A+"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "f_price",
+   "axes": [
+    "who",
+    "where"
+   ],
+   "choices": [
+    {
+     "id": "c1",
+     "traits": {
+      "conflict": [
+       "compete"
+      ],
+      "honesty": [
+       "H-"
+      ],
+      "bigfive": [
+       "A-"
+      ]
+     }
+    },
+    {
+     "id": "c2",
+     "traits": {
+      "conflict": [
+       "accommodate"
+      ],
+      "bigfive": [
+       "A+"
+      ]
+     }
+    },
+    {
+     "id": "c3",
+     "traits": {
+      "conflict": [
+       "compromise"
+      ],
+      "holland": [
+       "E"
+      ],
+      "bigfive": [
+       "A-"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "f_lazy_mate",
+   "axes": [
+    "who"
+   ],
+   "choices": [
+    {
+     "id": "c1",
+     "traits": {
+      "conflict": [
+       "compete"
+      ],
+      "moral": [
+       "authority"
+      ],
+      "bigfive": [
+       "A-"
+      ]
+     }
+    },
+    {
+     "id": "c2",
+     "traits": {
+      "conflict": [
+       "accommodate"
+      ],
+      "bigfive": [
+       "A+"
+      ]
+     }
+    },
+    {
+     "id": "c3",
+     "traits": {
+      "conflict": [
+       "collaborate"
+      ],
+      "moral": [
+       "fairness"
+      ],
+      "bigfive": [
+       "A+"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "f_stall_spot",
+   "axes": [
+    "who"
+   ],
+   "choices": [
+    {
+     "id": "c1",
+     "traits": {
+      "conflict": [
+       "compete"
+      ],
+      "bigfive": [
+       "E+",
+       "A-"
+      ],
+      "values": [
+       "PO"
+      ]
+     }
+    },
+    {
+     "id": "c2",
+     "traits": {
+      "conflict": [
+       "compromise"
+      ],
+      "bigfive": [
+       "A+"
+      ]
+     }
+    },
+    {
+     "id": "c3",
+     "traits": {
+      "conflict": [
+       "collaborate"
+      ],
+      "bigfive": [
+       "O+",
+       "A+"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "f_drunk",
+   "axes": [
+    "where"
+   ],
+   "choices": [
+    {
+     "id": "c1",
+     "traits": {
+      "conflict": [
+       "compete"
+      ],
+      "bigfive": [
+       "N+"
+      ]
+     }
+    },
+    {
+     "id": "c2",
+     "traits": {
+      "conflict": [
+       "avoid"
+      ],
+      "bigfive": [
+       "N-"
+      ]
+     }
+    },
+    {
+     "id": "c3",
+     "traits": {
+      "conflict": [
+       "accommodate"
+      ],
+      "bigfive": [
+       "A+",
+       "N-"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "f_cliff_herb",
+   "axes": [
+    "who"
+   ],
+   "choices": [
+    {
+     "id": "c1",
+     "traits": {
+      "sensation": [
+       "TAS+"
+      ],
+      "regfocus": [
+       "promotion"
+      ]
+     }
+    },
+    {
+     "id": "c2",
+     "traits": {
+      "sensation": [
+       "TAS-"
+      ],
+      "regfocus": [
+       "prevention"
+      ]
+     }
+    },
+    {
+     "id": "c3",
+     "traits": {
+      "sensation": [
+       "TAS-"
+      ],
+      "holland": [
+       "R"
+      ],
+      "locus": [
+       "internal"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "f_wild_horse",
+   "axes": [
+    "who"
+   ],
+   "choices": [
+    {
+     "id": "c1",
+     "traits": {
+      "sensation": [
+       "TAS+"
+      ],
+      "values": [
+       "ST"
+      ]
+     }
+    },
+    {
+     "id": "c2",
+     "traits": {
+      "sensation": [
+       "TAS-"
+      ],
+      "values": [
+       "SE"
+      ]
+     }
+    },
+    {
+     "id": "c3",
+     "traits": {
+      "sensation": [
+       "TAS-"
+      ],
+      "bigfive": [
+       "C+"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "f_river",
+   "axes": [
+    "stake"
+   ],
+   "choices": [
+    {
+     "id": "c1",
+     "traits": {
+      "sensation": [
+       "TAS+"
+      ],
+      "regfocus": [
+       "promotion"
+      ]
+     }
+    },
+    {
+     "id": "c2",
+     "traits": {
+      "sensation": [
+       "TAS-"
+      ],
+      "regfocus": [
+       "prevention"
+      ]
+     }
+    },
+    {
+     "id": "c3",
+     "traits": {
+      "regfocus": [
+       "promotion"
+      ],
+      "locus": [
+       "internal"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "f_drink_bet",
+   "axes": [
+    "where"
+   ],
+   "choices": [
+    {
+     "id": "c1",
+     "traits": {
+      "sensation": [
+       "DIS+"
+      ],
+      "values": [
+       "ST"
+      ],
+      "bigfive": [
+       "E+",
+       "C-"
+      ]
+     }
+    },
+    {
+     "id": "c2",
+     "traits": {
+      "sensation": [
+       "DIS-"
+      ],
+      "values": [
+       "SE"
+      ],
+      "bigfive": [
+       "E-"
+      ]
+     }
+    },
+    {
+     "id": "c3",
+     "traits": {
+      "sensation": [
+       "DIS-"
+      ],
+      "values": [
+       "HE"
+      ],
+      "bigfive": [
+       "E+",
+       "C-"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "f_back_market",
+   "axes": [
+    "who"
+   ],
+   "choices": [
+    {
+     "id": "c1",
+     "traits": {
+      "sensation": [
+       "DIS+"
+      ],
+      "values": [
+       "ST"
+      ],
+      "bigfive": [
+       "C-",
+       "O+"
+      ]
+     }
+    },
+    {
+     "id": "c2",
+     "traits": {
+      "sensation": [
+       "DIS-"
+      ],
+      "values": [
+       "CO"
+      ],
+      "moral": [
+       "authority"
+      ],
+      "bigfive": [
+       "O-"
+      ]
+     }
+    },
+    {
+     "id": "c3",
+     "traits": {
+      "values": [
+       "SD"
+      ],
+      "bigfive": [
+       "O+"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "f_hidden_path",
+   "axes": [
+    "who"
+   ],
+   "choices": [
+    {
+     "id": "c1",
+     "traits": {
+      "sensation": [
+       "TAS+"
+      ],
+      "bigfive": [
+       "O+"
+      ],
+      "values": [
+       "ST"
+      ]
+     }
+    },
+    {
+     "id": "c2",
+     "traits": {
+      "sensation": [
+       "TAS-"
+      ],
+      "bigfive": [
+       "O-"
+      ]
+     }
+    },
+    {
+     "id": "c3",
+     "traits": {
+      "bigfive": [
+       "C+"
+      ],
+      "holland": [
+       "I"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "f_party",
+   "axes": [
+    "who"
+   ],
+   "choices": [
+    {
+     "id": "c1",
+     "traits": {
+      "sensation": [
+       "DIS+"
+      ],
+      "bigfive": [
+       "E+"
+      ],
+      "values": [
+       "HE"
+      ]
+     }
+    },
+    {
+     "id": "c2",
+     "traits": {
+      "sensation": [
+       "DIS-"
+      ],
+      "bigfive": [
+       "E-"
+      ]
+     }
+    },
+    {
+     "id": "c3",
+     "traits": {
+      "sensation": [
+       "DIS-"
+      ],
+      "bigfive": [
+       "E-",
+       "N+"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "f_roof_jump",
+   "axes": [
+    "who"
+   ],
+   "choices": [
+    {
+     "id": "c1",
+     "traits": {
+      "sensation": [
+       "TAS+"
+      ],
+      "values": [
+       "ST"
+      ],
+      "bigfive": [
+       "C-"
+      ]
+     }
+    },
+    {
+     "id": "c2",
+     "traits": {
+      "sensation": [
+       "TAS-"
+      ],
+      "values": [
+       "SE"
+      ],
+      "regfocus": [
+       "prevention"
+      ],
+      "bigfive": [
+       "C+"
+      ]
+     }
+    },
+    {
+     "id": "c3",
+     "traits": {
+      "sensation": [
+       "TAS+"
+      ],
+      "bigfive": [
+       "C+"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "f_mask_dance",
+   "axes": [
+    "where"
+   ],
+   "choices": [
+    {
+     "id": "c1",
+     "traits": {
+      "sensation": [
+       "DIS+"
+      ],
+      "bigfive": [
+       "E+"
+      ],
+      "holland": [
+       "A"
+      ],
+      "values": [
+       "ST"
+      ]
+     }
+    },
+    {
+     "id": "c2",
+     "traits": {
+      "sensation": [
+       "DIS-"
+      ],
+      "bigfive": [
+       "E-"
+      ]
+     }
+    },
+    {
+     "id": "c3",
+     "traits": {
+      "sensation": [
+       "DIS-"
+      ],
+      "bigfive": [
+       "E-"
+      ],
+      "regfocus": [
+       "prevention"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "f_exam",
+   "axes": [
+    "stake"
+   ],
+   "choices": [
+    {
+     "id": "c1",
+     "traits": {
+      "locus": [
+       "internal"
+      ],
+      "bigfive": [
+       "C+"
+      ]
+     }
+    },
+    {
+     "id": "c2",
+     "traits": {
+      "locus": [
+       "external"
+      ],
+      "bigfive": [
+       "C-",
+       "N-"
+      ]
+     }
+    },
+    {
+     "id": "c3",
+     "traits": {
+      "locus": [
+       "external"
+      ],
+      "honesty": [
+       "H-"
+      ],
+      "values": [
+       "PO"
+      ],
+      "bigfive": [
+       "C-"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "f_bad_luck",
+   "axes": [
+    "who"
+   ],
+   "choices": [
+    {
+     "id": "c1",
+     "traits": {
+      "locus": [
+       "external"
+      ],
+      "values": [
+       "TR"
+      ],
+      "bigfive": [
+       "O-",
+       "N+"
+      ]
+     }
+    },
+    {
+     "id": "c2",
+     "traits": {
+      "locus": [
+       "internal"
+      ],
+      "values": [
+       "SD"
+      ],
+      "bigfive": [
+       "N-"
+      ]
+     }
+    },
+    {
+     "id": "c3",
+     "traits": {
+      "locus": [
+       "external"
+      ],
+      "bigfive": [
+       "N-"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "f_praise",
+   "axes": [
+    "who"
+   ],
+   "choices": [
+    {
+     "id": "c1",
+     "traits": {
+      "locus": [
+       "internal"
+      ],
+      "bigfive": [
+       "C+"
+      ]
+     }
+    },
+    {
+     "id": "c2",
+     "traits": {
+      "locus": [
+       "internal"
+      ],
+      "honesty": [
+       "H-"
+      ],
+      "bigfive": [
+       "E+"
+      ]
+     }
+    },
+    {
+     "id": "c3",
+     "traits": {
+      "locus": [
+       "external"
+      ],
+      "honesty": [
+       "H+"
+      ],
+      "bigfive": [
+       "A+"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "f_lost_job",
+   "axes": [
+    "who"
+   ],
+   "choices": [
+    {
+     "id": "c1",
+     "traits": {
+      "locus": [
+       "internal"
+      ],
+      "regfocus": [
+       "promotion"
+      ]
+     }
+    },
+    {
+     "id": "c2",
+     "traits": {
+      "locus": [
+       "external"
+      ],
+      "bigfive": [
+       "N+"
+      ]
+     }
+    },
+    {
+     "id": "c3",
+     "traits": {
+      "locus": [
+       "internal"
+      ],
+      "bigfive": [
+       "N-"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "f_omen",
+   "axes": [
+    "where"
+   ],
+   "choices": [
+    {
+     "id": "c1",
+     "traits": {
+      "locus": [
+       "external"
+      ],
+      "regfocus": [
+       "prevention"
+      ],
+      "bigfive": [
+       "N+"
+      ],
+      "values": [
+       "TR"
+      ]
+     }
+    },
+    {
+     "id": "c2",
+     "traits": {
+      "locus": [
+       "internal"
+      ],
+      "bigfive": [
+       "N-"
+      ]
+     }
+    },
+    {
+     "id": "c3",
+     "traits": {
+      "holland": [
+       "I"
+      ],
+      "bigfive": [
+       "O+"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "f_wrestle",
+   "axes": [
+    "who"
+   ],
+   "choices": [
+    {
+     "id": "c1",
+     "traits": {
+      "locus": [
+       "external"
+      ],
+      "bigfive": [
+       "N-"
+      ]
+     }
+    },
+    {
+     "id": "c2",
+     "traits": {
+      "locus": [
+       "internal"
+      ],
+      "values": [
+       "AC"
+      ]
+     }
+    },
+    {
+     "id": "c3",
+     "traits": {
+      "locus": [
+       "external"
+      ],
+      "bigfive": [
+       "A+"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "f_scale",
+   "axes": [
+    "who"
+   ],
+   "choices": [
+    {
+     "id": "c1",
+     "traits": {
+      "honesty": [
+       "H-"
+      ],
+      "moral": [
+       "authority"
+      ],
+      "values": [
+       "CO"
+      ]
+     }
+    },
+    {
+     "id": "c2",
+     "traits": {
+      "honesty": [
+       "H+"
+      ],
+      "moral": [
+       "fairness"
+      ],
+      "values": [
+       "UN"
+      ]
+     }
+    },
+    {
+     "id": "c3",
+     "traits": {
+      "honesty": [
+       "H+"
+      ],
+      "moral": [
+       "care"
+      ],
+      "conflict": [
+       "avoid"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "f_credit",
+   "axes": [
+    "who"
+   ],
+   "choices": [
+    {
+     "id": "c1",
+     "traits": {
+      "honesty": [
+       "H+"
+      ],
+      "moral": [
+       "fairness"
+      ]
+     }
+    },
+    {
+     "id": "c2",
+     "traits": {
+      "honesty": [
+       "H-"
+      ],
+      "values": [
+       "AC"
+      ]
+     }
+    },
+    {
+     "id": "c3",
+     "traits": {
+      "moral": [
+       "loyalty"
+      ],
+      "values": [
+       "BE"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "f_rich_guest",
+   "axes": [
+    "where"
+   ],
+   "choices": [
+    {
+     "id": "c1",
+     "traits": {
+      "honesty": [
+       "H+"
+      ],
+      "moral": [
+       "fairness"
+      ]
+     }
+    },
+    {
+     "id": "c2",
+     "traits": {
+      "honesty": [
+       "H-"
+      ],
+      "values": [
+       "PO"
+      ]
+     }
+    },
+    {
+     "id": "c3",
+     "traits": {
+      "moral": [
+       "care"
+      ],
+      "values": [
+       "UN"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "f_fake_goods",
+   "axes": [
+    "who"
+   ],
+   "choices": [
+    {
+     "id": "c1",
+     "traits": {
+      "honesty": [
+       "H+"
+      ],
+      "moral": [
+       "fairness"
+      ]
+     }
+    },
+    {
+     "id": "c2",
+     "traits": {
+      "honesty": [
+       "H-"
+      ],
+      "regfocus": [
+       "prevention"
+      ]
+     }
+    },
+    {
+     "id": "c3",
+     "traits": {
+      "conflict": [
+       "compete"
+      ],
+      "locus": [
+       "internal"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "f_ledger_secret",
+   "axes": [
+    "who"
+   ],
+   "choices": [
+    {
+     "id": "c1",
+     "traits": {
+      "honesty": [
+       "H+"
+      ],
+      "moral": [
+       "loyalty"
+      ]
+     }
+    },
+    {
+     "id": "c2",
+     "traits": {
+      "honesty": [
+       "H-"
+      ],
+      "values": [
+       "PO"
+      ]
+     }
+    },
+    {
+     "id": "c3",
+     "traits": {
+      "moral": [
+       "loyalty"
+      ],
+      "values": [
+       "CO"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "f_bribe",
+   "axes": [
+    "where"
+   ],
+   "choices": [
+    {
+     "id": "c1",
+     "traits": {
+      "honesty": [
+       "H-"
+      ],
+      "regfocus": [
+       "promotion"
+      ]
+     }
+    },
+    {
+     "id": "c2",
+     "traits": {
+      "honesty": [
+       "H+"
+      ],
+      "moral": [
+       "fairness"
+      ],
+      "values": [
+       "CO"
+      ]
+     }
+    },
+    {
+     "id": "c3",
+     "traits": {
+      "moral": [
+       "fairness"
+      ],
+      "conflict": [
+       "compete"
+      ],
+      "values": [
+       "UN"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "f_shrine",
+   "axes": [
+    "where"
+   ],
+   "choices": [
+    {
+     "id": "c1",
+     "traits": {
+      "moral": [
+       "sanctity"
+      ],
+      "values": [
+       "TR"
+      ],
+      "bigfive": [
+       "O-"
+      ]
+     }
+    },
+    {
+     "id": "c2",
+     "traits": {
+      "values": [
+       "HE"
+      ],
+      "bigfive": [
+       "C-",
+       "O+"
+      ]
+     }
+    },
+    {
+     "id": "c3",
+     "traits": {
+      "moral": [
+       "care"
+      ],
+      "values": [
+       "BE"
+      ],
+      "bigfive": [
+       "O+"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "f_theft_seen",
+   "axes": [
+    "who"
+   ],
+   "choices": [
+    {
+     "id": "c1",
+     "traits": {
+      "moral": [
+       "loyalty"
+      ],
+      "conflict": [
+       "avoid"
+      ]
+     }
+    },
+    {
+     "id": "c2",
+     "traits": {
+      "moral": [
+       "authority"
+      ],
+      "values": [
+       "CO"
+      ]
+     }
+    },
+    {
+     "id": "c3",
+     "traits": {
+      "moral": [
+       "fairness",
+       "loyalty"
+      ],
+      "conflict": [
+       "collaborate"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "f_hometown",
+   "axes": [
+    "who"
+   ],
+   "choices": [
+    {
+     "id": "c1",
+     "traits": {
+      "moral": [
+       "loyalty"
+      ],
+      "values": [
+       "BE"
+      ]
+     }
+    },
+    {
+     "id": "c2",
+     "traits": {
+      "values": [
+       "AC"
+      ],
+      "regfocus": [
+       "promotion"
+      ]
+     }
+    },
+    {
+     "id": "c3",
+     "traits": {
+      "moral": [
+       "loyalty"
+      ],
+      "regfocus": [
+       "prevention"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "f_elder_order",
+   "axes": [
+    "who"
+   ],
+   "choices": [
+    {
+     "id": "c1",
+     "traits": {
+      "moral": [
+       "authority"
+      ],
+      "conflict": [
+       "accommodate"
+      ],
+      "values": [
+       "CO",
+       "TR"
+      ],
+      "bigfive": [
+       "A+"
+      ]
+     }
+    },
+    {
+     "id": "c2",
+     "traits": {
+      "moral": [
+       "fairness"
+      ],
+      "conflict": [
+       "compete"
+      ],
+      "bigfive": [
+       "A-"
+      ]
+     }
+    },
+    {
+     "id": "c3",
+     "traits": {
+      "conflict": [
+       "collaborate"
+      ],
+      "bigfive": [
+       "E+"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "f_grave",
+   "axes": [
+    "where"
+   ],
+   "choices": [
+    {
+     "id": "c1",
+     "traits": {
+      "moral": [
+       "sanctity"
+      ],
+      "values": [
+       "TR"
+      ]
+     }
+    },
+    {
+     "id": "c2",
+     "traits": {
+      "bigfive": [
+       "N+"
+      ],
+      "moral": [
+       "sanctity"
+      ]
+     }
+    },
+    {
+     "id": "c3",
+     "traits": {
+      "moral": [
+       "authority",
+       "sanctity"
+      ],
+      "bigfive": [
+       "C+"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "f_well",
+   "axes": [
+    "who"
+   ],
+   "choices": [
+    {
+     "id": "c1",
+     "traits": {
+      "moral": [
+       "sanctity"
+      ],
+      "holland": [
+       "R"
+      ]
+     }
+    },
+    {
+     "id": "c2",
+     "traits": {
+      "moral": [
+       "fairness"
+      ],
+      "conflict": [
+       "compete"
+      ]
+     }
+    },
+    {
+     "id": "c3",
+     "traits": {
+      "moral": [
+       "care"
+      ],
+      "holland": [
+       "S"
+      ],
+      "values": [
+       "UN"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "f_footsteps",
+   "axes": [
+    "where"
+   ],
+   "choices": [
+    {
+     "id": "c1",
+     "traits": {
+      "bigfive": [
+       "N+"
+      ],
+      "regfocus": [
+       "prevention"
+      ]
+     }
+    },
+    {
+     "id": "c2",
+     "traits": {
+      "bigfive": [
+       "N-"
+      ],
+      "sensation": [
+       "TAS+"
+      ]
+     }
+    },
+    {
+     "id": "c3",
+     "traits": {
+      "bigfive": [
+       "N+"
+      ],
+      "conflict": [
+       "avoid"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "f_teach_child",
+   "axes": [
+    "who"
+   ],
+   "choices": [
+    {
+     "id": "c1",
+     "traits": {
+      "holland": [
+       "A"
+      ],
+      "bigfive": [
+       "O+"
+      ]
+     }
+    },
+    {
+     "id": "c2",
+     "traits": {
+      "holland": [
+       "C"
+      ],
+      "bigfive": [
+       "C+"
+      ]
+     }
+    },
+    {
+     "id": "c3",
+     "traits": {
+      "holland": [
+       "S"
+      ],
+      "bigfive": [
+       "A+"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "f_wall",
+   "axes": [
+    "where"
+   ],
+   "choices": [
+    {
+     "id": "c1",
+     "traits": {
+      "holland": [
+       "A"
+      ],
+      "values": [
+       "SD"
+      ]
+     }
+    },
+    {
+     "id": "c2",
+     "traits": {
+      "holland": [
+       "R"
+      ],
+      "values": [
+       "SE"
+      ]
+     }
+    },
+    {
+     "id": "c3",
+     "traits": {
+      "holland": [
+       "C"
+      ],
+      "conflict": [
+       "compromise"
+      ],
+      "moral": [
+       "fairness"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "f_lost_child",
+   "axes": [
+    "where"
+   ],
+   "choices": [
+    {
+     "id": "c1",
+     "traits": {
+      "holland": [
+       "S"
+      ],
+      "moral": [
+       "care"
+      ]
+     }
+    },
+    {
+     "id": "c2",
+     "traits": {
+      "holland": [
+       "C"
+      ],
+      "moral": [
+       "authority"
+      ]
+     }
+    },
+    {
+     "id": "c3",
+     "traits": {
+      "holland": [
+       "E"
+      ],
+      "bigfive": [
+       "E+"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "f_shared_room",
+   "axes": [
+    "who"
+   ],
+   "choices": [
+    {
+     "id": "c1",
+     "traits": {
+      "conflict": [
+       "compete"
+      ],
+      "bigfive": [
+       "A-"
+      ]
+     }
+    },
+    {
+     "id": "c2",
+     "traits": {
+      "conflict": [
+       "compromise"
+      ],
+      "moral": [
+       "fairness"
+      ]
+     }
+    },
+    {
+     "id": "c3",
+     "traits": {
+      "conflict": [
+       "avoid"
+      ],
+      "bigfive": [
+       "E-"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "f_bonus",
+   "axes": [
+    "who"
+   ],
+   "choices": [
+    {
+     "id": "c1",
+     "traits": {
+      "values": [
+       "HE"
+      ],
+      "sensation": [
+       "DIS+"
+      ],
+      "bigfive": [
+       "C-"
+      ]
+     }
+    },
+    {
+     "id": "c2",
+     "traits": {
+      "values": [
+       "SE"
+      ],
+      "regfocus": [
+       "prevention"
+      ]
+     }
+    },
+    {
+     "id": "c3",
+     "traits": {
+      "values": [
+       "UN"
+      ],
+      "moral": [
+       "care"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "f_rival_inn",
+   "axes": [
+    "who"
+   ],
+   "choices": [
+    {
+     "id": "c1",
+     "traits": {
+      "moral": [
+       "loyalty"
+      ],
+      "values": [
+       "TR"
+      ],
+      "conflict": [
+       "accommodate"
+      ]
+     }
+    },
+    {
+     "id": "c2",
+     "traits": {
+      "values": [
+       "AC"
+      ],
+      "regfocus": [
+       "promotion"
+      ],
+      "conflict": [
+       "avoid"
+      ]
+     }
+    },
+    {
+     "id": "c3",
+     "traits": {
+      "honesty": [
+       "H+"
+      ],
+      "conflict": [
+       "collaborate"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "f_dropped_food",
+   "axes": [
+    "who"
+   ],
+   "choices": [
+    {
+     "id": "c1",
+     "traits": {
+      "moral": [
+       "sanctity"
+      ],
+      "bigfive": [
+       "C+"
+      ]
+     }
+    },
+    {
+     "id": "c2",
+     "traits": {
+      "honesty": [
+       "H-"
+      ],
+      "regfocus": [
+       "prevention"
+      ]
+     }
+    },
+    {
+     "id": "c3",
+     "traits": {
+      "honesty": [
+       "H+"
+      ],
+      "bigfive": [
+       "A+"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "f_sacred_tree",
+   "axes": [
+    "where"
+   ],
+   "choices": [
+    {
+     "id": "c1",
+     "traits": {
+      "moral": [
+       "sanctity"
+      ],
+      "values": [
+       "TR"
+      ]
+     }
+    },
+    {
+     "id": "c2",
+     "traits": {
+      "values": [
+       "SE"
+      ],
+      "regfocus": [
+       "prevention"
+      ]
+     }
+    },
+    {
+     "id": "c3",
+     "traits": {
+      "moral": [
+       "sanctity"
+      ],
+      "bigfive": [
+       "C+"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "f_m_spar",
+   "axes": [
+    "where"
+   ],
+   "choices": [
+    {
+     "id": "c1",
+     "traits": {
+      "sensation": [
+       "TAS+"
+      ],
+      "regfocus": [
+       "promotion"
+      ],
+      "conflict": [
+       "compete"
+      ]
+     }
+    },
+    {
+     "id": "c2",
+     "traits": {
+      "sensation": [
+       "TAS-"
+      ],
+      "regfocus": [
+       "prevention"
+      ],
+      "conflict": [
+       "avoid"
+      ]
+     }
+    },
+    {
+     "id": "c3",
+     "traits": {
+      "conflict": [
+       "compromise"
+      ],
+      "regfocus": [
+       "prevention"
+      ]
+     }
+    }
+   ],
+   "requiresStatus": [
+    "martial"
+   ]
+  },
+  {
+   "id": "f_m_bully",
+   "axes": [
+    "who",
+    "where"
+   ],
+   "choices": [
+    {
+     "id": "c1",
+     "traits": {
+      "conflict": [
+       "compete"
+      ],
+      "moral": [
+       "care"
+      ],
+      "sensation": [
+       "TAS+"
+      ]
+     }
+    },
+    {
+     "id": "c2",
+     "traits": {
+      "moral": [
+       "authority"
+      ],
+      "sensation": [
+       "TAS-"
+      ]
+     }
+    },
+    {
+     "id": "c3",
+     "traits": {
+      "moral": [
+       "care"
+      ],
+      "locus": [
+       "internal"
+      ]
+     }
+    }
+   ],
+   "requiresStatus": [
+    "martial"
+   ]
+  },
+  {
+   "id": "f_m_manual",
+   "axes": [
+    "where"
+   ],
+   "choices": [
+    {
+     "id": "c1",
+     "traits": {
+      "sensation": [
+       "DIS+"
+      ],
+      "values": [
+       "PO"
+      ],
+      "honesty": [
+       "H-"
+      ]
+     }
+    },
+    {
+     "id": "c2",
+     "traits": {
+      "moral": [
+       "loyalty"
+      ],
+      "honesty": [
+       "H+"
+      ]
+     }
+    },
+    {
+     "id": "c3",
+     "traits": {
+      "moral": [
+       "fairness"
+      ],
+      "honesty": [
+       "H+"
+      ],
+      "values": [
+       "UN"
+      ]
+     }
+    }
+   ],
+   "requiresStatus": [
+    "martial"
+   ]
+  },
+  {
+   "id": "f_m_training",
+   "axes": [
+    "stake"
+   ],
+   "choices": [
+    {
+     "id": "c1",
+     "traits": {
+      "moral": [
+       "authority"
+      ],
+      "values": [
+       "CO"
+      ],
+      "regfocus": [
+       "prevention"
+      ]
+     }
+    },
+    {
+     "id": "c2",
+     "traits": {
+      "bigfive": [
+       "C+"
+      ],
+      "values": [
+       "AC"
+      ]
+     }
+    },
+    {
+     "id": "c3",
+     "traits": {
+      "conflict": [
+       "collaborate"
+      ],
+      "honesty": [
+       "H+"
+      ]
+     }
+    }
+   ],
+   "requiresStatus": [
+    "martial"
+   ]
+  },
+  {
+   "id": "f_m_tourney",
+   "axes": [
+    "who"
+   ],
+   "choices": [
+    {
+     "id": "c1",
+     "traits": {
+      "values": [
+       "AC"
+      ],
+      "regfocus": [
+       "promotion"
+      ],
+      "sensation": [
+       "TAS+"
+      ]
+     }
+    },
+    {
+     "id": "c2",
+     "traits": {
+      "regfocus": [
+       "prevention"
+      ],
+      "values": [
+       "SE"
+      ],
+      "sensation": [
+       "TAS-"
+      ]
+     }
+    },
+    {
+     "id": "c3",
+     "traits": {
+      "values": [
+       "SD"
+      ],
+      "regfocus": [
+       "promotion"
+      ]
+     }
+    }
+   ],
+   "requiresStatus": [
+    "martial"
+   ]
+  },
+  {
+   "id": "f_m_fallen_foe",
+   "axes": [
+    "where"
+   ],
+   "choices": [
+    {
+     "id": "c1",
+     "traits": {
+      "moral": [
+       "care"
+      ],
+      "values": [
+       "UN"
+      ],
+      "bigfive": [
+       "A+"
+      ]
+     }
+    },
+    {
+     "id": "c2",
+     "traits": {
+      "moral": [
+       "authority"
+      ],
+      "values": [
+       "SE"
+      ]
+     }
+    },
+    {
+     "id": "c3",
+     "traits": {
+      "conflict": [
+       "avoid"
+      ],
+      "bigfive": [
+       "A-"
+      ]
+     }
+    }
+   ],
+   "requiresStatus": [
+    "martial"
+   ]
+  },
+  {
+   "id": "f_m_sect_talk",
+   "axes": [
+    "where"
+   ],
+   "choices": [
+    {
+     "id": "c1",
+     "traits": {
+      "moral": [
+       "loyalty"
+      ],
+      "values": [
+       "TR"
+      ]
+     }
+    },
+    {
+     "id": "c2",
+     "traits": {
+      "sensation": [
+       "DIS+"
+      ],
+      "bigfive": [
+       "C-"
+      ]
+     }
+    },
+    {
+     "id": "c3",
+     "traits": {
+      "honesty": [
+       "H-"
+      ],
+      "bigfive": [
+       "A-"
+      ]
+     }
+    }
+   ],
+   "requiresStatus": [
+    "martial"
+   ]
+  },
+  {
+   "id": "f_m_old_tomb",
+   "axes": [
+    "where"
+   ],
+   "choices": [
+    {
+     "id": "c1",
+     "traits": {
+      "sensation": [
+       "TAS+"
+      ],
+      "values": [
+       "PO"
+      ]
+     }
+    },
+    {
+     "id": "c2",
+     "traits": {
+      "moral": [
+       "sanctity"
+      ],
+      "values": [
+       "TR"
+      ],
+      "sensation": [
+       "TAS-"
+      ]
+     }
+    },
+    {
+     "id": "c3",
+     "traits": {
+      "moral": [
+       "sanctity"
+      ],
+      "bigfive": [
+       "O+"
+      ]
+     }
+    }
+   ],
+   "requiresStatus": [
+    "martial"
+   ]
+  },
+  {
+   "id": "f_e_ambush",
+   "axes": [
+    "where"
+   ],
+   "choices": [
+    {
+     "id": "c1",
+     "traits": {
+      "conflict": [
+       "compete"
+      ],
+      "sensation": [
+       "TAS+"
+      ],
+      "bigfive": [
+       "E+"
+      ]
+     }
+    },
+    {
+     "id": "c2",
+     "traits": {
+      "conflict": [
+       "compromise"
+      ],
+      "regfocus": [
+       "prevention"
+      ],
+      "values": [
+       "SE"
+      ]
+     }
+    },
+    {
+     "id": "c3",
+     "traits": {
+      "moral": [
+       "authority"
+      ],
+      "values": [
+       "CO"
+      ],
+      "bigfive": [
+       "C+"
+      ]
+     }
+    }
+   ],
+   "requiresStatus": [
+    "escort"
+   ]
+  },
+  {
+   "id": "f_e_cargo",
+   "axes": [
+    "who"
+   ],
+   "choices": [
+    {
+     "id": "c1",
+     "traits": {
+      "honesty": [
+       "H+"
+      ],
+      "moral": [
+       "authority"
+      ],
+      "bigfive": [
+       "C+"
+      ]
+     }
+    },
+    {
+     "id": "c2",
+     "traits": {
+      "conflict": [
+       "avoid"
+      ],
+      "regfocus": [
+       "prevention"
+      ]
+     }
+    },
+    {
+     "id": "c3",
+     "traits": {
+      "bigfive": [
+       "O+"
+      ],
+      "conflict": [
+       "collaborate"
+      ],
+      "holland": [
+       "I"
+      ]
+     }
+    }
+   ],
+   "requiresStatus": [
+    "escort"
+   ]
+  },
+  {
+   "id": "f_e_pay",
+   "axes": [
+    "who"
+   ],
+   "choices": [
+    {
+     "id": "c1",
+     "traits": {
+      "moral": [
+       "fairness"
+      ],
+      "conflict": [
+       "compete"
+      ],
+      "values": [
+       "UN"
+      ]
+     }
+    },
+    {
+     "id": "c2",
+     "traits": {
+      "moral": [
+       "care"
+      ],
+      "values": [
+       "BE"
+      ],
+      "conflict": [
+       "accommodate"
+      ]
+     }
+    },
+    {
+     "id": "c3",
+     "traits": {
+      "regfocus": [
+       "prevention"
+      ],
+      "conflict": [
+       "avoid"
+      ],
+      "values": [
+       "SE"
+      ]
+     }
+    }
+   ],
+   "requiresStatus": [
+    "escort"
+   ]
+  }
+ ],
+ "variants": {
+  "who": [
+   "merchant",
+   "elder",
+   "porter",
+   "stranger",
+   "regular",
+   "neighbor"
+  ],
+  "where": [
+   "inn",
+   "market",
+   "ferry",
+   "gate",
+   "village",
+   "road",
+   "smithy",
+   "yard",
+   "alley",
+   "hill",
+   "camp",
+   "bridge",
+   "hut",
+   "sect",
+   "peak"
+  ],
+  "stake": [
+   "wage",
+   "savings",
+   "job",
+   "trust",
+   "name",
+   "meal"
+  ]
+ },
+ "events": [
+  {
+   "id": "old_friends",
+   "char": "hermit",
+   "met": {
+    "innkeeper": 3
+   },
+   "reveals": [
+    [
+     "innkeeper",
+     "hermit"
+    ]
+   ]
+  },
+  {
+   "id": "martial_start",
+   "char": "hermit",
+   "met": {
+    "hermit": 2
+   },
+   "grants": "martial"
+  },
+  {
+   "id": "escort_job",
+   "char": "escort",
+   "minMeetings": 0,
+   "grants": "escort"
+  },
+  {
+   "id": "sect_gate",
+   "char": "sectleader",
+   "requiresStatus": [
+    "martial"
+   ]
+  },
+  {
+   "id": "demon_shadow",
+   "char": "demonlord",
+   "reveals": [
+    [
+     "demonlord",
+     "hermit"
+    ]
+   ]
+  }
+ ],
+ "links": [
+  [
+   "innkeeper",
+   "smith"
+  ],
+  [
+   "innkeeper",
+   "physiognomist"
+  ],
+  [
+   "physician",
+   "diviner"
+  ],
+  [
+   "escort",
+   "ronin"
+  ],
+  [
+   "strategist",
+   "sectleader"
+  ]
+ ]
+}

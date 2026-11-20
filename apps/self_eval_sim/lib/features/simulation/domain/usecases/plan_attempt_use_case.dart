@@ -5,9 +5,8 @@ import 'package:utils/utils.dart';
 import '../entities/accumulation.dart';
 import '../entities/catalog.dart';
 import '../entities/evaluation.dart';
+import '../policies/accumulation_step.dart';
 import '../policies/archetype_resolver.dart';
-import '../policies/manifestation_gauge.dart';
-import '../policies/material_selector.dart';
 import '../policies/personality_scorer.dart';
 import '../repositories/accumulation_repository.dart';
 
@@ -44,17 +43,15 @@ class PlanAttemptUseCase {
       at: _clock(),
       theoryId: theory?.id,
     );
-    final manifestation = _manifest(state, attempt, catalog);
-    final deepTheory = catalog.theoryById(manifestation?.theoryId);
-    final next = state.copyWith(
-      attempts: [...state.attempts, attempt],
-      manifestations: [...state.manifestations, ?manifestation],
-      gaugePermille: ManifestationGauge.next(
-        state.gaugePermille,
-        manifested: manifestation != null,
-        random: _random,
-      ),
+    final advance = AccumulationStep.advance(
+      state,
+      attempt,
+      theories: catalog.theories,
+      random: _random,
     );
+    final manifestation = advance.manifestation;
+    final next = advance.next;
+    final deepTheory = catalog.theoryById(manifestation?.theoryId);
     final saved = await _repository.save(next);
     return saved.map(
       (_) => AttemptPlan(
@@ -72,32 +69,6 @@ class PlanAttemptUseCase {
                 next.attempts,
               ),
       ),
-    );
-  }
-
-  ManifestationRecord? _manifest(
-    AccumulationState state,
-    AttemptRecord attempt,
-    ContentCatalog catalog,
-  ) {
-    if (!ManifestationGauge.roll(state.gaugePermille, _random)) return null;
-    final materials = MaterialSelector.select(
-      pastAttempts: state.attempts,
-      pastManifestations: state.manifestations,
-      random: _random,
-    );
-    if (materials.isEmpty) return null;
-    return ManifestationRecord(
-      attemptIndex: attempt.index,
-      form: _random.nextBool()
-          ? ManifestationForm.mixed
-          : ManifestationForm.separate,
-      materials: materials,
-      theoryId: TheoryPicker.pick(
-        catalog.theories,
-        _random,
-        avoid: attempt.theoryId,
-      )?.id,
     );
   }
 }

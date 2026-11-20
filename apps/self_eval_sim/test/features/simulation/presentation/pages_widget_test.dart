@@ -5,6 +5,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:self_eval_sim/features/simulation/domain/entities/accumulation.dart';
 import 'package:self_eval_sim/features/simulation/domain/entities/catalog.dart';
 import 'package:self_eval_sim/features/simulation/domain/entities/evaluation.dart';
+import 'package:self_eval_sim/features/simulation/domain/entities/quiz_question.dart';
+import 'package:self_eval_sim/features/simulation/domain/story/story_world.dart';
 import 'package:self_eval_sim/features/simulation/domain/repositories/narration_engine.dart';
 import 'package:self_eval_sim/features/simulation/domain/usecases/compose_result_use_case.dart';
 import 'package:self_eval_sim/features/simulation/domain/usecases/extend_result_use_case.dart';
@@ -12,11 +14,40 @@ import 'package:self_eval_sim/features/simulation/domain/usecases/plan_attempt_u
 import 'package:self_eval_sim/features/simulation/domain/usecases/start_attempt_use_case.dart';
 import 'package:self_eval_sim/features/simulation/presentation/attempt_page.dart';
 import 'package:self_eval_sim/features/simulation/presentation/bloc/attempt_bloc.dart';
+import 'package:self_eval_sim/features/simulation/presentation/flow/attempt_flow.dart';
 import 'package:self_eval_sim/features/simulation/presentation/home_page.dart';
 import 'package:utils/utils.dart';
 
 import '../../../support/fixtures.dart';
 import '../../../support/pump.dart';
+import '../../../support/story_fixtures.dart';
+
+/// 이름과 도입 문장만 가진 흐름. 어느 흐름으로 들어갔는지 화면으로 확인한다.
+class _NamedFlow implements AttemptFlow {
+  _NamedFlow(this.intro);
+
+  final List<String> intro;
+
+  @override
+  String get art => 'wuxia';
+
+  @override
+  Future<Result<({List<String> intro, List<QuizQuestion> questions})>> start() async => Success((
+        intro: intro,
+        questions: const [
+          QuizQuestion(id: 'q1', text: '흐름 질문', choices: [QuizChoice(id: 'c1', text: '흐름 선택')]),
+        ],
+      ));
+
+  @override
+  Future<Result<bool>> plan(List<String> choiceIds) async => const Success(false);
+
+  @override
+  Future<EvaluationResult> compose() => throw UnimplementedError();
+
+  @override
+  EvaluationResult extend(EvaluationResult result) => result;
+}
 
 class _Engine implements NarrationEngine {
   @override
@@ -60,12 +91,11 @@ void main() {
     testWidgets('콘텐츠 로드 실패 시 오류 문구', (tester) async {
       await tester.pumpLocalized(
         HomePage(
-          languageCode: 'en',
+          languageCode: 'ko',
           loadContent: (_) async => const ErrorResult(ParsingFailure()),
           onOpenChannel: (_, _, _) {},
           onOpenSettings: (_) {},
         ),
-        locale: 'en',
       );
       await tester.pumpAndSettle();
       expect(find.byKey(const Key('home_error')), findsOneWidget);
@@ -75,12 +105,14 @@ void main() {
   group('AttemptPage (실제 유스케이스 + 메모리 저장소)', () {
     Widget page(InMemoryAccumulationRepository repo, {required bool offer, List<bool>? adCalls}) => AttemptPage(
           createBloc: () => AttemptBloc(
-            channel: channel,
-            content: content,
-            startAttempt: StartAttemptUseCase(Random(1)),
-            planAttempt: PlanAttemptUseCase(repo, ScriptedRandom(bools: [false]), () => DateTime.utc(2026)),
-            composeResult: ComposeResultUseCase(_Engine(), Random(1)),
-            extendResult: const ExtendResultUseCase(),
+            createFlow: () => ChannelFlow(
+              channel,
+              content,
+              StartAttemptUseCase(Random(1)),
+              PlanAttemptUseCase(repo, ScriptedRandom(bools: [false]), () => DateTime.utc(2026)),
+              ComposeResultUseCase(_Engine(), Random(1)),
+              const ExtendResultUseCase(),
+            ),
             decideAdOffer: ({required manifested}) async => manifested && offer,
             showRewardedAd: () async {
               adCalls?.add(true);
@@ -152,5 +184,46 @@ void main() {
       await tapThrough(tester);
       expect(repo.state.attempts.map((a) => a.index), [1, 2]);
     });
+  });
+
+  testWidgets('이야기가 있는 채널은 이야기 흐름으로 들어간다', (tester) async {
+    final storyContent = LocalizedContent(
+      catalog: content.catalog,
+      text: content.text,
+      stories: {'wuxia': quizWorld},
+    );
+    final opened = <String>[];
+    Widget open(Channel c) => AttemptPage(
+          key: ValueKey(c.id),
+          createBloc: () => AttemptBloc(
+            createFlow: AttemptFlows.select(
+              channel: c,
+              content: storyContent,
+              channelFlow: () {
+                opened.add('channel:${c.id}');
+                return _NamedFlow(const []);
+              },
+              storyFlow: (StoryWorld w, Channel _) {
+                opened.add('story:${w.id}');
+                return _NamedFlow(const ['이야기 도입']);
+              },
+            ),
+            decideAdOffer: ({required manifested}) async => false,
+            showRewardedAd: () async => const Success(false),
+          ),
+          shareFrames: (_, _) async => true,
+        );
+
+    await tester.pumpLocalized(open(channel));
+    await tester.pumpAndSettle();
+    expect(opened, ['story:${quizWorld.id}']);
+    expect(find.byKey(const Key('quiz_intro')), findsOneWidget);
+    expect(find.textContaining('이야기 도입'), findsOneWidget);
+    expect(find.text('흐름 질문'), findsOneWidget);
+
+    await tester.pumpLocalized(open(testChannel(id: 'gem')));
+    await tester.pumpAndSettle();
+    expect(opened.last, 'channel:gem');
+    expect(find.byKey(const Key('quiz_intro')), findsNothing);
   });
 }

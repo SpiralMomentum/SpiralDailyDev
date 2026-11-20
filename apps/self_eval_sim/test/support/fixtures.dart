@@ -41,6 +41,8 @@ TextBook testText({String languageCode = 'ko'}) {
       '$ch.speaker': '$ch-speaker',
       '$ch.place': '$ch-place',
       '$ch.reveal': '$ch-reveal {title}',
+      '$ch.style': '$ch-style',
+      '$ch.avoid': '금지어',
       '$ch.ext.place': '$ch-ext-place',
       '$ch.ext1': '$ch-ext1',
       '$ch.ext2': '$ch-ext2',
@@ -51,6 +53,7 @@ TextBook testText({String languageCode = 'ko'}) {
       entries['$ch.a$a.line2'] = '$ch-a$a-l2';
       entries['$ch.a$a.saying1'] = '$ch-a$a-s1';
       entries['$ch.a$a.saying2'] = '$ch-a$a-s2';
+      entries['$ch.a$a.saying3'] = '$ch-a$a-s3';
     }
     for (var q = 1; q <= 6; q++) {
       entries['$ch.q$q'] = '$ch-q$q';

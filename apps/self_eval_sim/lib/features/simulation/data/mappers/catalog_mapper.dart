@@ -7,17 +7,28 @@ abstract final class CatalogMapper {
     questionsPerAttempt: json['questionsPerAttempt'] as int,
     theories: [
       for (final t in (json['theories'] as List?) ?? const [])
-        Theory(
-          id: (t as Map<String, dynamic>)['id'] as String,
-          mode: TheoryMode.values.byName(t['mode'] as String),
-          axes: [for (final a in t['axes'] as List) (a as List).cast<String>()],
-        ),
+        theory(t as Map<String, dynamic>),
     ],
     channels: [
       for (final c in json['channels'] as List)
         _channel(c as Map<String, dynamic>),
     ],
   );
+
+  /// 이론 한 개를 읽는다. 이야기 세계 매퍼와 공유한다.
+  static Theory theory(Map<String, dynamic> t) => Theory(
+    id: t['id'] as String,
+    mode: TheoryMode.values.byName(t['mode'] as String),
+    axes: [for (final a in t['axes'] as List) (a as List).cast<String>()],
+    measures: t['measures'] as String?,
+    poleAlias: _strMap(t['poleAlias']),
+    outcomeAlias: _strMap(t['outcomeAlias']),
+  );
+
+  static Map<String, String> _strMap(Object? v) => {
+    for (final e in ((v as Map?) ?? const {}).entries)
+      e.key as String: e.value as String,
+  };
 
   static Channel _channel(Map<String, dynamic> json) => Channel(
     id: json['id'] as String,

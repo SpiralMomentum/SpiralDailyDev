@@ -7,6 +7,9 @@ import 'package:self_eval_sim/features/simulation/domain/entities/evaluation.dar
 import 'package:self_eval_sim/features/simulation/domain/entities/text_book.dart';
 import 'package:self_eval_sim/features/simulation/domain/repositories/content_repository.dart';
 import 'package:self_eval_sim/features/simulation/domain/repositories/narration_engine.dart';
+import 'package:self_eval_sim/features/simulation/domain/story/story_record.dart';
+import 'package:self_eval_sim/features/simulation/domain/story/story_repository.dart';
+import 'package:self_eval_sim/features/simulation/domain/story/story_world.dart';
 import 'package:self_eval_sim/features/simulation/domain/usecases/compose_result_use_case.dart';
 import 'package:self_eval_sim/features/simulation/domain/usecases/history_use_cases.dart';
 import 'package:self_eval_sim/features/simulation/domain/usecases/load_content_use_case.dart';
@@ -15,6 +18,7 @@ import 'package:self_eval_sim/features/simulation/domain/usecases/start_attempt_
 import 'package:utils/utils.dart';
 
 import '../../../support/fixtures.dart';
+import '../../../support/story_fixtures.dart';
 
 class _EchoEngine implements NarrationEngine {
   _EchoEngine({this.fail = false});
@@ -56,9 +60,19 @@ class _EchoEngine implements NarrationEngine {
 }
 
 class _Content implements ContentRepository {
-  _Content({this.failText = false});
+  _Content({this.failText = false, this.failStory = false});
 
   final bool failText;
+  final bool failStory;
+  final storyRequests = <String>[];
+
+  @override
+  Future<Result<StoryWorld>> loadStoryWorld(String worldId) async {
+    storyRequests.add(worldId);
+    return failStory
+        ? const ErrorResult(ParsingFailure(message: 'story'))
+        : const Success(miniWorld);
+  }
 
   @override
   Future<Result<ContentCatalog>> loadCatalog() async => Success(
@@ -267,6 +281,15 @@ void main() {
       expect(r.dataOrNull!.catalog.questionsPerAttempt, 2);
     });
 
+    test('무협 이야기 세계를 함께 싣고, 없으면 빈 맵', () async {
+      final content = _Content();
+      final r = await LoadContentUseCase(content)('ko');
+      expect(content.storyRequests, ['wuxia']);
+      expect(r.dataOrNull!.stories, {'wuxia': miniWorld});
+      final missing = await LoadContentUseCase(_Content(failStory: true))('ko');
+      expect(missing.dataOrNull!.stories, isEmpty);
+    });
+
     test('문장 로드 실패는 Failure', () async {
       final r = await LoadContentUseCase(_Content(failText: true))('ja');
       expect(r.isError, isTrue);
@@ -296,11 +319,54 @@ void main() {
         (await GetHistorySummaryUseCase(repo)()).dataOrNull,
         const HistorySummary(attempts: 2, manifestations: 1),
       );
-      await ClearHistoryUseCase(repo)();
+      await ClearHistoryUseCase(repo, _FakeStory())();
       expect(
         (await GetHistorySummaryUseCase(repo)()).dataOrNull,
         const HistorySummary(attempts: 0, manifestations: 0),
       );
     });
+
+    test('기록 전체 삭제는 이야기 기록도 지운다', () async {
+      final acc = InMemoryAccumulationRepository(
+        AccumulationState(attempts: [attempt(1)]),
+      );
+      final story = _FakeStory();
+      final r = await ClearHistoryUseCase(acc, story)();
+      expect(r.isSuccess, isTrue);
+      expect(story.clearCalls, 1);
+      expect(acc.state, AccumulationState.empty);
+    });
+
+    test('이야기 삭제가 실패해도 누적 기록은 지우고, 결과는 실패', () async {
+      final acc = InMemoryAccumulationRepository(
+        AccumulationState(attempts: [attempt(1)]),
+      );
+      final r = await ClearHistoryUseCase(acc, _FakeStory(fail: true))();
+      expect(r.isSuccess, isFalse);
+      expect(acc.state, AccumulationState.empty);
+    });
   });
+}
+
+class _FakeStory implements StoryRepository {
+  _FakeStory({this.fail = false});
+
+  final bool fail;
+  int clearCalls = 0;
+
+  @override
+  Future<Result<void>> clear() async {
+    clearCalls++;
+    return fail
+        ? const ErrorResult(LocalStorageFailure(message: 'story'))
+        : const Success(null);
+  }
+
+  @override
+  Future<Result<List<StoryMeeting>>> load(String worldId) async =>
+      const Success([]);
+
+  @override
+  Future<Result<void>> append(String worldId, StoryMeeting meeting) async =>
+      const Success(null);
 }

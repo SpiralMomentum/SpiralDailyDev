@@ -2,8 +2,10 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:self_eval_sim/features/settings/domain/settings.dart';
 import 'package:self_eval_sim/features/simulation/data/datasources/content_asset_data_source.dart';
 import 'package:self_eval_sim/features/simulation/data/engine/prompt_builder.dart';
 import 'package:self_eval_sim/features/simulation/data/engine/template_narration_engine.dart';
@@ -14,10 +16,36 @@ import 'package:self_eval_sim/features/simulation/domain/entities/catalog.dart';
 import 'package:self_eval_sim/features/simulation/domain/entities/evaluation.dart';
 import 'package:utils/utils.dart';
 
-/// 실제 콘텐츠 에셋(4개 언어)과 문장 팩의 정합성을 검사한다.
+import '../../../support/story_fixtures.dart';
+
+/// 경로 -> 내용 맵으로 동작하는 번들. 없는 경로는 실제 번들처럼 FlutterError.
+class _MapBundle extends CachingAssetBundle {
+  _MapBundle(this.files);
+
+  final Map<String, String> files;
+  final loads = <String, int>{};
+
+  @override
+  Future<ByteData> load(String key) async {
+    final content = files[key];
+    if (content == null) throw FlutterError('Unable to load asset: "$key".');
+    loads[key] = (loads[key] ?? 0) + 1;
+    return ByteData.sublistView(utf8.encode(content));
+  }
+
+  @override
+  Future<String> loadString(String key, {bool cache = true}) async {
+    final data = await load(key);
+    return utf8.decode(
+      data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes),
+    );
+  }
+}
+
+/// 실제 콘텐츠 에셋(운영 언어 전부)과 문장 팩의 정합성을 검사한다.
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
-  const languages = ['ko', 'en', 'ja', 'zh'];
+  const languages = SupportedLanguages.codes;
   Map<String, dynamic> readJson(String path) =>
       jsonDecode(File(path).readAsStringSync()) as Map<String, dynamic>;
 
@@ -141,6 +169,8 @@ void main() {
           '${c.id}.speaker',
           '${c.id}.place',
           '${c.id}.reveal',
+          '${c.id}.style',
+          '${c.id}.avoid',
           '${c.id}.ext.place',
           '${c.id}.ext1',
           '${c.id}.ext2',
@@ -150,6 +180,7 @@ void main() {
             '${c.id}.a$a.line2',
             '${c.id}.a$a.saying1',
             '${c.id}.a$a.saying2',
+            '${c.id}.a$a.saying3',
           ],
           for (final q in c.questions) ...[
             '${c.id}.${q.id}',
@@ -311,6 +342,44 @@ void main() {
     });
   }
 
+  test('이야기 파일이 없으면 기본 문장만, 있으면 합친다. 세계는 캐시한다', () async {
+    final bare = ContentRepositoryImpl(
+      ContentAssetDataSource(_MapBundle({
+        ContentAssetDataSource.stringsPath('ko'): '{"wuxia.name": "무협"}',
+      })),
+    );
+    expect((await bare.loadText('ko')).dataOrNull!.entries, {'wuxia.name': '무협'});
+    expect((await bare.loadStoryWorld('wuxia')).isError, isTrue);
+
+    final bundle = _MapBundle({
+      ContentAssetDataSource.stringsPath('ko'): '{"wuxia.name": "무협"}',
+      ContentAssetDataSource.storyStringsPath('wuxia', 'ko'):
+          '{"story.wuxia.name": "강호"}',
+      ContentAssetDataSource.storyWorldPath('wuxia'): jsonEncode(
+        miniWorldJson,
+      ),
+    });
+    final repo = ContentRepositoryImpl(ContentAssetDataSource(bundle));
+    expect((await repo.loadText('ko')).dataOrNull!.entries, {
+      'wuxia.name': '무협',
+      'story.wuxia.name': '강호',
+    });
+    final first = await repo.loadStoryWorld('wuxia');
+    final second = await repo.loadStoryWorld('wuxia');
+    expect(first.dataOrNull, miniWorld);
+    expect(identical(first.dataOrNull, second.dataOrNull), isTrue);
+    expect(bundle.loads[ContentAssetDataSource.storyWorldPath('wuxia')], 1);
+
+    // 이야기 문장 파일이 깨졌으면 숨기지 않고 실패.
+    final broken = ContentRepositoryImpl(
+      ContentAssetDataSource(_MapBundle({
+        ContentAssetDataSource.stringsPath('ko'): '{}',
+        ContentAssetDataSource.storyStringsPath('wuxia', 'ko'): '{',
+      })),
+    );
+    expect((await broken.loadText('ko')).failureOrNull, isA<ParsingFailure>());
+  });
+
   test('ContentRepositoryImpl 은 번들에서 카탈로그를 읽고 캐시한다', () async {
     final repo = ContentRepositoryImpl(ContentAssetDataSource(rootBundle));
     final first = await repo.loadCatalog();
@@ -318,7 +387,7 @@ void main() {
     expect(first.dataOrNull!.channels, hasLength(4));
     expect(identical(first.dataOrNull, second.dataOrNull), isTrue);
     expect(
-      (await repo.loadText('zh')).dataOrNull!.channelName('gem'),
+      (await repo.loadText('ko')).dataOrNull!.channelName('gem'),
       isNotEmpty,
     );
     expect((await repo.loadText('xx')).failureOrNull, isA<ParsingFailure>());

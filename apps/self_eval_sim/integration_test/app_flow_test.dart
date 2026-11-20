@@ -1,7 +1,9 @@
+import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:path_provider/path_provider.dart';
@@ -9,6 +11,10 @@ import 'package:self_eval_sim/app/app_config.dart';
 import 'package:self_eval_sim/app/bootstrap.dart';
 import 'package:self_eval_sim/features/monetization/domain/monetization.dart';
 import 'package:self_eval_sim/features/share/data/share_impl.dart';
+import 'package:self_eval_sim/features/simulation/data/datasources/content_asset_data_source.dart';
+import 'package:self_eval_sim/features/simulation/data/story/story_world_mapper.dart';
+
+import '../test/support/story_fixtures.dart';
 
 // 실제 앱 전체 흐름 통합 테스트 (온디바이스 Gemma 4 E2B 로 실제 생성). 영상 녹화와 함께 돌리려면:
 //   cd apps/self_eval_sim && tool/record_integration.sh
@@ -55,6 +61,89 @@ class _RecordingShareSink implements ShareSink {
   @override
   Future<void> shareFile(String path, {required String text}) async =>
       paths.add(path);
+}
+
+/// 실제 에셋 번들 위에 몇 개 경로만 덮어쓴 번들. 실제 무협 이야기 에셋 대신 작은 이야기를 넣어
+/// 무협 이야기 흐름을 실제 앱 조립(DI, 콘텐츠 로드, 저장, 모델)으로 결정적으로 돌리기 위해 쓴다.
+class _OverlayBundle extends CachingAssetBundle {
+  _OverlayBundle(this.overlay);
+
+  final Map<String, String> overlay;
+
+  @override
+  Future<ByteData> load(String key) async {
+    final content = overlay[key];
+    if (content == null) return rootBundle.load(key);
+    return ByteData.sublistView(utf8.encode(content));
+  }
+}
+
+/// 통합 테스트용 작은 무협 이야기: 객잔 주인(bigfive) 한 명, 질문 틀 4개.
+final Map<String, dynamic> _miniWuxiaWorld = {
+  'id': 'wuxia',
+  'chars': [
+    {'id': 'innkeeper', 'theory': 'bigfive', 'unlockAt': 0},
+  ],
+  'theories': [
+    {
+      'id': 'bigfive',
+      'mode': 'dominant',
+      'axes': [
+        ['O+', 'O-'],
+        ['C+', 'C-'],
+        ['E+', 'E-'],
+        ['A+', 'A-'],
+        ['N+', 'N-'],
+      ],
+    },
+  ],
+  'frames': [
+    for (var i = 1; i <= 4; i++)
+      {
+        'id': 'f_b$i',
+        'axes': ['who'],
+        'choices': [
+          {
+            'id': 'c1',
+            'traits': {
+              'bigfive': ['C+'],
+            },
+          },
+          {
+            'id': 'c2',
+            'traits': {
+              'bigfive': ['C-'],
+            },
+          },
+          {
+            'id': 'c3',
+            'traits': {
+              'bigfive': ['E+'],
+            },
+          },
+        ],
+      },
+  ],
+  'variants': {
+    'who': ['stranger', 'friend', 'elder'],
+  },
+  'events': <Object>[],
+  'links': <Object>[],
+};
+
+/// 작은 무협 이야기의 world.json 과 ko 문장 에셋. 이론 문장(theory.*)은 실제 기본 문장을 쓰고,
+/// 인물 배경은 지정하지 않아 무협 채널 배경으로 대체된다.
+Map<String, String> _miniWuxiaAssets() {
+  final world = StoryWorldMapper.fromJson(_miniWuxiaWorld);
+  final strings = {
+    for (final e in storyTextFor(world).entries.entries)
+      if (!e.key.startsWith('theory.') && !e.key.endsWith('.art'))
+        e.key: e.value,
+  };
+  return {
+    ContentAssetDataSource.storyWorldPath('wuxia'): jsonEncode(_miniWuxiaWorld),
+    ContentAssetDataSource.storyStringsPath('wuxia', 'ko'): jsonEncode(strings),
+  };
 }
 
 void main() {
@@ -191,8 +280,9 @@ void main() {
     await waitFor(tester, find.byKey(const Key('channel_wuxia')));
     await hold(tester, 1500);
 
-    // 2. 1회차 무협: 확률 0% 이므로 개별 시행 결과
-    await tapKey(tester, 'channel_wuxia');
+    // 2. 1회차 판타지: 확률 0% 이므로 개별 시행 결과.
+    // 무협은 이야기 만남으로 들어가므로 기존 채널 시행 흐름은 판타지로 확인한다.
+    await tapKey(tester, 'channel_fantasy');
     await answer(tester, [0, 1, 0, 2]);
     await waitFor(
       tester,
@@ -201,11 +291,11 @@ void main() {
     );
     expect(find.byKey(const Key('ad_offer')), findsNothing);
     final first = await readThrough(tester);
-    expect(first.speakers, {'백발의 검객'});
+    expect(first.speakers, {'궁전의 공주'});
     // 첫 줄은 결과 유형을 밝히는 문장, 이어서 성격 설명 3~4줄, 끝 줄은 명언.
     expect(
       first.lines.first,
-      allOf(startsWith('너는 '), endsWith(' 같은 사람이다.')),
+      allOf(startsWith('당신은 '), endsWith(' 같은 분이에요.')),
     );
     expect(first.lines.length, inInclusiveRange(5, 6));
 
@@ -221,7 +311,7 @@ void main() {
     expect(gif.lengthSync(), greaterThan(10 * 1024));
     await hold(tester, 1200);
 
-    // 3. 2회차 무협(한 번 더): 누적 발현 + 온라인 -> 보상형 광고 제안 -> 시청 -> 확장 장면
+    // 3. 2회차 판타지(한 번 더): 누적 발현 + 온라인 -> 보상형 광고 제안 -> 시청 -> 확장 장면
     await tapKey(tester, 'again_button');
     await answer(tester, [2, 2, 1, 0]);
     await waitFor(tester, find.byKey(const Key('ad_offer')));
@@ -236,9 +326,9 @@ void main() {
     final second = await readThrough(tester);
     expect(
       second.speakers,
-      containsAll(['백발의 검객', '낯선 목소리']),
+      containsAll(['궁전의 공주', '낯선 목소리']),
     ); // separate 형태: 별도 장면
-    expect(second.places, contains('산 아래, 너를 지켜보던 사람들')); // 광고 보상 추가 장면
+    expect(second.places, contains('왕궁 발코니')); // 광고 보상 추가 장면
     expect(
       second.lines.length,
       greaterThanOrEqualTo(5 + 2 + 2),
@@ -281,23 +371,93 @@ void main() {
     expect(fourth.lines.length, greaterThan(5));
     expect(fourth.places, isNot(contains('새벽 안개 낀 호숫가')));
 
-    // 6. 설정: 누적 기록, 언어 변경, 전체 삭제
+    // 6. 설정: 누적 기록, 언어(한국어만), 전체 삭제
     await tapKey(tester, 'home_button');
     await tapKey(tester, 'settings_button');
     expect(find.text('시행 4회 · 발현 2회'), findsOneWidget);
     await hold(tester, 1200);
-    await tapKey(tester, 'language_en', holdMs: 1200);
-    expect(find.text('Settings'), findsOneWidget);
+    // 언어 선택지는 기기 설정 따르기와 한국어 둘뿐이다.
+    expect(find.text('설정'), findsOneWidget);
+    expect(find.text('기기 설정 따르기'), findsOneWidget);
+    expect(find.text('한국어'), findsOneWidget);
+    expect(find.byKey(const Key('language_en')), findsNothing);
+    await tapKey(tester, 'language_ko', holdMs: 1200);
+    expect(find.text('설정'), findsOneWidget);
     await tester.tap(find.byKey(const Key('delete_all')));
     await tester.pumpAndSettle();
     await hold(tester, 900);
     await tapKey(tester, 'confirm_delete', holdMs: 1500);
-    expect(find.text('Tries: 0 · Manifested: 0'), findsOneWidget);
+    expect(find.text('시행 0회 · 발현 0회'), findsOneWidget);
     expect(File('${docs.path}/accumulation.json').existsSync(), isFalse);
-    await tester.pageBack();
+    // pageBack() 은 영어 툴팁 'Back' 을 찾는다. 앱이 한국어 전용이라 툴팁이 '뒤로' 이므로 버튼을 직접 누른다.
+    await tester.tap(find.byType(BackButton));
     await tester.pumpAndSettle();
     await hold(tester, 1500);
-    expect(find.text('Where do you want to be evaluated?'), findsOneWidget);
-    expect(find.text('Wuxia'), findsOneWidget);
+    expect(find.text('어디에서 평가받을까요?'), findsOneWidget);
+    expect(find.text('무협'), findsOneWidget);
+  });
+
+  // 기대 문장을 고정하려고 작은 무협 이야기를 번들에 덮어써 넣는다.
+  // 덮어쓴 내용이 실제 이야기 에셋보다 우선하므로 실제 문장이 바뀌어도 이 테스트는 그대로 돈다.
+  testWidgets('무협 이야기: 도입 문장 -> 4문항 -> 인물의 결과 장면', (tester) async {
+    final docs = Directory(
+      '${(await getTemporaryDirectory()).path}/story_${DateTime.now().millisecondsSinceEpoch}',
+    )..createSync(recursive: true);
+    File('${docs.path}/settings.json').writeAsStringSync('{"language":"ko"}');
+    final app = await bootstrap(
+      AppConfig(
+        random: _ScriptedRandom([false, true]),
+        documentsDirectory: () async => docs,
+        bundle: _OverlayBundle(_miniWuxiaAssets()),
+        connectivity: _SwitchableConnectivity(),
+        shareSink: _RecordingShareSink(),
+        adDuration: const Duration(seconds: 3),
+      ),
+    );
+    await tester.pumpWidget(app);
+    await tester.pumpAndSettle();
+    if (find.byKey(const Key('gate_title')).evaluate().isNotEmpty) {
+      await tester.tap(find.byKey(const Key('gate_download')));
+      await tester.pump();
+      await waitFor(
+        tester,
+        find.byKey(const Key('channel_wuxia')),
+        seconds: 1200,
+      );
+    }
+    await waitFor(tester, find.byKey(const Key('channel_wuxia')));
+    await hold(tester, 1200);
+
+    // 홈의 무협 카드는 그대로이고, 들어가면 이야기 만남이 시작된다.
+    await tapKey(tester, 'channel_wuxia');
+    await waitFor(tester, find.byKey(const Key('quiz_intro')));
+    expect(find.text('객잔 주인 첫 만남'), findsOneWidget);
+    expect(
+      tester.widget<Text>(find.byKey(const Key('question_text'))).data,
+      startsWith('질문 '),
+    );
+    await hold(tester, 1200);
+    await tapKey(tester, 'choice_0', holdMs: 300);
+    // 둘째 질문부터는 도입 문장이 없다.
+    expect(find.byKey(const Key('quiz_intro')), findsNothing);
+    expect(find.text('2 / 4'), findsOneWidget);
+    for (final pick in [1, 0, 2]) {
+      await hold(tester, 600);
+      await tapKey(tester, 'choice_$pick', holdMs: 300);
+    }
+    await waitFor(
+      tester,
+      find.byKey(const Key('result_tap_area')),
+      seconds: 240,
+    );
+    expect(find.byKey(const Key('ad_offer')), findsNothing);
+    final story = await readThrough(tester);
+    expect(story.speakers, {'객잔 주인'});
+    expect(story.places, {'객잔 주인의 자리'});
+    expect(story.lines.first, startsWith('객잔 주인 왈 너는 객잔 주인 칭호 '));
+    expect(story.lines.last, startsWith('객잔 주인 맺음 '));
+
+    // 만남 기록이 실제 저장소에 남는다.
+    expect(File('${docs.path}/story_wuxia.json').existsSync(), isTrue);
   });
 }

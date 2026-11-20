@@ -27,14 +27,22 @@ final class TextBook extends Equatable {
     of('$channelId.a$archetype.line2'),
   ];
   String extensionPlace(String channelId) => of('$channelId.ext.place');
-  /// 결과를 맺는 채널 분위기의 명언풍 한 줄. 결과 유형마다 2개.
-  static const sayingsPerArchetype = 2;
+
+  /// 결과를 맺는 채널 분위기의 명언풍 한 줄. 결과 유형마다 3개.
+  static const sayingsPerArchetype = 3;
   String saying(String channelId, int archetype, int n) =>
       of('$channelId.a$archetype.saying${n % sayingsPerArchetype + 1}');
 
   /// 결과 유형을 밝히는 첫 줄. `{title}` 자리에 결과 이름이 들어간다.
   String reveal(String channelId, String title) =>
       of('$channelId.reveal').replaceAll('{title}', title);
+
+  /// 화자 말투 규칙 (프롬프트 전용, 화면에 나오지 않음). 장르 커뮤니티 문체 조사로 정리한 것.
+  String style(String channelId) => entries['$channelId.style'] ?? '';
+
+  /// 이 채널 화자가 쓰면 안 되는 표현의 정규식. 없으면 빈 목록.
+  List<String> avoid(String channelId) =>
+      [?entries['$channelId.avoid']].where((p) => p.isNotEmpty).toList();
   String theoryName(String theoryId) => of('theory.$theoryId.name');
 
   /// 극 또는 유형 하나의 이름. 16유형은 글자(E, I ...)와 네 글자 유형 모두 이 키를 쓴다.

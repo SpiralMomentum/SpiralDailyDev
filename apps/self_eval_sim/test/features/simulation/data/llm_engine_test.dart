@@ -45,6 +45,8 @@ void main() {
     examples: ['빛을 바로 내주지 않는 돌입니다.'],
     fallbackLines: ['콘텐츠 1', '콘텐츠 2'],
     reveal: '당신은 깊은 바다의 사파이어처럼 보이네요.',
+    style: '감정 어휘는 하나만 쓴다.',
+    avoid: ['(?i)석탄'],
     profile: TypeProfile(
       theoryName: '에니어그램',
       label: '6번 · 대비하는 사람',
@@ -99,8 +101,28 @@ void main() {
       );
     });
 
+    test('overlaps: 공백과 문장부호를 빼고 정한 글자 수 이상 이어서 겹치는지', () {
+      expect(
+        LineSanitizer.overlaps(
+          '처음 보는 음식에 먼저 숟가락 대는 사람이다.',
+          '처음 보는 음식에 먼저 숟가락 대는 손님',
+          9,
+        ),
+        isTrue,
+      );
+      expect(
+        LineSanitizer.overlaps('샛길로 먼저 들어가는구나.', '해 지기 전에 샛길로 들어간다', 9),
+        isFalse,
+      );
+      expect(LineSanitizer.overlaps('짧다', '짧다', 9), isFalse);
+    });
+
     test('cleanLine 은 내용 속 콜론은 두고 앞 이름표만 뗀다', () {
       expect(LineSanitizer.cleanLine('검객: 칼끝이 곧다: 정말로'), '칼끝이 곧다: 정말로');
+      expect(
+        LineSanitizer.cleanLine('your standing in the *jianghu* and **honour**.'),
+        'your standing in the jianghu and honour.',
+      );
     });
   });
 
@@ -139,6 +161,113 @@ void main() {
       expect(llm.prompts.single, isNot(contains('6번 · 대비하는 사람')));
       expect(llm.prompts.single, isNot(contains('오늘은 에니어그램')));
       expect(llm.seeds.single, Random(3).nextInt(1 << 31));
+    });
+
+    test('채널 말투 규칙이 프롬프트에 들어가고, 채널 금지 표현이 든 줄은 버린다', () async {
+      final llm = _ScriptedLlm(['석탄이 압력을 견딘 셈이죠.\n하나.\n둘.\n셋.']);
+      final engine = LlmNarrationEngine(llm, () async => promptsJson);
+      final r = await engine.baseLines(base, Random(1));
+      expect(r.dataOrNull!.lines, ['하나.', '둘.', '셋.']);
+      expect(llm.prompts.single, contains('감정 어휘는 하나만 쓴다.'));
+    });
+
+    test('context 줄이 프롬프트에 들어간다', () async {
+      final llm = _ScriptedLlm(['하나.\n둘.\n셋.', '하나.\n둘.\n셋.']);
+      final engine = LlmNarrationEngine(llm, () async => promptsJson);
+      const withContext = BaseNarrationRequest(
+        languageCode: 'ko',
+        speaker: '객잔 주인',
+        place: '객잔',
+        title: '바람 같은 손',
+        answers: [],
+        examples: [],
+        fallbackLines: [],
+        context: ['오래된 벗이다.', '처음 보는 얼굴이다.'],
+      );
+      await engine.baseLines(withContext, Random(1));
+      expect(
+        llm.prompts.single,
+        contains('네가 이 사람에 대해 아는 것:\n오래된 벗이다.\n처음 보는 얼굴이다.\n'),
+      );
+      // context 가 없으면 머리줄도 넣지 않는다 (빈 머리줄은 모델이 내용을 지어내게 한다).
+      await engine.baseLines(base, Random(1));
+      expect(llm.prompts.last, isNot(contains('네가 이 사람에 대해 아는 것')));
+      expect(llm.prompts.last, isNot(contains('{context}')));
+      expect(llm.prompts.last, contains('의심이 결정을 늦춘다\n네 말투 예시:'));
+    });
+
+    test('이야기 요청: 이야기 프롬프트에 상황 없이 고른 행동만, 1줄, 칭호/질문을 되읽는 줄은 버린다', () async {
+      final llm = _ScriptedLlm([
+        '처음 보는 음식에 먼저 숟가락 대는 사람이다.\n'
+            '보따리 진 행상에게서 끝까지 가 본 적 없다는 이야기를 들었더군.\n'
+            '샛길로 먼저 들어가는 걸 보니 낯선 걸 반기는구나.\n'
+            '손님 많은 날엔 그게 복이지만, 빈 날엔 엉덩이가 들썩이지.\n'
+            '셋째 줄.',
+      ]);
+      final engine = LlmNarrationEngine(llm, () async => promptsJson);
+      const story = BaseNarrationRequest(
+        languageCode: 'ko',
+        speaker: '객잔 주인',
+        place: '객잔',
+        title: '처음 보는 음식에 먼저 숟가락 대는 손님',
+        answers: [
+          ('보따리 진 행상에게서 산속 샛길 이야기를 들었다.', '해 지기 전에 샛길로 들어간다', '개방성 높음'),
+        ],
+        examples: [],
+        fallbackLines: [],
+        reveal: '처음 보는 음식에 먼저 숟가락 대는 손님. 객잔에서 굴러먹은 눈으로 보면 너는 그렇다.',
+        story: true,
+        echoes: [
+          '처음 보는 음식에 먼저 숟가락 대는 손님. 객잔에서 굴러먹은 눈으로 보면 너는 그렇다.',
+          '보따리 진 행상에게서 아무도 끝까지 가 본 적 없다는 산속 샛길 이야기를 들었다.',
+        ],
+      );
+      final r = await engine.baseLines(story, Random(1));
+      expect(r.dataOrNull!.lines, ['샛길로 먼저 들어가는 걸 보니 낯선 걸 반기는구나.']);
+      final prompt = llm.prompts.single;
+      expect(prompt, contains('- 해 지기 전에 샛길로 들어간다 (개방성 높음)'));
+      expect(prompt, isNot(contains('산속 샛길 이야기를 들었다')));
+      expect(prompt, contains('이어서 바로 할 말 1줄'));
+      expect(prompt, isNot(contains('{')));
+    });
+
+    test('이야기 요청: 말끝 규칙에 맞지 않는 줄은 버리고, 거부되면 한 번 더 만든다', () async {
+      final llm = _ScriptedLlm(['너는 차분한 사람이에요.', '너는 차분한 사람이지.']);
+      final engine = LlmNarrationEngine(llm, () async => promptsJson);
+      const story = BaseNarrationRequest(
+        languageCode: 'ko',
+        speaker: '대장장이',
+        place: '대장간',
+        title: '연장을 제자리에 거는 손',
+        answers: [],
+        examples: [],
+        fallbackLines: [],
+        story: true,
+        ending: r'(다|지)$',
+      );
+      final r = await engine.baseLines(story, Random(1));
+      expect(r.dataOrNull!.lines, ['너는 차분한 사람이지.']);
+      expect(llm.prompts, hasLength(2));
+    });
+
+    test('이야기 요청은 한 줄만 남아도 받아들인다', () async {
+      final engine = LlmNarrationEngine(
+        _ScriptedLlm(['혼자 남은 줄이다.']),
+        () async => promptsJson,
+      );
+      const story = BaseNarrationRequest(
+        languageCode: 'ko',
+        speaker: '대장장이',
+        place: '대장간',
+        title: '연장을 제자리에 거는 손',
+        answers: [],
+        examples: [],
+        fallbackLines: [],
+        story: true,
+      );
+      expect((await engine.baseLines(story, Random(1))).dataOrNull!.lines, [
+        '혼자 남은 줄이다.',
+      ]);
     });
 
     test('규칙을 통과한 줄이 최소 줄 수보다 적으면 NarrationRejected', () async {
@@ -184,8 +313,8 @@ void main() {
       );
     });
 
-    test('프롬프트에 없는 언어는 영어 설정으로 만든다', () async {
-      final llm = _ScriptedLlm(['Line one here.\nLine two here.\nLine three here.']);
+    test('프롬프트에 없는 언어는 한국어 설정으로 만든다', () async {
+      final llm = _ScriptedLlm(['첫 줄이다.\n둘째 줄이다.\n셋째 줄이다.']);
       final engine = LlmNarrationEngine(llm, () async => promptsJson);
       final r = await engine.baseLines(
         const BaseNarrationRequest(
@@ -200,7 +329,7 @@ void main() {
         Random(1),
       );
       expect(r.isSuccess, isTrue);
-      expect(llm.prompts.single, contains('in English'));
+      expect(llm.prompts.single, contains('상대의 결과: T'));
     });
   });
 

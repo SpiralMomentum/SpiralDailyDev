@@ -58,15 +58,15 @@ class _AttemptBody extends StatelessWidget {
               ? const SizedBox.shrink()
               : QuizView(
                   key: ValueKey('quiz_${state.answers.length}'),
-                  channel: bloc.channel,
-                  text: bloc.content.text,
+                  art: state.art,
                   question: state.currentQuestion!,
+                  intro: state.intro,
                   current: state.answers.length + 1,
                   total: state.questions.length,
                   onChoice: (id) => bloc.add(ChoiceSelected(id)),
                 ),
           AttemptPhase.generating => GeneratingView(
-              art: bloc.channel.art,
+              art: state.art,
               adStatus: state.adStatus,
               onWatchAd: () => bloc.add(const AdWatchRequested()),
               onSkipAd: () => bloc.add(const AdSkipped()),

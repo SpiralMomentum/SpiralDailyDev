@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 
+import '../story/story_world.dart';
 import 'text_book.dart';
 
 /// 선택지 하나. [archetype] 은 이 선택이 가리키는 채널 내 평가 유형 번호다.
@@ -25,15 +26,38 @@ final class Choice extends Equatable {
 enum TheoryMode { dominant, code }
 
 /// 성격 이론 하나. [axes] 의 각 축은 서로 반대인 극 1~2개다.
+/// - [measures]: 태그를 읽어 올 이론 id. 없으면 자기 id.
+/// - [poleAlias]: 읽어 온 극을 이 이론의 극으로 바꾼다.
+/// - [outcomeAlias]: 계산된 유형을 이름 키로 바꾼다.
 final class Theory extends Equatable {
-  const Theory({required this.id, required this.mode, required this.axes});
+  const Theory({
+    required this.id,
+    required this.mode,
+    required this.axes,
+    this.measures,
+    this.poleAlias = const {},
+    this.outcomeAlias = const {},
+  });
 
   final String id;
   final TheoryMode mode;
   final List<List<String>> axes;
+  final String? measures;
+  final Map<String, String> poleAlias;
+  final Map<String, String> outcomeAlias;
+
+  /// 선택지 태그를 읽어 올 이론 id.
+  String get tagSource => measures ?? id;
 
   @override
-  List<Object?> get props => [id, mode, axes];
+  List<Object?> get props => [
+    id,
+    mode,
+    axes,
+    measures,
+    poleAlias,
+    outcomeAlias,
+  ];
 }
 
 final class Question extends Equatable {
@@ -111,11 +135,18 @@ final class ContentCatalog extends Equatable {
 
 /// 현재 언어로 풀린 콘텐츠 묶음.
 final class LocalizedContent extends Equatable {
-  const LocalizedContent({required this.catalog, required this.text});
+  const LocalizedContent({
+    required this.catalog,
+    required this.text,
+    this.stories = const {},
+  });
 
   final ContentCatalog catalog;
   final TextBook text;
 
+  /// 세계 id -> 이야기 세계. 이야기가 없는 채널은 기존 시행 흐름으로 동작한다.
+  final Map<String, StoryWorld> stories;
+
   @override
-  List<Object?> get props => [catalog, text];
+  List<Object?> get props => [catalog, text, stories];
 }

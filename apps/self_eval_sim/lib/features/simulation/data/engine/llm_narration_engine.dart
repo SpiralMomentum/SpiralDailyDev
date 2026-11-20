@@ -34,7 +34,7 @@ class LlmNarrationEngine implements NarrationEngine {
         jsonDecode(await _readPrompts()) as Map<String, dynamic>;
     final languages = prompts['languages'] as Map<String, dynamic>;
     return PromptSpec(
-      (languages[languageCode] ?? languages['en']) as Map<String, dynamic>,
+      (languages[languageCode] ?? languages['ko']) as Map<String, dynamic>,
     );
   }
 
@@ -46,6 +46,9 @@ class LlmNarrationEngine implements NarrationEngine {
     required int maxLines,
     required int minLines,
     List<String> avoid = const [],
+    List<String> bannedExtra = const [],
+    List<String> echoes = const [],
+    RegExp? ending,
   }) async {
     final raw = await _client
         .generate(prompt, seed: random.nextInt(1 << 31))
@@ -55,8 +58,11 @@ class LlmNarrationEngine implements NarrationEngine {
       title: title,
       maxLength: spec.maxLength,
       maxLines: maxLines,
-      banned: spec.banned,
+      banned: [...spec.banned, ...bannedExtra.map(PromptSpec.pattern)],
       avoid: avoid,
+      echoes: echoes,
+      echoLength: spec.echoLength,
+      ending: ending,
     );
     if (lines.length < minLines) throw NarrationRejected(raw);
     return lines;
@@ -73,16 +79,30 @@ class LlmNarrationEngine implements NarrationEngine {
   ) => guardAsync(
     action: () async {
       final spec = await _spec(request.languageCode);
-      final lines = await _run(
+      Future<List<String>> once() => _run(
         PromptBuilder.base(spec, request),
         random: random,
         title: request.title,
         spec: spec,
-        maxLines: spec.baseLines,
-        minLines: spec.minBaseLines,
+        maxLines: request.story ? spec.storyBaseLines : spec.baseLines,
+        minLines: request.story ? spec.minStoryBaseLines : spec.minBaseLines,
         avoid: request.examples,
+        bannedExtra: request.avoid,
+        echoes: request.echoes,
+        ending: request.ending.isEmpty
+            ? null
+            : PromptSpec.pattern(request.ending),
       );
-      return Narration(lines: lines, source: NarrationSource.model);
+      // 이야기 대사는 한 줄이라 규칙에 걸리면 통째로 빠진다. 정한 횟수만큼 새 시드로 다시 만든다.
+      final retries = request.story ? spec.storyRetries : 0;
+      for (var i = 0; i < retries; i++) {
+        try {
+          return Narration(lines: await once(), source: NarrationSource.model);
+        } on NarrationRejected {
+          continue;
+        }
+      }
+      return Narration(lines: await once(), source: NarrationSource.model);
     },
     onError: _failure,
   );
@@ -102,6 +122,7 @@ class LlmNarrationEngine implements NarrationEngine {
         maxLines: spec.manifestLines,
         minLines: spec.minManifestLines,
         avoid: request.examples,
+        bannedExtra: request.avoid,
       );
       return ManifestationText(
         lines: lines,

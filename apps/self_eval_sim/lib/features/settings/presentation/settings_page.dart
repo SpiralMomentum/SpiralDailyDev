@@ -23,9 +23,6 @@ class SettingsPage extends StatefulWidget {
 
   static const languageNames = {
     'ko': '한국어',
-    'en': 'English',
-    'ja': '日本語',
-    'zh': '中文',
   };
 
   @override
