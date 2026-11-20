@@ -24,6 +24,13 @@ def config_path(key, app_name)
 end
 
 # Android 스토어 문구는 tools/store/listing/generate_metadata.py가 만든 디렉토리가 있을 때만 업로드
+# 한 번도 게시하지 않은 앱(초안 앱)은 Play API 가 draft 출시만 받는다. 그때는 PLAY_RELEASE_STATUS=draft 로 올리고
+# Play Console 에서 출시를 시작한다.
+def play_release_status
+  status = ENV.fetch("PLAY_RELEASE_STATUS", "").strip
+  status.empty? ? "completed" : status
+end
+
 # 메타데이터 디렉토리가 있으면 문구를 올리고, 그 안에 images/ 가 있는 로케일이 있으면 그래픽과 스크린샷도 올린다.
 def android_metadata_options(app_name)
   dir = config_path("androidMetadata", app_name)
@@ -92,6 +99,7 @@ platform :android do
       aab: aab_path,
       track: "internal",
       json_key_data: ENV["GOOGLE_PLAY_SERVICE_ACCOUNT_JSON"],
+      release_status: play_release_status,
       **android_metadata_options(app_name)
     )
   end
@@ -117,6 +125,7 @@ platform :android do
       aab: aab_path,
       track: "production",
       json_key_data: ENV["GOOGLE_PLAY_SERVICE_ACCOUNT_JSON"],
+      release_status: play_release_status,
       **android_metadata_options(app_name)
     )
   end
