@@ -45,6 +45,15 @@
  "resultTapToContinue": "탭해서 계속",
  "resultTitleLabel": "평가",
  "resultShare": "공유",
+ "resultReport": "대사 신고",
+ "reportCopied": "메일 앱을 열 수 없어 신고 내용을 복사했어요. {email} 로 보내 주세요.",
+ "@reportCopied": {
+  "placeholders": {
+   "email": {
+    "type": "String"
+   }
+  }
+ },
  "resultAgain": "한 번 더",
  "resultHome": "처음으로",
  "shareMaking": "공유 이미지를 만드는 중",

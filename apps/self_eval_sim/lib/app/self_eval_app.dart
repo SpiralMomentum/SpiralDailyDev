@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
+import '../features/report/content_report.dart';
 import '../features/model_pack/domain/model_pack.dart';
 import '../features/model_pack/presentation/model_gate_page.dart';
 import '../features/settings/domain/settings.dart';
@@ -87,6 +88,7 @@ class SelfEvalApp extends StatelessWidget {
             showRewardedAd: sl<ShowRewardedAdUseCase>().call,
           ),
           shareFrames: _shareFrames,
+          reportContent: openContentReportMail,
         ),
       ),
     );

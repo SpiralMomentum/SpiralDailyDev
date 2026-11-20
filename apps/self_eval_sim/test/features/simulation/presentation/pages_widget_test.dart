@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:self_eval_sim/features/simulation/domain/entities/accumulation.dart';
 import 'package:self_eval_sim/features/simulation/domain/entities/catalog.dart';
@@ -103,7 +104,13 @@ void main() {
   });
 
   group('AttemptPage (실제 유스케이스 + 메모리 저장소)', () {
-    Widget page(InMemoryAccumulationRepository repo, {required bool offer, List<bool>? adCalls}) => AttemptPage(
+    Widget page(
+      InMemoryAccumulationRepository repo, {
+      required bool offer,
+      List<bool>? adCalls,
+      ContentReporter? reportContent,
+    }) =>
+        AttemptPage(
           createBloc: () => AttemptBloc(
             createFlow: () => ChannelFlow(
               channel,
@@ -120,6 +127,7 @@ void main() {
             },
           ),
           shareFrames: (_, _) async => true,
+          reportContent: reportContent,
         );
 
     Future<void> answerAll(WidgetTester tester) async {
@@ -152,6 +160,27 @@ void main() {
       expect(find.byKey(const Key('again_button')), findsOneWidget);
       expect(repo.state.attempts, hasLength(1));
       expect(repo.state.manifestations, isEmpty);
+    });
+
+    testWidgets('신고: 메일 앱을 열지 못하면 본문을 복사하고 보낼 주소를 알린다', (tester) async {
+      final reported = <EvaluationResult>[];
+      final clipboard = <String>[];
+      tester.binding.defaultBinaryMessenger.setMockMethodCallHandler(SystemChannels.platform, (call) async {
+        if (call.method == 'Clipboard.setData') clipboard.add((call.arguments as Map)['text'] as String);
+        return null;
+      });
+      addTearDown(() => tester.binding.defaultBinaryMessenger.setMockMethodCallHandler(SystemChannels.platform, null));
+      await tester.pumpLocalized(page(InMemoryAccumulationRepository(), offer: false, reportContent: (r) async {
+        reported.add(r);
+        return false;
+      }));
+      await tester.pumpAndSettle();
+      await answerAll(tester);
+      await tester.tap(find.byKey(const Key('report_button')));
+      await tester.pumpAndSettle();
+      expect(reported, hasLength(1));
+      expect(clipboard.single, contains('wuxia-speaker'));
+      expect(find.textContaining('spiraldailydev@gmail.com'), findsOneWidget);
     });
 
     testWidgets('천장 상태: 발현 -> 광고 제안 -> 시청 -> 별도 발현 장면 + 확장 장면', (tester) async {

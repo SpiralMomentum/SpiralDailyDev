@@ -220,6 +220,18 @@ abstract class AppLocalizations {
   /// **'공유'**
   String get resultShare;
 
+  /// No description provided for @resultReport.
+  ///
+  /// In ko, this message translates to:
+  /// **'대사 신고'**
+  String get resultReport;
+
+  /// No description provided for @reportCopied.
+  ///
+  /// In ko, this message translates to:
+  /// **'메일 앱을 열 수 없어 신고 내용을 복사했어요. {email} 로 보내 주세요.'**
+  String reportCopied(String email);
+
   /// No description provided for @resultAgain.
   ///
   /// In ko, this message translates to:
