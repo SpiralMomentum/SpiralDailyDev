@@ -8,7 +8,7 @@
   "app_type": "app",
   "default_language": "ko-KR",
   "monetization": "free",
-  "ads": false,
+  "ads": true,
   "requires_login": false,
   "content_violence": false,
   "content_gambling": false,

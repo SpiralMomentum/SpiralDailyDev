@@ -24,9 +24,12 @@ def config_path(key, app_name)
 end
 
 # Android 스토어 문구는 tools/store/listing/generate_metadata.py가 만든 디렉토리가 있을 때만 업로드
+# 메타데이터 디렉토리가 있으면 문구를 올리고, 그 안에 images/ 가 있는 로케일이 있으면 그래픽과 스크린샷도 올린다.
 def android_metadata_options(app_name)
   dir = config_path("androidMetadata", app_name)
-  Dir.exist?(dir) ? { skip_upload_metadata: false, metadata_path: dir } : { skip_upload_metadata: true }
+  return { skip_upload_metadata: true, skip_upload_images: true, skip_upload_screenshots: true } unless Dir.exist?(dir)
+  has_images = !Dir.glob(File.join(dir, "*", "images")).empty?
+  { skip_upload_metadata: false, metadata_path: dir, skip_upload_images: !has_images, skip_upload_screenshots: !has_images }
 end
 
 def setup_asc_api_key
@@ -89,9 +92,7 @@ platform :android do
       aab: aab_path,
       track: "internal",
       json_key_data: ENV["GOOGLE_PLAY_SERVICE_ACCOUNT_JSON"],
-      **android_metadata_options(app_name),
-      skip_upload_images: true,
-      skip_upload_screenshots: true
+      **android_metadata_options(app_name)
     )
   end
 
@@ -116,9 +117,7 @@ platform :android do
       aab: aab_path,
       track: "production",
       json_key_data: ENV["GOOGLE_PLAY_SERVICE_ACCOUNT_JSON"],
-      **android_metadata_options(app_name),
-      skip_upload_images: true,
-      skip_upload_screenshots: true
+      **android_metadata_options(app_name)
     )
   end
 end
