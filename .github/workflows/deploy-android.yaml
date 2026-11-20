@@ -14,6 +14,14 @@ on:
         options:
           - internal
           - production
+      release_status:
+        description: "Play 출시 상태 (한 번도 게시하지 않은 앱은 draft 만 가능)"
+        required: false
+        default: completed
+        type: choice
+        options:
+          - completed
+          - draft
   workflow_call:
     inputs:
       app:
@@ -21,6 +29,10 @@ on:
         type: string
       track:
         required: true
+        type: string
+      release_status:
+        required: false
+        default: completed
         type: string
 
 jobs:
@@ -90,4 +102,5 @@ jobs:
           GOOGLE_PLAY_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
           APP: ${{ inputs.app }}
           TRACK: ${{ inputs.track }}
+          PLAY_RELEASE_STATUS: ${{ inputs.release_status }}
         run: python3 tools/ci/pipeline.py deploy --app "$APP" --platform android --target "$TRACK"
