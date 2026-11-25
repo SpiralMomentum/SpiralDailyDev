@@ -61,27 +61,36 @@ class OnboardingPage extends StatelessWidget {
     return BlocProvider.value(
       value: cubit,
       child: BlocBuilder<OnboardingCubit, OnboardingState>(
-        builder: (context, state) => Theme(
-          data: themeFor(state.tone, brightness),
-          child: Builder(
-            builder: (context) => Scaffold(
-              body: SafeArea(
-                child: Padding(
-                  padding: const EdgeInsets.all(24),
-                  child: state.step == OnboardingStep.done
-                      ? _DoneView(
-                          state: state,
-                          tones: tones,
-                          today: today,
-                          pinner: pinner,
-                          onFinish: onFinish,
-                        )
-                      : _StepView(
-                          state: state,
-                          countries: countries,
-                          tones: tones,
-                          today: today,
-                        ),
+        builder: (context, state) => PopScope<Object?>(
+          // 중간 단계의 시스템 뒤로가기는 앱 종료 대신 이전 단계로 간다.
+          canPop:
+              state.step == OnboardingStep.birthDate ||
+              state.step == OnboardingStep.done,
+          onPopInvokedWithResult: (didPop, _) {
+            if (!didPop) cubit.back();
+          },
+          child: Theme(
+            data: themeFor(state.tone, brightness),
+            child: Builder(
+              builder: (context) => Scaffold(
+                body: SafeArea(
+                  child: Padding(
+                    padding: const EdgeInsets.all(24),
+                    child: state.step == OnboardingStep.done
+                        ? _DoneView(
+                            state: state,
+                            tones: tones,
+                            today: today,
+                            pinner: pinner,
+                            onFinish: onFinish,
+                          )
+                        : _StepView(
+                            state: state,
+                            countries: countries,
+                            tones: tones,
+                            today: today,
+                          ),
+                  ),
                 ),
               ),
             ),
@@ -422,6 +431,15 @@ class _DoneView extends StatefulWidget {
 class _DoneViewState extends State<_DoneView> {
   late final Future<bool> _pinSupported = widget.pinner.isSupported();
 
+  /// 플랫폼 채널 실패가 처리되지 않은 비동기 오류로 새지 않게 한다.
+  Future<void> _requestPin() async {
+    try {
+      await widget.pinner.requestPin();
+    } catch (e) {
+      debugPrint('requestPin failed: $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -482,7 +500,7 @@ class _DoneViewState extends State<_DoneView> {
             }
             if (snap.data == true) {
               return FilledButton(
-                onPressed: widget.pinner.requestPin,
+                onPressed: _requestPin,
                 style: buttonStyle,
                 child: const Text('홈 화면에 위젯 추가'),
               );

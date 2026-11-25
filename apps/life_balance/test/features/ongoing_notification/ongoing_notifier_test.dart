@@ -69,4 +69,33 @@ void main() {
       isFalse,
     );
   });
+
+  test('초기화 실패는 캐시하지 않고 다음 호출에서 다시 시도한다', () async {
+    var attempts = 0;
+    when(
+      () => plugin.initialize(
+        settings: any(named: 'settings'),
+        onDidReceiveNotificationResponse: any(
+          named: 'onDidReceiveNotificationResponse',
+        ),
+        onDidReceiveBackgroundNotificationResponse: any(
+          named: 'onDidReceiveBackgroundNotificationResponse',
+        ),
+      ),
+    ).thenAnswer((_) async {
+      if (attempts++ == 0) throw PlatformException(code: 'init');
+      return true;
+    });
+    when(
+      () => android.requestNotificationsPermission(),
+    ).thenAnswer((_) async => true);
+    final notifier = LocalOngoingNotifier(plugin: plugin);
+
+    expect(await notifier.requestPermission(), isFalse);
+    expect(await notifier.requestPermission(), isTrue);
+    expect(attempts, 2);
+    // 성공한 초기화는 다시 하지 않는다.
+    expect(await notifier.requestPermission(), isTrue);
+    expect(attempts, 2);
+  });
 }

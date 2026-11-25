@@ -40,7 +40,7 @@ object BalanceCalc {
         val prefix = if (bonus) "+" else ""
         return when (unit) {
             "weeks" -> "$prefix${grouped(days / 7)}주"
-            // days / 365.2425 = days * 10000 / 3652425 (소수 1자리 내림)
+            // 0.1년 단위: days * 10 / 365.2425 = days * 100000 / 3652425 (내림)
             "years" -> "$prefix${tenths(days * 100000 / 3652425)}년"
             "percent" -> {
                 if (bonus) {

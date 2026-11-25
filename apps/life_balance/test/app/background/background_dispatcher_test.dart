@@ -56,7 +56,9 @@ void main() {
     when(() => widgets.refresh()).thenAnswer((_) async {});
     when(() => notifier.show(any())).thenAnswer((_) async {});
     when(() => notifier.cancel()).thenAnswer((_) async {});
-    when(() => scheduler.ensureScheduled(any())).thenAnswer((_) async {});
+    when(() => scheduler.ensureScheduled(any(),
+            fromMidnightJob: any(named: 'fromMidnightJob')))
+        .thenAnswer((_) async {});
   });
 
   BackgroundDeps deps() => BackgroundDeps(
@@ -80,7 +82,8 @@ void main() {
     verify(() => widgets.save(any())).called(1);
     verify(() => widgets.refresh()).called(1);
     verify(() => notifier.show(any(that: startsWith('잔고 ')))).called(1);
-    verify(() => scheduler.ensureScheduled(now)).called(1);
+    verify(() => scheduler.ensureScheduled(now, fromMidnightJob: true))
+        .called(1);
   });
 
   test('lb_hourly: 동기화만 하고 재예약하지 않는다', () async {
@@ -88,7 +91,8 @@ void main() {
 
     expect(ok, isTrue);
     verify(() => notifier.show(any())).called(1);
-    verifyNever(() => scheduler.ensureScheduled(any()));
+    verifyNever(() => scheduler.ensureScheduled(any(),
+        fromMidnightJob: any(named: 'fromMidnightJob')));
   });
 
   test('프로필이 없으면 동기화하지 않지만 자정 재예약은 한다', () async {
@@ -99,7 +103,8 @@ void main() {
     expect(ok, isTrue);
     verifyNever(() => widgets.save(any()));
     verifyNever(() => notifier.show(any()));
-    verify(() => scheduler.ensureScheduled(now)).called(1);
+    verify(() => scheduler.ensureScheduled(now, fromMidnightJob: true))
+        .called(1);
   });
 
   test('생명표 로드 실패면 동기화를 건너뛴다', () async {
@@ -109,7 +114,8 @@ void main() {
 
     expect(ok, isTrue);
     verifyNever(() => widgets.save(any()));
-    verify(() => scheduler.ensureScheduled(now)).called(1);
+    verify(() => scheduler.ensureScheduled(now, fromMidnightJob: true))
+        .called(1);
   });
 
   test('동기화 중 예외가 나도 자정 재예약은 하고 false를 돌려준다', () async {
@@ -118,6 +124,7 @@ void main() {
     final ok = await runBackgroundTask(RefreshTasks.midnight, deps());
 
     expect(ok, isFalse);
-    verify(() => scheduler.ensureScheduled(now)).called(1);
+    verify(() => scheduler.ensureScheduled(now, fromMidnightJob: true))
+        .called(1);
   });
 }

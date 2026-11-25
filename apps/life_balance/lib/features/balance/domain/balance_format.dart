@@ -25,7 +25,7 @@ String formatBalanceValue(Balance b, BalanceUnit unit) {
     case BalanceUnit.weeks:
       return '$prefix${_grouped(days ~/ 7)}주';
     case BalanceUnit.years:
-      // days / 365.2425 = days * 10000 / 3652425
+      // 0.1년 단위: days * 10 / 365.2425 = days * 100000 / 3652425 (내림)
       return '$prefix${_tenths(days * 100000 ~/ 3652425)}년';
     case BalanceUnit.percent:
       if (bonus) return '+${_grouped(days)}일';

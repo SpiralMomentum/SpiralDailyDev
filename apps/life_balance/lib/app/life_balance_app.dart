@@ -41,9 +41,31 @@ ThemeMode themeModeFor(ThemePref pref) => switch (pref) {
 CalendarDate todayFromEnvironment() =>
     CalendarDate.fromDateTime(sl<AppEnvironment>().now());
 
+/// 진행 중인 동기화의 끝. 다음 호출은 이 뒤에 이어 붙고, 모두 끝나면 null로 돌아간다.
+Future<void>? _syncTail;
+
 /// 위젯과 상시 알림을 현재 프로필/설정으로 맞춘다.
+/// 설정을 빠르게 바꿔 호출이 겹쳐도 저장 키가 섞이거나 옛 설정이 마지막에
+/// 쓰이지 않도록 호출 순서대로 하나씩 실행한다.
 /// 플랫폼 호출 실패가 화면 진입을 막지 않도록 오류는 기록만 한다.
 Future<void> syncOutputs(
+  Profile profile,
+  AppSettings settings,
+  AppAssets assets,
+) {
+  final previous = _syncTail;
+  final run = previous == null
+      ? _syncOutputsNow(profile, settings, assets)
+      : previous.then((_) => _syncOutputsNow(profile, settings, assets));
+  final tail = run.catchError((Object _) {});
+  _syncTail = tail;
+  tail.whenComplete(() {
+    if (identical(_syncTail, tail)) _syncTail = null;
+  });
+  return run;
+}
+
+Future<void> _syncOutputsNow(
   Profile profile,
   AppSettings settings,
   AppAssets assets,

@@ -43,9 +43,16 @@ class FakeNotifier implements OngoingNotifier {
 
 class FakeScheduler implements RefreshScheduler {
   final calls = <DateTime>[];
+  final fromMidnightJob = <bool>[];
 
   @override
-  Future<void> ensureScheduled(DateTime now) async => calls.add(now);
+  Future<void> ensureScheduled(
+    DateTime now, {
+    bool fromMidnightJob = false,
+  }) async {
+    calls.add(now);
+    this.fromMidnightJob.add(fromMidnightJob);
+  }
 }
 
 class FakeBackground implements BackgroundInitializer {

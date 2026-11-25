@@ -67,7 +67,7 @@ Future<bool> runBackgroundTask(String task, BackgroundDeps deps) async {
   }
   if (task == RefreshTasks.midnight) {
     try {
-      await deps.scheduler.ensureScheduled(now);
+      await deps.scheduler.ensureScheduled(now, fromMidnightJob: true);
     } catch (_) {
       ok = false;
     }

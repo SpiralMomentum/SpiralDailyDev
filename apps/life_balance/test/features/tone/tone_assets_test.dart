@@ -21,6 +21,17 @@ void main() {
     expect(_emoji.hasMatch('인생잔고 12,345일 · 오늘 -1일'), isFalse);
   });
 
+  test('문구 교정: 커뮤니티 중형 라벨은 현황, 스토아 카이로스는 결정적 순간', () {
+    final community = _load(ToneId.community);
+    expect(community.phrases['widget.medium_label'],
+        isNot(contains('인생 잔고 실황')));
+    expect(community.phrases['widget.medium_label'], contains('인생 잔고 현황'));
+    final stoic = _load(ToneId.stoic).phrases['kairos.intro']!.join();
+    // 카이로스는 "붙잡는 시간"이 아니라 행동하기에 꼭 맞는 결정적 순간을 뜻한다.
+    expect(stoic, isNot(contains('붙잡는 시간')));
+    expect(stoic, contains('결정적 순간'));
+  });
+
   for (final id in ToneId.values) {
     group('${id.name}.json', () {
       late ToneTable t;

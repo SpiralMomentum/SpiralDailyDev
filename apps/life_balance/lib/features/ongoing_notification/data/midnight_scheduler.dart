@@ -9,7 +9,8 @@ abstract final class RefreshTasks {
 }
 
 abstract interface class RefreshScheduler {
-  Future<void> ensureScheduled(DateTime now);
+  /// [fromMidnightJob]은 실행 중인 `lb_midnight` 작업 안에서 다음 자정을 예약할 때 true.
+  Future<void> ensureScheduled(DateTime now, {bool fromMidnightJob = false});
 }
 
 /// 다음 자정 + 1분 one-off 작업과, 재부팅/작업 유실 복구용 1시간 주기 작업을 예약한다.
@@ -20,12 +21,19 @@ class WorkmanagerRefreshScheduler implements RefreshScheduler {
   final Workmanager _wm;
 
   @override
-  Future<void> ensureScheduled(DateTime now) async {
+  Future<void> ensureScheduled(
+    DateTime now, {
+    bool fromMidnightJob = false,
+  }) async {
     await _wm.registerOneOffTask(
       RefreshTasks.midnight,
       RefreshTasks.midnight,
       initialDelay: delayUntilNextRefresh(now),
-      existingWorkPolicy: ExistingWorkPolicy.replace,
+      // 실행 중인 자기 자신을 replace하면 현재 작업이 취소된다. 작업 안에서는
+      // append(네이티브 APPEND_OR_REPLACE)로 현재 작업 뒤에 잇는다.
+      existingWorkPolicy: fromMidnightJob
+          ? ExistingWorkPolicy.append
+          : ExistingWorkPolicy.replace,
     );
     await _wm.registerPeriodicTask(
       RefreshTasks.hourly,

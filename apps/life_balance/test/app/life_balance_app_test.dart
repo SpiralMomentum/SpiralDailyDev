@@ -67,6 +67,7 @@ void main() {
     expect(h.notifier.shown, hasLength(1));
     expect(h.notifier.shown.single, contains('-1일'));
     expect(h.scheduler.calls, [h.now]);
+    expect(h.scheduler.fromMidnightJob, [false]); // 앱 시작 경로는 replace
   });
 
   testWidgets('생명표 에셋을 못 읽으면 오류 화면', (t) async {

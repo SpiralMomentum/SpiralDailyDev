@@ -27,6 +27,13 @@ class FakePinner implements WidgetPinner {
   Future<void> requestPin() async => pinCalls++;
 }
 
+class ThrowingPinner implements WidgetPinner {
+  @override
+  Future<bool> isSupported() async => true;
+  @override
+  Future<void> requestPin() async => throw StateError('pin failed');
+}
+
 class FakeNotifier implements OngoingNotifier {
   FakeNotifier(this.granted);
   final bool granted;
@@ -191,5 +198,52 @@ void main() {
     await t.enterText(find.byType(TextField), '20');
     await t.pumpAndSettle();
     expect(t.widget<FilledButton>(next).onPressed, isNotNull);
+  });
+
+  testWidgets('시스템 뒤로가기는 중간 단계에서 이전 단계로 간다', (t) async {
+    await t.pumpWidget(app());
+    PopScope<Object?> scope() =>
+        t.widget<PopScope<Object?>>(find.byType(PopScope<Object?>));
+    // 첫 단계에서는 시스템 뒤로가기(앱 종료)를 막지 않는다.
+    expect(scope().canPop, isTrue);
+
+    cubit
+      ..setBirthDate(const CalendarDate(1990, 1, 1))
+      ..next()
+      ..next();
+    await t.pumpAndSettle();
+    expect(find.text('국가'), findsOneWidget);
+    expect(scope().canPop, isFalse);
+
+    await t.binding.handlePopRoute();
+    await t.pumpAndSettle();
+    expect(find.text('생명표 기준 성별'), findsOneWidget);
+
+    await t.binding.handlePopRoute();
+    await t.pumpAndSettle();
+    expect(find.text('생년월일 선택'), findsNothing); // 날짜를 고른 뒤라 버튼 문구가 바뀐다
+    expect(find.text('1 / 5'), findsOneWidget);
+    expect(scope().canPop, isTrue);
+  });
+
+  testWidgets('완료 화면에서는 시스템 뒤로가기를 막지 않는다', (t) async {
+    await t.pumpWidget(app());
+    cubit.setBirthDate(const CalendarDate(1990, 1, 1));
+    await cubit.complete();
+    await t.pumpAndSettle();
+    expect(
+      t.widget<PopScope<Object?>>(find.byType(PopScope<Object?>)).canPop,
+      isTrue,
+    );
+  });
+
+  testWidgets('위젯 추가 요청이 실패해도 예외가 새지 않는다', (t) async {
+    await t.pumpWidget(app(pinner: ThrowingPinner()));
+    cubit.setBirthDate(const CalendarDate(1990, 1, 1));
+    await cubit.complete();
+    await t.pumpAndSettle();
+    await tapText(t, '홈 화면에 위젯 추가');
+    expect(t.takeException(), isNull);
+    expect(find.text('홈 화면에 위젯 추가'), findsOneWidget);
   });
 }

@@ -3,4 +3,8 @@
     <string name="widget_loading">인생잔고 불러오는 중</string>
     <string name="widget_small_description">남은 날을 숫자로 보여줍니다</string>
     <string name="widget_medium_description">남은 날, 오늘 출금, 사용 비율을 보여줍니다</string>
+    <!-- 위젯 선택기 미리보기 예시 값 -->
+    <string name="widget_preview_label">인생잔고</string>
+    <string name="widget_preview_value">12,345일</string>
+    <string name="widget_preview_withdrawal">오늘 -1일</string>
 </resources>

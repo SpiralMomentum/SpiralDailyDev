@@ -35,13 +35,20 @@ class LocalOngoingNotifier implements OngoingNotifier {
   Future<void>? _initialized;
 
   /// 백그라운드 isolate에서도 호출되므로 처음 쓸 때 한 번 초기화한다.
+  /// 실패하면 캐시를 비워 다음 호출에서 다시 시도한다.
   Future<void> _ensureInitialized() => _initialized ??= _plugin
       .initialize(
         settings: const InitializationSettings(
           android: AndroidInitializationSettings('@mipmap/ic_launcher'),
         ),
       )
-      .then((_) {});
+      .then<void>(
+        (_) {},
+        onError: (Object e, StackTrace st) {
+          _initialized = null;
+          Error.throwWithStackTrace(e, st);
+        },
+      );
 
   AndroidFlutterLocalNotificationsPlugin? get _android => _plugin
       .resolvePlatformSpecificImplementation<

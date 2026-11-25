@@ -56,4 +56,25 @@ void main() {
     await t.tap(find.byType(FilledButton));
     expect(opened.single.host, 'play.google.com');
   });
+
+  for (final url in [
+    'example.com/notify',
+    'javascript:alert(1)',
+    'intent://x#Intent;end',
+    'mailto:a@b.c',
+    '',
+  ]) {
+    testWidgets('http/https가 아닌 url "$url"이면 버튼을 숨긴다', (t) async {
+      await t.pumpWidget(wrap(AppConfig(kairosUrl: url), []));
+      expect(find.text('카이로스 소개'), findsOneWidget);
+      expect(find.byType(FilledButton), findsNothing);
+    });
+  }
+
+  testWidgets('대문자 HTTP 스킴도 허용한다', (t) async {
+    await t.pumpWidget(
+      wrap(const AppConfig(kairosUrl: 'HTTP://example.com'), []),
+    );
+    expect(find.byType(FilledButton), findsOneWidget);
+  });
 }
