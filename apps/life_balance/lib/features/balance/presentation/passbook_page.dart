@@ -78,8 +78,11 @@ class PassbookPage extends StatelessWidget {
                   backgroundColor: theme.colorScheme.surfaceContainerHighest,
                 ),
                 const SizedBox(height: 8),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                // 큰 글꼴에서 두 날짜가 한 줄에 안 들어가면 다음 줄로 내린다.
+                Wrap(
+                  alignment: WrapAlignment.spaceBetween,
+                  spacing: 16,
+                  runSpacing: 8,
                   children: [
                     _DateColumn(
                       label: s.phrases[PhraseKeys.mainOpenedLabel]!,

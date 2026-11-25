@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../balance/domain/balance.dart';
 import '../../../balance/domain/balance_format.dart';
 import '../../../balance/domain/calendar_date.dart';
 import '../../../balance/domain/profile.dart';
@@ -42,6 +43,7 @@ class OnboardingPage extends StatelessWidget {
     required this.tones,
     required this.today,
     this.pinner = const HomeWidgetPinner(),
+    this.onFinish,
   });
 
   final OnboardingCubit cubit;
@@ -49,6 +51,9 @@ class OnboardingPage extends StatelessWidget {
   final Map<ToneId, ToneTable> tones;
   final CalendarDate Function() today;
   final WidgetPinner pinner;
+
+  /// 완료 화면의 '통장 열기' 동작. null이면 버튼을 숨긴다.
+  final VoidCallback? onFinish;
 
   @override
   Widget build(BuildContext context) {
@@ -69,6 +74,7 @@ class OnboardingPage extends StatelessWidget {
                           tones: tones,
                           today: today,
                           pinner: pinner,
+                          onFinish: onFinish,
                         )
                       : _StepView(
                           state: state,
@@ -400,12 +406,14 @@ class _DoneView extends StatefulWidget {
     required this.tones,
     required this.today,
     required this.pinner,
+    required this.onFinish,
   });
 
   final OnboardingState state;
   final Map<ToneId, ToneTable> tones;
   final CalendarDate Function() today;
   final WidgetPinner pinner;
+  final VoidCallback? onFinish;
 
   @override
   State<_DoneView> createState() => _DoneViewState();
@@ -428,6 +436,25 @@ class _DoneViewState extends State<_DoneView> {
       backgroundColor: theme.colorScheme.onSurface,
       foregroundColor: theme.colorScheme.surface,
     );
+    // 큰 글꼴에서 높이를 넘으면 스크롤하고, 남으면 Spacer로 가운데 정렬한다.
+    return LayoutBuilder(
+      builder: (context, constraints) => SingleChildScrollView(
+        child: ConstrainedBox(
+          constraints: BoxConstraints(minHeight: constraints.maxHeight),
+          child: IntrinsicHeight(
+            child: _content(theme, balance, guide, buttonStyle),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _content(
+    ThemeData theme,
+    Balance? balance,
+    String? guide,
+    ButtonStyle buttonStyle,
+  ) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -469,6 +496,17 @@ class _DoneViewState extends State<_DoneView> {
             '알림 권한이 없어 상시 알림을 껐습니다. 설정에서 켤 수 있습니다.',
             textAlign: TextAlign.center,
           ),
+        if (widget.onFinish != null) ...[
+          const SizedBox(height: 12),
+          OutlinedButton(
+            onPressed: widget.onFinish,
+            style: OutlinedButton.styleFrom(
+              foregroundColor: theme.colorScheme.onSurface,
+              minimumSize: const Size(0, 48),
+            ),
+            child: const Text('통장 열기'),
+          ),
+        ],
       ],
     );
   }

@@ -1,5 +1,8 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
-void main() {
-  runApp(const MaterialApp(home: SizedBox()));
+import 'app/app_config.dart';
+import 'app/bootstrap.dart';
+
+Future<void> main() async {
+  runApp(await bootstrap(const AppConfig()));
 }
