@@ -9,9 +9,6 @@ enum OnboardingStep { birthDate, sex, country, lifespan, tone, done }
 
 enum OnboardingError { futureBirthDate, invalidLifespan, saveFailed }
 
-/// 수동 기대수명 허용 범위: 0 초과 150 이하.
-const double maxManualLifespanYears = 150;
-
 class OnboardingState extends Equatable {
   const OnboardingState({
     required this.step,

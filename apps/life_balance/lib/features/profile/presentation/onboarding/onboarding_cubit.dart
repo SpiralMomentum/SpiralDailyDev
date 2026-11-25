@@ -6,6 +6,7 @@ import '../../../balance/domain/profile.dart';
 import '../../../life_table/domain/life_table.dart';
 import '../../../ongoing_notification/data/ongoing_notifier.dart';
 import '../../../tone/domain/tone.dart';
+import '../../domain/lifespan_validation.dart';
 import '../../domain/profile_repository.dart';
 import '../../domain/settings.dart';
 import 'onboarding_state.dart';
@@ -62,7 +63,7 @@ class OnboardingCubit extends Cubit<OnboardingState> {
       emit(state.copyWith(clearManualLifespan: true));
       return;
     }
-    if (!(years > 0 && years <= maxManualLifespanYears)) {
+    if (!isValidManualLifespan(years)) {
       // 잘못된 입력은 저장값을 비우고 유효한 입력이 들어올 때까지 오류를 유지한다.
       emit(
         state.copyWith(

@@ -73,6 +73,9 @@ flutter:
   assets:
     - assets/tones/
     - assets/life_tables/
+    - assets/fonts/OFL-Pretendard.txt
+    - assets/fonts/OFL-NanumMyeongjo.txt
+    - assets/fonts/OFL-Jua.txt
 
   fonts:
     - family: Pretendard
