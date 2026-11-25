@@ -20,6 +20,8 @@ void main() {
       'widget.medium_label': ['b'],
       'widget.withdrawal': ['c'],
       'widget.bonus_label': ['d'],
+      'notification.body': ['n {balance}'],
+      'notification.bonus_body': ['nb {bonus}'],
       'main.title': ['x'],
     },
   );
@@ -47,6 +49,7 @@ void main() {
       'lb_colors_light',
       'lb_colors_dark',
       'lb_phrases',
+      'lb_notify',
     });
   });
 
@@ -70,14 +73,30 @@ void main() {
     expect(dark['bg'], 0xFF2A1F1D);
   });
 
-  test('phrases contain only the four widget keys', () {
+  test('phrases contain the four widget keys and two notification keys', () {
     final p = jsonDecode(e['lb_phrases']!) as Map;
     expect(p.keys.toSet(), {
       'widget.small_label',
       'widget.medium_label',
       'widget.withdrawal',
       'widget.bonus_label',
+      'notification.body',
+      'notification.bonus_body',
     });
     expect(p['widget.small_label'], ['a']);
+    expect(p['notification.body'], ['n {balance}']);
+    expect(p['notification.bonus_body'], ['nb {bonus}']);
+  });
+
+  test('lb_notify follows the ongoing notification setting', () {
+    expect(e['lb_notify'], '1');
+    final off = buildWidgetPayload(
+      profile: profile,
+      settings: settings.copyWith(ongoingNotification: false),
+      table: table,
+      tone: tone,
+      today: const CalendarDate(2026, 11, 25),
+    ).toEntries();
+    expect(off['lb_notify'], '0');
   });
 }

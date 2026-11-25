@@ -1,0 +1,56 @@
+[
+  {
+    "name": "days_body",
+    "birth": "2000-01-01",
+    "today": "2026-01-01",
+    "schedule": [{"validFrom": "2026-01-01", "maturity": "2080-01-01"}],
+    "unit": "days",
+    "phrases": {"notification.body": ["잔고 {balance}"], "notification.bonus_body": ["보너스 {bonus}"]},
+    "expected": "잔고 19,723일"
+  },
+  {
+    "name": "weeks_body_picks_epoch_day_variant",
+    "birth": "2000-01-01",
+    "today": "2026-01-02",
+    "schedule": [{"validFrom": "2026-01-01", "maturity": "2080-01-01"}],
+    "unit": "weeks",
+    "phrases": {"notification.body": ["A {balance}", "B {balance}", "C {balance}"], "notification.bonus_body": ["보너스 {bonus}"]},
+    "expected": "B 2,817주"
+  },
+  {
+    "name": "years_body",
+    "birth": "2000-01-01",
+    "today": "2026-01-01",
+    "schedule": [{"validFrom": "2026-01-01", "maturity": "2080-01-01"}],
+    "unit": "years",
+    "phrases": {"notification.body": ["오늘 잔고는 {balance}입니다"], "notification.bonus_body": ["보너스 {bonus}"]},
+    "expected": "오늘 잔고는 53.9년입니다"
+  },
+  {
+    "name": "bonus_days",
+    "birth": "1940-01-01",
+    "today": "2026-01-01",
+    "schedule": [{"validFrom": "2025-01-01", "maturity": "2020-01-01"}],
+    "unit": "days",
+    "phrases": {"notification.body": ["잔고 {balance}"], "notification.bonus_body": ["보너스 {bonus}"]},
+    "expected": "보너스 +2,192일"
+  },
+  {
+    "name": "bonus_percent_shows_days",
+    "birth": "1940-01-01",
+    "today": "2026-01-01",
+    "schedule": [{"validFrom": "2025-01-01", "maturity": "2020-01-01"}],
+    "unit": "percent",
+    "phrases": {"notification.body": ["잔고 {balance}"], "notification.bonus_body": ["덤으로 {bonus} 받는 중"]},
+    "expected": "덤으로 +2,192일 받는 중"
+  },
+  {
+    "name": "maturity_today_is_bonus",
+    "birth": "2000-01-01",
+    "today": "2080-01-01",
+    "schedule": [{"validFrom": "2079-01-01", "maturity": "2080-01-01"}],
+    "unit": "days",
+    "phrases": {"notification.body": ["잔고 {balance}"], "notification.bonus_body": ["보너스 {bonus}"]},
+    "expected": "보너스 +0일"
+  }
+]

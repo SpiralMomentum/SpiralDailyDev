@@ -2,7 +2,10 @@ package com.spiralmomentum.life_balance.widget
 
 import java.time.LocalDate
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
+import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
+import org.junit.Assert.assertTrue
 import org.junit.Test
 
 class WidgetDataTest {
@@ -25,6 +28,23 @@ class WidgetDataTest {
         assertEquals(4294373863L.toInt(), d.light.bg)
         assertEquals(listOf("a", "b"), d.phrases["widget.small_label"])
         assertEquals(true, d.isStoic)
+    }
+
+    @Test
+    fun missingOptionalNotifyKeysStillParse() {
+        // Task 9 형식(lb_notify, 알림 문구 없음)도 위젯은 그대로 그린다.
+        val d = parseWidgetData { entries[it] }
+        assertNotNull(d)
+        assertFalse(d!!.notify)
+        assertNull(d.phrases["notification.body"])
+    }
+
+    @Test
+    fun notifyFlagIsReadWhenPresent() {
+        val on = parseWidgetData { if (it == "lb_notify") "1" else entries[it] }!!
+        val off = parseWidgetData { if (it == "lb_notify") "0" else entries[it] }!!
+        assertTrue(on.notify)
+        assertFalse(off.notify)
     }
 
     @Test

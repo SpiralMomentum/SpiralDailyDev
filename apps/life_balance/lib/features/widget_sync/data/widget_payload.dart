@@ -22,6 +22,9 @@ abstract final class WidgetKeys {
   static const colorsDark = 'lb_colors_dark';
   static const phrases = 'lb_phrases';
 
+  /// 상시 알림 설정. "1"이면 켜짐, "0"이면 꺼짐. 재부팅 후 Kotlin이 알림을 다시 띄울지 판단한다.
+  static const notify = 'lb_notify';
+
   static const all = [
     schedule,
     birth,
@@ -30,6 +33,7 @@ abstract final class WidgetKeys {
     colorsLight,
     colorsDark,
     phrases,
+    notify,
   ];
 
   static const smallReceiver =
@@ -42,6 +46,8 @@ abstract final class WidgetKeys {
     PhraseKeys.widgetMediumLabel,
     PhraseKeys.widgetWithdrawal,
     PhraseKeys.widgetBonusLabel,
+    PhraseKeys.notificationBody,
+    PhraseKeys.notificationBonusBody,
   ];
 }
 
@@ -85,6 +91,7 @@ WidgetPayload buildWidgetPayload({
       WidgetKeys.phrases: jsonEncode({
         for (final k in WidgetKeys.phraseKeys) k: tone.phrases[k] ?? [k],
       }),
+      WidgetKeys.notify: settings.ongoingNotification ? '1' : '0',
     }),
   );
 }

@@ -51,13 +51,17 @@ internal suspend fun refreshAllWidgets(context: Context) {
     runCatching { MediumBalanceWidget().updateAll(context) }
 }
 
-/** goAsync 안에서 위젯을 갱신하고 다음 자정 알람을 다시 건다. */
+/**
+ * goAsync 안에서 위젯을 갱신하고, 상시 알림을 다시 띄우고, 다음 자정 알람을 다시 건다.
+ * 부팅 직후에는 WorkManager 작업이 늦게(앱 대기 버킷에 따라 수 시간) 돌 수 있어 여기서 알림을 복구한다.
+ */
 internal fun BroadcastReceiver.refreshAndRearm(context: Context) {
     val pending = goAsync()
     val app = context.applicationContext
     CoroutineScope(Dispatchers.Default).launch {
         try {
             refreshAllWidgets(app)
+            runCatching { OngoingNotification.post(app) }
             MidnightAlarm.arm(app)
         } finally {
             pending.finish()

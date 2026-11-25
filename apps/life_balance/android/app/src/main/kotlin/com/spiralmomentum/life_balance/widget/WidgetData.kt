@@ -15,10 +15,17 @@ object WidgetKeys {
     const val COLORS_DARK = "lb_colors_dark"
     const val PHRASES = "lb_phrases"
 
+    /** 선택 키. 없으면(구버전 데이터) 알림을 띄우지 않는다. */
+    const val NOTIFY = "lb_notify"
+
     const val SMALL_LABEL = "widget.small_label"
     const val MEDIUM_LABEL = "widget.medium_label"
     const val WITHDRAWAL = "widget.withdrawal"
     const val BONUS_LABEL = "widget.bonus_label"
+
+    // 선택 문구 키. 없어도 위젯 데이터는 유효하다.
+    const val NOTIFICATION_BODY = "notification.body"
+    const val NOTIFICATION_BONUS_BODY = "notification.bonus_body"
 }
 
 /** ARGB 색 3종. */
@@ -32,6 +39,8 @@ data class WidgetData(
     val light: Palette,
     val dark: Palette,
     val phrases: Map<String, List<String>>,
+    /** 상시 알림 설정(lb_notify == "1"). */
+    val notify: Boolean = false,
 ) {
     val isStoic: Boolean get() = tone == "stoic"
 }
@@ -65,7 +74,7 @@ fun presentWidget(data: WidgetData, today: LocalDate): WidgetView {
 fun readWidgetData(prefs: SharedPreferences): WidgetData? =
     parseWidgetData { key -> prefs.getString(key, null) }
 
-/** 키 → 문자열 조회 함수만 받는 순수 파서. */
+/** 키 → 문자열 조회 함수만 받는 순수 파서. lb_notify는 선택 키라 없어도 null이 되지 않는다. */
 fun parseWidgetData(get: (String) -> String?): WidgetData? {
     val raw = listOf(
         WidgetKeys.SCHEDULE, WidgetKeys.BIRTH, WidgetKeys.UNIT, WidgetKeys.TONE,
@@ -84,6 +93,7 @@ fun parseWidgetData(get: (String) -> String?): WidgetData? {
             light = parsePalette(v.getValue(WidgetKeys.COLORS_LIGHT)),
             dark = parsePalette(v.getValue(WidgetKeys.COLORS_DARK)),
             phrases = parsePhrases(v.getValue(WidgetKeys.PHRASES)),
+            notify = get(WidgetKeys.NOTIFY) == "1",
         )
     } catch (e: Exception) {
         null
