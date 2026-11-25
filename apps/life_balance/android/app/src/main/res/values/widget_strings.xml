@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="widget_loading">인생잔고 불러오는 중</string>
+    <string name="widget_small_description">남은 날을 숫자로 보여줍니다</string>
+    <string name="widget_medium_description">남은 날, 오늘 출금, 사용 비율을 보여줍니다</string>
+</resources>
