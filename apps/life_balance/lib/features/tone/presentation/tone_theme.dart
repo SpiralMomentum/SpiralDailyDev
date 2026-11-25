@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../domain/tone.dart';
 
@@ -106,7 +107,17 @@ ThemeData themeFor(ToneId tone, Brightness b) {
     displayColor: p.foreground,
   );
 
+  // 통장 AppBar는 투명이라 상태 표시줄 아이콘을 배경 밝기의 반대로 맞춘다.
+  final overlay = b == Brightness.light
+      ? SystemUiOverlayStyle.dark.copyWith(
+          statusBarColor: Colors.transparent,
+        )
+      : SystemUiOverlayStyle.light.copyWith(
+          statusBarColor: Colors.transparent,
+        );
+
   return base.copyWith(
+    appBarTheme: base.appBarTheme.copyWith(systemOverlayStyle: overlay),
     textTheme: t.copyWith(
       displayLarge: h(t.displayLarge).copyWith(
         fontFeatures: const [FontFeature.tabularFigures()],

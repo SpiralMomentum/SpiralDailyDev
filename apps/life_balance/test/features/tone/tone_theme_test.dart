@@ -36,6 +36,22 @@ void main() {
     }
   }
 
+  test('status bar icons contrast with the transparent app bar', () {
+    for (final tone in ToneId.values) {
+      final light = themeFor(tone, Brightness.light).appBarTheme;
+      final dark = themeFor(tone, Brightness.dark).appBarTheme;
+      // 밝은 배경에는 어두운 아이콘, 어두운 배경에는 밝은 아이콘.
+      expect(light.systemOverlayStyle?.statusBarIconBrightness,
+          Brightness.dark, reason: tone.name);
+      expect(light.systemOverlayStyle?.statusBarBrightness, Brightness.light,
+          reason: tone.name);
+      expect(dark.systemOverlayStyle?.statusBarIconBrightness,
+          Brightness.light, reason: tone.name);
+      expect(dark.systemOverlayStyle?.statusBarBrightness, Brightness.dark,
+          reason: tone.name);
+    }
+  });
+
   test('title/display font per tone', () {
     String? d(ToneId t) =>
         themeFor(t, Brightness.light).textTheme.displayLarge!.fontFamily;

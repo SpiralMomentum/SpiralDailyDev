@@ -29,7 +29,7 @@ class SmallBalanceWidget : GlanceAppWidget() {
                     // 렌더마다 오늘 날짜로 다시 계산한다.
                     val v = presentWidget(data, LocalDate.now())
                     Column {
-                        Text(text = v.smallLabel, style = labelStyle(c, data, 12.sp, c.accent), maxLines = 1)
+                        Text(text = v.smallLabel, style = labelStyle(c, data, 12.sp), maxLines = 1)
                         Text(text = v.value, style = numberStyle(c, 22.sp), maxLines = 1)
                     }
                 }

@@ -9,6 +9,7 @@ import 'package:life_balance/features/balance/presentation/passbook_page.dart';
 import 'package:life_balance/features/profile/domain/settings.dart';
 import 'package:life_balance/features/tone/domain/tone.dart';
 import 'package:life_balance/features/tone/domain/tone_table.dart';
+import 'package:life_balance/features/tone/presentation/tone_theme.dart';
 
 import '../../../helpers/fake_life_table.dart';
 
@@ -31,6 +32,7 @@ Future<PassbookCubit> pump(
   double? manual,
   VoidCallback? onSettings,
   AppConfig config = const AppConfig(),
+  ThemeData? theme,
 }) async {
   final cubit = PassbookCubit(
     profile: Profile(
@@ -46,6 +48,7 @@ Future<PassbookCubit> pump(
   );
   await t.pumpWidget(
     MaterialApp(
+      theme: theme,
       home: BlocProvider.value(
         value: cubit,
         child: PassbookPage(
@@ -89,5 +92,24 @@ void main() {
     await pump(t, onSettings: () => n++);
     await t.tap(find.byIcon(Icons.settings_outlined));
     expect(n, 1);
+  });
+
+  testWidgets('balance number uses foreground, accent stays on progress bar', (
+    t,
+  ) async {
+    // 강조색은 큰 글자 대비 3.0 미만인 말투가 있어 숫자는 전경색으로 그린다.
+    for (final id in ToneId.values) {
+      for (final b in Brightness.values) {
+        final p = paletteFor(id, b);
+        await pump(t, theme: themeFor(id, b));
+        await t.pumpAndSettle(); // 테마 전환 애니메이션 종료
+        final number = t.widget<Text>(find.byKey(const Key('balance')));
+        expect(number.style?.color, p.foreground, reason: '${id.name}/$b');
+        final bar = t.widget<LinearProgressIndicator>(
+          find.byKey(const Key('progress')),
+        );
+        expect(bar.color, p.accent, reason: '${id.name}/$b');
+      }
+    }
   });
 }

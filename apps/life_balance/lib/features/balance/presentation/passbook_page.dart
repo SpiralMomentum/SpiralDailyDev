@@ -63,7 +63,10 @@ class PassbookPage extends StatelessWidget {
                   child: Text(
                     s.display,
                     key: const Key('balance'),
-                    style: text.displayLarge?.copyWith(color: accent),
+                    // 강조색은 대비가 3.0 미만인 말투가 있어 숫자는 전경색으로 그린다.
+                    style: text.displayLarge?.copyWith(
+                      color: theme.colorScheme.onSurface,
+                    ),
                   ),
                 ),
                 const SizedBox(height: 12),

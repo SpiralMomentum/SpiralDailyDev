@@ -36,7 +36,7 @@ class MediumBalanceWidget : GlanceAppWidget() {
                 } else {
                     val v = presentWidget(data, LocalDate.now())
                     Column(modifier = GlanceModifier.fillMaxWidth()) {
-                        Text(text = v.mediumLabel, style = labelStyle(c, data, 14.sp, c.accent), maxLines = 1)
+                        Text(text = v.mediumLabel, style = labelStyle(c, data, 14.sp), maxLines = 1)
                         Text(text = v.value, style = numberStyle(c, 34.sp), maxLines = 1)
                         // 보너스 구간에는 더 깎일 잔고가 없으므로 출금 문구를 숨긴다.
                         if (!v.isBonus) {

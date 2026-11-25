@@ -45,10 +45,10 @@ internal fun colorsOf(data: WidgetData?): Colors {
 internal fun numberStyle(c: Colors, size: TextUnit) =
     TextStyle(color = c.fg, fontSize = size, fontWeight = FontWeight.Bold, fontFamily = FontFamily.SansSerif)
 
-/** 라벨: 스토아는 세리프, 나머지는 산세리프. */
-internal fun labelStyle(c: Colors, data: WidgetData?, size: TextUnit, color: ColorProvider = c.fg) =
+/** 라벨: 스토아는 세리프, 나머지는 산세리프. 작은 글자라 강조색(대비 부족) 대신 전경색. */
+internal fun labelStyle(c: Colors, data: WidgetData?, size: TextUnit) =
     TextStyle(
-        color = color,
+        color = c.fg,
         fontSize = size,
         fontFamily = if (data?.isStoic == true) FontFamily.Serif else FontFamily.SansSerif,
     )
