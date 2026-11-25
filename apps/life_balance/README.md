@@ -31,7 +31,7 @@ cd apps/life_balance
 flutter analyze
 flutter test                                          # Dart 단위/위젯 테스트
 (cd android && ./gradlew :app:testDebugUnitTest)      # Kotlin 위젯 계산/알람 테스트
-python3 -m unittest tool/test_build_life_tables.py    # 생명표 변환 스크립트 테스트
+python3 -I -m unittest discover -s tool -p 'test_*.py'  # 생명표 변환 스크립트 테스트
 ```
 
 - `test/app/life_balance_app_test.dart`: 실제 앱 위젯으로 온보딩/통장 분기, 설정 변경 시 테마와 위젯 동기화, resumed 갱신, 에셋 로드 실패 화면
@@ -50,11 +50,12 @@ grep -o 'uses-permission[^>]*' build/app/intermediates/merged_manifests/release/
 
 `tool/build_life_tables.py`가 `tool/raw/`의 원본(IMF 순위, WHO GHO 생명표, 통계청 완전생명표 CSV)을 읽어 `assets/life_tables/life_tables.json`을 만든다. 출처 URL과 조회일, 원문 대조표는 `assets/life_tables/SOURCES.md`에 기록한다.
 
-1. 원본을 갱신한다. IMF/WHO 응답은 curl로 받아 `tool/raw/`에 저장한다 (Python urllib 사용 금지). 한국 원본은 KOSIS 완전생명표(1세별) 남/여 기대여명 0~100세 CSV를 `tool/raw/kostat_life_table.csv`로 저장한다
-2. 변환 테스트: `python3 -m unittest tool/test_build_life_tables.py`
-3. 변환 실행: `python3 tool/build_life_tables.py`
-4. `SOURCES.md`의 원문 값/JSON 값 대조표와 조회일을 갱신한다
-5. `flutter test`로 생명표 에셋 테스트를 확인한다
+1. 원본을 갱신한다. IMF/WHO 응답은 curl로 받아 `tool/raw/`에 저장한다 (Python urllib 사용 금지, IMF는 기본 curl User-Agent로 받는다). 한국 원본은 KOSIS 완전생명표(1세별, DT_1B42) 남/여 기대여명 0~100세를 `age,male,female` 헤더 CSV(`#` 주석 줄 허용, 100 = 100세이상)로 `tool/raw/kostat_life_table.csv`에 저장한다. 받는 URL은 `SOURCES.md` 참조
+2. 기준 연도를 바꿀 때는 `tool/build_life_tables.py` 상단 상수(`IMF_YEAR`, `WHO_YEAR`, `KR_YEAR`, `RETRIEVED`, `VERSION`)를 고친다. IMF 상위 10개국이 `COUNTRIES` 매핑에 없으면 스크립트가 실패하므로 ISO2/한국어 이름을 추가한다
+3. 변환 테스트: `python3 -I -m unittest discover -s tool -p 'test_*.py'`
+4. 변환 실행: `python3 -I tool/build_life_tables.py` (IMF 순위를 출력하고 `assets/life_tables/life_tables.json`을 쓴다). `--check`를 붙이면 쓰지 않고 현재 에셋과 같은지만 확인한다(다르면 종료 코드 1)
+5. `SOURCES.md`의 순위표, 원문 값/JSON 값 대조표와 조회일을 갱신한다
+6. `flutter test`로 생명표 에셋 테스트를 확인한다
 
 ### 말투 문구
 
