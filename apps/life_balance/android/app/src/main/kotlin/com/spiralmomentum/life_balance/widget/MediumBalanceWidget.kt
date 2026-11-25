@@ -1,5 +1,6 @@
 package com.spiralmomentum.life_balance.widget
 
+import android.appwidget.AppWidgetManager
 import android.content.Context
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
@@ -60,4 +61,14 @@ class MediumBalanceWidget : GlanceAppWidget() {
 
 class MediumBalanceReceiver : HomeWidgetGlanceWidgetReceiver<MediumBalanceWidget>() {
     override val glanceAppWidget = MediumBalanceWidget()
+
+    override fun onEnabled(context: Context) {
+        super.onEnabled(context)
+        MidnightAlarm.arm(context)
+    }
+
+    override fun onUpdate(context: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray) {
+        super.onUpdate(context, appWidgetManager, appWidgetIds)
+        MidnightAlarm.arm(context)
+    }
 }
