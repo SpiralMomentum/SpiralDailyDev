@@ -10,7 +10,7 @@ abstract interface class OngoingNotifier {
 /// 잔고 상시 알림. 낮은 중요도 채널(소리/진동 없음), 밀어도 지워지지 않는 ongoing.
 class LocalOngoingNotifier implements OngoingNotifier {
   LocalOngoingNotifier({FlutterLocalNotificationsPlugin? plugin})
-      : _plugin = plugin ?? FlutterLocalNotificationsPlugin();
+    : _plugin = plugin ?? FlutterLocalNotificationsPlugin();
 
   static const channelId = 'lb_balance';
   static const channelName = '인생잔고';
@@ -43,14 +43,20 @@ class LocalOngoingNotifier implements OngoingNotifier {
       )
       .then((_) {});
 
-  AndroidFlutterLocalNotificationsPlugin? get _android =>
-      _plugin.resolvePlatformSpecificImplementation<
-          AndroidFlutterLocalNotificationsPlugin>();
+  AndroidFlutterLocalNotificationsPlugin? get _android => _plugin
+      .resolvePlatformSpecificImplementation<
+        AndroidFlutterLocalNotificationsPlugin
+      >();
 
   @override
   Future<bool> requestPermission() async {
-    await _ensureInitialized();
-    return await _android?.requestNotificationsPermission() ?? false;
+    try {
+      await _ensureInitialized();
+      return await _android?.requestNotificationsPermission() ?? false;
+    } catch (_) {
+      // PERMISSION_REQUEST_IN_PROGRESS, 액티비티 없음 등은 거부로 취급한다.
+      return false;
+    }
   }
 
   @override
