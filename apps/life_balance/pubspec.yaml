@@ -72,6 +72,7 @@ flutter:
 
   assets:
     - assets/tones/
+    - assets/life_tables/
 
   fonts:
     - family: Pretendard

@@ -3,6 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:workmanager/workmanager.dart';
 
 import '../../features/balance/domain/calendar_date.dart';
+import '../../features/life_table/data/asset_life_table_repository.dart';
 import '../../features/life_table/domain/life_table.dart';
 import '../../features/ongoing_notification/data/midnight_scheduler.dart';
 import '../../features/ongoing_notification/data/ongoing_notifier.dart';
@@ -74,10 +75,9 @@ Future<bool> runBackgroundTask(String task, BackgroundDeps deps) async {
   return ok;
 }
 
-/// 백그라운드 isolate용 생명표 로더.
-/// TODO(Task 5): `AssetLifeTableRepository().load()`의 `dataOrNull`로 교체한다.
-/// 연결 전에는 null을 돌려 동기화를 건너뛴다. 자정 재예약과 Kotlin 위젯 자정 갱신은 그대로 동작한다.
-Future<LifeTable?> _loadLifeTableFromAssets() async => null;
+/// 백그라운드 isolate용 생명표 로더. 로드 실패 시 null을 돌려 동기화를 건너뛴다.
+Future<LifeTable?> _loadLifeTableFromAssets() async =>
+    (await AssetLifeTableRepository().load()).dataOrNull;
 
 Future<ToneTable?> _loadToneFromAssets(ToneId id) async =>
     (await AssetToneRepository().load(id)).dataOrNull;
