@@ -4,7 +4,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../balance/domain/balance_format.dart';
 import '../../balance/domain/calendar_date.dart';
 import '../../balance/domain/profile.dart';
+import '../../balance/domain/balance_calculator.dart';
 import '../../life_table/data/life_table_parser.dart';
+import '../../life_table/domain/life_table.dart';
+import '../../profile/domain/lifespan_validation.dart';
 import '../../profile/domain/settings.dart';
 import '../../profile/presentation/onboarding/widget_pinner.dart';
 import '../../tone/domain/phrase_keys.dart';
@@ -44,6 +47,7 @@ class SettingsPage extends StatelessWidget {
     super.key,
     required this.cubit,
     required this.countries,
+    required this.table,
     required this.tones,
     required this.today,
     this.pinner = const HomeWidgetPinner(),
@@ -51,6 +55,7 @@ class SettingsPage extends StatelessWidget {
 
   final SettingsCubit cubit;
   final List<CountryInfo> countries;
+  final LifeTable table;
   final Map<ToneId, ToneTable> tones;
   final CalendarDate Function() today;
   final WidgetPinner pinner;
@@ -81,6 +86,7 @@ class SettingsPage extends StatelessWidget {
                   child: _Body(
                     state: state,
                     countries: countries,
+                    table: table,
                     tones: tones,
                     today: today,
                     pinner: pinner,
@@ -100,6 +106,7 @@ class _Body extends StatelessWidget {
   const _Body({
     required this.state,
     required this.countries,
+    required this.table,
     required this.tones,
     required this.today,
     required this.pinner,
@@ -108,6 +115,7 @@ class _Body extends StatelessWidget {
 
   final SettingsState state;
   final List<CountryInfo> countries;
+  final LifeTable table;
   final Map<ToneId, ToneTable> tones;
   final CalendarDate Function() today;
   final WidgetPinner pinner;
@@ -165,7 +173,7 @@ class _Body extends StatelessWidget {
     return ListView(
       padding: const EdgeInsets.all(24),
       children: [
-        if (error != null)
+        if (error != null && error != SettingsError.invalidLifespan)
           Padding(
             padding: const EdgeInsets.only(bottom: 16),
             child: Text(
@@ -208,7 +216,12 @@ class _Body extends StatelessWidget {
             ),
           ],
         ),
-        _LifespanSection(profile: profile, cubit: cubit),
+        _LifespanRow(
+          profile: profile,
+          cubit: cubit,
+          table: table,
+          today: today,
+        ),
         const SizedBox(height: 24),
         const _Section('표시'),
         const Text('표시 단위'),
@@ -335,20 +348,65 @@ class _Choices<T> extends StatelessWidget {
   }
 }
 
-class _LifespanSection extends StatefulWidget {
-  const _LifespanSection({required this.profile, required this.cubit});
+class _LifespanRow extends StatelessWidget {
+  const _LifespanRow({
+    required this.profile,
+    required this.cubit,
+    required this.table,
+    required this.today,
+  });
 
   final Profile profile;
   final SettingsCubit cubit;
+  final LifeTable table;
+  final CalendarDate Function() today;
 
   @override
-  State<_LifespanSection> createState() => _LifespanSectionState();
+  Widget build(BuildContext context) {
+    final manual = profile.manualLifespanYears;
+    final effective = estimatedLifespanYears(
+      profile: profile,
+      today: today(),
+      table: table,
+    );
+    final label = manual == null
+        ? '자동 (생명표) · ${effective.toStringAsFixed(1)}세'
+        : '직접 입력 · ${effective.toStringAsFixed(1)}세';
+    return ListTile(
+      contentPadding: EdgeInsets.zero,
+      title: const Text('기대수명'),
+      subtitle: Text(label),
+      onTap: () async {
+        final result = await showDialog<_LifespanChoice>(
+          context: context,
+          builder: (_) => _LifespanDialog(initial: manual),
+        );
+        if (result != null) await cubit.setManualLifespan(result.years);
+      },
+    );
+  }
 }
 
-class _LifespanSectionState extends State<_LifespanSection> {
-  late bool _manual = widget.profile.manualLifespanYears != null;
+class _LifespanChoice {
+  const _LifespanChoice(this.years);
+
+  /// null이면 자동(생명표).
+  final double? years;
+}
+
+class _LifespanDialog extends StatefulWidget {
+  const _LifespanDialog({required this.initial});
+
+  final double? initial;
+
+  @override
+  State<_LifespanDialog> createState() => _LifespanDialogState();
+}
+
+class _LifespanDialogState extends State<_LifespanDialog> {
+  late bool _manual = widget.initial != null;
   late final TextEditingController _controller = TextEditingController(
-    text: widget.profile.manualLifespanYears?.toString() ?? '',
+    text: widget.initial?.toString() ?? '',
   );
 
   @override
@@ -357,43 +415,69 @@ class _LifespanSectionState extends State<_LifespanSection> {
     super.dispose();
   }
 
-  void _toggle(bool manual) {
-    setState(() => _manual = manual);
-    if (!manual) {
-      _controller.clear();
-      widget.cubit.setManualLifespan(null);
-    }
+  double? get _parsed {
+    final text = _controller.text.trim();
+    return text.isEmpty ? null : (double.tryParse(text) ?? double.nan);
+  }
+
+  String? get _errorText {
+    final v = _parsed;
+    if (v == null || isValidManualLifespan(v)) return null;
+    return '0보다 크고 150 이하인 숫자를 입력하세요.';
+  }
+
+  bool get _canSave {
+    if (!_manual) return true;
+    final v = _parsed;
+    return v != null && isValidManualLifespan(v);
   }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        SwitchListTile(
-          key: const Key('lifespan-manual-switch'),
-          contentPadding: EdgeInsets.zero,
-          title: const Text('기대수명 직접 입력'),
-          subtitle: Text(_manual ? '입력한 값을 사용합니다' : '생명표 추정값을 사용합니다'),
-          value: _manual,
-          onChanged: _toggle,
-        ),
-        if (_manual)
-          TextField(
-            controller: _controller,
-            keyboardType: const TextInputType.numberWithOptions(decimal: true),
-            decoration: const InputDecoration(
-              labelText: '기대수명(세)',
-              border: OutlineInputBorder(),
-            ),
-            onChanged: (v) {
-              final text = v.trim();
-              if (text.isEmpty) return;
-              widget.cubit.setManualLifespan(
-                double.tryParse(text) ?? double.nan,
-              );
-            },
+    return AlertDialog(
+      title: const Text('기대수명'),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SwitchListTile(
+            key: const Key('lifespan-manual-switch'),
+            contentPadding: EdgeInsets.zero,
+            title: const Text('직접 입력'),
+            subtitle: Text(_manual ? '입력한 값을 사용합니다' : '생명표 추정값을 사용합니다'),
+            value: _manual,
+            onChanged: (v) => setState(() => _manual = v),
           ),
+          if (_manual)
+            TextField(
+              key: const Key('lifespan-field'),
+              controller: _controller,
+              autofocus: true,
+              keyboardType: const TextInputType.numberWithOptions(
+                decimal: true,
+              ),
+              decoration: InputDecoration(
+                labelText: '기대수명(세)',
+                border: const OutlineInputBorder(),
+                errorText: _errorText,
+              ),
+              onChanged: (_) => setState(() {}),
+            ),
+        ],
+      ),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.of(context).pop(),
+          child: const Text('취소'),
+        ),
+        TextButton(
+          onPressed: _canSave
+              ? () => Navigator.of(
+                  context,
+                ).pop(_LifespanChoice(_manual ? _parsed : null))
+              : null,
+          child: const Text('저장'),
+        ),
       ],
     );
   }

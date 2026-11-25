@@ -13,6 +13,8 @@ import 'package:life_balance/features/tone/domain/tone.dart';
 import 'package:life_balance/features/tone/domain/tone_table.dart';
 import 'package:mocktail/mocktail.dart';
 
+import '../../helpers/fake_life_table.dart';
+
 class MockRepo extends Mock implements ProfileRepository {}
 
 class FakePinner implements WidgetPinner {
@@ -108,6 +110,7 @@ void main() {
                 builder: (_) => SettingsPage(
                   cubit: cubit,
                   countries: _countries,
+                  table: FakeLifeTable({for (var a = 0; a <= 150; a++) a: 40.0}),
                   tones: _tones,
                   today: () => const CalendarDate(2026, 6, 15),
                   pinner: pinner ?? FakePinner(pinSupported),
@@ -145,30 +148,75 @@ void main() {
     expect(changes.single.$2.tone, ToneId.wit);
   });
 
-  testWidgets('switching manual lifespan to auto clears it', (tester) async {
-    final cubit = await pump(tester);
-    expect(find.byType(TextField), findsOneWidget);
-    await tester.tap(find.byKey(const Key('lifespan-manual-switch')));
+  Future<void> openDialog(WidgetTester tester) async {
+    await tester.tap(find.text('기대수명'));
     await tester.pumpAndSettle();
-    expect(cubit.state.profile.manualLifespanYears, isNull);
-    expect(find.byType(TextField), findsNothing);
+  }
+
+  Finder saveButton() => find.widgetWithText(TextButton, '저장');
+
+  testWidgets('row shows effective auto value', (tester) async {
+    await pump(tester, profile: _profile.copyWith(clearManualLifespan: true));
+    expect(find.text('자동 (생명표) · 76.0세'), findsOneWidget);
   });
 
-  testWidgets('invalid manual lifespan shows error and is not saved',
-      (tester) async {
-    final cubit = await pump(tester);
-    await tester.enterText(find.byType(TextField), '999');
+  testWidgets('row shows manual value', (tester) async {
+    await pump(tester);
+    expect(find.text('직접 입력 · 90.0세'), findsOneWidget);
+  });
+
+  testWidgets('dialog: 200 shows errorText and save disabled', (tester) async {
+    await pump(tester);
+    await openDialog(tester);
+    await tester.enterText(find.byKey(const Key('lifespan-field')), '200');
     await tester.pumpAndSettle();
     expect(find.text('0보다 크고 150 이하인 숫자를 입력하세요.'), findsOneWidget);
-    expect(cubit.state.profile.manualLifespanYears, 90);
-    expect(changes, isEmpty);
+    expect(tester.widget<TextButton>(saveButton()).onPressed, isNull);
   });
 
-  testWidgets('valid manual lifespan saves', (tester) async {
-    final cubit = await pump(tester);
-    await tester.enterText(find.byType(TextField), '85.5');
+  testWidgets('dialog: empty manual disables save', (tester) async {
+    await pump(tester);
+    await openDialog(tester);
+    await tester.enterText(find.byKey(const Key('lifespan-field')), '');
     await tester.pumpAndSettle();
-    expect(cubit.state.profile.manualLifespanYears, 85.5);
+    expect(tester.widget<TextButton>(saveButton()).onPressed, isNull);
+    expect(find.text('0보다 크고 150 이하인 숫자를 입력하세요.'), findsNothing);
+  });
+
+  testWidgets('dialog: save 85 updates row and repo', (tester) async {
+    await pump(tester);
+    await openDialog(tester);
+    await tester.enterText(find.byKey(const Key('lifespan-field')), '85');
+    await tester.pumpAndSettle();
+    await tester.tap(saveButton());
+    await tester.pumpAndSettle();
+    expect(find.text('직접 입력 · 85.0세'), findsOneWidget);
+    verify(
+      () => repo.saveProfile(
+        any(that: isA<Profile>().having((p) => p.manualLifespanYears, 'm', 85)),
+      ),
+    ).called(1);
+  });
+
+  testWidgets('dialog: switch to auto clears manual', (tester) async {
+    final cubit = await pump(tester);
+    await openDialog(tester);
+    await tester.tap(find.byKey(const Key('lifespan-manual-switch')));
+    await tester.pumpAndSettle();
+    await tester.tap(saveButton());
+    await tester.pumpAndSettle();
+    expect(cubit.state.profile.manualLifespanYears, isNull);
+    expect(find.text('자동 (생명표) · 76.0세'), findsOneWidget);
+  });
+
+  testWidgets('dialog: cancel changes nothing', (tester) async {
+    final cubit = await pump(tester);
+    await openDialog(tester);
+    await tester.enterText(find.byKey(const Key('lifespan-field')), '70');
+    await tester.tap(find.text('취소'));
+    await tester.pumpAndSettle();
+    expect(cubit.state.profile.manualLifespanYears, 90);
+    expect(changes, isEmpty);
   });
 
   testWidgets('permission denied: switch stays off and message shown',
