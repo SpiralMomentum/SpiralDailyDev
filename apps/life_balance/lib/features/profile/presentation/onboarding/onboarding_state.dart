@@ -22,6 +22,7 @@ class OnboardingState extends Equatable {
     this.estimatedLifespanYears,
     this.tone = ToneId.stoic,
     this.firstBalance,
+    this.notificationGranted,
     this.saving = false,
     this.error,
   });
@@ -38,6 +39,9 @@ class OnboardingState extends Equatable {
 
   /// complete() 성공 후 채워진다.
   final Balance? firstBalance;
+
+  /// complete()에서 알림 권한을 요청한 결과. 요청하지 않았으면 null.
+  final bool? notificationGranted;
   final bool saving;
   final OnboardingError? error;
 
@@ -52,6 +56,7 @@ class OnboardingState extends Equatable {
     double? estimatedLifespanYears,
     ToneId? tone,
     Balance? firstBalance,
+    bool? notificationGranted,
     bool? saving,
     OnboardingError? error,
   }) => OnboardingState(
@@ -66,6 +71,7 @@ class OnboardingState extends Equatable {
         estimatedLifespanYears ?? this.estimatedLifespanYears,
     tone: tone ?? this.tone,
     firstBalance: firstBalance ?? this.firstBalance,
+    notificationGranted: notificationGranted ?? this.notificationGranted,
     saving: saving ?? this.saving,
     error: error,
   );
@@ -80,6 +86,7 @@ class OnboardingState extends Equatable {
     estimatedLifespanYears,
     tone,
     firstBalance,
+    notificationGranted,
     saving,
     error,
   ];

@@ -4,6 +4,7 @@ import '../../../balance/domain/balance_calculator.dart';
 import '../../../balance/domain/calendar_date.dart';
 import '../../../balance/domain/profile.dart';
 import '../../../life_table/domain/life_table.dart';
+import '../../../ongoing_notification/data/ongoing_notifier.dart';
 import '../../../tone/domain/tone.dart';
 import '../../domain/profile_repository.dart';
 import '../../domain/settings.dart';
@@ -14,11 +15,13 @@ const _fallbackCountry = 'KR';
 class OnboardingCubit extends Cubit<OnboardingState> {
   OnboardingCubit({
     required ProfileRepository repo,
+    required OngoingNotifier notifier,
     required LifeTable table,
     required CalendarDate Function() today,
     required String? deviceCountry,
     required Future<void> Function(Profile, AppSettings) onComplete,
   }) : _repo = repo,
+       _notifier = notifier,
        _table = table,
        _today = today,
        _onComplete = onComplete,
@@ -32,6 +35,7 @@ class OnboardingCubit extends Cubit<OnboardingState> {
        );
 
   final ProfileRepository _repo;
+  final OngoingNotifier _notifier;
   final LifeTable _table;
   final CalendarDate Function() _today;
   final Future<void> Function(Profile, AppSettings) _onComplete;
@@ -51,7 +55,7 @@ class OnboardingCubit extends Cubit<OnboardingState> {
     emit(state.copyWith(countryCode: code));
   }
 
-  /// null이면 수동값 해제. 0 이하, 150 초과, NaN은 오류 상태이며 값은 바뀌지 않는다.
+  /// null이면 수동값 해제. 0 이하, 150 초과, NaN은 오류 상태이며 저장값이 비워진다.
   /// 현재 나이보다 작은 값은 허용한다(보너스 잔고).
   void setManualLifespan(double? years) {
     if (years == null) {
@@ -59,7 +63,13 @@ class OnboardingCubit extends Cubit<OnboardingState> {
       return;
     }
     if (!(years > 0 && years <= maxManualLifespanYears)) {
-      emit(state.copyWith(error: OnboardingError.invalidLifespan));
+      // 잘못된 입력은 저장값을 비우고 유효한 입력이 들어올 때까지 오류를 유지한다.
+      emit(
+        state.copyWith(
+          clearManualLifespan: true,
+          error: OnboardingError.invalidLifespan,
+        ),
+      );
       return;
     }
     emit(state.copyWith(manualLifespanYears: years));
@@ -69,6 +79,7 @@ class OnboardingCubit extends Cubit<OnboardingState> {
 
   void next() {
     final step = state.step;
+    if (state.error == OnboardingError.invalidLifespan) return;
     if (step == OnboardingStep.birthDate && state.birthDate == null) return;
     if (step == OnboardingStep.tone || step == OnboardingStep.done) return;
     _goTo(OnboardingStep.values[step.index + 1]);
@@ -102,16 +113,26 @@ class OnboardingCubit extends Cubit<OnboardingState> {
 
   Future<void> complete() async {
     final birth = state.birthDate;
-    if (birth == null || state.saving) return;
+    if (birth == null ||
+        state.saving ||
+        state.error == OnboardingError.invalidLifespan) {
+      return;
+    }
     final profile = Profile(
       birthDate: birth,
       sex: state.sex,
       countryCode: state.countryCode,
       manualLifespanYears: state.manualLifespanYears,
     );
-    final settings = AppSettings.defaults.copyWith(tone: state.tone);
+    var settings = AppSettings.defaults.copyWith(tone: state.tone);
     emit(state.copyWith(saving: true));
+    bool? granted;
     try {
+      // 첫 알림이 뜨기 전에 권한을 확정하고, 거부되면 설정을 끈 채로 저장한다.
+      if (settings.ongoingNotification) {
+        granted = await _notifier.requestPermission();
+        if (!granted) settings = settings.copyWith(ongoingNotification: false);
+      }
       await _repo.saveProfile(profile);
       await _repo.saveSettings(settings);
       await _onComplete(profile, settings);
@@ -129,6 +150,7 @@ class OnboardingCubit extends Cubit<OnboardingState> {
       state.copyWith(
         step: OnboardingStep.done,
         saving: false,
+        notificationGranted: granted,
         firstBalance: computeBalance(
           birth: birth,
           maturity: maturity,
@@ -136,16 +158,5 @@ class OnboardingCubit extends Cubit<OnboardingState> {
         ),
       ),
     );
-  }
-
-  /// 알림 권한이 거부되면 상시 알림 설정을 끈다(설정 토글이 꺼짐으로 보이도록).
-  Future<void> applyNotificationPermission({required bool granted}) async {
-    if (granted) return;
-    try {
-      final current = await _repo.loadSettings();
-      await _repo.saveSettings(current.copyWith(ongoingNotification: false));
-    } catch (_) {
-      // 설정 저장 실패는 온보딩 흐름을 막지 않는다.
-    }
   }
 }

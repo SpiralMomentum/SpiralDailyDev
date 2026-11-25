@@ -5,7 +5,6 @@ import '../../../balance/domain/balance_format.dart';
 import '../../../balance/domain/calendar_date.dart';
 import '../../../balance/domain/profile.dart';
 import '../../../life_table/data/life_table_parser.dart';
-import '../../../ongoing_notification/data/ongoing_notifier.dart';
 import '../../../tone/domain/phrase_keys.dart';
 import '../../../tone/domain/tone.dart';
 import '../../../tone/domain/tone_table.dart';
@@ -42,7 +41,6 @@ class OnboardingPage extends StatelessWidget {
     required this.countries,
     required this.tones,
     required this.today,
-    required this.notifier,
     this.pinner = const HomeWidgetPinner(),
   });
 
@@ -50,7 +48,6 @@ class OnboardingPage extends StatelessWidget {
   final List<CountryInfo> countries;
   final Map<ToneId, ToneTable> tones;
   final CalendarDate Function() today;
-  final OngoingNotifier notifier;
   final WidgetPinner pinner;
 
   @override
@@ -71,7 +68,6 @@ class OnboardingPage extends StatelessWidget {
                           state: state,
                           tones: tones,
                           today: today,
-                          notifier: notifier,
                           pinner: pinner,
                         )
                       : _StepView(
@@ -122,6 +118,7 @@ class _StepView extends StatelessWidget {
     final isLast = step == OnboardingStep.tone;
     final canNext =
         !state.saving &&
+        state.error != OnboardingError.invalidLifespan &&
         (step != OnboardingStep.birthDate || state.birthDate != null);
     final intro = isFirst
         ? _phrase(tones, state.tone, PhraseKeys.onboardingIntro, today())
@@ -402,14 +399,12 @@ class _DoneView extends StatefulWidget {
     required this.state,
     required this.tones,
     required this.today,
-    required this.notifier,
     required this.pinner,
   });
 
   final OnboardingState state;
   final Map<ToneId, ToneTable> tones;
   final CalendarDate Function() today;
-  final OngoingNotifier notifier;
   final WidgetPinner pinner;
 
   @override
@@ -418,14 +413,6 @@ class _DoneView extends StatefulWidget {
 
 class _DoneViewState extends State<_DoneView> {
   late final Future<bool> _pinSupported = widget.pinner.isSupported();
-  bool? _notificationGranted;
-
-  Future<void> _requestNotification() async {
-    final cubit = context.read<OnboardingCubit>();
-    final granted = await widget.notifier.requestPermission();
-    await cubit.applyNotificationPermission(granted: granted);
-    if (mounted) setState(() => _notificationGranted = granted);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -477,19 +464,9 @@ class _DoneViewState extends State<_DoneView> {
           },
         ),
         const SizedBox(height: 12),
-        if (_notificationGranted == null)
-          OutlinedButton(
-            onPressed: _requestNotification,
-            style: OutlinedButton.styleFrom(
-              foregroundColor: theme.colorScheme.onSurface,
-            ),
-            child: const Text('알림 켜기'),
-          )
-        else
-          Text(
-            _notificationGranted!
-                ? '알림이 켜졌습니다.'
-                : '알림이 꺼져 있습니다. 설정에서 켤 수 있습니다.',
+        if (widget.state.notificationGranted == false)
+          const Text(
+            '알림 권한이 없어 상시 알림을 껐습니다. 설정에서 켤 수 있습니다.',
             textAlign: TextAlign.center,
           ),
       ],

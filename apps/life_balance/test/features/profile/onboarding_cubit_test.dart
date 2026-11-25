@@ -3,6 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:life_balance/features/balance/domain/calendar_date.dart';
 import 'package:life_balance/features/balance/domain/profile.dart';
 import 'package:life_balance/features/life_table/domain/life_table.dart';
+import 'package:life_balance/features/ongoing_notification/data/ongoing_notifier.dart';
 import 'package:life_balance/features/profile/domain/profile_repository.dart';
 import 'package:life_balance/features/profile/domain/settings.dart';
 import 'package:life_balance/features/profile/presentation/onboarding/onboarding_cubit.dart';
@@ -11,6 +12,22 @@ import 'package:life_balance/features/tone/domain/tone.dart';
 import 'package:mocktail/mocktail.dart';
 
 class MockRepo extends Mock implements ProfileRepository {}
+
+class FakeNotifier implements OngoingNotifier {
+  FakeNotifier(this.granted, this.log);
+  final bool granted;
+  final List<String> log;
+  @override
+  Future<bool> requestPermission() async {
+    log.add('permission');
+    return granted;
+  }
+
+  @override
+  Future<void> show(String text) async {}
+  @override
+  Future<void> cancel() async {}
+}
 
 class _Table implements LifeTable {
   @override
@@ -30,6 +47,7 @@ const _birth = CalendarDate(1990, 1, 1);
 void main() {
   late MockRepo repo;
   late List<(Profile, AppSettings)> completed;
+  late List<String> log;
 
   setUpAll(() {
     registerFallbackValue(
@@ -41,6 +59,7 @@ void main() {
   setUp(() {
     repo = MockRepo();
     completed = [];
+    log = [];
     when(() => repo.saveProfile(any())).thenAnswer((_) async {});
     when(() => repo.saveSettings(any())).thenAnswer((_) async {});
     when(
@@ -50,13 +69,20 @@ void main() {
 
   OnboardingCubit build({
     String? device = 'KR',
+    bool granted = true,
     Future<void> Function(Profile, AppSettings)? onComplete,
   }) => OnboardingCubit(
     repo: repo,
+    notifier: FakeNotifier(granted, log),
     table: _Table(),
     today: () => _today,
     deviceCountry: device,
-    onComplete: onComplete ?? (p, s) async => completed.add((p, s)),
+    onComplete:
+        onComplete ??
+        (p, s) async {
+          log.add('onComplete');
+          completed.add((p, s));
+        },
   );
 
   group('초기 상태', () {
@@ -138,13 +164,36 @@ void main() {
       expect(c.state.manualLifespanYears, 20);
       expect(c.state.error, isNull);
     });
-    test('잘못된 값은 이전 값을 유지하고 null은 해제', () {
+    test('잘못된 값은 저장값을 비우고 오류 유지, 유효한 값에서 해제', () {
       final c = build()
         ..setManualLifespan(80)
         ..setManualLifespan(-1);
-      expect(c.state.manualLifespanYears, 80);
+      expect(c.state.manualLifespanYears, isNull);
+      expect(c.state.error, OnboardingError.invalidLifespan);
+      c.setManualLifespan(70);
+      expect(c.state.manualLifespanYears, 70);
+      expect(c.state.error, isNull);
       c.setManualLifespan(null);
       expect(c.state.manualLifespanYears, isNull);
+    });
+    test('"200" 입력 순서(2, 20, 200): 오류, 값 없음, 진행/저장 차단', () async {
+      final c = build()..setBirthDate(_birth);
+      c
+        ..next()
+        ..next()
+        ..next();
+      expect(c.state.step, OnboardingStep.lifespan);
+      c
+        ..setManualLifespan(2)
+        ..setManualLifespan(20)
+        ..setManualLifespan(200);
+      expect(c.state.manualLifespanYears, isNull);
+      expect(c.state.error, OnboardingError.invalidLifespan);
+      c.next();
+      expect(c.state.step, OnboardingStep.lifespan);
+      expect(c.state.error, OnboardingError.invalidLifespan);
+      await c.complete();
+      verifyNever(() => repo.saveProfile(any()));
     });
   });
 
@@ -196,18 +245,27 @@ void main() {
     verifyNever(() => repo.saveProfile(any()));
   });
 
-  group('알림 권한', () {
-    test('거부되면 상시 알림 설정을 끔', () async {
-      await build().applyNotificationPermission(granted: false);
+  group('알림 권한은 저장/onComplete보다 먼저', () {
+    test('허용: ongoingNotification true로 onComplete', () async {
+      final c = build(granted: true)..setBirthDate(_birth);
+      await c.complete();
+      expect(log, ['permission', 'onComplete']);
+      expect(completed.single.$2.ongoingNotification, isTrue);
+      verify(() => repo.saveSettings(AppSettings.defaults)).called(1);
+      expect(c.state.notificationGranted, isTrue);
+    });
+    test('거부: ongoingNotification false로 저장하고 onComplete', () async {
+      final c = build(granted: false)..setBirthDate(_birth);
+      await c.complete();
+      expect(log, ['permission', 'onComplete']);
+      expect(completed.single.$2.ongoingNotification, isFalse);
       verify(
         () => repo.saveSettings(
           AppSettings.defaults.copyWith(ongoingNotification: false),
         ),
       ).called(1);
-    });
-    test('허용되면 설정 변경 없음', () async {
-      await build().applyNotificationPermission(granted: true);
-      verifyNever(() => repo.saveSettings(any()));
+      expect(c.state.notificationGranted, isFalse);
+      expect(c.state.step, OnboardingStep.done);
     });
   });
 }
