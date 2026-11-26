@@ -1,13 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- tool/build_icons.py 생성 파일: 직접 고치지 말 것 -->
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt"
     android:width="108dp"
     android:height="108dp"
     android:viewportWidth="108"
     android:viewportHeight="108">
-    <path android:fillColor="#B08D57" android:pathData="M57.859,30.312 A24,24 0 1,0 77.688,50.141 A30,30 0 0,1 57.859,30.312 Z" />
+    <path
+        android:pathData="M60,31.261 A25.2,25.2 0 1,0 79.939,51.2 A28.8,28.8 0 0,1 60,31.261 Z">
+        <aapt:attr name="android:fillColor">
+            <gradient android:type="radial" android:centerX="55.2" android:centerY="56" android:gradientRadius="25.2">
+                <item android:offset="0" android:color="#546B5530" />
+                <item android:offset="0.86" android:color="#546B5530" />
+                <item android:offset="1" android:color="#006B5530" />
+            </gradient>
+        </aapt:attr>
+    </path>
+    <path
+        android:pathData="M57.859,30.312 A24,24 0 1,0 77.688,50.141 A30,30 0 0,1 57.859,30.312 Z">
+        <aapt:attr name="android:fillColor">
+            <gradient android:type="radial" android:centerX="42" android:centerY="40" android:gradientRadius="44">
+                <item android:offset="0" android:color="#FFE2C48C" />
+                <item android:offset="1" android:color="#FF967342" />
+            </gradient>
+        </aapt:attr>
+    </path>
     <group>
         <clip-path android:pathData="M57.859,30.312 A24,24 0 1,0 77.688,50.141 A30,30 0 0,1 57.859,30.312 Z" />
-        <path android:strokeColor="#8C6B3C" android:strokeWidth="1.6"
-            android:pathData="M54.927,34.022 A20,20 0 1,0 73.978,53.073 A34,34 0 0,1 54.927,34.022 Z" />
+        <path
+            android:pathData="M54.927,34.022 A20,20 0 1,0 73.978,53.073 A34,34 0 0,1 54.927,34.022 Z"
+            android:strokeColor="#806034"
+            android:strokeWidth="1.6" />
     </group>
+    <group>
+        <clip-path android:pathData="M57.859,30.312 A24,24 0 1,0 77.688,50.141 A30,30 0 0,1 57.859,30.312 Z" />
+        <path
+            android:pathData="M54.147,35.151 A18.85,18.85 0 1,0 72.849,53.853 A35.15,35.15 0 0,1 54.147,35.151 Z"
+            android:strokeColor="#ECD4A0"
+            android:strokeWidth="0.7" />
+    </group>
+    <path
+        android:pathData="M44.35,46.5 L57.65,46.5 L51.855,56 L57.65,65.5 L44.35,65.5 L50.145,56 Z"
+        android:strokeColor="#2B2B2B"
+        android:strokeWidth="1.33"
+        android:strokeLineJoin="round" />
+    <path
+        android:pathData="M42.925,46.5 L59.075,46.5 M42.925,65.5 L59.075,65.5"
+        android:strokeColor="#2B2B2B"
+        android:strokeWidth="1.33"
+        android:strokeLineCap="square" />
+    <path
+        android:pathData="M45.87,64.55 L56.13,64.55 L51,59.325 Z M48.91,52.96 L53.09,52.96 L51,55.43 Z"
+        android:fillColor="#FF2B2B2B" />
+    <path
+        android:pathData="M66.089,40.919 a1.7,1.7 0 1,0 3.4,0 a1.7,1.7 0 1,0 -3.4,0 Z"
+        android:fillColor="#FFBE965A" />
+    <path
+        android:pathData="M67.096,36.676 a1.4,1.4 0 1,0 2.8,0 a1.4,1.4 0 1,0 -2.8,0 Z"
+        android:fillColor="#D9BE965A" />
+    <path
+        android:pathData="M72.083,37.878 a1.15,1.15 0 1,0 2.3,0 a1.15,1.15 0 1,0 -2.3,0 Z"
+        android:fillColor="#B2BE965A" />
+    <path
+        android:pathData="M72.142,33.777 a0.95,0.95 0 1,0 1.9,0 a0.95,0.95 0 1,0 -1.9,0 Z"
+        android:fillColor="#8CBE965A" />
+    <path
+        android:pathData="M76.443,34.767 a0.75,0.75 0 1,0 1.5,0 a0.75,0.75 0 1,0 -1.5,0 Z"
+        android:fillColor="#73BE965A" />
+    <path
+        android:pathData="M73.553,29.605 a0.6,0.6 0 1,0 1.2,0 a0.6,0.6 0 1,0 -1.2,0 Z"
+        android:fillColor="#59BE965A" />
+    <path
+        android:pathData="M77.45,31.231 a0.45,0.45 0 1,0 0.9,0 a0.45,0.45 0 1,0 -0.9,0 Z"
+        android:fillColor="#40BE965A" />
 </vector>
