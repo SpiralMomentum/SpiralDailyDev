@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 108 108" width="512" height="512">
+  <rect width="108" height="108" fill="#F6F1E7"/>
+  <clipPath id="coin"><path d="M57.859,30.312 A24,24 0 1,0 77.688,50.141 A30,30 0 0,1 57.859,30.312 Z"/></clipPath>
+  <path d="M57.859,30.312 A24,24 0 1,0 77.688,50.141 A30,30 0 0,1 57.859,30.312 Z" fill="#B08D57"/>
+  <path d="M54.927,34.022 A20,20 0 1,0 73.978,53.073 A34,34 0 0,1 54.927,34.022 Z" fill="none" stroke="#8C6B3C" stroke-width="1.6" clip-path="url(#coin)"/>
+</svg>

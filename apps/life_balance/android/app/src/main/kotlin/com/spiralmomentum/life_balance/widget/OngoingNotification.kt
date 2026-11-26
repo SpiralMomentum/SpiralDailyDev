@@ -59,7 +59,7 @@ object OngoingNotification {
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
         )
         val notification = NotificationCompat.Builder(app, CHANNEL_ID)
-            .setSmallIcon(R.mipmap.ic_launcher)
+            .setSmallIcon(R.drawable.ic_stat_balance)
             .setContentTitle(CHANNEL_NAME)
             .setContentText(text)
             .setPriority(NotificationCompat.PRIORITY_LOW)
