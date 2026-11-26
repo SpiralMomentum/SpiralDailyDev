@@ -315,3 +315,30 @@ apps:
     fastlane:
       androidLane: android_play_production
       iosLane: ios_appstore_release
+  life_balance:
+    appId: com.spiralmomentum.life_balance
+    iosBundleId: com.spiralmomentum.lifeBalance
+    displayName: 인생잔고
+    projectPath: apps/life_balance
+    ci: {}
+    metadata:
+      android: store_metadata/life_balance/android.yaml
+      ios: store_metadata/life_balance/ios.yaml
+    autoGenerateIcon: false
+    autoCaptureScreenshots: false
+    build:
+      android:
+        command:
+        - flutter
+        - build
+        - appbundle
+        - --release
+      ios:
+        command:
+        - flutter
+        - build
+        - ipa
+        - --release
+    fastlane:
+      androidLane: android_play_production
+      iosLane: ios_appstore_release

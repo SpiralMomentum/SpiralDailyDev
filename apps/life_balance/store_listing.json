@@ -1,0 +1,41 @@
+{
+  "name_ko": "인생잔고",
+  "name_en": "Life Balance",
+  "package_name": "com.spiralmomentum.life_balance",
+  "bundle_id": "com.spiralmomentum.lifeBalance",
+  "one_liner_ko": "기대여명 생명표로 계산한 남은 삶을 은행 잔고처럼 보여주는 홈 화면 위젯 앱",
+  "category": "lifestyle",
+  "app_type": "app",
+  "default_language": "ko-KR",
+  "monetization": "free",
+  "ads": false,
+  "requires_login": false,
+  "content_violence": false,
+  "content_gambling": false,
+  "content_adult": false,
+  "target_age": "adult",
+  "languages": [
+    "ko"
+  ],
+  "privacy_policy_url": "https://spiralmomentum.github.io/SpiralDailyDev/privacy-policy.html",
+  "support_url": "https://spiralmomentum.github.io/SpiralDailyDev/support.html",
+  "marketing_url": "https://spiralmomentum.github.io/SpiralDailyDev/",
+  "store_text": {
+    "ios": {
+      "ko": {
+        "name": "인생잔고",
+        "subtitle": "남은 삶을 잔고처럼 보는 위젯",
+        "keywords": "메멘토모리,기대수명,남은날,위젯,디데이,카운트다운,생명표,동기부여,스토아,시간관리",
+        "promotional_text": "오늘도 하루가 출금되었습니다. 기대여명으로 계산한 남은 삶을 홈 화면 위젯과 알림으로 매일 확인하세요.",
+        "description": "인생잔고는 남은 삶을 은행 잔고처럼 보여주는 위젯 앱입니다.\n\n생년월일, 성별, 국가만 입력하면 공식 생명표의 기대여명으로 만기일을 계산하고, 남은 날을 통장 잔고처럼 보여줍니다. 자정마다 하루가 출금됩니다.\n\n기능\n홈 화면 위젯\n소형, 중형 위젯이 앱을 열지 않아도 매일 자정에 남은 날을 갱신합니다.\n\n상시 알림\n알림 영역에서 오늘의 잔고를 늘 확인할 수 있습니다. 설정에서 끌 수 있습니다.\n\n표시 단위\n일, 주, 년, 백분율 가운데 고를 수 있습니다. 직접 정한 기대 수명도 쓸 수 있고, 만기일을 넘기면 보너스 잔고가 쌓입니다.\n\n말투 세 가지\n담담한 스토아, 재치 있는 위트, 가벼운 커뮤니티 말투. 말투마다 색과 글꼴이 달라집니다. 라이트/다크 테마를 지원합니다.\n\n공식 데이터\n한국은 통계청 2024 완전생명표, 그 밖의 10개국(미국, 중국, 독일, 일본, 영국, 인도, 프랑스, 러시아, 이탈리아, 브라질)은 WHO 2023 생명표를 씁니다.\n\n개인정보\n계정과 서버가 없고 인터넷 권한도 쓰지 않습니다. 입력한 정보는 기기에만 저장됩니다.\n\n※ 표시되는 잔고는 통계적 평균에서 계산한 값이며 개인의 건강이나 수명을 예측하지 않습니다."
+      }
+    },
+    "android": {
+      "ko": {
+        "title": "인생잔고 - 남은 삶 잔고 위젯",
+        "short_description": "기대여명으로 계산한 남은 삶을 통장 잔고처럼. 홈 화면 위젯과 알림으로 매일 확인.",
+        "full_description": "인생잔고는 남은 삶을 은행 잔고처럼 보여주는 위젯 앱입니다.\n\n생년월일, 성별, 국가만 입력하면 공식 생명표의 기대여명으로 만기일을 계산하고, 남은 날을 통장 잔고처럼 보여줍니다. 자정마다 하루가 출금됩니다.\n\n■ 주요 기능\n\n홈 화면 위젯\n소형, 중형 위젯이 앱을 열지 않아도 매일 자정에 남은 날을 갱신합니다.\n\n상시 알림\n알림 영역에서 오늘의 잔고를 늘 확인할 수 있습니다. 설정에서 끌 수 있습니다.\n\n표시 단위\n일, 주, 년, 백분율 가운데 고를 수 있습니다. 직접 정한 기대 수명도 쓸 수 있고, 만기일을 넘기면 보너스 잔고가 쌓입니다.\n\n말투 세 가지\n담담한 스토아, 재치 있는 위트, 가벼운 커뮤니티 말투. 말투마다 색과 글꼴이 달라집니다. 라이트/다크 테마를 지원합니다.\n\n공식 데이터\n한국은 통계청 2024 완전생명표, 그 밖의 10개국(미국, 중국, 독일, 일본, 영국, 인도, 프랑스, 러시아, 이탈리아, 브라질)은 WHO 2023 생명표를 씁니다.\n\n개인정보\n계정과 서버가 없고 인터넷 권한도 쓰지 않습니다. 입력한 정보는 기기에만 저장됩니다.\n\n※ 표시되는 잔고는 통계적 평균에서 계산한 값이며 개인의 건강이나 수명을 예측하지 않습니다."
+      }
+    }
+  }
+}

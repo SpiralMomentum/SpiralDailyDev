@@ -22,7 +22,7 @@ flutter build appbundle --release    # build/app/outputs/bundle/release/app-rele
 3. `assets/life_tables/life_tables.json`과 `assets/tones/*.json` 로드. 하나라도 실패하면 "데이터를 불러오지 못했습니다" 화면
 4. 프로필이 있으면 위젯/상시 알림 동기화와 자정·1시간 갱신 작업 예약 후 통장 화면, 없으면 온보딩
 
-릴리스 서명 설정은 아직 없다. 현재 release 빌드는 Flutter 기본 debug 키로 서명된다.
+release 빌드는 `signing/life_balance/android/key.properties`가 있으면 앱 keystore로 서명한다(CI는 중앙 Secret에서 복원).
 
 ## 테스트
 
