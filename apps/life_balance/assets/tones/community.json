@@ -1,0 +1,65 @@
+{
+  "main.title": [
+    "인생잔고"
+  ],
+  "main.balance_label": [
+    "남은 날 ㄹㅇ",
+    "잔고 현황",
+    "남은 인생 (실화)"
+  ],
+  "main.opened_label": [
+    "계좌 튼 날"
+  ],
+  "main.maturity_label": [
+    "만기 예정일"
+  ],
+  "main.withdrawal": [
+    "오늘 -1일 빠짐 ㅇㅇ",
+    "오늘도 -1일 자동출금 ㅋㅋ",
+    "-1일 순삭"
+  ],
+  "main.bonus_notice": [
+    "만기 지났는데 아직 접속 중 ㄷㄷ 보너스 {bonus}",
+    "이거 버그 아님? 만기 넘겨서 보너스 {bonus} 쌓이는 중"
+  ],
+  "widget.small_label": [
+    "남은 날",
+    "잔고 ㄹㅇ"
+  ],
+  "widget.medium_label": [
+    "인생 잔고 현황",
+    "남은 날 현황판"
+  ],
+  "widget.withdrawal": [
+    "-1일 순삭",
+    "오늘 -1일 ㅇㅇ"
+  ],
+  "widget.bonus_label": [
+    "보너스 ㄷㄷ",
+    "덤 잔고"
+  ],
+  "notification.body": [
+    "인생잔고 {balance} · 오늘 -1일 ㅇㅇ",
+    "잔고 {balance} 남음 · 오늘 -1일 순삭 ㅋㅋ",
+    "인생잔고 {balance} · 오늘도 -1일 국룰",
+    "잔고 {balance} · 오늘 -1일 실화냐",
+    "{balance} 남음 · 3줄요약: 하루 감 / 안 돌아옴 / 오늘 잘 써라"
+  ],
+  "notification.bonus_body": [
+    "보너스 잔고 {bonus} · 만기 넘김 ㄷㄷ 개추",
+    "{bonus} 덤으로 버는 중 · 인생 연장전 ㄱㄱ"
+  ],
+  "onboarding.intro": [
+    "ㅇㅇ 인생도 통장임. 생명표로 계산한 남은 날 보여줌. 매일 자정마다 -1일 자동출금됨 ㅋㅋ",
+    "팩트) 누구나 잔고 정해져 있음. 확인하고 오늘 갓생 ㄱㄱ"
+  ],
+  "onboarding.widget_guide": [
+    "홈 화면에 위젯 박아두셈. 폰 켤 때마다 잔고 보고 현타 옴 ㅋㅋ"
+  ],
+  "kairos.intro": [
+    "다음 앱 예고) 카이로스. 남은 날 세는 거 말고 어떻게 쓸지까지 같이 보는 앱 만드는 중임. 존버 ㄱㄱ"
+  ],
+  "kairos.cta": [
+    "출시 알림 ㄱㄱ"
+  ]
+}

@@ -1,0 +1,61 @@
+[
+  {
+    "name": "days_basic",
+    "birth": "2000-01-01",
+    "today": "2026-01-01",
+    "schedule": [{"validFrom": "2026-01-01", "maturity": "2080-01-01"}],
+    "unit": "days",
+    "expected": {"remainingDays": 19723, "bonusDays": 0, "display": "19,723일", "usedRatioPermille": 325}
+  },
+  {
+    "name": "weeks_basic",
+    "birth": "2000-01-01",
+    "today": "2026-01-01",
+    "schedule": [{"validFrom": "2026-01-01", "maturity": "2080-01-01"}],
+    "unit": "weeks",
+    "expected": {"remainingDays": 19723, "bonusDays": 0, "display": "2,817주", "usedRatioPermille": 325}
+  },
+  {
+    "name": "years_basic",
+    "birth": "2000-01-01",
+    "today": "2026-01-01",
+    "schedule": [{"validFrom": "2026-01-01", "maturity": "2080-01-01"}],
+    "unit": "years",
+    "expected": {"remainingDays": 19723, "bonusDays": 0, "display": "53.9년", "usedRatioPermille": 325}
+  },
+  {
+    "name": "percent_basic",
+    "birth": "2000-01-01",
+    "today": "2026-01-01",
+    "schedule": [{"validFrom": "2026-01-01", "maturity": "2080-01-01"}],
+    "unit": "percent",
+    "expected": {"remainingDays": 19723, "bonusDays": 0, "display": "67.4%", "usedRatioPermille": 325}
+  },
+  {
+    "name": "birthday_rollover",
+    "birth": "2000-01-01",
+    "today": "2026-01-01",
+    "schedule": [
+      {"validFrom": "2025-01-01", "maturity": "2080-01-01"},
+      {"validFrom": "2026-01-01", "maturity": "2080-01-11"}
+    ],
+    "unit": "days",
+    "expected": {"remainingDays": 19733, "bonusDays": 0, "display": "19,733일", "usedRatioPermille": 325}
+  },
+  {
+    "name": "bonus",
+    "birth": "2000-01-01",
+    "today": "2021-02-01",
+    "schedule": [{"validFrom": "2021-01-01", "maturity": "2020-01-01"}],
+    "unit": "days",
+    "expected": {"remainingDays": 0, "bonusDays": 397, "display": "+397일", "usedRatioPermille": 1000}
+  },
+  {
+    "name": "bonus_percent_shows_days",
+    "birth": "2000-01-01",
+    "today": "2021-02-01",
+    "schedule": [{"validFrom": "2021-01-01", "maturity": "2020-01-01"}],
+    "unit": "percent",
+    "expected": {"remainingDays": 0, "bonusDays": 397, "display": "+397일", "usedRatioPermille": 1000}
+  }
+]
