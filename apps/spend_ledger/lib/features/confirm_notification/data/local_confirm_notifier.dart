@@ -55,7 +55,11 @@ Future<void> initNotifications(
   await p.initialize(
     settings: InitializationSettings(
       android: const AndroidInitializationSettings('@mipmap/ic_launcher'),
+      // 권한은 메인 앱 시작 시 따로 요청한다(백그라운드 isolate에서 묻지 않도록).
       iOS: DarwinInitializationSettings(
+        requestAlertPermission: false,
+        requestBadgePermission: false,
+        requestSoundPermission: false,
         notificationCategories: [_confirmCategory],
       ),
     ),
