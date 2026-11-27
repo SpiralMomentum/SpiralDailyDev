@@ -53,11 +53,12 @@ Future<IngestDeps> _build() async {
   );
 }
 
-/// 메인 앱 시작 준비. 알림 권한을 요청하고,
+/// 메인 앱 시작 준비. 알림 권한을 요청하고, iOS 대체 경로 수신함을 비워 저장하며,
 /// 알림 본문을 눌러 시작됐다면 열어야 할 거래 id를 함께 돌려준다.
 Future<(IngestDeps, String?)> bootstrap() async {
   final deps = await buildIngestDeps();
   await _requestNotificationPermission();
+  await drainIosInbox(deps);
   return (deps, await _launchEditId());
 }
 

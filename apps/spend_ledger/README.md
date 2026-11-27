@@ -1,17 +1,67 @@
-# spend_ledger
+# 지출 위젯 (spend_ledger)
 
-A new Flutter project.
+결제 문자를 받아 지출을 기록하는 본인용 앱이다. 이 문서는 1단계 iOS 수집 프로토타입을 실기기에서 확인하는 방법을 적는다.
 
-## Getting Started
+## 1. 설치
 
-This project is a starting point for a Flutter application.
+1. iPhone을 Mac에 연결하고 개발자 모드를 켠다(설정 > 개인정보 보호 및 보안 > 개발자 모드).
+2. `apps/spend_ledger/ios/Runner.xcworkspace`를 Xcode로 연다.
+3. Runner 타깃 > Signing & Capabilities에서 Team을 `BXMP99D98Z`로 고른다. 번들 ID는 `com.spiralmomentum.spendLedger`이다.
+4. 저장소 루트에서 다음을 실행한다.
 
-A few resources to get you started if this is your first Flutter project:
+   ```bash
+   cd apps/spend_ledger
+   flutter run --release
+   ```
 
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
+5. 앱이 처음 열리면 알림 권한을 허용한다. 확인 알림과 대체 알림 모두 이 권한이 필요하다.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## 2. 단축어 자동화 만들기
+
+앱의 설정 > 단축어 설정 안내 화면과 같은 순서다.
+
+1) 단축어 앱 → 자동화 → 새로운 자동화 → 메시지
+2) 메시지 내용에 '원' 포함, '즉시 실행' 선택, '실행 시 알림' 끔
+3) 동작에 '결제 문자 기록'(지출 위젯) 추가, 메시지 = 단축어 입력
+4) 저장
+
+동작 목록에 '결제 문자 기록'이 보이지 않으면 앱을 한 번 열었다 닫은 뒤 다시 찾는다.
+
+## 3. 확인할 질문 (설계 7절)
+
+결제 문자를 받거나, 다른 기기에서 이 iPhone으로 결제 문자 형식의 테스트 문자를 보낸다. 예:
+
+```
+[Web발신]
+KB국민카드1*3*승인
+홍*동님
+6,500원 일시불
+11/27 14:03
+스타벅스
+누적1,234,560원
+```
+
+각 질문에 예/아니오와 관찰한 내용을 적는다.
+
+1. 단축어 메시지 자동화 '즉시 실행'이 현재 iOS에서 확인 창 없이 돌아가는가
+2. 단축어 → App Intent 실행이 앱을 화면에 띄우지 않고 끝나는가
+3. App Intent 안에서 헤드리스 FlutterEngine으로 Dart `ingestMessage`를 실행해 3초 안에 알림을 띄울 수 있는가
+4. 잠금화면에서 알림 '포함' 액션이 앱을 열지 않고 DB에 반영되는가
+
+질문 4는 기기를 잠근 상태에서 확인 알림을 길게 눌러 '포함'을 누른 뒤, 앱을 열어 그 거래가 확인 대기에서 빠지고 합계에 들어갔는지 본다.
+
+## 4. 진단 화면에서 볼 값
+
+설정 > 수집 진단에서 단축어가 실행될 때마다 한 줄씩 기록된다(최근 20건, 최신순).
+
+| 값 | 뜻 |
+| --- | --- |
+| 경로 | `headless`: 헤드리스 엔진에서 저장까지 끝남. `fallback`: 실패하거나 시간이 넘어 대체 경로로 처리됨 |
+| engineMs | 단축어 실행부터 Dart 준비 신호까지. 엔진을 이미 띄워 둔 상태면 0에 가깝다 |
+| dartMs | Dart에서 필터·해석·저장·알림 요청에 걸린 시간 |
+| totalMs | 단축어 실행부터 처리가 끝날 때까지 전체 시간 |
+| 결과 | `stored`(저장), `filtered`(필터에 걸려 저장 안 함), `ready-timeout`(10초 안에 준비 안 됨), `ingest-timeout`(15초 안에 응답 없음), `error: ...`(Dart 오류) |
+
+질문 3의 합격 기준은 경로가 `headless`이고 `totalMs <= 3000`(NFR-02)인 것이다. 처음 실행(엔진을 새로 띄움)과 바로 이어진 두 번째 실행의 값을 따로 적는다.
+
+경로가 `fallback`이면 "N원 결제 문자가 왔어요. 앱에서 확인해 주세요." 알림이 오고, 원문은 앱을 열 때 저장된다. 이 경우 결과 값을 함께 공유한다.
