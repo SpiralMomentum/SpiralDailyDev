@@ -188,4 +188,16 @@ void _regressions() {
     expect(p.kind, MessageKind.approval);
     expect(p.counterparty, '스타벅스');
   });
+
+  test('single line footer keeps body', () {
+    final p = parse('[카드] 승인 7,700원 스타벅스 문의 1577-6000');
+    expect(p.amount, 7700);
+    expect(p.kind, MessageKind.approval);
+    expect(p.counterparty, '스타벅스');
+  });
+
+  test('phone pattern inside merchant kept', () {
+    final p = parse('[Web발신]\n신한카드 승인 3,000원 11/27 10:00 GS25-123');
+    expect(p.counterparty, 'GS25-123');
+  });
 }

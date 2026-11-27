@@ -12,7 +12,9 @@ final RegExp _balanceWithNumber = RegExp(
   r'(?:잔액|누적|한도|잔고|잔여)[^\s\d:：]*\s*[:：]?\s*\d[\d,]*\s*원?',
 );
 final RegExp _footerLine = RegExp(r'고객센터|문의|www|http');
-final RegExp _phoneToken = RegExp(r'\d{2,4}-\d{3,4}(?:-\d{4})?');
+final RegExp _phoneToken = RegExp(
+  r'(?<![0-9A-Za-z가-힣])\d{2,4}-\d{3,4}(?:-\d{4})?',
+);
 final RegExp _cancelable = RegExp(r'취소\s*가능');
 final RegExp _dateTimePattern = RegExp(
   r'(\d{1,2})[/.](\d{1,2})\s*(\d{1,2}):(\d{2})',
@@ -41,14 +43,16 @@ bool containsAmount(String line) =>
 bool containsDateTime(String line) =>
     _dateTimePattern.hasMatch(line) || _dateOnlyPattern.hasMatch(line);
 
-/// 고객센터·문의·URL 안내 줄. 종류와 상대 판정에서 제외한다.
-bool isFooterLine(String line) => _footerLine.hasMatch(line);
+/// 고객센터·문의·URL 안내 문구를 줄 끝까지 잘라낸다. 앞부분은 유지한다.
+String stripFooter(String line) {
+  final match = _footerLine.firstMatch(line);
+  return match == null ? line : line.substring(0, match.start).trim();
+}
 
 /// 줄에서 우선순위가 가장 높은 종류 키워드. 없으면 null.
-/// 안내 줄과 `취소가능` 문구는 무시한다.
+/// 안내 문구(줄 끝까지)와 `취소가능` 문구는 무시한다.
 String? firstKindKeyword(String line) {
-  if (isFooterLine(line)) return null;
-  line = line.replaceAll(_cancelable, '');
+  line = stripFooter(line).replaceAll(_cancelable, '');
   for (final (keyword, _) in kindKeywords) {
     if (line.contains(keyword)) return keyword;
   }
@@ -69,7 +73,7 @@ ParsedMessage parseMessage(
 }) {
   final body = contentLines(
     text,
-  ).where((line) => !isFooterLine(line)).join('\n');
+  ).map(stripFooter).where((line) => line.isNotEmpty).join('\n');
   final amount = _extractAmount(body);
   final kind = _extractKind(body, hasAmount: amount != null);
   return ParsedMessage(
