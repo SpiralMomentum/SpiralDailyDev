@@ -6,6 +6,7 @@ import '../features/budget/presentation/home_page.dart';
 import '../features/ingest/domain/ingest.dart';
 import '../features/ledger/presentation/candidates_page.dart';
 import '../features/ledger/presentation/edit_page.dart';
+import '../features/settings/presentation/settings_page.dart';
 import 'routes.dart';
 
 /// 알림 응답처럼 위젯 밖에서 화면을 여는 데 쓴다.
@@ -48,16 +49,7 @@ Route<void> _route(RouteSettings settings) => MaterialPageRoute<void>(
   builder: (_) => switch (settings.name) {
     AppRoutes.candidates => const CandidatesPage(),
     AppRoutes.edit => EditPage(id: settings.arguments! as String),
-    AppRoutes.settings => const _SettingsPlaceholder(),
+    AppRoutes.settings => const SettingsPage(),
     _ => const HomePage(),
   },
 );
-
-/// 설정 화면은 다음 단계에서 만든다.
-class _SettingsPlaceholder extends StatelessWidget {
-  const _SettingsPlaceholder();
-
-  @override
-  Widget build(BuildContext context) =>
-      Scaffold(appBar: AppBar(title: const Text('설정')));
-}
