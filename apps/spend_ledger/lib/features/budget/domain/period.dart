@@ -29,10 +29,10 @@ int daysBetween(DateTime from, DateTime to) => DateTime.utc(
 ).difference(DateTime.utc(from.year, from.month, from.day)).inDays;
 
 DateTime _startIn(int year, int month, int startDay) {
-  final y = year + (month - 1) ~/ 12;
-  final m = (month - 1) % 12 + 1;
-  final last = DateTime(y, m + 1, 0).day;
-  return DateTime(y, m, startDay < last ? startDay : last);
+  // DateTime이 월 범위를 벗어난 값(0, 13 등)을 연도까지 정규화한다.
+  final first = DateTime(year, month, 1);
+  final last = DateTime(first.year, first.month + 1, 0).day;
+  return DateTime(first.year, first.month, startDay < last ? startDay : last);
 }
 
 /// [date]가 속한 기간. [startDay]는 1~31이며 그 달에 없으면 말일.

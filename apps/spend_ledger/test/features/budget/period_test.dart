@@ -34,4 +34,17 @@ void main() {
     expect(p.start, DateTime(2026, 12, 1));
     expect(p.endExclusive, DateTime(2027, 1, 1));
   });
+
+  test('january before start day', () {
+    final p = periodFor(DateTime(2027, 1, 10), 25);
+    expect(p.start, DateTime(2026, 12, 25));
+    expect(p.endExclusive, DateTime(2027, 1, 25));
+    expect(p.totalDays, 31);
+  });
+
+  test('december after start day', () {
+    final p = periodFor(DateTime(2026, 12, 28), 25);
+    expect(p.start, DateTime(2026, 12, 25));
+    expect(p.endExclusive, DateTime(2027, 1, 25));
+  });
 }
