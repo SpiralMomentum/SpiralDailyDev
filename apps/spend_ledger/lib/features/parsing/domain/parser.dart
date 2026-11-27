@@ -7,8 +7,13 @@ final RegExp amountPattern = RegExp(r'(\d{1,3}(?:,\d{3})+|\d+)\s*원');
 final RegExp _fallbackAmountPattern = RegExp(
   r'(출금|이체|송금|결제|승인)\s*(\d{1,3}(?:,\d{3})+|\d+)',
 );
-final RegExp _balanceBefore = RegExp(r'잔액|누적|한도|잔고');
-final RegExp _balanceWithNumber = RegExp(r'(?:잔액|누적|한도|잔고)\s*\d[\d,]*\s*원?');
+final RegExp _balanceBefore = RegExp(r'잔액|누적|한도|잔고|잔여');
+final RegExp _balanceWithNumber = RegExp(
+  r'(?:잔액|누적|한도|잔고|잔여)[^\s\d:：]*\s*[:：]?\s*\d[\d,]*\s*원?',
+);
+final RegExp _footerLine = RegExp(r'고객센터|문의|www|http');
+final RegExp _phoneToken = RegExp(r'\d{2,4}-\d{3,4}(?:-\d{4})?');
+final RegExp _cancelable = RegExp(r'취소\s*가능');
 final RegExp _dateTimePattern = RegExp(
   r'(\d{1,2})[/.](\d{1,2})\s*(\d{1,2}):(\d{2})',
 );
@@ -36,8 +41,14 @@ bool containsAmount(String line) =>
 bool containsDateTime(String line) =>
     _dateTimePattern.hasMatch(line) || _dateOnlyPattern.hasMatch(line);
 
+/// 고객센터·문의·URL 안내 줄. 종류와 상대 판정에서 제외한다.
+bool isFooterLine(String line) => _footerLine.hasMatch(line);
+
 /// 줄에서 우선순위가 가장 높은 종류 키워드. 없으면 null.
+/// 안내 줄과 `취소가능` 문구는 무시한다.
 String? firstKindKeyword(String line) {
+  if (isFooterLine(line)) return null;
+  line = line.replaceAll(_cancelable, '');
   for (final (keyword, _) in kindKeywords) {
     if (line.contains(keyword)) return keyword;
   }
@@ -56,7 +67,9 @@ ParsedMessage parseMessage(
   required DateTime receivedAt,
   String? sender,
 }) {
-  final body = contentLines(text).join('\n');
+  final body = contentLines(
+    text,
+  ).where((line) => !isFooterLine(line)).join('\n');
   final amount = _extractAmount(body);
   final kind = _extractKind(body, hasAmount: amount != null);
   return ParsedMessage(
@@ -86,6 +99,7 @@ MessageKind _extractKind(String body, {required bool hasAmount}) {
   if (keyword != null) {
     return kindKeywords.firstWhere((entry) => entry.$1 == keyword).$2;
   }
+  if (body.contains('입금')) return MessageKind.unknown;
   return hasAmount ? MessageKind.approval : MessageKind.unknown;
 }
 
@@ -153,6 +167,8 @@ String cleanCounterparty(String segmentSource, MessageKind kind) {
   var s = segmentSource;
   String sep(Match _) => _lineSeparator;
   s = s.replaceAllMapped(_bracketToken, sep);
+  s = s.replaceAllMapped(_cancelable, sep);
+  s = s.replaceAllMapped(_phoneToken, sep);
   s = s.replaceAllMapped(_balanceWithNumber, sep);
   s = s.replaceAllMapped(_amountWithInstallment, sep);
   s = s.replaceAllMapped(_dateTimePattern, sep);

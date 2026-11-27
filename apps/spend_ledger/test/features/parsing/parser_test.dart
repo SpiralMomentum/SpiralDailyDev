@@ -5,6 +5,7 @@ import 'package:spend_ledger/features/parsing/domain/parser.dart';
 import '../../fixtures/messages.dart';
 
 void main() {
+  _regressions();
   final receivedAt = DateTime(2026, 11, 27, 20, 0);
 
   ParsedMessage parse(String text, {DateTime? at}) =>
@@ -142,5 +143,49 @@ void main() {
 
   test('contentLines drops blanks and Web발신', () {
     expect(contentLines('[Web발신]\n  a \n\n b'), ['a', 'b']);
+  });
+}
+
+void _regressions() {
+  final receivedAt = DateTime(2026, 11, 27, 20, 0);
+  ParsedMessage parse(String t) => parseMessage(t, receivedAt: receivedAt);
+
+  test('deposit is unknown kind', () {
+    final p = parse('[KB]11/27 10:00 123456**789 홍길동 입금 50,000원 잔액 1,284,000원');
+    expect(p.kind, MessageKind.unknown);
+    expect(p.amount, 50000);
+  });
+
+  test('footer ignored', () {
+    final p = parse(
+      '[Web발신]\nKB국민카드1*3*승인\n홍*동님\n6,500원 일시불\n11/27 14:03\n김밥천국\n고객센터 1588-1688',
+    );
+    expect(p.counterparty, '김밥천국');
+  });
+
+  test('누적금액 removed', () {
+    final p = parse(
+      '[Web발신]\n신한카드 승인 12,000원 11/27 12:30 김밥천국\n누적금액 1,246,560원',
+    );
+    expect(p.counterparty, '김밥천국');
+    expect(p.amount, 12000);
+  });
+
+  test('잔여한도 removed', () {
+    final p = parse('[Web발신]\n삼성카드 승인 9,000원 11/27 12:00 이디야\n잔여한도 1,000,000원');
+    expect(p.counterparty, '이디야');
+    expect(p.amount, 9000);
+  });
+
+  test('잔액 colon', () {
+    final p = parse('[Web발신]\n하나카드 잔액:5,000원 승인 3,000원 11/27 08:00 CU');
+    expect(p.amount, 3000);
+    expect(p.counterparty, 'CU');
+  });
+
+  test('취소가능 is not cancel', () {
+    final p = parse('[Web발신]\n현대카드 승인 7,700원 11/27 13:00 스타벅스 취소가능');
+    expect(p.kind, MessageKind.approval);
+    expect(p.counterparty, '스타벅스');
   });
 }
