@@ -24,8 +24,11 @@ class ThreadingHTTPServer(ThreadingMixIn, HTTPServer):
 
 
 PORT = 7892
-TIMEOUT = 30  # content.js 응답 대기 최대 초
+TIMEOUT = 30  # content.js 응답 대기 기본 최대 초
+# 여러 화면을 거치는 단계는 더 오래 걸린다 (콘텐츠 등급 실측 약 20초)
+STEP_TIMEOUT = {'set_store_settings': 60, 'set_content_rating': 90, 'set_target_audience': 60}
 CREATE_WAIT = 600  # 사용자가 법적 동의 후 "앱 만들기"를 누를 때까지 대기 최대 초
+CREATE_WAIT_ACCEPTED = 60  # --accept-terms로 content.js가 직접 누른 뒤 앱 페이지로 이동할 때까지
 CREATED_APP_URL = re.compile(r'/developers/\d+/app/(\d+)/')
 
 
@@ -34,11 +37,21 @@ def created_app_id(url: str) -> str | None:
     return m.group(1) if m else None
 
 
-def wait_for_created_app(limit: int) -> dict:
-    """법적 동의는 사용자만 할 수 있다. 앱 생성 후 이동하는 /app/<id>/ URL에서 app_id를 얻는다."""
+def step_timeout(step: str) -> int:
+    return STEP_TIMEOUT.get(step, TIMEOUT)
+
+
+def create_wait(accept_terms: bool) -> int:
+    return CREATE_WAIT_ACCEPTED if accept_terms else CREATE_WAIT
+
+
+def wait_for_created_app(limit: int, accept_terms: bool = False) -> dict:
+    """앱 생성 후 이동하는 /app/<id>/ URL에서 app_id를 얻는다.
+    법적 동의는 --accept-terms가 없으면 사용자가 직접 체크하고 "앱 만들기"를 누른다."""
     import time
-    print(f'[chrome_extension] Chrome에서 법적 동의 체크 후 "앱 만들기"를 눌러주세요 (최대 {limit}초 대기)',
-          file=sys.stderr, flush=True)
+    if not accept_terms:
+        print(f'[chrome_extension] Chrome에서 법적 동의 체크 후 "앱 만들기"를 눌러주세요 (최대 {limit}초 대기)',
+              file=sys.stderr, flush=True)
     deadline = time.time() + limit
     while time.time() < deadline:
         app_id = created_app_id(get_chrome_url())
@@ -191,7 +204,8 @@ def main() -> None:
 
     # 결과 대기 - "페이지 불일치"는 무시하고 올바른 결과가 올 때까지 대기
     import time as _time
-    deadline = _time.time() + TIMEOUT
+    timeout = step_timeout(step)
+    deadline = _time.time() + timeout
     result = None
     while _time.time() < deadline:
         remaining = deadline - _time.time()
@@ -204,12 +218,13 @@ def main() -> None:
             httpd.result = None
             httpd.result_event.clear()
     if result is None:
-        result = {'success': False, 'app_id': None, 'message': f'timeout ({TIMEOUT}s)'}
+        result = {'success': False, 'app_id': None, 'message': f'timeout ({timeout}s)'}
 
     httpd.shutdown()
 
     if step == 'create_app' and result.get('success') and not result.get('app_id'):
-        result = wait_for_created_app(CREATE_WAIT)
+        accepted = bool(config.get('_accept_terms'))
+        result = wait_for_created_app(create_wait(accepted), accepted)
     print(f'[chrome_extension] 결과: {result}', file=sys.stderr)
     print(json.dumps(result, ensure_ascii=False))
     sys.exit(0 if result.get('success') else 1)

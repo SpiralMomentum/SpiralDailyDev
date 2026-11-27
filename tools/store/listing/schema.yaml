@@ -5,14 +5,14 @@ fields:
 
   name_ko:
     type: string
-    description: 스토어에 표시되는 앱 이름 (한국어)
+    description: 스토어에 표시되는 앱 이름 (한국어) — 기본 언어가 ko이고 store_text.android.ko.title이 없을 때 Play Console 앱 생성 이름
     limits:
       android: 30자
       ios: 30자
 
   name_en:
     type: string
-    description: 스토어에 표시되는 앱 이름 (영어) — Play Console 앱 생성 시 입력값
+    description: 스토어에 표시되는 앱 이름 (영어) — 기본 언어가 en이고 store_text.android.en.title이 없을 때 Play Console 앱 생성 이름
 
   package_name:
     type: string
@@ -145,6 +145,18 @@ fields:
   content_adult:
     type: boolean
     description: 성인 콘텐츠 포함 여부 — IARC 콘텐츠 등급 설문
+
+  content_user_interaction:
+    type: boolean
+    optional: true
+    description: 사용자끼리 음성/텍스트/이미지로 상호작용하거나 위치를 공유하는지 — IARC 콘텐츠 등급 설문
+    note: 없으면 false. true면 자동 제출하지 않고 직접 작성한다.
+
+  content_digital_purchases:
+    type: boolean
+    optional: true
+    description: 앱 안에서 디지털 상품 구매가 가능한지 — IARC 콘텐츠 등급 설문
+    note: 없으면 false. true면 자동 제출하지 않고 직접 작성한다.
 
   target_age:
     type: enum

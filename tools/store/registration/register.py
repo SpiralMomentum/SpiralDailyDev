@@ -9,6 +9,10 @@ Usage:
   python3 tools/store/registration/register.py --app color_snap --developer-id 764310...
   python3 tools/store/registration/register.py --app color_snap --developer-id 764310... --backend playwright
   python3 tools/store/registration/register.py --app color_snap --developer-id 764310... --step set_privacy_policy --app-id 497253...
+  python3 tools/store/registration/register.py --app color_snap --accept-terms
+
+--accept-terms: 사용자가 Play 개발자 프로그램 정책, 미국 수출법, IARC 사용 약관에 동의했음을 뜻한다.
+없으면 앱 생성은 사용자의 동의 클릭을 기다리고, 콘텐츠 등급 설문은 진행하지 않는다.
 """
 from __future__ import annotations
 
@@ -62,6 +66,11 @@ def steps_to_run(step: Optional[str], app_id: Optional[str]) -> List[str]:
     return [s for s in steps if not (app_id and s == "create_app")]
 
 
+def backend_config(listing: Mapping[str, Any], contact_email: str, accept_terms: bool) -> Dict[str, Any]:
+    """백엔드에 넘기는 설정. 연락처 이메일은 앱별로 다르지 않으면 release.yaml org 값을 쓴다."""
+    return {"contact_email": contact_email, **listing, "_accept_terms": accept_terms}
+
+
 def backend_command(backend: str, step: str, listing: Mapping[str, Any], app_id: Optional[str], developer_id: str) -> List[str]:
     cmd = BACKEND_COMMANDS[backend] + ["--step", step, "--config", json.dumps(listing), "--developer-id", developer_id]
     return cmd + (["--app-id", app_id] if app_id else [])
@@ -90,13 +99,15 @@ def main() -> None:
     parser.add_argument("--app-id", help="이미 생성된 앱 ID (create_app 건너뜀)")
     parser.add_argument("--step", choices=STEPS, help="특정 단계만 실행")
     parser.add_argument("--dry-run", action="store_true", help="실제 실행 없이 config/계약 검증만")
+    parser.add_argument("--accept-terms", action="store_true",
+                        help="Play 개발자 정책·미국 수출법·IARC 약관 동의를 자동 체크 (사용자가 동의한 경우만)")
     args = parser.parse_args()
 
     listing_path = REPO_ROOT / path_for(cfg, "storeListing", args.app)
     if not listing_path.exists():
         print(f"오류: {listing_path} 없음", file=sys.stderr)
         sys.exit(1)
-    listing = json.loads(listing_path.read_text())
+    listing = backend_config(json.loads(listing_path.read_text()), org(cfg, "contactEmail"), args.accept_terms)
     steps = steps_to_run(args.step, args.app_id)
 
     if args.dry_run:

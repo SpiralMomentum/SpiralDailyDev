@@ -21,8 +21,9 @@ def manual_guide(package_name: str, app: str) -> List[str]:
     ]
 
 
-def register_command(app: str, developer_id: str, backend: str) -> List[str]:
-    return ["python3", str(REGISTER_PY), "--app", app, "--developer-id", developer_id, "--backend", backend]
+def register_command(app: str, developer_id: str, backend: str, accept_terms: bool = False) -> List[str]:
+    cmd = ["python3", str(REGISTER_PY), "--app", app, "--developer-id", developer_id, "--backend", backend]
+    return cmd + (["--accept-terms"] if accept_terms else [])
 
 
 def register_play_store(
@@ -33,6 +34,7 @@ def register_play_store(
     package_name: str,
     developer_id: Optional[str],
     backend: str,
+    accept_terms: bool = False,
 ) -> Optional[str]:
     """실패하면 이유를, 성공하면 None을 돌려준다."""
     listing = repo_root / path_for(cfg, "storeListing", app)
@@ -51,7 +53,7 @@ def register_play_store(
         effects.log("경고: 누락 필드를 채운 뒤 다시 실행하세요")
         return f"store_listing.json 누락 필드 ({', '.join(missing)})"
 
-    if not effects.run(register_command(app, developer_id, backend), cwd=repo_root).ok:
+    if not effects.run(register_command(app, developer_id, backend, accept_terms), cwd=repo_root).ok:
         effects.log("경고: Play Console 등록 실패")
         return "Play Console 등록 단계 실패 (위 [단계] 출력 참고)"
     return None

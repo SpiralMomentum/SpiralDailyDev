@@ -41,6 +41,7 @@ class Plan:
     exclude_from_release: bool
     coverage_threshold: int
     skip: frozenset
+    accept_terms: bool = False
 
 
 def make_plan(cfg: Config, args: argparse.Namespace, ids: AppIds) -> Plan:
@@ -54,6 +55,7 @@ def make_plan(cfg: Config, args: argparse.Namespace, ids: AppIds) -> Plan:
         exclude_from_release=args.exclude_from_release,
         coverage_threshold=args.coverage_threshold or default(cfg, "coverageThreshold"),
         skip=frozenset(n for n in ("signing", "gradle", "store") if getattr(args, f"skip_{n}")),
+        accept_terms=args.accept_terms,
     )
 
 
@@ -121,7 +123,7 @@ def onboard(effects: Effects, cfg: Config, plan: Plan, repo_root: Path = REPO_RO
          lambda: register_app_store(effects, repo_root, plan.ios_bundle_id, plan.display_name)),
         ("Play Store 등록", "store" in plan.skip,
          lambda: register_play_store(effects, cfg, repo_root, plan.app, plan.android_id,
-                                     plan.play_developer_id, plan.backend)),
+                                     plan.play_developer_id, plan.backend, plan.accept_terms)),
     ]
     problems = [(title, reason) for title, skipped, action in steps
                 for reason in [run_step(effects, title, skipped, action)] if reason]
@@ -140,6 +142,8 @@ def parse_args(argv: Optional[List[str]]) -> argparse.Namespace:
     p.add_argument("--ios-bundle-id", help="iOS bundle ID (기본값: project.pbxproj의 Runner bundle ID)")
     p.add_argument("--play-developer-id", help="기본값: release.yaml org.playDeveloperId")
     p.add_argument("--backend", help="Play Console 자동화 백엔드 (기본값: defaults.registrationBackend)")
+    p.add_argument("--accept-terms", action="store_true",
+                   help="Play 개발자 정책·미국 수출법·IARC 약관 동의를 자동 체크 (사용자가 동의한 경우만)")
     p.add_argument("--skip-store", action="store_true")
     p.add_argument("--skip-signing", action="store_true")
     p.add_argument("--skip-gradle", action="store_true")

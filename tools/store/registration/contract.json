@@ -38,10 +38,10 @@
     "create_app": {
       "description": "앱 생성. app_id 반환",
       "required_config_fields": ["name_en", "package_name", "default_language", "app_type", "monetization"],
-      "note": "법적 동의 체크박스는 사용자 직접 처리. 백엔드는 대기 후 진행."
+      "note": "앱 이름은 기본 언어 store_text.android.<lang>.title. 법적 동의 체크박스는 --accept-terms(config._accept_terms)일 때만 백엔드가 체크하고, 아니면 사용자가 직접 처리할 때까지 대기."
     },
     "set_store_settings": {
-      "description": "카테고리, 연락처 설정",
+      "description": "카테고리, 연락처 이메일(config.contact_email, 기본값 release.yaml org.contactEmail)과 웹사이트(support_url) 설정",
       "required_config_fields": ["category", "support_url"],
       "requires_app_id": true
     },
@@ -63,11 +63,13 @@
     "set_content_rating": {
       "description": "IARC 콘텐츠 등급 설문",
       "required_config_fields": ["category", "content_violence", "content_gambling", "content_adult"],
+      "note": "app_type=app이고 content_violence/gambling/adult/user_interaction/digital_purchases가 모두 false이며 --accept-terms일 때만 '다른 모든 앱 유형'으로 모든 질문 '아니요' 제출. 그 밖에는 실패로 돌려 직접 작성.",
       "requires_app_id": true
     },
     "set_target_audience": {
       "description": "타겟층 설정",
       "required_config_fields": ["target_age"],
+      "note": "target_age=adult(만 18세 이상)만 자동 제출. all/teen은 아동 관련 추가 질문이 있어 직접 작성.",
       "requires_app_id": true
     }
   }
