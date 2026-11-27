@@ -98,7 +98,7 @@ apps/spend_ledger/
   - `enum MessageSource { iosShortcut, androidSms, androidApp, share, manual }`
   - `class RawMessage { String text; String? sender; DateTime receivedAt; MessageSource source; }` (const, Equatable)
   - `class FilterRule { String? senderPattern; List<String> includeKeywords; List<String> excludeKeywords; }` + `toJson()/fromJson(Map)`
-  - `const List<FilterRule> defaultFilterRules` = 규칙 1개: sender 없음, include `['승인','결제','출금','이체','송금','취소','환불']`, exclude `['누적','결제예정','광고','인증번호','입금']`
+  - `const List<FilterRule> defaultFilterRules` = 규칙 1개: sender 없음, include `['승인','결제','출금','이체','송금','취소','환불']`, exclude `['결제예정','광고','인증번호','입금']` (Ruling R3: '누적' 제거)
   - `class NameRegistry { List<String> selfNames; List<String> chargeTargets; List<String> prepaidMoneys; }` + `toJson/fromJson`, `const NameRegistry.empty()`
   - `bool passesFilter(RawMessage m, List<FilterRule> rules)`
   - `test/fixtures/messages.dart`: 아래 픽스처 상수 (이후 모든 테스트가 사용)
