@@ -10,6 +10,7 @@ import '../features/budget/domain/summary.dart';
 import '../features/confirm_notification/domain/notification_text.dart';
 import '../features/ingest/data/ios_bridge.dart';
 import '../features/ingest/domain/ingest.dart';
+import '../features/ledger/domain/ledger_repository.dart';
 import '../features/ledger/domain/transaction.dart';
 import '../features/message_filter/domain/raw_message.dart';
 import 'bootstrap.dart';
@@ -76,10 +77,12 @@ Future<Map<String, Object?>> _onIngestCall(MethodCall call) async {
   final IngestDeps deps;
   try {
     deps = await buildIngestDeps();
-  } catch (e) {
+  } catch (e, st) {
+    debugPrint('buildIngestDeps failed: $e\n$st');
     return {
       'result': 'error',
-      'error': '$e',
+      'error': _errorType(e),
+      'notified': false,
       'dartMs': watch.elapsedMilliseconds,
     };
   }
@@ -87,8 +90,10 @@ Future<Map<String, Object?>> _onIngestCall(MethodCall call) async {
 }
 
 /// `ingest` 호출 `{text, sender?}`을 단축어 문자로 저장하고 결과를 돌려준다.
-/// `{result: filtered|stored|error, txId?, notified, dartMs, error?}`
-/// 처리 중 예외는 던지지 않고 `error` 결과로 알린다.
+/// `{result: filtered|stored|error, txId?, notified, notifyError?, error?, dartMs}`
+/// 예외는 던지지 않는다. 저장 뒤의 실패(알림 등)는 `stored`에 `notifyError`로,
+/// 저장 전의 실패만 `error`로 알린다. Swift는 `error`일 때만 대체 경로로 간다.
+/// 오류는 원문이 섞이지 않도록 예외 타입 이름만 담는다.
 Future<Map<String, Object?>> handleIngestCall(
   MethodCall call,
   IngestDeps deps,
@@ -97,76 +102,107 @@ Future<Map<String, Object?>> handleIngestCall(
     throw MissingPluginException('unsupported method ${call.method}');
   }
   final watch = Stopwatch()..start();
-  final notifier = _AskRecorder(deps.notifier);
+  final RawMessage raw;
   try {
     final args = call.arguments as Map<Object?, Object?>;
-    final (result, tx) = await ingestMessage(
-      RawMessage(
-        text: args['text']! as String,
-        sender: args['sender'] as String?,
-        receivedAt: deps.now(),
-        source: MessageSource.iosShortcut,
-      ),
-      _withNotifier(deps, notifier),
+    raw = RawMessage(
+      text: args['text']! as String,
+      sender: args['sender'] as String?,
+      receivedAt: deps.now(),
+      source: MessageSource.iosShortcut,
     );
-    return {
-      'result': result.name,
-      if (tx != null) 'txId': tx.id,
-      'notified': notifier.asked,
-      'dartMs': watch.elapsedMilliseconds,
-    };
   } catch (e, st) {
-    debugPrint('ingest call failed: $e\n$st');
+    debugPrint('bad ingest call: $e\n$st');
     return {
       'result': 'error',
-      'error': '$e',
-      'notified': notifier.asked,
+      'error': _errorType(e),
+      'notified': false,
       'dartMs': watch.elapsedMilliseconds,
     };
   }
+  return {
+    ...await _ingestReport(raw, deps),
+    'dartMs': watch.elapsedMilliseconds,
+  };
 }
 
-/// iOS 대체 경로가 쌓아 둔 원문을 꺼내 단축어 문자로 저장한다.
+/// iOS 대체 경로가 쌓아 둔 문자를 받은 시각·보낸 사람 그대로 저장한다.
+/// 저장(또는 필터)된 항목만 `ackInbox`로 알려 지우게 하고, 실패한 항목은 남겨 다음에 다시 한다.
 /// 채널이 없는 플랫폼(Android)에서는 아무것도 하지 않는다.
-/// 꺼낸 뒤 한 건이 실패해도 나머지는 계속 처리한다.
 Future<void> drainIosInbox(
   IngestDeps deps, {
   MethodChannel channel = iosDiagnosticsChannel,
 }) async {
-  final List<String> texts;
+  final List<Object?> entries;
   try {
-    texts = await channel.invokeListMethod<String>('drainInbox') ?? const [];
+    entries = await channel.invokeListMethod<Object?>('drainInbox') ?? const [];
   } on MissingPluginException {
     return;
   } catch (e, st) {
     debugPrint('drainInbox failed: $e\n$st');
     return;
   }
-  for (final text in texts) {
+  final acked = <String>[];
+  for (final entry in entries) {
+    final InboxItem item;
     try {
-      await ingestMessage(
-        RawMessage(
-          text: text,
-          receivedAt: deps.now(),
-          source: MessageSource.iosShortcut,
-        ),
-        deps,
-      );
+      item = InboxItem.fromMap(entry! as Map<Object?, Object?>);
     } catch (e, st) {
-      debugPrint('inbox ingest failed: $e\n$st');
+      debugPrint('bad inbox item: $e\n$st');
+      continue;
     }
+    final report = await _ingestReport(item.toRawMessage(), deps);
+    if (report['result'] != 'error') acked.add(item.id);
+  }
+  if (acked.isEmpty) return;
+  try {
+    await channel.invokeMethod<void>('ackInbox', {'ids': acked});
+  } catch (e, st) {
+    debugPrint('ackInbox failed: $e\n$st');
   }
 }
 
-IngestDeps _withNotifier(IngestDeps d, ConfirmNotifier notifier) => IngestDeps(
-  ledger: d.ledger,
-  settings: d.settings,
-  hints: d.hints,
-  notifier: notifier,
-  widgets: d.widgets,
-  now: d.now,
-  newId: d.newId,
-);
+/// 한 건을 저장하고 결과를 맵으로 돌려준다. 예외는 던지지 않는다.
+/// 저장소에 이번 거래가 써진 뒤의 예외는 저장 성공으로 본다.
+Future<Map<String, Object?>> _ingestReport(
+  RawMessage raw,
+  IngestDeps deps,
+) async {
+  final notifier = _AskRecorder(deps.notifier);
+  final ledger = _UpsertRecorder(deps.ledger);
+  String? incomingId;
+  final tracked = IngestDeps(
+    ledger: ledger,
+    settings: deps.settings,
+    hints: deps.hints,
+    notifier: notifier,
+    widgets: deps.widgets,
+    now: deps.now,
+    newId: () => incomingId = deps.newId(),
+  );
+  try {
+    final (result, tx) = await ingestMessage(raw, tracked);
+    return {
+      'result': result.name,
+      if (tx != null) 'txId': tx.id,
+      'notified': notifier.asked,
+    };
+  } catch (e, st) {
+    debugPrint('ingest failed: $e\n$st');
+    final id = incomingId;
+    if (id != null && ledger.upserted.contains(id)) {
+      return {
+        'result': IngestResult.stored.name,
+        'txId': id,
+        'notified': false,
+        'notifyError': _errorType(e),
+      };
+    }
+    return {'result': 'error', 'error': _errorType(e), 'notified': false};
+  }
+}
+
+String _errorType(Object e) => '${e.runtimeType}';
 
 /// 확인 알림을 요청했는지 기록한다.
 class _AskRecorder implements ConfirmNotifier {
@@ -187,4 +223,39 @@ class _AskRecorder implements ConfirmNotifier {
 
   @override
   Future<void> cancel(String txId) => _inner.cancel(txId);
+}
+
+/// 실제로 써진 거래 id를 기록한다.
+class _UpsertRecorder implements LedgerRepository {
+  _UpsertRecorder(this._inner);
+
+  final LedgerRepository _inner;
+  final Set<String> upserted = {};
+
+  @override
+  Future<void> upsertAll(List<Transaction> txs) async {
+    await _inner.upsertAll(txs);
+    upserted.addAll(txs.map((t) => t.id));
+  }
+
+  @override
+  Future<Transaction?> byId(String id) => _inner.byId(id);
+
+  @override
+  Future<List<Transaction>> since(DateTime from) => _inner.since(from);
+
+  @override
+  Future<List<Transaction>> byStatus(Set<TxStatus> statuses) =>
+      _inner.byStatus(statuses);
+
+  @override
+  Future<bool> resolvePending(
+    String id,
+    TxStatus status, {
+    required bool clearRawText,
+  }) => _inner.resolvePending(id, status, clearRawText: clearRawText);
+
+  @override
+  Future<bool> updateEditable(Transaction edited) =>
+      _inner.updateEditable(edited);
 }

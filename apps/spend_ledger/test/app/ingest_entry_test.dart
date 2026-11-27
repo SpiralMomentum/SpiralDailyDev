@@ -7,7 +7,10 @@ import 'package:spend_ledger/features/ingest/data/ios_bridge.dart';
 import 'package:spend_ledger/features/ingest/domain/ingest.dart';
 import 'package:spend_ledger/features/ledger/domain/transaction.dart';
 
+import 'package:spend_ledger/features/ledger/domain/ledger_repository.dart';
+
 import '../fixtures/messages.dart';
+import '../support/failing_ledger.dart';
 import '../support/fakes.dart';
 
 NotificationResponse _response({String? actionId, String? payload}) =>
@@ -135,18 +138,42 @@ void _ingestCallTests() {
     expect(h.notifier.asked, isEmpty);
   });
 
-  test('ingest failure is reported as error result', () async {
-    final logs = <String>[];
-    debugPrint = (message, {wrapWidth}) => logs.add(message ?? '');
-    addTearDown(() => debugPrint = debugPrintThrottled);
+  test('notifier failure after storing still reports stored', () async {
+    final logs = _captureLogs();
     h.notifier.failing = true;
 
     final r = await handleIngestCall(ingestCall(kbApproval), h.deps);
 
+    expect(r['result'], 'stored');
+    expect(r['notified'], isFalse);
+    expect(r['notifyError'], 'StateError');
+    expect(r['dartMs'], isA<int>());
+    expect(await h.deps.ledger.byId(r['txId']! as String), isNotNull);
+    expect(logs, hasLength(1));
+  });
+
+  test('failure before storing is reported as error type only', () async {
+    final logs = _captureLogs();
+    final ledger = FailingLedger(h.deps.ledger)..failWrites = true;
+
+    final r = await handleIngestCall(
+      ingestCall(kbApproval),
+      _withLedger(h.deps, ledger),
+    );
+
     expect(r['result'], 'error');
-    expect(r['error'], contains('notification failed'));
+    expect(r['error'], 'StateError');
+    expect(r.containsKey('txId'), isFalse);
     expect(r['dartMs'], isA<int>());
     expect(logs, hasLength(1));
+  });
+
+  test('missing text is reported as error', () async {
+    _captureLogs();
+
+    final r = await handleIngestCall(const MethodCall('ingest', {}), h.deps);
+
+    expect(r['result'], 'error');
   });
 
   test('unknown method is not implemented', () {
@@ -160,30 +187,95 @@ void _ingestCallTests() {
 void _drainInboxTests() {
   TestWidgetsFlutterBinding.ensureInitialized();
   late IngestHarness h;
+  late List<MethodCall> calls;
   final messenger =
       TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger;
+  final receivedAt = DateTime(2026, 11, 27, 14, 5);
 
-  setUp(() async => h = await openHarness());
+  Map<String, Object?> item(String id, String text, {String? sender}) => {
+    'id': id,
+    'text': text,
+    'sender': sender,
+    'receivedAtMs': receivedAt.millisecondsSinceEpoch,
+  };
+
+  void inbox(List<Map<String, Object?>> items) =>
+      messenger.setMockMethodCallHandler(iosDiagnosticsChannel, (call) async {
+        calls.add(call);
+        return call.method == 'drainInbox' ? items : null;
+      });
+
+  setUp(() async {
+    calls = [];
+    h = await openHarness();
+  });
   tearDown(() async {
     messenger.setMockMethodCallHandler(iosDiagnosticsChannel, null);
     await h.close();
   });
 
-  test('ingests every drained message', () async {
-    final calls = <String>[];
-    messenger.setMockMethodCallHandler(iosDiagnosticsChannel, (call) async {
-      calls.add(call.method);
-      return [kbApproval, shinhanApproval];
-    });
+  test('keeps original time and sender and acks stored items', () async {
+    inbox([
+      item('a', kbApproval, sender: 'KB'),
+      item('b', shinhanApproval),
+      item('c', deposit),
+    ]);
 
     await drainIosInbox(h.deps);
 
-    expect(calls, ['drainInbox']);
+    expect(calls.map((c) => c.method), ['drainInbox', 'ackInbox']);
+    expect(calls.last.arguments, {
+      'ids': ['a', 'b', 'c'],
+    });
     final pending = await h.deps.ledger.byStatus({TxStatus.pending});
-    expect(
-      pending.map((t) => t.counterparty),
-      unorderedEquals(['스타벅스', '김밥천국']),
+    final kb = pending.singleWhere((t) => t.counterparty == '스타벅스');
+    expect(kb.receivedAt, receivedAt);
+    expect(kb.sender, 'KB');
+    expect(pending.singleWhere((t) => t.counterparty == '김밥천국').sender, isNull);
+  });
+
+  test('late duplicate of a stored message is caught', () async {
+    h.clock.value = receivedAt;
+    await handleIngestCall(
+      MethodCall('ingest', {'text': kbApproval, 'sender': 'KB'}),
+      h.deps,
     );
+    inbox([item('a', kbApproval, sender: 'KB')]);
+    h.clock.value = receivedAt.add(const Duration(minutes: 2));
+
+    await drainIosInbox(h.deps);
+
+    final all = await h.deps.ledger.since(DateTime(2026));
+    expect(all.where((t) => t.status != TxStatus.duplicate), hasLength(1));
+  });
+
+  test('failed items are not acked', () async {
+    _captureLogs();
+    inbox([item('a', kbApproval), item('b', shinhanApproval)]);
+    final deps = _withLedger(
+      h.deps,
+      _RejectingLedger(h.deps.ledger, kbApproval),
+    );
+
+    await drainIosInbox(deps);
+
+    expect(calls.last.method, 'ackInbox');
+    expect(calls.last.arguments, {
+      'ids': ['b'],
+    });
+  });
+
+  test('nothing to ack when all fail', () async {
+    _captureLogs();
+    inbox([item('a', kbApproval)]);
+    final deps = _withLedger(
+      h.deps,
+      _RejectingLedger(h.deps.ledger, kbApproval),
+    );
+
+    await drainIosInbox(deps);
+
+    expect(calls.map((c) => c.method), ['drainInbox']);
   });
 
   test('missing channel is skipped', () async {
@@ -191,4 +283,34 @@ void _drainInboxTests() {
 
     expect(await h.deps.ledger.byStatus({TxStatus.pending}), isEmpty);
   });
+}
+
+List<String> _captureLogs() {
+  final logs = <String>[];
+  debugPrint = (message, {wrapWidth}) => logs.add(message ?? '');
+  addTearDown(() => debugPrint = debugPrintThrottled);
+  return logs;
+}
+
+IngestDeps _withLedger(IngestDeps d, LedgerRepository ledger) => IngestDeps(
+  ledger: ledger,
+  settings: d.settings,
+  hints: d.hints,
+  notifier: d.notifier,
+  widgets: d.widgets,
+  now: d.now,
+  newId: d.newId,
+);
+
+/// [reject] 원문을 담은 거래 저장만 실패시킨다.
+class _RejectingLedger extends FailingLedger {
+  _RejectingLedger(super.inner, this.reject);
+
+  final String reject;
+
+  @override
+  Future<void> upsertAll(List<Transaction> txs) =>
+      txs.any((t) => t.rawText == reject)
+      ? Future.error(StateError('db failed'))
+      : super.upsertAll(txs);
 }

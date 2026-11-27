@@ -17,6 +17,7 @@
 		97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FD1CF9000F007C117D /* Assets.xcassets */; };
 		97C147011CF9000F007C117D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FF1CF9000F007C117D /* LaunchScreen.storyboard */; };
 		98E257F8FC17ED5F234E096A /* HeadlessIngest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51DF7952E939D7558E7940CB /* HeadlessIngest.swift */; };
+		A640313FF9560062131A9440 /* InboxStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C5284A194DD57BEAB68C44F /* InboxStore.swift */; };
 		D223638344474129A979AB8E /* Pods_Runner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C1DDF68A7E13E4E23007320E /* Pods_Runner.framework */; };
 		E7BA996570974A46E401F6F5 /* Pods_RunnerTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F5CDF7725042046F567E61E /* Pods_RunnerTests.framework */; };
 		ECAA0C6B39ED4719CCA49F43 /* RecordPaymentMessageIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 815531A1DD4868C8983B2EFA /* RecordPaymentMessageIntent.swift */; };
@@ -52,6 +53,7 @@
 		331C807B294A618700263BE5 /* RunnerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunnerTests.swift; sourceTree = "<group>"; };
 		331C8081294A63A400263BE5 /* RunnerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RunnerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = AppFrameworkInfo.plist; path = Flutter/AppFrameworkInfo.plist; sourceTree = "<group>"; };
+		3C5284A194DD57BEAB68C44F /* InboxStore.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = InboxStore.swift; sourceTree = "<group>"; };
 		41E854C4BC1C4083B5CFC23E /* IngestDiagnostics.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = IngestDiagnostics.swift; sourceTree = "<group>"; };
 		4F5CDF7725042046F567E61E /* Pods_RunnerTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RunnerTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		51DF7952E939D7558E7940CB /* HeadlessIngest.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = HeadlessIngest.swift; sourceTree = "<group>"; };
@@ -159,6 +161,7 @@
 				815531A1DD4868C8983B2EFA /* RecordPaymentMessageIntent.swift */,
 				51DF7952E939D7558E7940CB /* HeadlessIngest.swift */,
 				41E854C4BC1C4083B5CFC23E /* IngestDiagnostics.swift */,
+				3C5284A194DD57BEAB68C44F /* InboxStore.swift */,
 			);
 			path = Runner;
 			sourceTree = "<group>";
@@ -395,6 +398,7 @@
 				ECAA0C6B39ED4719CCA49F43 /* RecordPaymentMessageIntent.swift in Sources */,
 				98E257F8FC17ED5F234E096A /* HeadlessIngest.swift in Sources */,
 				1D58B4D9F917BBAAD53EB3F3 /* IngestDiagnostics.swift in Sources */,
+				A640313FF9560062131A9440 /* InboxStore.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -14,15 +14,17 @@ struct IngestRecord: Codable {
   let result: String
 }
 
-/// 진단 기록과 대체 경로 수신함. 앱 엔진에서 `spend_ledger/diagnostics` 채널로 읽는다.
+/// 진단 기록. 대체 경로 수신함(`InboxStore`)과 함께 앱 엔진에서 `spend_ledger/diagnostics` 채널로 읽는다.
 enum IngestDiagnostics {
   static let channelName = "spend_ledger/diagnostics"
   private static let recordsKey = "ingest_diagnostics"
-  private static let inboxKey = "pending_inbox"
   private static let maxRecords = 20
   private static let lock = NSLock()
 
   private static var defaults: UserDefaults { .standard }
+
+  /// 기록에 남길 결과 문자열. 원문이나 예외 메시지는 넣지 않는다.
+  static func errorResult(_ type: String) -> String { "error:\(type)" }
 
   /// 최근 20건만 남기고 최신 기록을 앞에 둔다.
   static func record(_ r: IngestRecord) {
@@ -41,30 +43,17 @@ enum IngestDiagnostics {
     return defaults.string(forKey: recordsKey) ?? "[]"
   }
 
-  /// 헤드리스 처리에 실패한 원문을 쌓아 둔다. 앱을 열 때 Dart가 꺼내 저장한다.
-  static func appendInbox(_ text: String) {
-    lock.lock()
-    defer { lock.unlock() }
-    let inbox = defaults.stringArray(forKey: inboxKey) ?? []
-    defaults.set(inbox + [text], forKey: inboxKey)
-  }
-
-  /// 쌓인 원문을 모두 꺼내고 비운다.
-  static func drainInbox() -> [String] {
-    lock.lock()
-    defer { lock.unlock() }
-    let inbox = defaults.stringArray(forKey: inboxKey) ?? []
-    defaults.removeObject(forKey: inboxKey)
-    return inbox
-  }
-
-  /// 앱 엔진에 `list`, `drainInbox` 채널을 등록한다.
+  /// 앱 엔진에 `list`, `drainInbox`, `ackInbox` 채널을 등록한다.
   static func register(messenger: FlutterBinaryMessenger) {
     let channel = FlutterMethodChannel(name: channelName, binaryMessenger: messenger)
     channel.setMethodCallHandler { call, result in
       switch call.method {
       case "list": result(listJSON())
-      case "drainInbox": result(drainInbox())
+      case "drainInbox": result(InboxStore.pending().map { $0.asMap })
+      case "ackInbox":
+        let ids = (call.arguments as? [String: Any])?["ids"] as? [String] ?? []
+        InboxStore.remove(ids: Set(ids))
+        result(nil)
       default: result(FlutterMethodNotImplemented)
       }
     }

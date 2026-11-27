@@ -3,10 +3,48 @@ import 'dart:convert';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/services.dart';
 
+import '../../message_filter/domain/raw_message.dart';
+
 /// iOS 앱 엔진에 등록된 진단·수신함 채널. Android에는 없다.
 const MethodChannel iosDiagnosticsChannel = MethodChannel(
   'spend_ledger/diagnostics',
 );
+
+/// iOS 대체 경로 수신함의 한 항목. Swift가 키체인에 보관한다.
+class InboxItem extends Equatable {
+  const InboxItem({
+    required this.id,
+    required this.text,
+    required this.sender,
+    required this.receivedAt,
+  });
+
+  /// `{id, text, sender?, receivedAtMs}`
+  factory InboxItem.fromMap(Map<Object?, Object?> m) => InboxItem(
+    id: m['id']! as String,
+    text: m['text']! as String,
+    sender: m['sender'] as String?,
+    receivedAt: DateTime.fromMillisecondsSinceEpoch(
+      (m['receivedAtMs']! as num).toInt(),
+    ),
+  );
+
+  final String id;
+  final String text;
+  final String? sender;
+  final DateTime receivedAt;
+
+  /// 받은 시각·보낸 사람을 그대로 둔 단축어 문자.
+  RawMessage toRawMessage() => RawMessage(
+    text: text,
+    sender: sender,
+    receivedAt: receivedAt,
+    source: MessageSource.iosShortcut,
+  );
+
+  @override
+  List<Object?> get props => [id, text, sender, receivedAt];
+}
 
 /// 단축어 수집 한 건의 단계별 소요 시간. Swift `IngestDiagnostics`가 기록한다.
 class IngestDiagnostic extends Equatable {
