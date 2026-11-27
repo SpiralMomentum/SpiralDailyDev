@@ -194,17 +194,33 @@ final RegExp _kindWords = RegExp(
 );
 final RegExp _digitsOnlyToken = RegExp(r'(?<!\S)[\d,]+(?!\S)');
 final RegExp _cardBankToken = RegExp(r'\S*(?:카드|은행)\S*');
+final RegExp _bracketedName = RegExp(r'[(\[]([^)\]]*)[)\]](?=님에게|님께|에게)');
 final RegExp _recipientToken = RegExp(
-  r'(?<![0-9A-Za-z가-힣])([0-9A-Za-z가-힣]+?)(?:님에게|님께|에게)',
+  r'(?<![0-9A-Za-z가-힣])([0-9A-Za-z가-힣]{2,}?)(?:님에게|님께|에게)'
+  r'(?![0-9A-Za-z가-힣])',
 );
+const Set<String> _genericNames = {'고객', '회원'};
+
+String? _findRecipient(String source) {
+  final unwrapped = source.replaceAllMapped(
+    _bracketedName,
+    (m) => ' ${m.group(1)}',
+  );
+  for (final match in _recipientToken.allMatches(unwrapped)) {
+    final name = match.group(1)!;
+    if (!_genericNames.contains(name) && !name.endsWith('님')) return name;
+  }
+  return null;
+}
+
 final RegExp _honorific = RegExp(r'(?:님에게|님|에게)$');
 
 /// 문자 조각에서 상대(가맹점·수신자)만 남긴다. 못 찾으면 빈 문자열.
 /// 힌트가 지정한 한 줄에도 같은 정리를 적용할 수 있도록 공개한다.
 String cleanCounterparty(String segmentSource, MessageKind kind) {
   if (kind == MessageKind.transfer || kind == MessageKind.withdrawal) {
-    final recipient = _recipientToken.firstMatch(segmentSource);
-    if (recipient != null) return recipient.group(1)!;
+    final recipient = _findRecipient(segmentSource);
+    if (recipient != null) return recipient;
   }
   var s = segmentSource;
   String sep(Match _) => _lineSeparator;
@@ -227,7 +243,7 @@ String cleanCounterparty(String segmentSource, MessageKind kind) {
   final pieces = s
       .split(_lineSeparator)
       .map((piece) => piece.trim())
-      .where((piece) => piece.length >= 2)
+      .where((piece) => piece.length >= 2 && !piece.contains('고객'))
       .toList(growable: false);
   if (pieces.isEmpty) return '';
   return pieces.last.replaceFirst(_honorific, '').trim();

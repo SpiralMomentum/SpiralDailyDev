@@ -213,4 +213,21 @@ void _regressions() {
     expect(p.counterparty, '이영희');
     expect(p.kind, MessageKind.transfer);
   });
+
+  test('withdrawal notice text is not recipient', () {
+    final p = parse(
+      '[Web발신]\n[KB]11/27 09:00\n123456**789\n쿠팡페이\n출금100,000\n고객님께서 신청하신 자동이체',
+    );
+    expect(p.counterparty, '쿠팡페이');
+  });
+
+  test('에게시판 is not recipient', () {
+    final p = parse('[신한] 본인에게시판 김철수님에게 10,000원 송금');
+    expect(p.counterparty, '김철수');
+  });
+
+  test('parenthesized recipient', () {
+    final p = parse('[신한] (홍길동)님에게 10,000원 송금');
+    expect(p.counterparty, '홍길동');
+  });
 }
