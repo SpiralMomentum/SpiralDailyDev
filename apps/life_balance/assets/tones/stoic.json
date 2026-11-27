@@ -1,0 +1,62 @@
+{
+  "main.title": [
+    "인생잔고"
+  ],
+  "main.balance_label": [
+    "남은 날",
+    "아직 남은 시간",
+    "오늘 이후의 날들"
+  ],
+  "main.opened_label": [
+    "계좌 개설일"
+  ],
+  "main.maturity_label": [
+    "만기일"
+  ],
+  "main.withdrawal": [
+    "오늘 출금 -1일",
+    "오늘도 하루가 빠져나갔다 · -1일",
+    "지나간 하루는 돌아오지 않는다 · -1일"
+  ],
+  "main.bonus_notice": [
+    "만기일을 지났다. 이제부터의 하루는 모두 덤으로 받은 것이다 · 보너스 {bonus}",
+    "예정된 날을 넘어 여기에 있다. 남은 날을 세기보다 오늘을 쓰라 · 보너스 {bonus}"
+  ],
+  "widget.small_label": [
+    "남은 날",
+    "인생잔고"
+  ],
+  "widget.medium_label": [
+    "오늘 이후 남은 날",
+    "아직 남은 시간"
+  ],
+  "widget.withdrawal": [
+    "오늘 -1일"
+  ],
+  "widget.bonus_label": [
+    "보너스 잔고"
+  ],
+  "notification.body": [
+    "인생잔고 {balance} · 오늘 -1일",
+    "남은 날 {balance} · 오늘 하루가 빠져나갔다",
+    "잔고 {balance} · 오늘 -1일, 메멘토 모리",
+    "남은 날 {balance} · 오늘을 헛되이 쓰지 말 것"
+  ],
+  "notification.bonus_body": [
+    "보너스 잔고 {bonus} · 오늘도 덤으로 받은 하루",
+    "만기 후 {bonus} · 받은 날을 허투루 쓰지 말 것"
+  ],
+  "onboarding.intro": [
+    "누구에게나 정해진 잔고가 있다. 생명표로 추정한 남은 날을 매일 마주하라.",
+    "삶은 매일 하루씩 출금된다. 잔고를 아는 사람이 오늘을 아껴 쓴다."
+  ],
+  "onboarding.widget_guide": [
+    "홈 화면에 위젯을 두면 하루에 한 번, 남은 날과 마주하게 된다."
+  ],
+  "kairos.intro": [
+    "크로노스가 흘러가는 시간이라면 카이로스는 행동해야 할 결정적 순간이다. 남은 날을 어떻게 쓸지 함께 묻는 앱, 카이로스를 준비하고 있다."
+  ],
+  "kairos.cta": [
+    "출시 알림 받기"
+  ]
+}
