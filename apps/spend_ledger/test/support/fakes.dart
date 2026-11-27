@@ -12,20 +12,34 @@ import 'package:sqflite_common/sqlite_api.dart' hide Transaction;
 import 'memory_db.dart';
 
 /// 보낸 확인 알림·예산 알림·취소 요청을 기록한다.
+/// [failing]이 true면 기록한 뒤 예외를 던진다(알림 권한 없음 등).
 class FakeNotifier implements ConfirmNotifier {
   final List<Transaction> asked = [];
   final List<BudgetAlert> alerts = [];
   final List<String> cancelled = [];
+  bool failing = false;
+
+  void _maybeFail() {
+    if (failing) throw StateError('notification failed');
+  }
 
   @override
-  Future<void> askConfirm(Transaction tx) async => asked.add(tx);
+  Future<void> askConfirm(Transaction tx) async {
+    asked.add(tx);
+    _maybeFail();
+  }
 
   @override
-  Future<void> budgetAlert(BudgetAlert alert, LedgerSummary s) async =>
-      alerts.add(alert);
+  Future<void> budgetAlert(BudgetAlert alert, LedgerSummary s) async {
+    alerts.add(alert);
+    _maybeFail();
+  }
 
   @override
-  Future<void> cancel(String txId) async => cancelled.add(txId);
+  Future<void> cancel(String txId) async {
+    cancelled.add(txId);
+    _maybeFail();
+  }
 }
 
 /// 마지막으로 저장된 위젯 항목을 보관한다.

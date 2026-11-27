@@ -4,6 +4,7 @@ import '../../budget/domain/budget_alert.dart';
 import '../../budget/domain/summary.dart';
 import '../../ingest/domain/ingest.dart';
 import '../../ledger/domain/transaction.dart';
+import '../domain/notification_id.dart';
 import '../domain/notification_text.dart';
 
 const AndroidNotificationChannel _confirmChannel = AndroidNotificationChannel(
@@ -69,11 +70,9 @@ class LocalConfirmNotifier implements ConfirmNotifier {
 
   final FlutterLocalNotificationsPlugin _plugin;
 
-  static final int _budgetNotificationId = budgetChannelId.hashCode;
-
   @override
   Future<void> askConfirm(Transaction tx) => _plugin.show(
-    id: tx.id.hashCode,
+    id: notificationIdFor(tx.id),
     body: confirmBody(tx),
     payload: tx.id,
     notificationDetails: NotificationDetails(
@@ -92,7 +91,7 @@ class LocalConfirmNotifier implements ConfirmNotifier {
 
   @override
   Future<void> budgetAlert(BudgetAlert alert, LedgerSummary s) => _plugin.show(
-    id: _budgetNotificationId,
+    id: notificationIdFor(budgetNotificationKey(alert.name)),
     body: budgetAlertBody(alert, s),
     notificationDetails: NotificationDetails(
       android: AndroidNotificationDetails(
@@ -104,5 +103,6 @@ class LocalConfirmNotifier implements ConfirmNotifier {
   );
 
   @override
-  Future<void> cancel(String txId) => _plugin.cancel(id: txId.hashCode);
+  Future<void> cancel(String txId) =>
+      _plugin.cancel(id: notificationIdFor(txId));
 }

@@ -115,4 +115,63 @@ void main() {
       BudgetAlert.projectedOver,
     });
   });
+
+  test('resolve after cancel keeps cancelled', () async {
+    await open();
+    final (_, approval) = await h.ingest(kbApproval);
+    await h.ingest(kbCancel);
+    final cancelsBefore = List.of(h.notifier.cancelled);
+    h.widgets.last = null;
+
+    await resolveCandidate(approval!.id, true, h.deps);
+
+    expect((await h.deps.ledger.byId(approval.id))!.status, TxStatus.cancelled);
+    expect(h.notifier.cancelled, cancelsBefore);
+    expect(h.widgets.last, isNull);
+    expect(await refreshOutputs(h.deps).then((s) => s.periodTotal), 0);
+  });
+
+  test('double resolve: second is no-op', () async {
+    await open();
+    final (_, tx) = await h.ingest(kbApproval);
+
+    await resolveCandidate(tx!.id, true, h.deps);
+    await resolveCandidate(tx.id, false, h.deps);
+
+    expect((await h.deps.ledger.byId(tx.id))!.status, TxStatus.included);
+    expect(h.notifier.cancelled, [tx.id]);
+  });
+
+  test('edit does not resurrect cancelled', () async {
+    await open();
+    final (_, approval) = await h.ingest(kbApproval);
+    await h.ingest(kbCancel);
+
+    await saveEdit(approval!.copyWith(status: TxStatus.included), h.deps);
+
+    expect((await h.deps.ledger.byId(approval.id))!.status, TxStatus.cancelled);
+    expect(await refreshOutputs(h.deps).then((s) => s.periodTotal), 0);
+  });
+
+  test('notifier failure on ingest still refreshes widgets', () async {
+    await open();
+    h.notifier.failing = true;
+
+    await expectLater(h.ingest(kbApproval), throwsStateError);
+
+    expect(h.widgets.last!['pending'], '1');
+    expect(await h.deps.ledger.byStatus({TxStatus.pending}), hasLength(1));
+  });
+
+  test('notifier failure on resolve still refreshes widgets', () async {
+    await open();
+    final (_, tx) = await h.ingest(kbApproval);
+    h.notifier.failing = true;
+    h.widgets.last = null;
+
+    await expectLater(resolveCandidate(tx!.id, true, h.deps), throwsStateError);
+
+    expect(h.widgets.last!['total'], '6,500원');
+    expect(h.widgets.last!['pending'], '0');
+  });
 }

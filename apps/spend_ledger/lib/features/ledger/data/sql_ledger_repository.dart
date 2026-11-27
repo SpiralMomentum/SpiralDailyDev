@@ -1,14 +1,8 @@
 import 'package:sqflite_common/sqlite_api.dart' hide Transaction;
 
 import '../../parsing/domain/parsed_message.dart';
+import '../domain/ledger_repository.dart';
 import '../domain/transaction.dart';
-
-abstract interface class LedgerRepository {
-  Future<void> upsertAll(List<Transaction> txs);
-  Future<Transaction?> byId(String id);
-  Future<List<Transaction>> since(DateTime from);
-  Future<List<Transaction>> byStatus(Set<TxStatus> statuses);
-}
 
 class SqlLedgerRepository implements LedgerRepository {
   const SqlLedgerRepository(this._db);
@@ -61,7 +55,47 @@ class SqlLedgerRepository implements LedgerRepository {
     );
     return rows.map(_fromRow).toList();
   }
+
+  @override
+  Future<bool> resolvePending(
+    String id,
+    TxStatus status, {
+    required bool clearRawText,
+  }) async {
+    final count = await _db.rawUpdate(
+      'UPDATE transactions SET status = ?'
+      '${clearRawText ? ', rawText = NULL' : ''}'
+      ' WHERE id = ? AND status = ?',
+      [status.name, id, TxStatus.pending.name],
+    );
+    return count == 1;
+  }
+
+  @override
+  Future<bool> updateEditable(Transaction edited) async {
+    final count = await _db.rawUpdate(
+      'UPDATE transactions SET amount = ?, counterparty = ?, occurredAt = ?,'
+      ' category = ?, status = ?'
+      ' WHERE id = ? AND status IN (?, ?, ?)',
+      [
+        edited.amount,
+        edited.counterparty,
+        edited.occurredAt.millisecondsSinceEpoch,
+        edited.category.name,
+        edited.status.name,
+        edited.id,
+        for (final s in _editableStatuses) s.name,
+      ],
+    );
+    return count == 1;
+  }
 }
+
+const List<TxStatus> _editableStatuses = [
+  TxStatus.pending,
+  TxStatus.included,
+  TxStatus.excluded,
+];
 
 Map<String, Object?> _toRow(Transaction t) => {
   'id': t.id,

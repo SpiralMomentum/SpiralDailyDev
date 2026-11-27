@@ -3,11 +3,7 @@ import 'dart:convert';
 import 'package:sqflite_common/sqlite_api.dart';
 
 import '../domain/format_hint.dart';
-
-abstract interface class FormatHintRepository {
-  Future<FormatHint?> get(String signature);
-  Future<void> put(FormatHint hint);
-}
+import '../domain/format_hint_repository.dart';
 
 class SqlFormatHintRepository implements FormatHintRepository {
   const SqlFormatHintRepository(this._db);

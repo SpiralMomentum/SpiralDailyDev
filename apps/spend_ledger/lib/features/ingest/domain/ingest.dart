@@ -1,18 +1,16 @@
 import '../../budget/domain/budget_alert.dart';
 import '../../budget/domain/period.dart';
 import '../../budget/domain/summary.dart';
-import '../../ledger/data/sql_ledger_repository.dart' show LedgerRepository;
 import '../../ledger/domain/decide.dart';
+import '../../ledger/domain/ledger_repository.dart';
 import '../../ledger/domain/transaction.dart';
 import '../../message_filter/domain/filter.dart';
 import '../../message_filter/domain/raw_message.dart';
-import '../../parsing/data/sql_format_hint_repository.dart'
-    show FormatHintRepository;
 import '../../parsing/domain/format_hint.dart';
+import '../../parsing/domain/format_hint_repository.dart';
 import '../../parsing/domain/parser.dart';
 import '../../parsing/domain/signature.dart';
-import '../../settings/data/sql_settings_repository.dart'
-    show SettingsRepository;
+import '../../settings/domain/settings_repository.dart';
 import '../../widget_sync/domain/widget_entries.dart';
 
 abstract interface class ConfirmNotifier {
@@ -82,12 +80,25 @@ Future<(IngestResult, Transaction?)> ingestMessage(
     newId: d.newId(),
   );
   await d.ledger.upsertAll([decision.incoming, ...decision.updated]);
-  if (decision.notify) await d.notifier.askConfirm(decision.incoming);
-  for (final id in _withdrawnPending(recent, decision.updated)) {
-    await d.notifier.cancel(id);
-  }
-  await refreshOutputs(d);
+  await _notifyThenRefresh(d, () async {
+    if (decision.notify) await d.notifier.askConfirm(decision.incoming);
+    for (final id in _withdrawnPending(recent, decision.updated)) {
+      await d.notifier.cancel(id);
+    }
+  });
   return (IngestResult.stored, decision.incoming);
+}
+
+/// 알림 실패가 위젯·예산 갱신을 막지 않도록, 실패해도 갱신한 뒤 예외를 다시 던진다.
+Future<void> _notifyThenRefresh(
+  IngestDeps d,
+  Future<void> Function() notify,
+) async {
+  try {
+    await notify();
+  } finally {
+    await refreshOutputs(d);
+  }
 }
 
 /// 확인 대기였다가 이번 결정으로 취소된 거래 id. 그 확인 알림은 거둬야 한다.
@@ -105,33 +116,33 @@ Iterable<String> _withdrawnPending(
 }
 
 /// 확인 대기 거래를 포함/제외로 확정한다. 대기 상태가 아니면 아무것도 하지 않는다.
+/// 확인과 쓰기는 저장소의 한 문장으로 처리해 동시에 들어온 취소를 덮어쓰지 않는다.
 Future<void> resolveCandidate(String id, bool include, IngestDeps d) async {
-  final current = await d.ledger.byId(id);
-  if (current == null || current.status != TxStatus.pending) return;
   final settings = await d.settings.load();
-  final resolved = current.copyWith(
-    status: include ? TxStatus.included : TxStatus.excluded,
+  final resolved = await d.ledger.resolvePending(
+    id,
+    include ? TxStatus.included : TxStatus.excluded,
     clearRawText: settings.deleteRawText,
   );
-  await d.ledger.upsertAll([resolved]);
-  await d.notifier.cancel(id);
-  await refreshOutputs(d);
+  if (!resolved) return;
+  await _notifyThenRefresh(d, () => d.notifier.cancel(id));
 }
 
-/// 사용자가 고친 거래를 저장한다. 원문이 남아 있으면 그 형식을 학습한다.
+/// 사용자가 고친 거래를 반영한다. 취소·중복 거래는 바꾸지 않는다.
+/// 반영됐고 원문이 남아 있으면 그 형식을 학습한다.
 Future<void> saveEdit(Transaction edited, IngestDeps d) async {
   final stored = await d.ledger.byId(edited.id);
-  final rawText = stored?.rawText;
+  if (stored == null || !await d.ledger.updateEditable(edited)) return;
+  final rawText = stored.rawText;
   if (rawText != null) {
     final hint = learnHint(
       rawText,
-      stored!.sender,
+      stored.sender,
       amount: edited.amount.abs(),
       counterparty: edited.counterparty,
     );
     if (hint != null) await d.hints.put(hint);
   }
-  await d.ledger.upsertAll([edited]);
   await refreshOutputs(d);
 }
 
@@ -158,9 +169,9 @@ Future<LedgerSummary> refreshOutputs(IngestDeps d) async {
     summary,
     await d.settings.sentAlerts(period.key),
   );
-  if (alert != null) {
+  // 먼저 표시에 성공한 쪽만 보낸다. 동시에 갱신돼도 같은 알림은 한 번만 간다.
+  if (alert != null && await d.settings.markSent(period.key, alert)) {
     await d.notifier.budgetAlert(alert, summary);
-    await d.settings.markSent(period.key, alert);
   }
   return summary;
 }

@@ -60,4 +60,14 @@ void main() {
     });
     expect(await repo.sentAlerts('2026-12'), {BudgetAlert.actualOver});
   });
+
+  test('markSent is idempotent', () async {
+    expect(await repo.markSent('2026-11-01', BudgetAlert.actualOver), isTrue);
+    expect(await repo.markSent('2026-11-01', BudgetAlert.actualOver), isFalse);
+    expect(
+      await repo.markSent('2026-11-01', BudgetAlert.projectedOver),
+      isTrue,
+    );
+    expect(await repo.markSent('2026-12-01', BudgetAlert.actualOver), isTrue);
+  });
 }

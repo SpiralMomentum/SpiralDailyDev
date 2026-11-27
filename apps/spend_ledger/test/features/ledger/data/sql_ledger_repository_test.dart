@@ -101,4 +101,61 @@ void main() {
     await hints.put(h2);
     expect(await hints.get('s1'), h2);
   });
+
+  test('resolvePending changes only pending rows', () async {
+    await repo.upsertAll([tx('p'), tx('c', status: TxStatus.cancelled)]);
+
+    expect(
+      await repo.resolvePending('p', TxStatus.included, clearRawText: true),
+      isTrue,
+    );
+    expect(
+      await repo.resolvePending('c', TxStatus.included, clearRawText: true),
+      isFalse,
+    );
+    expect(
+      await repo.resolvePending('p', TxStatus.excluded, clearRawText: false),
+      isFalse,
+    );
+    expect(
+      await repo.resolvePending('zzz', TxStatus.included, clearRawText: true),
+      isFalse,
+    );
+
+    final p = await repo.byId('p');
+    expect(p!.status, TxStatus.included);
+    expect(p.rawText, isNull);
+    expect(await repo.byId('c'), tx('c', status: TxStatus.cancelled));
+  });
+
+  test('resolvePending keeps raw text when asked', () async {
+    await repo.upsertAll([tx('p')]);
+    await repo.resolvePending('p', TxStatus.excluded, clearRawText: false);
+    final p = await repo.byId('p');
+    expect(p!.status, TxStatus.excluded);
+    expect(p.rawText, '원문');
+  });
+
+  test('updateEditable skips cancelled and duplicate', () async {
+    await repo.upsertAll([
+      tx('i', status: TxStatus.included),
+      tx('c', status: TxStatus.cancelled),
+      tx('d', status: TxStatus.duplicate),
+    ]);
+    Transaction edit(String id) => tx(id).copyWith(
+      amount: 7000,
+      counterparty: '카페',
+      occurredAt: DateTime(2026, 11, 2),
+      category: SpendCategory.spend,
+      status: TxStatus.included,
+    );
+
+    expect(await repo.updateEditable(edit('i')), isTrue);
+    expect(await repo.updateEditable(edit('c')), isFalse);
+    expect(await repo.updateEditable(edit('d')), isFalse);
+
+    expect(await repo.byId('i'), edit('i'));
+    expect(await repo.byId('c'), tx('c', status: TxStatus.cancelled));
+    expect(await repo.byId('d'), tx('d', status: TxStatus.duplicate));
+  });
 }
