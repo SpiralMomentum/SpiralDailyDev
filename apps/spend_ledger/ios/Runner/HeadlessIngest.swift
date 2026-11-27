@@ -153,7 +153,7 @@ final class HeadlessIngest {
     text: String, sender: String?, start: Date, engineMs: Int, dartMs: Int? = nil,
     result: String
   ) async {
-    InboxStore.append(
+    let stored = InboxStore.append(
       InboxEntry(
         id: UUID().uuidString, text: text, sender: sender, receivedAtMs: Self.epochMs(start)))
     let content = UNMutableNotificationContent()
@@ -164,7 +164,8 @@ final class HeadlessIngest {
     IngestDiagnostics.record(
       IngestRecord(
         at: Self.epochMs(start), path: "fallback", engineMs: engineMs,
-        dartMs: dartMs, totalMs: Self.ms(since: start), result: result))
+        dartMs: dartMs, totalMs: Self.ms(since: start),
+        result: stored ? result : result + "+inbox-failed"))
   }
 
   static func fallbackBody(_ text: String) -> String {

@@ -22,23 +22,30 @@ enum InboxStore {
   private static let account = "pending"
   private static let lock = NSLock()
 
-  static func append(_ entry: InboxEntry) {
+  /// 기존 항목을 읽지 못하면(알 수 없는 키체인 상태·해석 실패) 덮어쓰지 않고 false.
+  @discardableResult
+  static func append(_ entry: InboxEntry) -> Bool {
     lock.lock()
     defer { lock.unlock() }
-    write(read() + [entry])
+    guard let existing = read() else { return false }
+    return write(existing + [entry])
   }
 
+  /// 읽지 못하면 빈 목록. 항목은 그대로 두므로 다음 실행에서 다시 읽는다.
   static func pending() -> [InboxEntry] {
     lock.lock()
     defer { lock.unlock() }
-    return read()
+    return read() ?? []
   }
 
+  /// 읽지 못하면 아무것도 지우지 않는다.
   static func remove(ids: Set<String>) {
     guard !ids.isEmpty else { return }
     lock.lock()
     defer { lock.unlock() }
-    write(read().filter { !ids.contains($0.id) })
+    guard let existing = read() else { return }
+    let kept = existing.filter { !ids.contains($0.id) }
+    if kept.count != existing.count { write(kept) }
   }
 
   private static var baseQuery: [String: Any] {
@@ -49,31 +56,33 @@ enum InboxStore {
     ]
   }
 
-  private static func read() -> [InboxEntry] {
+  /// 항목이 없으면 빈 목록, 키체인 오류나 해석 실패면 nil.
+  private static func read() -> [InboxEntry]? {
     var query = baseQuery
     query[kSecReturnData as String] = true
     query[kSecMatchLimit as String] = kSecMatchLimitOne
     var item: CFTypeRef?
-    guard SecItemCopyMatching(query as CFDictionary, &item) == errSecSuccess,
-      let data = item as? Data,
-      let entries = try? JSONDecoder().decode([InboxEntry].self, from: data)
-    else { return [] }
-    return entries
+    let status = SecItemCopyMatching(query as CFDictionary, &item)
+    if status == errSecItemNotFound { return [] }
+    guard status == errSecSuccess, let data = item as? Data else { return nil }
+    return try? JSONDecoder().decode([InboxEntry].self, from: data)
   }
 
-  private static func write(_ entries: [InboxEntry]) {
+  @discardableResult
+  private static func write(_ entries: [InboxEntry]) -> Bool {
     guard !entries.isEmpty else {
-      SecItemDelete(baseQuery as CFDictionary)
-      return
+      let status = SecItemDelete(baseQuery as CFDictionary)
+      return status == errSecSuccess || status == errSecItemNotFound
     }
-    guard let data = try? JSONEncoder().encode(entries) else { return }
+    guard let data = try? JSONEncoder().encode(entries) else { return false }
     let attributes: [String: Any] = [
       kSecValueData as String: data,
       kSecAttrAccessible as String: kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly,
     ]
     let status = SecItemUpdate(baseQuery as CFDictionary, attributes as CFDictionary)
     if status == errSecItemNotFound {
-      SecItemAdd(baseQuery.merging(attributes) { $1 } as CFDictionary, nil)
+      return SecItemAdd(baseQuery.merging(attributes) { $1 } as CFDictionary, nil) == errSecSuccess
     }
+    return status == errSecSuccess
   }
 }
