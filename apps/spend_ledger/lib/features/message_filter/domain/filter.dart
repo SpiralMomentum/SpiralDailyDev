@@ -19,8 +19,9 @@ bool passesFilter(RawMessage m, List<FilterRule> rules) {
     return false;
   }
   if (_amountPattern.hasMatch(m.text)) return true;
-  final withInclude =
-      applicable.where((r) => r.includeKeywords.isNotEmpty).toList();
+  final withInclude = applicable
+      .where((r) => r.includeKeywords.isNotEmpty)
+      .toList();
   if (withInclude.isEmpty) return true;
   return withInclude.any((r) => _containsAny(m.text, r.includeKeywords));
 }

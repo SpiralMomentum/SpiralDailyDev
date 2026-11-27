@@ -8,22 +8,24 @@ class FilterRule extends Equatable {
   });
 
   factory FilterRule.fromJson(Map<String, dynamic> json) => FilterRule(
-        senderPattern: json['senderPattern'] as String?,
-        includeKeywords:
-            List<String>.from(json['includeKeywords'] as List? ?? const []),
-        excludeKeywords:
-            List<String>.from(json['excludeKeywords'] as List? ?? const []),
-      );
+    senderPattern: json['senderPattern'] as String?,
+    includeKeywords: List<String>.from(
+      json['includeKeywords'] as List? ?? const [],
+    ),
+    excludeKeywords: List<String>.from(
+      json['excludeKeywords'] as List? ?? const [],
+    ),
+  );
 
   final String? senderPattern;
   final List<String> includeKeywords;
   final List<String> excludeKeywords;
 
   Map<String, dynamic> toJson() => {
-        'senderPattern': senderPattern,
-        'includeKeywords': includeKeywords,
-        'excludeKeywords': excludeKeywords,
-      };
+    'senderPattern': senderPattern,
+    'includeKeywords': includeKeywords,
+    'excludeKeywords': excludeKeywords,
+  };
 
   @override
   List<Object?> get props => [senderPattern, includeKeywords, excludeKeywords];

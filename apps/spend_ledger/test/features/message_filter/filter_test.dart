@@ -7,11 +7,11 @@ import 'package:spend_ledger/features/message_filter/domain/raw_message.dart';
 import '../../fixtures/messages.dart';
 
 RawMessage msg(String text, {String? sender}) => RawMessage(
-      text: text,
-      sender: sender,
-      receivedAt: DateTime(2026, 11, 27),
-      source: MessageSource.manual,
-    );
+  text: text,
+  sender: sender,
+  receivedAt: DateTime(2026, 11, 27),
+  source: MessageSource.manual,
+);
 
 void main() {
   test('default rules pass approval', () {
