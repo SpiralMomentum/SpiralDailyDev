@@ -194,11 +194,18 @@ final RegExp _kindWords = RegExp(
 );
 final RegExp _digitsOnlyToken = RegExp(r'(?<!\S)[\d,]+(?!\S)');
 final RegExp _cardBankToken = RegExp(r'\S*(?:카드|은행)\S*');
+final RegExp _recipientToken = RegExp(
+  r'(?<![0-9A-Za-z가-힣])([0-9A-Za-z가-힣]+?)(?:님에게|님께|에게)',
+);
 final RegExp _honorific = RegExp(r'(?:님에게|님|에게)$');
 
 /// 문자 조각에서 상대(가맹점·수신자)만 남긴다. 못 찾으면 빈 문자열.
 /// 힌트가 지정한 한 줄에도 같은 정리를 적용할 수 있도록 공개한다.
 String cleanCounterparty(String segmentSource, MessageKind kind) {
+  if (kind == MessageKind.transfer || kind == MessageKind.withdrawal) {
+    final recipient = _recipientToken.firstMatch(segmentSource);
+    if (recipient != null) return recipient.group(1)!;
+  }
   var s = segmentSource;
   String sep(Match _) => _lineSeparator;
   s = s.replaceAllMapped(_bracketToken, sep);

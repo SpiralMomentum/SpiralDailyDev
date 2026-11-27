@@ -200,4 +200,17 @@ void _regressions() {
     final p = parse('[Web발신]\n신한카드 승인 3,000원 11/27 10:00 GS25-123');
     expect(p.counterparty, 'GS25-123');
   });
+
+  test('same-line recipient after holder name', () {
+    final p = parse('[Web발신]\n[KB] 홍길동님 김철수님에게 30,000원 송금');
+    expect(p.counterparty, '김철수');
+    expect(p.kind, MessageKind.transfer);
+    expect(p.amount, 30000);
+  });
+
+  test('recipient with 님께', () {
+    final p = parse('[신한] 이영희님께 50,000원 이체');
+    expect(p.counterparty, '이영희');
+    expect(p.kind, MessageKind.transfer);
+  });
 }
