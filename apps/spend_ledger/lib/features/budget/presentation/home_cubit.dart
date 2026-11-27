@@ -5,6 +5,9 @@ import '../../ingest/domain/ingest.dart';
 import '../../message_filter/domain/raw_message.dart';
 import '../domain/summary.dart';
 
+/// 수동 입력 결과.
+enum ManualResult { stored, filtered, failed }
+
 final class HomeState extends Equatable {
   const HomeState({this.summary, this.loading = true});
 
@@ -33,11 +36,12 @@ class HomeCubit extends Cubit<HomeState> {
   }
 
   /// 붙여넣은 문자를 수동 입력으로 수집하고 요약을 다시 읽는다.
-  /// 알림 실패는 저장을 되돌리지 않으므로 저장된 것으로 본다.
-  Future<IngestResult> addManual(String text) async {
-    var result = IngestResult.stored;
+  /// 예외가 나면 실패로 본다(저장 뒤 알림만 실패했을 수도 있지만,
+  /// 다시 붙여넣어도 중복으로 처리되므로 합계가 두 번 잡히지 않는다).
+  Future<ManualResult> addManual(String text) async {
+    ManualResult result;
     try {
-      (result, _) = await ingestMessage(
+      final (ingested, _) = await ingestMessage(
         RawMessage(
           text: text,
           receivedAt: _deps.now(),
@@ -45,8 +49,12 @@ class HomeCubit extends Cubit<HomeState> {
         ),
         _deps,
       );
+      result = ingested == IngestResult.stored
+          ? ManualResult.stored
+          : ManualResult.filtered;
     } catch (e, st) {
       addError(e, st);
+      result = ManualResult.failed;
     }
     await load();
     return result;

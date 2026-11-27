@@ -5,6 +5,7 @@ import 'package:spend_ledger/features/parsing/domain/signature.dart';
 import 'package:spend_ledger/features/settings/domain/app_settings.dart';
 
 import '../../fixtures/messages.dart';
+import '../../support/failing_ledger.dart';
 import '../../support/fakes.dart';
 
 void main() {
@@ -107,6 +108,65 @@ void main() {
     );
 
     expect((await h.deps.ledger.byId(tx.id))!.status, TxStatus.excluded);
+    await cubit.close();
+  });
+
+  test('failed save keeps the page open with an error', () async {
+    h = await openHarness();
+    final (_, tx) = await h.ingest(kbApproval);
+    final ledger = FailingLedger(h.deps.ledger)..failWrites = true;
+    final cubit = EditCubit(withLedger(h.deps, ledger), tx!);
+
+    await cubit.save(
+      amount: 7000,
+      counterparty: '스타벅스',
+      occurredAt: tx.occurredAt,
+      category: SpendCategory.spend,
+      include: true,
+    );
+
+    expect(cubit.state.saved, isFalse);
+    expect(cubit.state.saving, isFalse);
+    expect(cubit.state.failed, isTrue);
+    expect((await h.deps.ledger.byId(tx.id))!.amount, 6500);
+
+    ledger.failWrites = false;
+    await cubit.save(
+      amount: 7000,
+      counterparty: '스타벅스',
+      occurredAt: tx.occurredAt,
+      category: SpendCategory.spend,
+      include: true,
+    );
+
+    expect(cubit.state.saved, isTrue);
+    expect(cubit.state.failed, isFalse);
+    await cubit.close();
+  });
+
+  test('signed amount follows refund category or original sign', () {
+    expect(signedAmount(5000, SpendCategory.refund, original: 3000), -5000);
+    expect(signedAmount(5000, SpendCategory.spend, original: -3000), -5000);
+    expect(signedAmount(5000, SpendCategory.spend, original: 3000), 5000);
+    expect(signedAmount(5000, SpendCategory.spend, original: 0), 5000);
+  });
+
+  test('negative non-refund transaction keeps its sign after save', () async {
+    h = await openHarness();
+    final (_, tx) = await h.ingest(kbApproval);
+    final negative = tx!.copyWith(amount: -6500, status: TxStatus.excluded);
+    await h.deps.ledger.upsertAll([negative]);
+    final cubit = EditCubit(h.deps, negative);
+
+    await cubit.save(
+      amount: signedAmount(6000, SpendCategory.spend, original: -6500),
+      counterparty: '스타벅스',
+      occurredAt: tx.occurredAt,
+      category: SpendCategory.spend,
+      include: false,
+    );
+
+    expect((await h.deps.ledger.byId(tx.id))!.amount, -6000);
     await cubit.close();
   });
 }

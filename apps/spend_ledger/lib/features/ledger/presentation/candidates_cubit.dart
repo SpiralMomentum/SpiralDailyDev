@@ -10,6 +10,7 @@ final class CandidatesState extends Equatable {
     this.needsReview = const [],
     this.auto = const [],
     this.loading = true,
+    this.error,
   });
 
   /// 확인 대기(알림을 보낸 후보).
@@ -22,8 +23,11 @@ final class CandidatesState extends Equatable {
   final List<Transaction> auto;
   final bool loading;
 
+  /// 목록을 읽지 못했을 때 보여 줄 문구.
+  final String? error;
+
   @override
-  List<Object?> get props => [waiting, needsReview, auto, loading];
+  List<Object?> get props => [waiting, needsReview, auto, loading, error];
 }
 
 const Duration _autoWindow = Duration(days: 90);
@@ -59,9 +63,16 @@ class CandidatesCubit extends Cubit<CandidatesState> {
   final IngestDeps _deps;
 
   Future<void> load() async {
-    final pending = await _deps.ledger.byStatus({TxStatus.pending});
-    final recent = await _deps.ledger.since(_deps.now().subtract(_autoWindow));
-    emit(splitCandidates(pending: pending, recent: recent));
+    try {
+      final pending = await _deps.ledger.byStatus({TxStatus.pending});
+      final recent = await _deps.ledger.since(
+        _deps.now().subtract(_autoWindow),
+      );
+      emit(splitCandidates(pending: pending, recent: recent));
+    } catch (e, st) {
+      addError(e, st);
+      emit(const CandidatesState(loading: false, error: '후보를 불러오지 못했어요'));
+    }
   }
 
   Future<void> include(String id) => _resolve(id, true);

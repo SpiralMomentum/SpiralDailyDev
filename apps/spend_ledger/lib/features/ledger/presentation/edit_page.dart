@@ -100,7 +100,7 @@ class _EditFormState extends State<_EditForm> {
   void _save() {
     final abs = int.tryParse(_amount.text) ?? 0;
     context.read<EditCubit>().save(
-      amount: _category == SpendCategory.refund ? -abs : abs,
+      amount: signedAmount(abs, _category, original: widget.tx.amount),
       counterparty: _counterparty.text.trim(),
       occurredAt: _occurredAt,
       category: _category,
@@ -110,8 +110,16 @@ class _EditFormState extends State<_EditForm> {
 
   @override
   Widget build(BuildContext context) => BlocConsumer<EditCubit, EditState>(
-    listenWhen: (a, b) => !a.saved && b.saved,
-    listener: (context, _) => Navigator.of(context).pop(true),
+    listenWhen: (a, b) => (!a.saved && b.saved) || (!a.failed && b.failed),
+    listener: (context, state) {
+      if (state.saved) {
+        Navigator.of(context).pop(true);
+      } else {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(const SnackBar(content: Text('저장하지 못했어요. 다시 시도해 주세요.')));
+      }
+    },
     builder: (context, state) {
       final enabled = state.editable && !state.saving;
       final raw = widget.tx.rawText;

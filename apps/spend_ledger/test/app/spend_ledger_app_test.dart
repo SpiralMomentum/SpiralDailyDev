@@ -4,6 +4,7 @@ import 'package:spend_ledger/app/spend_ledger_app.dart';
 import 'package:spend_ledger/features/ingest/domain/ingest.dart';
 
 import '../fixtures/messages.dart';
+import '../support/failing_ledger.dart';
 import '../support/fakes.dart';
 
 void main() {
@@ -45,6 +46,34 @@ void main() {
     expect(find.text('거래 수정'), findsOneWidget);
     expect(find.widgetWithText(TextField, '스타벅스'), findsOneWidget);
     expect(appNavigatorKey.currentState!.canPop(), isTrue);
+
+    await tester.runAsync(h.close);
+  });
+
+  testWidgets('failed edit save shows error and stays', (tester) async {
+    late IngestHarness h;
+    late String id;
+    await tester.runAsync(() async {
+      h = await openHarness();
+      final (_, a) = await h.ingest(kbApproval);
+      id = a!.id;
+    });
+    final ledger = FailingLedger(h.deps.ledger)..failWrites = true;
+
+    await tester.pumpWidget(
+      SpendLedgerApp(deps: withLedger(h.deps, ledger), initialEditId: id),
+    );
+    await _settle(tester);
+    await tester.scrollUntilVisible(
+      find.text('저장'),
+      200,
+      scrollable: find.byType(Scrollable).last,
+    );
+    await tester.tap(find.text('저장'));
+    await _settle(tester);
+
+    expect(find.text('저장하지 못했어요. 다시 시도해 주세요.'), findsOneWidget);
+    expect(find.text('거래 수정'), findsOneWidget);
 
     await tester.runAsync(h.close);
   });

@@ -17,8 +17,30 @@ class CandidatesPage extends StatelessWidget {
   );
 }
 
-class _CandidatesView extends StatelessWidget {
+class _CandidatesView extends StatefulWidget {
   const _CandidatesView();
+
+  @override
+  State<_CandidatesView> createState() => _CandidatesViewState();
+}
+
+class _CandidatesViewState extends State<_CandidatesView> {
+  late final AppLifecycleListener _lifecycle;
+
+  @override
+  void initState() {
+    super.initState();
+    // 백그라운드에서 알림으로 확정된 후보를 돌아왔을 때 반영한다.
+    _lifecycle = AppLifecycleListener(
+      onResume: () => context.read<CandidatesCubit>().load(),
+    );
+  }
+
+  @override
+  void dispose() {
+    _lifecycle.dispose();
+    super.dispose();
+  }
 
   Future<void> _edit(BuildContext context, String id) async {
     final cubit = context.read<CandidatesCubit>();
@@ -46,6 +68,8 @@ class _CandidatesView extends StatelessWidget {
               ),
               body: state.loading
                   ? const Center(child: CircularProgressIndicator())
+                  : state.error != null
+                  ? Center(child: Text(state.error!))
                   : TabBarView(
                       children: [
                         _TxList(

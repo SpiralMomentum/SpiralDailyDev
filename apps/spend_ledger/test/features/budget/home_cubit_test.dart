@@ -5,6 +5,7 @@ import 'package:spend_ledger/features/ledger/domain/transaction.dart';
 import 'package:spend_ledger/features/settings/domain/app_settings.dart';
 
 import '../../fixtures/messages.dart';
+import '../../support/failing_ledger.dart';
 import '../../support/fakes.dart';
 
 void main() {
@@ -39,12 +40,22 @@ void main() {
     final stored = await cubit.addManual(kbApproval);
     final filtered = await cubit.addManual(deposit);
 
-    expect(stored, IngestResult.stored);
-    expect(filtered, IngestResult.filtered);
+    expect(stored, ManualResult.stored);
+    expect(filtered, ManualResult.filtered);
     expect(cubit.state.summary!.pendingCount, 1);
     final saved = await h.deps.ledger.byStatus({TxStatus.pending});
     expect(saved.single.counterparty, '스타벅스');
     expect(h.notifier.asked, hasLength(1));
+    await cubit.close();
+  });
+
+  test('manual paste reports failure when storing fails', () async {
+    h = await openHarness();
+    final ledger = FailingLedger(h.deps.ledger)..failWrites = true;
+    final cubit = HomeCubit(withLedger(h.deps, ledger));
+
+    expect(await cubit.addManual(kbApproval), ManualResult.failed);
+    expect(cubit.state.loading, isFalse);
     await cubit.close();
   });
 }

@@ -32,11 +32,20 @@ CREATE TABLE transactions(
   );
 }
 
+/// 메인 isolate와 알림 백그라운드 isolate가 같은 파일을 동시에 연다.
+/// 잠금 충돌 시 바로 실패하지 않고 최대 5초 기다리며, WAL로 읽기와 쓰기가 서로 막지 않게 한다.
+/// PRAGMA는 결과 행을 돌려주므로 rawQuery로 실행한다.
+Future<void> configureLedgerDatabase(Database db) async {
+  await db.rawQuery('PRAGMA busy_timeout = 5000');
+  await db.rawQuery('PRAGMA journal_mode = WAL');
+}
+
 /// 운영용 암호화 DB. 테스트에서는 사용하지 않는다(test/support/memory_db.dart).
 Future<Database> openLedgerDatabase(String path, String key) =>
     cipher.openDatabase(
       path,
       password: key,
       version: 1,
+      onConfigure: configureLedgerDatabase,
       onCreate: (db, _) => createLedgerSchema(db),
     );

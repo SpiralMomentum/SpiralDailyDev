@@ -58,9 +58,11 @@ class _HomeViewState extends State<_HomeView> {
     if (!mounted) return;
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text(
-          result == IngestResult.stored ? '문자를 저장했어요' : '지출 문자가 아니라서 건너뛰었어요',
-        ),
+        content: Text(switch (result) {
+          ManualResult.stored => '문자를 저장했어요',
+          ManualResult.filtered => '지출 문자가 아니라서 건너뛰었어요',
+          ManualResult.failed => '문자를 저장하지 못했어요.',
+        }),
       ),
     );
   }

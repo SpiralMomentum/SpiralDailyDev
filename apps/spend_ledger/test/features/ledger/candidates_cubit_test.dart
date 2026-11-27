@@ -5,6 +5,7 @@ import 'package:spend_ledger/features/message_filter/domain/name_registry.dart';
 import 'package:spend_ledger/features/settings/domain/app_settings.dart';
 
 import '../../fixtures/messages.dart';
+import '../../support/failing_ledger.dart';
 import '../../support/fakes.dart';
 
 void main() {
@@ -83,6 +84,23 @@ void main() {
     await cubit.include(a!.id);
 
     expect(cubit.state.waiting, isEmpty);
+    await cubit.close();
+  });
+
+  test('load failure ends loading with an error', () async {
+    h = await openHarness();
+    final ledger = FailingLedger(h.deps.ledger)..failReads = true;
+    final cubit = CandidatesCubit(withLedger(h.deps, ledger));
+
+    await cubit.load();
+
+    expect(cubit.state.loading, isFalse);
+    expect(cubit.state.error, isNotNull);
+
+    ledger.failReads = false;
+    await cubit.load();
+
+    expect(cubit.state.error, isNull);
     await cubit.close();
   });
 }
