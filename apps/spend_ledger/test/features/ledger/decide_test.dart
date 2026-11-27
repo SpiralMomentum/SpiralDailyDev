@@ -3,6 +3,7 @@ import 'package:spend_ledger/features/ledger/domain/decide.dart';
 import 'package:spend_ledger/features/ledger/domain/transaction.dart';
 import 'package:spend_ledger/features/message_filter/domain/name_registry.dart';
 import 'package:spend_ledger/features/message_filter/domain/raw_message.dart';
+import 'package:spend_ledger/features/parsing/domain/parsed_message.dart';
 import 'package:spend_ledger/features/parsing/domain/parser.dart';
 
 import '../../fixtures/messages.dart';
@@ -265,6 +266,103 @@ void main() {
     expect(d.incoming.status, TxStatus.pending);
     expect(d.incoming.category, SpendCategory.spend);
     expect(d.notify, isTrue);
+  });
+
+  LedgerDecision runParsed(
+    MessageKind kind,
+    int amount, {
+    String counterparty = '',
+    DateTime? at,
+    List<Transaction> recent = const [],
+    String id = 'new',
+  }) {
+    final when = at ?? base;
+    return decide(
+      raw: rawOf('문자 $amount', at: when),
+      parsed: ParsedMessage(
+        amount: amount,
+        counterparty: counterparty,
+        occurredAt: when,
+        kind: kind,
+        signature: 'sig',
+      ),
+      names: names,
+      recent: recent,
+      newId: id,
+    );
+  }
+
+  test('empty-counterparty approval within 5 minutes is duplicate', () {
+    final first = runParsed(MessageKind.approval, 6500, id: 'a').incoming;
+    expect(first.counterparty, '');
+    expect(first.status, TxStatus.pending);
+    final d = runParsed(
+      MessageKind.approval,
+      6500,
+      at: base.add(const Duration(minutes: 2)),
+      recent: [first],
+    );
+    expect(d.incoming.status, TxStatus.duplicate);
+    expect(d.notify, isFalse);
+  });
+
+  test('empty and non-empty counterparties are not duplicates', () {
+    final first = runParsed(
+      MessageKind.approval,
+      6500,
+      counterparty: '스타벅스',
+      id: 'a',
+    ).incoming;
+    final d = runParsed(
+      MessageKind.approval,
+      6500,
+      at: base.add(const Duration(minutes: 2)),
+      recent: [first],
+    );
+    expect(d.incoming.status, TxStatus.pending);
+  });
+
+  test('repeated empty-counterparty cancel within 5 minutes is duplicate', () {
+    final first = runParsed(MessageKind.cancel, 6500, id: 'c1').incoming;
+    expect(first.status, TxStatus.pending);
+    expect(first.amount, -6500);
+    final d = runParsed(
+      MessageKind.cancel,
+      6500,
+      at: base.add(const Duration(minutes: 2)),
+      recent: [first],
+    );
+    expect(d.incoming.status, TxStatus.duplicate);
+    expect(d.notify, isFalse);
+  });
+
+  test('empty-counterparty cancel does not match empty original', () {
+    final original = runParsed(
+      MessageKind.approval,
+      6500,
+      id: 'o',
+    ).incoming.copyWith(status: TxStatus.included);
+    final d = runParsed(
+      MessageKind.cancel,
+      6500,
+      at: base.add(const Duration(hours: 1)),
+      recent: [original],
+    );
+    expect(d.updated, isEmpty);
+    expect(d.incoming.status, TxStatus.pending);
+  });
+
+  test('cancel does not match needsReview or unknown-category original', () {
+    final original = past(kbApproval, TxStatus.included);
+    for (final o in [
+      original.copyWith(needsReview: true),
+      original.copyWith(category: SpendCategory.unknown),
+    ]) {
+      final d = run(kbCancel, at: DateTime(2026, 11, 27, 15, 10), recent: [o]);
+      expect(d.updated, isEmpty);
+      expect(d.incoming.linkedId, isNull);
+      expect(d.incoming.status, TxStatus.pending);
+    }
   });
 
   test('copyWith can clear nullable fields', () {

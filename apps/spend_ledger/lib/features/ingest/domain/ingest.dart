@@ -79,14 +79,27 @@ Future<(IngestResult, Transaction?)> ingestMessage(
     recent: recent,
     newId: d.newId(),
   );
-  await d.ledger.upsertAll([decision.incoming, ...decision.updated]);
+  final clearRaw = settings.deleteRawText;
+  // 확인을 기다리지 않는 거래는 원문이 더 필요 없다.
+  final incoming = clearRaw && decision.incoming.status != TxStatus.pending
+      ? decision.incoming.copyWith(clearRawText: true)
+      : decision.incoming;
+  await d.ledger.upsertAll([incoming]);
+  // 원거래는 읽어 둔 스냅샷으로 덮어쓰지 않고, 아직 취소 대상일 때만 조건부로 바꾼다.
+  // 그 사이 사용자가 확정해 대상이 아니게 됐으면 그 결정을 남긴다(환불은 이미 제외로 저장됨).
+  final cancelled = <String>{};
+  for (final t in decision.updated) {
+    if (await d.ledger.markCancelled(t.id, clearRawText: clearRaw)) {
+      cancelled.add(t.id);
+    }
+  }
   await _notifyThenRefresh(d, () async {
-    if (decision.notify) await d.notifier.askConfirm(decision.incoming);
-    for (final id in _withdrawnPending(recent, decision.updated)) {
+    if (decision.notify) await d.notifier.askConfirm(incoming);
+    for (final id in _withdrawnPending(recent, cancelled)) {
       await d.notifier.cancel(id);
     }
   });
-  return (IngestResult.stored, decision.incoming);
+  return (IngestResult.stored, incoming);
 }
 
 /// 알림 실패가 위젯·예산 갱신을 막지 않도록, 실패해도 갱신한 뒤 예외를 다시 던진다.
@@ -101,19 +114,13 @@ Future<void> _notifyThenRefresh(
   }
 }
 
-/// 확인 대기였다가 이번 결정으로 취소된 거래 id. 그 확인 알림은 거둬야 한다.
+/// 확인 대기였다가 이번에 취소된 거래 id. 그 확인 알림은 거둬야 한다.
 Iterable<String> _withdrawnPending(
   List<Transaction> before,
-  List<Transaction> updated,
-) {
-  final pendingIds = {
-    for (final t in before)
-      if (t.status == TxStatus.pending) t.id,
-  };
-  return updated
-      .where((t) => t.status == TxStatus.cancelled && pendingIds.contains(t.id))
-      .map((t) => t.id);
-}
+  Set<String> cancelled,
+) => before
+    .where((t) => t.status == TxStatus.pending && cancelled.contains(t.id))
+    .map((t) => t.id);
 
 /// 확인 대기 거래를 포함/제외로 확정한다. 대기 상태가 아니면 아무것도 하지 않는다.
 /// 확인과 쓰기는 저장소의 한 문장으로 처리해 동시에 들어온 취소를 덮어쓰지 않는다.
@@ -129,10 +136,19 @@ Future<void> resolveCandidate(String id, bool include, IngestDeps d) async {
 }
 
 /// 사용자가 고친 거래를 반영한다. 취소·중복 거래는 바꾸지 않는다.
-/// 반영됐고 원문이 남아 있으면 그 형식을 학습한다.
+/// 반영됐고 원문이 남아 있으면 그 형식을 학습한다. 원문 삭제 설정이면 포함/제외로
+/// 확정된 거래의 원문은 같은 쓰기에서 지우고, 학습에는 미리 읽어 둔 원문을 쓴다.
 Future<void> saveEdit(Transaction edited, IngestDeps d) async {
+  final settings = await d.settings.load();
   final stored = await d.ledger.byId(edited.id);
-  if (stored == null || !await d.ledger.updateEditable(edited)) return;
+  final clearRaw =
+      settings.deleteRawText &&
+      (edited.status == TxStatus.included ||
+          edited.status == TxStatus.excluded);
+  if (stored == null ||
+      !await d.ledger.updateEditable(edited, clearRawText: clearRaw)) {
+    return;
+  }
   final rawText = stored.rawText;
   if (rawText != null) {
     final hint = learnHint(

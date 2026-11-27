@@ -48,8 +48,8 @@ Future<void> handleNotificationAction(
   if (!isConfirmAction(r.actionId) || id == null) return;
   try {
     await resolveCandidate(id, r.actionId == includeActionId, await deps());
-  } catch (e, st) {
-    debugPrint('resolveCandidate failed: $e\n$st');
+  } catch (e) {
+    debugPrint('resolveCandidate failed: ${e.runtimeType}');
   }
 }
 
@@ -65,8 +65,8 @@ Future<void> iosIngestMain() async {
   DartPluginRegistrant.ensureInitialized();
   try {
     await buildIngestDeps();
-  } catch (e, st) {
-    debugPrint('buildIngestDeps failed: $e\n$st');
+  } catch (e) {
+    debugPrint('buildIngestDeps failed: ${e.runtimeType}');
   }
   ingestChannel.setMethodCallHandler(_onIngestCall);
   await ingestChannel.invokeMethod<void>('ready');
@@ -77,8 +77,8 @@ Future<Map<String, Object?>> _onIngestCall(MethodCall call) async {
   final IngestDeps deps;
   try {
     deps = await buildIngestDeps();
-  } catch (e, st) {
-    debugPrint('buildIngestDeps failed: $e\n$st');
+  } catch (e) {
+    debugPrint('buildIngestDeps failed: ${e.runtimeType}');
     return {
       'result': 'error',
       'error': _errorType(e),
@@ -111,8 +111,8 @@ Future<Map<String, Object?>> handleIngestCall(
       receivedAt: deps.now(),
       source: MessageSource.iosShortcut,
     );
-  } catch (e, st) {
-    debugPrint('bad ingest call: $e\n$st');
+  } catch (e) {
+    debugPrint('bad ingest call: ${e.runtimeType}');
     return {
       'result': 'error',
       'error': _errorType(e),
@@ -138,8 +138,8 @@ Future<void> drainIosInbox(
     entries = await channel.invokeListMethod<Object?>('drainInbox') ?? const [];
   } on MissingPluginException {
     return;
-  } catch (e, st) {
-    debugPrint('drainInbox failed: $e\n$st');
+  } catch (e) {
+    debugPrint('drainInbox failed: ${e.runtimeType}');
     return;
   }
   final acked = <String>[];
@@ -147,8 +147,8 @@ Future<void> drainIosInbox(
     final InboxItem item;
     try {
       item = InboxItem.fromMap(entry! as Map<Object?, Object?>);
-    } catch (e, st) {
-      debugPrint('bad inbox item: $e\n$st');
+    } catch (e) {
+      debugPrint('bad inbox item: ${e.runtimeType}');
       continue;
     }
     final report = await _ingestReport(item.toRawMessage(), deps);
@@ -157,8 +157,8 @@ Future<void> drainIosInbox(
   if (acked.isEmpty) return;
   try {
     await channel.invokeMethod<void>('ackInbox', {'ids': acked});
-  } catch (e, st) {
-    debugPrint('ackInbox failed: $e\n$st');
+  } catch (e) {
+    debugPrint('ackInbox failed: ${e.runtimeType}');
   }
 }
 
@@ -187,8 +187,8 @@ Future<Map<String, Object?>> _ingestReport(
       if (tx != null) 'txId': tx.id,
       'notified': notifier.asked,
     };
-  } catch (e, st) {
-    debugPrint('ingest failed: $e\n$st');
+  } catch (e) {
+    debugPrint('ingest failed: ${e.runtimeType}');
     final id = incomingId;
     if (id != null && ledger.upserted.contains(id)) {
       return {
@@ -256,6 +256,12 @@ class _UpsertRecorder implements LedgerRepository {
   }) => _inner.resolvePending(id, status, clearRawText: clearRawText);
 
   @override
-  Future<bool> updateEditable(Transaction edited) =>
-      _inner.updateEditable(edited);
+  Future<bool> markCancelled(String id, {required bool clearRawText}) =>
+      _inner.markCancelled(id, clearRawText: clearRawText);
+
+  @override
+  Future<bool> updateEditable(
+    Transaction edited, {
+    required bool clearRawText,
+  }) => _inner.updateEditable(edited, clearRawText: clearRawText);
 }

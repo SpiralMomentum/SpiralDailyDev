@@ -88,9 +88,12 @@ void main() {
 
   test('helpers trim and ignore empty', () {
     expect(splitKeywords(' 승인, ,결제 ,'), ['승인', '결제']);
-    expect(addName(['a'], '  '), ['a']);
-    expect(addName(['a'], ' b '), ['a', 'b']);
-    expect(addName(['a'], 'a'), ['a']);
+    expect(addName(['가나'], '  '), ['가나']);
+    expect(addName(['가나'], ' 다라 '), ['가나', '다라']);
+    expect(addName(['가나'], '가나'), ['가나']);
+    expect(addName(['가나'], ' 다 '), ['가나']);
+    expect(isNameTooShort(' 다 '), isTrue);
+    expect(isNameTooShort('다라'), isFalse);
   });
 }
 

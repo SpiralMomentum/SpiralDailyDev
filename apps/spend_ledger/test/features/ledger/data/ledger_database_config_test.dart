@@ -46,7 +46,8 @@ void main() {
       'PRAGMA busy_timeout = 5000',
       'PRAGMA journal_mode = WAL',
     ]);
-    expect(logs.single, contains('database is locked'));
+    expect(logs.single, 'journal_mode WAL failed: StateError');
+    expect(logs.single, isNot(contains('database is locked')));
   });
 }
 

@@ -1,3 +1,4 @@
+import 'dart:io' show File;
 import 'dart:math';
 
 import 'package:flutter/foundation.dart';
@@ -29,11 +30,13 @@ Future<IngestDeps> buildIngestDeps() =>
     });
 
 Future<IngestDeps> _build() async {
-  final key = await loadOrCreateDbKey(const SecureKeyStore(), Random.secure());
-  final db = await openLedgerDatabase(
-    join(await getDatabasesPath(), 'ledger.db'),
-    key,
+  final path = join(await getDatabasesPath(), 'ledger.db');
+  final key = await loadOrCreateDbKey(
+    const SecureKeyStore(),
+    Random.secure(),
+    databaseExists: File(path).existsSync(),
   );
+  final db = await openLedgerDatabase(path, key);
   await initNotifications(
     _notifications,
     onForeground: notificationForegroundHandler,
@@ -75,7 +78,7 @@ Future<void> _requestNotificationPermission() async {
         >()
         ?.requestPermissions(alert: true, badge: true, sound: true);
   } catch (e) {
-    debugPrint('notification permission request failed: $e');
+    debugPrint('notification permission request failed: ${e.runtimeType}');
   }
 }
 

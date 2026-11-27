@@ -6,4 +6,9 @@ bool merchantMatches(String a, String b) {
   return x.contains(y) || y.contains(x);
 }
 
+/// 중복 판정용 상대 비교. 상대를 찾지 못한 문자(빈 상대)끼리도 같은 상대로 본다.
+/// 취소 원거래 찾기에는 쓰지 않는다(빈 상대로 엉뚱한 거래를 취소하지 않도록).
+bool sameCounterpartyForDuplicate(String a, String b) =>
+    (_normalize(a).isEmpty && _normalize(b).isEmpty) || merchantMatches(a, b);
+
 String _normalize(String s) => s.replaceAll(RegExp(r'\s+'), '').toLowerCase();

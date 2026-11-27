@@ -63,7 +63,7 @@ class _EditFormState extends State<_EditForm> {
   );
   late DateTime _occurredAt = widget.tx.occurredAt;
   late SpendCategory _category = widget.tx.category;
-  late bool _include = widget.tx.status != TxStatus.excluded;
+  late bool _include = initialInclude(widget.tx);
 
   @override
   void dispose() {
@@ -100,7 +100,7 @@ class _EditFormState extends State<_EditForm> {
   void _save() {
     final abs = int.tryParse(_amount.text) ?? 0;
     context.read<EditCubit>().save(
-      amount: signedAmount(abs, _category, original: widget.tx.amount),
+      amount: signedAmount(abs, _category),
       counterparty: _counterparty.text.trim(),
       occurredAt: _occurredAt,
       category: _category,

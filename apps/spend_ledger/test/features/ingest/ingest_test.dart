@@ -1,7 +1,9 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:spend_ledger/features/budget/domain/budget_alert.dart';
 import 'package:spend_ledger/features/ingest/domain/ingest.dart';
+import 'package:spend_ledger/features/ledger/domain/ledger_repository.dart';
 import 'package:spend_ledger/features/ledger/domain/transaction.dart';
+import 'package:spend_ledger/features/message_filter/domain/name_registry.dart';
 import 'package:spend_ledger/features/settings/domain/app_settings.dart';
 
 import '../../fixtures/messages.dart';
@@ -73,6 +75,125 @@ void main() {
     final stored = await h.deps.ledger.byId(tx.id);
     expect(stored!.status, TxStatus.included);
     expect(stored.rawText, kbApproval);
+  });
+
+  group('raw text deletion on ingest', () {
+    const prepaid = AppSettings(
+      names: NameRegistry(
+        selfNames: [],
+        chargeTargets: [],
+        prepaidMoneys: ['쿠페이머니'],
+      ),
+    );
+    Future<String?> rawOf(String id) async =>
+        (await h.deps.ledger.byId(id))!.rawText;
+
+    test('auto-excluded incoming is stored without raw text', () async {
+      await open(prepaid);
+      final (_, tx) = await h.ingest(coupayMoneyPayment);
+      expect(tx!.status, TxStatus.excluded);
+      expect(await rawOf(tx.id), isNull);
+    });
+
+    test('duplicate incoming is stored without raw text', () async {
+      await open();
+      final (_, first) = await h.ingest(kbApproval);
+      final (_, second) = await h.ingest(kbApproval);
+      expect(second!.status, TxStatus.duplicate);
+      expect(await rawOf(second.id), isNull);
+      expect(await rawOf(first!.id), kbApproval);
+    });
+
+    test('cancel clears raw text of refund and cancelled original', () async {
+      await open();
+      final (_, approval) = await h.ingest(kbApproval);
+      final (_, cancel) = await h.ingest(kbCancel);
+      expect(cancel!.status, TxStatus.excluded);
+      expect(cancel.linkedId, approval!.id);
+      final original = await h.deps.ledger.byId(approval.id);
+      expect(original!.status, TxStatus.cancelled);
+      expect(original.rawText, isNull);
+      expect(await rawOf(cancel.id), isNull);
+    });
+
+    test('prepaid-money cancel without original has no raw text', () async {
+      await open(prepaid);
+      final (_, tx) = await h.ingest(
+        '[쿠팡] 쿠페이머니 결제 취소 30,000원\n11/27 19:00 쿠팡',
+      );
+      expect(tx!.status, TxStatus.excluded);
+      expect(await rawOf(tx.id), isNull);
+    });
+
+    test('pending incoming keeps raw text', () async {
+      await open();
+      final (_, tx) = await h.ingest(kbApproval);
+      expect(await rawOf(tx!.id), kbApproval);
+    });
+
+    test('raw text kept everywhere when deletion is off', () async {
+      await open(prepaid.copyWith(deleteRawText: false));
+      final (_, approval) = await h.ingest(kbApproval);
+      final (_, cancel) = await h.ingest(kbCancel);
+      final (_, use) = await h.ingest(coupayMoneyPayment);
+      expect(use!.status, TxStatus.excluded);
+      expect(await rawOf(approval!.id), kbApproval);
+      expect(await rawOf(cancel!.id), kbCancel);
+      expect(await rawOf(use.id), coupayMoneyPayment);
+    });
+
+    test('cancel does not overwrite an original resolved meanwhile', () async {
+      await open();
+      final (_, approval) = await h.ingest(kbApproval);
+      // 취소 문자가 읽은 뒤 사용자가 제외로 확정한 상황: 저장 직전 상태를 바꾼다.
+      final racing = _ResolveBeforeCancel(h.deps.ledger, approval!.id);
+      final deps = IngestDeps(
+        ledger: racing,
+        settings: h.deps.settings,
+        hints: h.deps.hints,
+        notifier: h.deps.notifier,
+        widgets: h.deps.widgets,
+        now: h.deps.now,
+        newId: h.deps.newId,
+      );
+
+      await ingestMessage(h.receive(kbCancel), deps);
+
+      final original = await h.deps.ledger.byId(approval.id);
+      expect(original!.status, TxStatus.excluded);
+      expect(h.notifier.cancelled, isNot(contains(approval.id)));
+    });
+  });
+
+  test('edit to included or excluded clears raw text after learning', () async {
+    await open();
+    final (_, tx) = await h.ingest(noKeyword);
+
+    await saveEdit(
+      tx!.copyWith(counterparty: '배달의민족', status: TxStatus.excluded),
+      h.deps,
+    );
+
+    expect(await h.deps.hints.get(tx.signature), isNotNull);
+    expect((await h.deps.ledger.byId(tx.id))!.rawText, isNull);
+  });
+
+  test('edit that stays pending keeps raw text', () async {
+    await open();
+    final (_, tx) = await h.ingest(noKeyword);
+
+    await saveEdit(tx!.copyWith(counterparty: '배달의민족'), h.deps);
+
+    expect((await h.deps.ledger.byId(tx.id))!.rawText, noKeyword);
+  });
+
+  test('edit keeps raw text when deletion is off', () async {
+    await open(const AppSettings(deleteRawText: false));
+    final (_, tx) = await h.ingest(noKeyword);
+
+    await saveEdit(tx!.copyWith(status: TxStatus.included), h.deps);
+
+    expect((await h.deps.ledger.byId(tx.id))!.rawText, noKeyword);
   });
 
   test('cancel of pending original withdraws its notification', () async {
@@ -174,4 +295,46 @@ void main() {
     expect(h.widgets.last!['total'], '6,500원');
     expect(h.widgets.last!['pending'], '0');
   });
+}
+
+/// 취소 반영 직전에 원거래를 제외로 확정해, 수집과 사용자 확정이 겹친 상황을 만든다.
+class _ResolveBeforeCancel implements LedgerRepository {
+  _ResolveBeforeCancel(this._inner, this._id);
+
+  final LedgerRepository _inner;
+  final String _id;
+
+  @override
+  Future<bool> markCancelled(String id, {required bool clearRawText}) async {
+    if (id == _id) {
+      await _inner.resolvePending(id, TxStatus.excluded, clearRawText: false);
+    }
+    return _inner.markCancelled(id, clearRawText: clearRawText);
+  }
+
+  @override
+  Future<void> upsertAll(List<Transaction> txs) => _inner.upsertAll(txs);
+
+  @override
+  Future<Transaction?> byId(String id) => _inner.byId(id);
+
+  @override
+  Future<List<Transaction>> since(DateTime from) => _inner.since(from);
+
+  @override
+  Future<List<Transaction>> byStatus(Set<TxStatus> statuses) =>
+      _inner.byStatus(statuses);
+
+  @override
+  Future<bool> resolvePending(
+    String id,
+    TxStatus status, {
+    required bool clearRawText,
+  }) => _inner.resolvePending(id, status, clearRawText: clearRawText);
+
+  @override
+  Future<bool> updateEditable(
+    Transaction edited, {
+    required bool clearRawText,
+  }) => _inner.updateEditable(edited, clearRawText: clearRawText);
 }

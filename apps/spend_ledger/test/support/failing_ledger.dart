@@ -36,8 +36,18 @@ class FailingLedger implements LedgerRepository {
       : _inner.resolvePending(id, status, clearRawText: clearRawText);
 
   @override
-  Future<bool> updateEditable(Transaction edited) =>
-      failWrites ? _fail() : _inner.updateEditable(edited);
+  Future<bool> markCancelled(String id, {required bool clearRawText}) =>
+      failWrites
+      ? _fail()
+      : _inner.markCancelled(id, clearRawText: clearRawText);
+
+  @override
+  Future<bool> updateEditable(
+    Transaction edited, {
+    required bool clearRawText,
+  }) => failWrites
+      ? _fail()
+      : _inner.updateEditable(edited, clearRawText: clearRawText);
 }
 
 /// [d]의 저장소만 [ledger]로 바꾼 deps.

@@ -144,14 +144,26 @@ void main() {
     await cubit.close();
   });
 
-  test('signed amount follows refund category or original sign', () {
-    expect(signedAmount(5000, SpendCategory.refund, original: 3000), -5000);
-    expect(signedAmount(5000, SpendCategory.spend, original: -3000), -5000);
-    expect(signedAmount(5000, SpendCategory.spend, original: 3000), 5000);
-    expect(signedAmount(5000, SpendCategory.spend, original: 0), 5000);
+  test('signed amount follows category only', () {
+    expect(signedAmount(5000, SpendCategory.refund), -5000);
+    expect(signedAmount(5000, SpendCategory.spend), 5000);
+    expect(signedAmount(5000, SpendCategory.transferOut), 5000);
   });
 
-  test('negative non-refund transaction keeps its sign after save', () async {
+  test('include switch default: pending on unless it needs review', () async {
+    h = await openHarness();
+    final (_, tx) = await h.ingest(kbApproval);
+    expect(initialInclude(tx!), isTrue);
+    expect(initialInclude(tx.copyWith(needsReview: true)), isFalse);
+    expect(
+      initialInclude(tx.copyWith(category: SpendCategory.unknown)),
+      isFalse,
+    );
+    expect(initialInclude(tx.copyWith(status: TxStatus.included)), isTrue);
+    expect(initialInclude(tx.copyWith(status: TxStatus.excluded)), isFalse);
+  });
+
+  test('negative non-refund transaction becomes positive after save', () async {
     h = await openHarness();
     final (_, tx) = await h.ingest(kbApproval);
     final negative = tx!.copyWith(amount: -6500, status: TxStatus.excluded);
@@ -159,14 +171,14 @@ void main() {
     final cubit = EditCubit(h.deps, negative);
 
     await cubit.save(
-      amount: signedAmount(6000, SpendCategory.spend, original: -6500),
+      amount: signedAmount(6000, SpendCategory.spend),
       counterparty: '스타벅스',
       occurredAt: tx.occurredAt,
       category: SpendCategory.spend,
       include: false,
     );
 
-    expect((await h.deps.ledger.byId(tx.id))!.amount, -6000);
+    expect((await h.deps.ledger.byId(tx.id))!.amount, 6000);
     await cubit.close();
   });
 }

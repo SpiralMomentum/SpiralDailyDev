@@ -42,7 +42,7 @@ Future<void> configureLedgerDatabase(DatabaseExecutor db) async {
   try {
     await db.rawQuery('PRAGMA journal_mode = WAL');
   } catch (e) {
-    debugPrint('journal_mode WAL failed: $e');
+    debugPrint('journal_mode WAL failed: ${e.runtimeType}');
   }
 }
 

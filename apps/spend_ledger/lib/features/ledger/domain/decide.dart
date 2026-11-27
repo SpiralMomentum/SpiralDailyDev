@@ -73,7 +73,7 @@ LedgerDecision decide({
       (t) =>
           t.category == SpendCategory.refund &&
           t.amount.abs() == amount &&
-          merchantMatches(t.counterparty, parsed.counterparty) &&
+          sameCounterpartyForDuplicate(t.counterparty, parsed.counterparty) &&
           t.receivedAt.difference(raw.receivedAt).abs() <= _duplicateWindow,
     );
     if (repeated) {
@@ -123,7 +123,7 @@ LedgerDecision decide({
         t.status != TxStatus.cancelled &&
         t.amount == amount &&
         (t.receivedAt.difference(raw.receivedAt)).abs() <= _duplicateWindow &&
-        merchantMatches(t.counterparty, parsed.counterparty),
+        sameCounterpartyForDuplicate(t.counterparty, parsed.counterparty),
   );
 
   return LedgerDecision(
@@ -158,7 +158,18 @@ LedgerDecision decide({
   return (SpendCategory.transferOut, TxStatus.pending, true);
 }
 
-/// 취소 대상 원거래. 이미 취소됐거나 중복으로 표시된 거래는 대상이 아니다.
+/// 취소 원거래가 될 수 있는 거래. 확인 대기·포함 거래, 또는 취소·중복이 아닌 선불 사용.
+/// 확인이 필요하거나(needsReview) 분류를 모르는 거래는 대상이 아니다.
+/// `LedgerRepository.markCancelled`의 조건과 같아야 한다.
+bool cancellableOriginal(Transaction t) {
+  if (t.needsReview || t.category == SpendCategory.unknown) return false;
+  final live = t.status != TxStatus.cancelled && t.status != TxStatus.duplicate;
+  return t.status == TxStatus.included ||
+      t.status == TxStatus.pending ||
+      (t.category == SpendCategory.prepaidUse && live);
+}
+
+/// 취소 대상 원거래. 같은 금액·상대 중 가장 최근 것.
 Transaction? _findOriginal(
   List<Transaction> recent,
   ParsedMessage parsed,
@@ -166,13 +177,7 @@ Transaction? _findOriginal(
 ) {
   Transaction? best;
   for (final t in recent) {
-    final live =
-        t.status != TxStatus.cancelled && t.status != TxStatus.duplicate;
-    final eligible =
-        t.status == TxStatus.included ||
-        t.status == TxStatus.pending ||
-        (t.category == SpendCategory.prepaidUse && live);
-    if (!eligible ||
+    if (!cancellableOriginal(t) ||
         t.amount != amount ||
         !merchantMatches(t.counterparty, parsed.counterparty) ||
         t.occurredAt.isAfter(parsed.occurredAt)) {

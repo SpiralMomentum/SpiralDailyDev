@@ -23,12 +23,15 @@ void main() {
     expect(nextBudgetAlert(s(total: 999999), {}), isNull);
   });
 
-  test('actual over then projected', () {
+  test('actual over implies projected: nothing after actual', () {
     final over = s(total: 400000, budget: 300000);
     expect(nextBudgetAlert(over, {}), BudgetAlert.actualOver);
+    expect(nextBudgetAlert(over, {BudgetAlert.actualOver}), isNull);
     expect(
-      nextBudgetAlert(over, {BudgetAlert.actualOver}),
-      BudgetAlert.projectedOver,
+      nextBudgetAlert(s(total: 100001, budget: 300000), {
+        BudgetAlert.actualOver,
+      }),
+      isNull,
     );
     expect(
       nextBudgetAlert(over, {

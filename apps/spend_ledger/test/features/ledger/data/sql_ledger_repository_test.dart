@@ -150,12 +150,76 @@ void main() {
       status: TxStatus.included,
     );
 
-    expect(await repo.updateEditable(edit('i')), isTrue);
-    expect(await repo.updateEditable(edit('c')), isFalse);
-    expect(await repo.updateEditable(edit('d')), isFalse);
+    expect(await repo.updateEditable(edit('i'), clearRawText: false), isTrue);
+    expect(await repo.updateEditable(edit('c'), clearRawText: true), isFalse);
+    expect(await repo.updateEditable(edit('d'), clearRawText: true), isFalse);
 
     expect(await repo.byId('i'), edit('i'));
     expect(await repo.byId('c'), tx('c', status: TxStatus.cancelled));
     expect(await repo.byId('d'), tx('d', status: TxStatus.duplicate));
+  });
+
+  test('updateEditable clears raw text when asked', () async {
+    await repo.upsertAll([tx('p')]);
+    final edited = tx('p').copyWith(status: TxStatus.excluded);
+
+    expect(await repo.updateEditable(edited, clearRawText: true), isTrue);
+
+    expect(await repo.byId('p'), edited.copyWith(clearRawText: true));
+  });
+
+  group('markCancelled', () {
+    Transaction live(String id, TxStatus status, {SpendCategory? category}) =>
+        tx(id, status: status).copyWith(
+          category: category ?? SpendCategory.spend,
+          needsReview: false,
+        );
+
+    test('cancels pending, included and live prepaidUse only', () async {
+      await repo.upsertAll([
+        live('p', TxStatus.pending),
+        live('i', TxStatus.included),
+        live('e', TxStatus.excluded),
+        live('c', TxStatus.cancelled),
+        live('d', TxStatus.duplicate),
+        live('pe', TxStatus.excluded, category: SpendCategory.prepaidUse),
+        live('pd', TxStatus.duplicate, category: SpendCategory.prepaidUse),
+        live('pc', TxStatus.cancelled, category: SpendCategory.prepaidUse),
+        live('u', TxStatus.included, category: SpendCategory.unknown),
+        live('r', TxStatus.included).copyWith(needsReview: true),
+      ]);
+
+      final results = {
+        for (final id in ['p', 'i', 'e', 'c', 'd', 'pe', 'pd', 'pc', 'u', 'r'])
+          id: await repo.markCancelled(id, clearRawText: false),
+      };
+
+      expect(results, {
+        'p': true,
+        'i': true,
+        'e': false,
+        'c': false,
+        'd': false,
+        'pe': true,
+        'pd': false,
+        'pc': false,
+        'u': false,
+        'r': false,
+      });
+      expect((await repo.byId('p'))!.status, TxStatus.cancelled);
+      expect((await repo.byId('p'))!.rawText, '원문');
+      expect((await repo.byId('e'))!.status, TxStatus.excluded);
+      expect(await repo.markCancelled('zzz', clearRawText: true), isFalse);
+    });
+
+    test('clears raw text when asked', () async {
+      await repo.upsertAll([live('i', TxStatus.included)]);
+
+      expect(await repo.markCancelled('i', clearRawText: true), isTrue);
+
+      final i = await repo.byId('i');
+      expect(i!.status, TxStatus.cancelled);
+      expect(i.rawText, isNull);
+    });
   });
 }

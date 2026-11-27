@@ -4,10 +4,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../message_filter/domain/name_registry.dart';
 import 'settings_cubit.dart';
 
-/// 이름 입력을 다듬어 목록에 더한다. 빈 값·중복은 무시한다.
+/// 다듬은 이름이 두 글자보다 짧은지. 한 글자 이름은 엉뚱한 문자에 걸리므로 받지 않는다.
+bool isNameTooShort(String input) => input.trim().length < 2;
+
+/// 이름 입력을 다듬어 목록에 더한다. 두 글자 미만·중복은 무시한다.
 List<String> addName(List<String> names, String input) {
   final name = input.trim();
-  if (name.isEmpty || names.contains(name)) return names;
+  if (isNameTooShort(name) || names.contains(name)) return names;
   return [...names, name];
 }
 
@@ -85,6 +88,12 @@ class _NameSectionState extends State<_NameSection> {
   }
 
   void _add() {
+    if (isNameTooShort(_c.text)) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('두 글자 이상 입력해 주세요.')));
+      return;
+    }
     final next = addName(widget.names, _c.text);
     _c.clear();
     if (next != widget.names) widget.onChanged(next);

@@ -38,9 +38,17 @@ TxStatus editedStatus(
   return current;
 }
 
-/// 입력한 금액(절댓값)의 부호. 환불 분류면 음수, 그 밖에는 원래 거래의 부호를 따른다.
-int signedAmount(int abs, SpendCategory category, {required int original}) =>
-    category == SpendCategory.refund || original < 0 ? -abs : abs;
+/// 입력한 금액(절댓값)의 부호. 분류만 본다: 환불이면 음수, 그 밖에는 양수.
+int signedAmount(int abs, SpendCategory category) =>
+    category == SpendCategory.refund ? -abs : abs;
+
+/// 수정 화면 '지출에 포함' 스위치의 처음 값.
+/// 확인 대기는 켜 두되, 확인이 필요하거나 분류를 모르는 거래는 꺼 둔다.
+bool initialInclude(Transaction tx) => switch (tx.status) {
+  TxStatus.pending => !tx.needsReview && tx.category != SpendCategory.unknown,
+  TxStatus.excluded => false,
+  _ => true,
+};
 
 class EditCubit extends Cubit<EditState> {
   EditCubit(this._deps, Transaction tx) : super(EditState(tx: tx));
