@@ -231,6 +231,42 @@ void main() {
     expect(d.notify, isFalse);
   });
 
+  test('duplicate cancel within 5 minutes is duplicate', () {
+    final original = past(kbApproval, TxStatus.included);
+    final firstAt = DateTime(2026, 11, 27, 15, 10);
+    final first = run(kbCancel, at: firstAt, recent: [original], id: 'c1');
+    final d = run(
+      kbCancel,
+      at: firstAt.add(const Duration(minutes: 2)),
+      recent: [first.updated.single, first.incoming],
+      id: 'c2',
+    );
+    expect(d.incoming.status, TxStatus.duplicate);
+    expect(d.incoming.amount, -6500);
+    expect(d.notify, isFalse);
+    expect(d.updated, isEmpty);
+  });
+
+  test('friend transfer with holder name in body stays transferOut', () {
+    final d = run('[Web발신]\n[KB] 홍길동님\n김철수님에게 30,000원 송금');
+    expect(d.incoming.counterparty, '김철수');
+    expect(d.incoming.category, SpendCategory.transferOut);
+    expect(d.incoming.status, TxStatus.pending);
+    expect(d.notify, isTrue);
+  });
+
+  test('re-payment after cancel is not duplicate', () {
+    final cancelled = past(
+      kbApproval,
+      TxStatus.cancelled,
+      at: base.subtract(const Duration(minutes: 2)),
+    );
+    final d = run(kbApproval, recent: [cancelled]);
+    expect(d.incoming.status, TxStatus.pending);
+    expect(d.incoming.category, SpendCategory.spend);
+    expect(d.notify, isTrue);
+  });
+
   test('copyWith can clear nullable fields', () {
     final t = run(kbApproval).incoming.copyWith(linkedId: 'x');
     final cleared = t.copyWith(clearRawText: true, clearLinkedId: true);

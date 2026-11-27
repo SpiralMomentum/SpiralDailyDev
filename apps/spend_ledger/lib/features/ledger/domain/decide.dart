@@ -64,9 +64,25 @@ LedgerDecision decide({
 
   bool mentions(List<String> list) =>
       list.any((n) => n.isNotEmpty && raw.text.contains(n));
+  bool counterpartyIs(List<String> list) =>
+      list.any((n) => merchantMatches(parsed.counterparty, n));
 
   // 2. 취소/환불
   if (parsed.kind == MessageKind.cancel || parsed.kind == MessageKind.refund) {
+    final repeated = recent.any(
+      (t) =>
+          t.category == SpendCategory.refund &&
+          t.amount.abs() == amount &&
+          merchantMatches(t.counterparty, parsed.counterparty) &&
+          t.receivedAt.difference(raw.receivedAt).abs() <= _duplicateWindow,
+    );
+    if (repeated) {
+      return LedgerDecision(
+        incoming: build(-amount, SpendCategory.refund, TxStatus.duplicate),
+        updated: const [],
+        notify: false,
+      );
+    }
     final original = _findOriginal(recent, parsed, amount);
     if (original != null) {
       return LedgerDecision(
@@ -96,6 +112,7 @@ LedgerDecision decide({
   final (category, classifiedStatus, classifiedNotify) = _classify(
     parsed.kind,
     mentions,
+    counterpartyIs,
     names,
   );
 
@@ -103,6 +120,7 @@ LedgerDecision decide({
   final isDuplicate = recent.any(
     (t) =>
         t.status != TxStatus.duplicate &&
+        t.status != TxStatus.cancelled &&
         t.amount == amount &&
         (t.receivedAt.difference(raw.receivedAt)).abs() <= _duplicateWindow &&
         merchantMatches(t.counterparty, parsed.counterparty),
@@ -122,6 +140,7 @@ LedgerDecision decide({
 (SpendCategory, TxStatus, bool) _classify(
   MessageKind kind,
   bool Function(List<String>) mentions,
+  bool Function(List<String>) counterpartyIs,
   NameRegistry names,
 ) {
   if (kind == MessageKind.approval) {
@@ -130,10 +149,10 @@ LedgerDecision decide({
         : (SpendCategory.spend, TxStatus.pending, true);
   }
   // withdrawal / transfer
-  if (mentions(names.chargeTargets)) {
+  if (counterpartyIs(names.chargeTargets)) {
     return (SpendCategory.prepaidCharge, TxStatus.pending, true);
   }
-  if (mentions(names.selfNames)) {
+  if (counterpartyIs(names.selfNames)) {
     return (SpendCategory.internal, TxStatus.excluded, false);
   }
   return (SpendCategory.transferOut, TxStatus.pending, true);
