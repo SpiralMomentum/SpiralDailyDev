@@ -1,3 +1,4 @@
+import 'format_hint.dart';
 import 'parsed_message.dart';
 import 'signature.dart';
 
@@ -66,23 +67,53 @@ List<String> contentLines(String text) => text
     .where((line) => line.isNotEmpty && line != '[Web발신]')
     .toList(growable: false);
 
+/// 안내 문구를 걷어낸 본문. 금액·상대 추출의 기준이 된다.
+String bodyOf(String text) => contentLines(
+  text,
+).map(stripFooter).where((line) => line.isNotEmpty).join('\n');
+
+/// 본문의 `원` 금액을 잔액 제외 없이 등장 순서대로 모두 나열한다.
+List<int> allWonAmounts(String body) => amountPattern
+    .allMatches(body)
+    .map((m) => _toInt(m.group(1)!))
+    .toList(growable: false);
+
 ParsedMessage parseMessage(
   String text, {
   required DateTime receivedAt,
   String? sender,
+  FormatHint? hint,
 }) {
-  final body = contentLines(
-    text,
-  ).map(stripFooter).where((line) => line.isNotEmpty).join('\n');
-  final amount = _extractAmount(body);
+  final body = bodyOf(text);
+  final signature = formatSignature(text, sender);
+  final active = hint != null && hint.signature == signature ? hint : null;
+  final amount = _hintedAmount(body, active) ?? _extractAmount(body);
   final kind = _extractKind(body, hasAmount: amount != null);
   return ParsedMessage(
     amount: amount,
-    counterparty: cleanCounterparty(body, kind),
+    counterparty:
+        _hintedCounterparty(text, kind, active) ??
+        cleanCounterparty(body, kind),
     occurredAt: _extractOccurredAt(body, receivedAt),
     kind: kind,
-    signature: formatSignature(text, sender),
+    signature: signature,
   );
+}
+
+int? _hintedAmount(String body, FormatHint? hint) {
+  final ordinal = hint?.amountOrdinal;
+  if (ordinal == null) return null;
+  final amounts = allWonAmounts(body);
+  return ordinal < amounts.length ? amounts[ordinal] : null;
+}
+
+String? _hintedCounterparty(String text, MessageKind kind, FormatHint? hint) {
+  final index = hint?.counterpartyLine;
+  if (index == null) return null;
+  final lines = contentLines(text);
+  if (index >= lines.length) return null;
+  final cleaned = cleanCounterparty(stripFooter(lines[index]), kind);
+  return cleaned.isEmpty ? null : cleaned;
 }
 
 int? _extractAmount(String body) {
