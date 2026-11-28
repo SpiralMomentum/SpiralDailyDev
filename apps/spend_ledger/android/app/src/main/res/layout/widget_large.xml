@@ -1,20 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/widget_root"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/widget_background"
-    android:orientation="vertical"
-    android:padding="12dp">
-    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="이번 기간 지출" android:textColor="#666666" android:textSize="12sp" />
-    <TextView android:id="@+id/widget_total" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxLines="1" android:textColor="#111111" android:textSize="28sp" android:textStyle="bold" />
-    <TextView android:id="@+id/widget_ratio" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="#00796B" android:textSize="14sp" />
-    <ProgressBar android:id="@+id/widget_spent_bar" style="?android:attr/progressBarStyleHorizontal" android:layout_width="match_parent" android:layout_height="6dp" android:layout_marginTop="6dp" android:max="100" />
-    <ProgressBar android:id="@+id/widget_elapsed_bar" style="?android:attr/progressBarStyleHorizontal" android:layout_width="match_parent" android:layout_height="6dp" android:layout_marginTop="4dp" android:max="100" />
-    <TextView android:id="@+id/widget_today" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4dp" android:maxLines="1" android:textColor="#444444" android:textSize="12sp" />
-    <TextView android:id="@+id/widget_daily" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxLines="1" android:textColor="#444444" android:textSize="12sp" />
-    <TextView android:id="@+id/widget_top" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:textColor="#222222" android:textSize="12sp" />
-    <TextView android:id="@+id/widget_recent" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:textColor="#222222" android:textSize="12sp" />
-    <TextView android:id="@+id/widget_pending" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:textColor="#D84315" android:textSize="12sp" android:visibility="gone" />
-    <TextView android:id="@+id/widget_as_of" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="#888888" android:textSize="10sp" />
-</LinearLayout>
+    android:layout_height="match_parent">
+    <ImageView
+        android:id="@+id/widget_bg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:importantForAccessibility="no"
+        android:scaleType="fitXY"
+        android:src="@drawable/widget_background" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="12dp">
+        <TextView android:id="@+id/widget_label_total" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="이번 기간 지출" android:textColor="#4C5468" android:textSize="12sp" />
+        <TextView android:id="@+id/widget_total" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxLines="1" android:textColor="#171B24" android:textSize="28sp" android:textStyle="bold" />
+        <TextView android:id="@+id/widget_ratio" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="#2F4A7A" android:textSize="14sp" />
+        <ProgressBar android:id="@+id/widget_spent_bar" style="?android:attr/progressBarStyleHorizontal" android:layout_width="match_parent" android:layout_height="6dp" android:layout_marginTop="6dp" android:max="100" android:progressBackgroundTint="#D6DEEE" android:progressTint="#2F4A7A" />
+        <ProgressBar android:id="@+id/widget_elapsed_bar" style="?android:attr/progressBarStyleHorizontal" android:layout_width="match_parent" android:layout_height="6dp" android:layout_marginTop="4dp" android:max="100" android:progressBackgroundTint="#D6DEEE" android:progressTint="#2F4A7A" />
+        <TextView android:id="@+id/widget_today" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4dp" android:maxLines="1" android:textColor="#4C5468" android:textSize="12sp" />
+        <TextView android:id="@+id/widget_daily" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxLines="1" android:textColor="#4C5468" android:textSize="12sp" />
+        <TextView android:id="@+id/widget_top" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:textColor="#4C5468" android:textSize="12sp" />
+        <TextView android:id="@+id/widget_recent" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:textColor="#4C5468" android:textSize="12sp" />
+        <TextView android:id="@+id/widget_pending" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:textColor="#C2410C" android:textSize="12sp" android:visibility="gone" />
+        <TextView android:id="@+id/widget_as_of" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="#4C5468" android:textSize="10sp" />
+    </LinearLayout>
+</FrameLayout>
