@@ -20,6 +20,9 @@ object IngestEngineHost {
     private const val TAG = "IngestEngineHost"
     private const val CHANNEL = "spend_ledger/ingest"
     private const val ENTRYPOINT = "androidIngestMain"
+
+    /** 진입점이 정의된 라이브러리. 생략하면 lib/main.dart에서 찾아 실행되지 않는다. */
+    private const val ENTRYPOINT_LIBRARY = "package:spend_ledger/app/ingest_entry.dart"
     private const val READY_TIMEOUT_MS = 10_000L
     private const val INGEST_TIMEOUT_MS = 15_000L
 
@@ -93,7 +96,7 @@ object IngestEngineHost {
             channel = ch
             main.postDelayed(readyTimeout, READY_TIMEOUT_MS)
             created.dartExecutor.executeDartEntrypoint(
-                DartExecutor.DartEntrypoint(loader.findAppBundlePath(), ENTRYPOINT),
+                DartExecutor.DartEntrypoint(loader.findAppBundlePath(), ENTRYPOINT_LIBRARY, ENTRYPOINT),
             )
             true
         } catch (t: Throwable) {

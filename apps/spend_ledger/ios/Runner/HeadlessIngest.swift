@@ -11,6 +11,8 @@ final class HeadlessIngest {
 
   private static let channelName = "spend_ledger/ingest"
   private static let entrypoint = "iosIngestMain"
+  /// 진입점이 정의된 라이브러리. 생략하면 lib/main.dart에서 찾아 실행되지 않는다.
+  private static let entrypointLibrary = "package:spend_ledger/app/ingest_entry.dart"
   private static let readyTimeout: TimeInterval = 10
   private static let ingestTimeout: TimeInterval = 15
   private static let amountPattern = #"(\d{1,3}(,\d{3})+|\d+)\s*원"#
@@ -105,7 +107,7 @@ final class HeadlessIngest {
       }
       result(nil)
     }
-    guard engine.run(withEntrypoint: Self.entrypoint) else { return false }
+    guard engine.run(withEntrypoint: Self.entrypoint, libraryURI: Self.entrypointLibrary) else { return false }
     GeneratedPluginRegistrant.register(with: engine)
     self.engine = engine
     self.channel = channel
