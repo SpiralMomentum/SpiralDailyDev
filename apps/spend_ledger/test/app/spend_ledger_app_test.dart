@@ -3,6 +3,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:spend_ledger/app/routes.dart';
 import 'package:spend_ledger/app/spend_ledger_app.dart';
 import 'package:spend_ledger/features/ingest/domain/ingest.dart';
+import 'package:spend_ledger/features/settings/domain/app_settings.dart';
+import 'package:spend_ledger/features/theme/domain/palette.dart';
 
 import '../fixtures/messages.dart';
 import '../support/failing_ledger.dart';
@@ -17,6 +19,48 @@ void main() {
     expect(routeForWidgetUri(Uri.parse('spendledger://home')), AppRoutes.home);
     expect(routeForWidgetUri(Uri.parse('spendledger://other')), isNull);
     expect(routeForWidgetUri(null), isNull);
+  });
+
+  testWidgets('저장된 테마로 첫 프레임을 그린다', (tester) async {
+    late IngestHarness h;
+    await tester.runAsync(() async => h = await openHarness());
+    await tester.pumpWidget(
+      SpendLedgerApp(
+        deps: h.deps,
+        initialSettings: const AppSettings(
+          themeId: AppThemeId.beige,
+          themeMode: AppThemeMode.light,
+        ),
+      ),
+    );
+    await _settle(tester);
+    final app = tester.widget<MaterialApp>(find.byType(MaterialApp));
+    expect(app.theme!.colorScheme.primary, const Color(0xFF9A5230));
+    expect(app.themeMode, ThemeMode.light);
+    await tester.runAsync(h.close);
+  });
+
+  testWidgets('설정에서 테마를 바꾸면 MaterialApp 테마가 바뀐다', (tester) async {
+    late IngestHarness h;
+    await tester.runAsync(() async => h = await openHarness());
+    await tester.pumpWidget(SpendLedgerApp(deps: h.deps));
+    await _settle(tester);
+    final before = tester.widget<MaterialApp>(find.byType(MaterialApp));
+    expect(before.theme!.colorScheme.primary, isNot(const Color(0xFF9A5230)));
+
+    appNavigatorKey.currentState!.pushNamed(AppRoutes.settings);
+    await _settle(tester);
+    await tester.tap(find.text('테마'));
+    await _settle(tester);
+    await tester.tap(find.text('베이지'));
+    await _settle(tester);
+
+    final app = tester.widget<MaterialApp>(find.byType(MaterialApp));
+    expect(app.theme!.colorScheme.primary, const Color(0xFF9A5230));
+    late AppSettings saved;
+    await tester.runAsync(() async => saved = await h.deps.settings.load());
+    expect(saved.themeId, AppThemeId.beige);
+    await tester.runAsync(h.close);
   });
 
   testWidgets('app shows home total', (tester) async {

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:spend_ledger/features/ingest/domain/ingest.dart';
+import 'package:spend_ledger/features/settings/presentation/settings_cubit.dart';
 import 'package:spend_ledger/features/settings/presentation/settings_page.dart';
 
 import '../../support/fakes.dart';
@@ -15,7 +16,10 @@ void main() {
     await tester.pumpWidget(
       RepositoryProvider<IngestDeps>.value(
         value: h.deps,
-        child: const MaterialApp(home: SettingsPage()),
+        child: BlocProvider(
+          create: (_) => SettingsCubit(h.deps.settings, () async {})..load(),
+          child: const MaterialApp(home: SettingsPage()),
+        ),
       ),
     );
     await tester.runAsync(

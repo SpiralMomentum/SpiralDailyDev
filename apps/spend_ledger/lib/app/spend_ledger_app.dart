@@ -9,7 +9,11 @@ import '../features/budget/presentation/home_page.dart';
 import '../features/ingest/domain/ingest.dart';
 import '../features/ledger/presentation/candidates_page.dart';
 import '../features/ledger/presentation/edit_page.dart';
+import '../features/settings/domain/app_settings.dart';
+import '../features/settings/presentation/settings_cubit.dart';
 import '../features/settings/presentation/settings_page.dart';
+import '../features/theme/domain/palette.dart';
+import '../features/theme/presentation/app_theme.dart';
 import 'routes.dart';
 
 /// 알림 응답처럼 위젯 밖에서 화면을 여는 데 쓴다.
@@ -44,6 +48,7 @@ class SpendLedgerApp extends StatefulWidget {
     this.initialEditId,
     this.listenWidgetClicks = false,
     this.initialWidgetUri,
+    this.initialSettings = const AppSettings(),
   });
 
   final IngestDeps deps;
@@ -57,12 +62,20 @@ class SpendLedgerApp extends StatefulWidget {
   /// 위젯 탭으로 시작됐는지 알려 주는 원천. 비우면 [listenWidgetClicks]일 때 home_widget을 쓴다.
   final Future<Uri?> Function()? initialWidgetUri;
 
+  /// 첫 프레임부터 저장된 테마로 그리기 위한 시작 설정.
+  final AppSettings initialSettings;
+
   @override
   State<SpendLedgerApp> createState() => _SpendLedgerAppState();
 }
 
 class _SpendLedgerAppState extends State<SpendLedgerApp> {
   StreamSubscription<Uri?>? _clicks;
+  late final SettingsCubit _settings = SettingsCubit(
+    widget.deps.settings,
+    () => refreshOutputs(widget.deps),
+    initial: widget.initialSettings,
+  );
 
   @override
   void initState() {
@@ -101,6 +114,7 @@ class _SpendLedgerAppState extends State<SpendLedgerApp> {
   @override
   void dispose() {
     _clicks?.cancel();
+    _settings.close();
     super.dispose();
   }
 
@@ -110,19 +124,38 @@ class _SpendLedgerAppState extends State<SpendLedgerApp> {
   @override
   Widget build(BuildContext context) => RepositoryProvider<IngestDeps>.value(
     value: deps,
-    child: MaterialApp(
-      title: '지출 위젯',
-      navigatorKey: appNavigatorKey,
-      theme: ThemeData(colorSchemeSeed: Colors.teal, useMaterial3: true),
-      locale: const Locale('ko'),
-      supportedLocales: const [Locale('ko')],
-      localizationsDelegates: GlobalMaterialLocalizations.delegates,
-      onGenerateRoute: _route,
-      onGenerateInitialRoutes: (_) => [
-        _route(const RouteSettings(name: AppRoutes.home)),
-        if (initialEditId != null)
-          _route(RouteSettings(name: AppRoutes.edit, arguments: initialEditId)),
-      ],
+    child: BlocProvider<SettingsCubit>.value(
+      value: _settings,
+      child: BlocBuilder<SettingsCubit, SettingsState>(
+        buildWhen: (a, b) =>
+            a.settings.themeId != b.settings.themeId ||
+            a.settings.themeMode != b.settings.themeMode,
+        builder: (context, state) {
+          final id = state.settings.themeId;
+          return MaterialApp(
+            title: '지출 위젯',
+            navigatorKey: appNavigatorKey,
+            theme: buildAppTheme(id, Brightness.light),
+            darkTheme: buildAppTheme(id, Brightness.dark),
+            themeMode: switch (state.settings.themeMode) {
+              AppThemeMode.system => ThemeMode.system,
+              AppThemeMode.light => ThemeMode.light,
+              AppThemeMode.dark => ThemeMode.dark,
+            },
+            locale: const Locale('ko'),
+            supportedLocales: const [Locale('ko')],
+            localizationsDelegates: GlobalMaterialLocalizations.delegates,
+            onGenerateRoute: _route,
+            onGenerateInitialRoutes: (_) => [
+              _route(const RouteSettings(name: AppRoutes.home)),
+              if (initialEditId != null)
+                _route(
+                  RouteSettings(name: AppRoutes.edit, arguments: initialEditId),
+                ),
+            ],
+          );
+        },
+      ),
     ),
   );
 }

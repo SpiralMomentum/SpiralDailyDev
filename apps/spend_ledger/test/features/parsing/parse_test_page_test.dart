@@ -16,6 +16,11 @@ void main() {
     await _settle(tester);
     await tester.tap(find.byTooltip('설정'));
     await _settle(tester);
+    await tester.scrollUntilVisible(
+      find.text('파싱 테스트'),
+      200,
+      scrollable: find.byType(Scrollable).last,
+    );
     await tester.tap(find.text('파싱 테스트'));
     await _settle(tester);
     await tester.enterText(find.byType(TextField), kbApproval);

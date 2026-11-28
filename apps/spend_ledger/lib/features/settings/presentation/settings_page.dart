@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../ingest/domain/ingest.dart';
 import '../../ingest/presentation/diagnostics_page.dart';
 import '../../ingest/presentation/notification_access_page.dart';
 import '../../ingest/presentation/shortcut_guide_page.dart';
@@ -12,19 +11,14 @@ import '../../parsing/presentation/parse_test_page.dart';
 import 'filters_page.dart';
 import 'names_page.dart';
 import 'settings_cubit.dart';
+import 'theme_page.dart';
 
+/// 앱 최상단의 [SettingsCubit]을 읽어 쓴다.
 class SettingsPage extends StatelessWidget {
   const SettingsPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final deps = context.read<IngestDeps>();
-    return BlocProvider(
-      create: (_) =>
-          SettingsCubit(deps.settings, () => refreshOutputs(deps))..load(),
-      child: const _SettingsView(),
-    );
-  }
+  Widget build(BuildContext context) => const _SettingsView();
 }
 
 /// 설정 하위 화면을 같은 [SettingsCubit]으로 연다.
@@ -115,6 +109,14 @@ class _SettingsView extends StatelessWidget {
               title: const Text('위젯 금액 숨기기'),
               value: s.hideAmounts,
               onChanged: cubit.setHideAmounts,
+            ),
+            ListTile(
+              title: const Text('테마'),
+              subtitle: Text(
+                '${s.themeId.label} · ${themeModeLabel(s.themeMode)}',
+              ),
+              trailing: const Icon(Icons.chevron_right),
+              onTap: () => _push(context, const ThemePage()),
             ),
             const Divider(),
             ListTile(

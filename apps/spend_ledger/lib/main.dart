@@ -8,11 +8,12 @@ import 'app/startup_error_app.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   try {
-    final (deps, initialEditId) = await bootstrap();
+    final (deps, initialEditId, settings) = await bootstrap();
     runApp(
       SpendLedgerApp(
         deps: deps,
         initialEditId: initialEditId,
+        initialSettings: settings,
         listenWidgetClicks: defaultTargetPlatform == TargetPlatform.android,
       ),
     );

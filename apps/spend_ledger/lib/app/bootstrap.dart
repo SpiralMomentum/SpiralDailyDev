@@ -15,6 +15,7 @@ import '../features/ledger/data/ledger_database.dart';
 import '../features/ledger/data/sql_ledger_repository.dart';
 import '../features/parsing/data/sql_format_hint_repository.dart';
 import '../features/settings/data/sql_settings_repository.dart';
+import '../features/settings/domain/app_settings.dart';
 import '../features/widget_sync/data/home_widget_gateway.dart';
 import 'ingest_entry.dart';
 
@@ -64,12 +65,12 @@ Future<IngestDeps> _build() async {
 
 /// 메인 앱 시작 준비. 알림 권한을 요청하고, iOS 대체 경로 수신함을 비워 저장하며,
 /// 알림 본문을 눌러 시작됐다면 열어야 할 거래 id를 함께 돌려준다.
-Future<(IngestDeps, String?)> bootstrap() async {
+Future<(IngestDeps, String?, AppSettings)> bootstrap() async {
   final deps = await buildIngestDeps();
   await _requestNotificationPermission();
   await drainIosInbox(deps);
   await _syncAllowedPackages(deps);
-  return (deps, await _launchEditId());
+  return (deps, await _launchEditId(), await _loadSettings(deps));
 }
 
 Future<void> _requestNotificationPermission() async {
@@ -86,6 +87,16 @@ Future<void> _requestNotificationPermission() async {
         ?.requestPermissions(alert: true, badge: true, sound: true);
   } catch (e) {
     debugPrint('notification permission request failed: ${e.runtimeType}');
+  }
+}
+
+/// 첫 프레임에 쓸 설정. 읽기에 실패하면 기본값으로 시작한다.
+Future<AppSettings> _loadSettings(IngestDeps deps) async {
+  try {
+    return await deps.settings.load();
+  } catch (e) {
+    debugPrint('initial settings load failed: ${e.runtimeType}');
+    return const AppSettings();
   }
 }
 

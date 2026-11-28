@@ -30,8 +30,13 @@ class SettingsCubit extends Cubit<SettingsState> {
     this._repo,
     this._refresh, {
     AndroidBridge bridge = const AndroidBridge(),
+    AppSettings? initial,
   }) : _bridge = bridge,
-       super(const SettingsState());
+       super(
+         initial == null
+             ? const SettingsState()
+             : SettingsState(settings: initial, loading: false),
+       );
 
   final SettingsRepository _repo;
   final AndroidBridge _bridge;
