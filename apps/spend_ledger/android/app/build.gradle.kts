@@ -46,4 +46,7 @@ flutter {
 
 dependencies {
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.5")
+    testImplementation("junit:junit:4.13.2")
+    // 단위 테스트(JVM)에서 android.jar의 org.json 스텁 대신 실제 구현을 쓴다.
+    testImplementation("org.json:json:20240303")
 }
