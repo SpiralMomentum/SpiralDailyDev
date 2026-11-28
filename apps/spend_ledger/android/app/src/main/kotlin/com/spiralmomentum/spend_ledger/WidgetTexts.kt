@@ -33,3 +33,6 @@ fun widgetTexts(data: Map<String, String?>): WidgetTexts {
         asOf = v("asOf"),
     )
 }
+
+/** 진행 막대(ClipDrawable) level. 백분율을 0..100으로 자른 뒤 0..10000으로 옮긴다. 없으면 0. */
+fun barLevel(percent: Int?): Int = (percent ?: 0).coerceIn(0, 100) * 100

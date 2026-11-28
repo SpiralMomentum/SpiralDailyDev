@@ -41,4 +41,14 @@ class WidgetTextsTest {
         assertEquals(0, widgetTexts(emptyMap()).pending)
         assertEquals(3, widgetTexts(mapOf("pending" to "3")).pending)
     }
+
+    @Test
+    fun barLevelClampsAndScales() {
+        assertEquals(0, barLevel(null))
+        assertEquals(0, barLevel(-5))
+        assertEquals(0, barLevel(0))
+        assertEquals(4200, barLevel(42))
+        assertEquals(10000, barLevel(100))
+        assertEquals(10000, barLevel(250))
+    }
 }
