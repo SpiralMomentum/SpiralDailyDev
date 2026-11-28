@@ -1,9 +1,11 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../ingest/domain/ingest.dart';
 import '../../ingest/presentation/diagnostics_page.dart';
+import '../../ingest/presentation/notification_access_page.dart';
 import '../../ingest/presentation/shortcut_guide_page.dart';
 import '../../ledger/domain/money_format.dart';
 import '../../parsing/presentation/parse_test_page.dart';
@@ -132,15 +134,22 @@ class _SettingsView extends StatelessWidget {
                 MaterialPageRoute<void>(builder: (_) => const ParseTestPage()),
               ),
             ),
-            ListTile(
-              title: const Text('단축어 설정 안내'),
-              trailing: const Icon(Icons.chevron_right),
-              onTap: () => Navigator.of(context).push(
-                MaterialPageRoute<void>(
-                  builder: (_) => const ShortcutGuidePage(),
+            if (defaultTargetPlatform == TargetPlatform.android)
+              ListTile(
+                title: const Text('알림 수집 설정'),
+                trailing: const Icon(Icons.chevron_right),
+                onTap: () => _push(context, const NotificationAccessPage()),
+              )
+            else
+              ListTile(
+                title: const Text('단축어 설정 안내'),
+                trailing: const Icon(Icons.chevron_right),
+                onTap: () => Navigator.of(context).push(
+                  MaterialPageRoute<void>(
+                    builder: (_) => const ShortcutGuidePage(),
+                  ),
                 ),
               ),
-            ),
             ListTile(
               title: const Text('수집 진단'),
               trailing: const Icon(Icons.chevron_right),

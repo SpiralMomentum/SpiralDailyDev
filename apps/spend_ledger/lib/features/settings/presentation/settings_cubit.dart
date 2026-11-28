@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../ingest/data/android_bridge.dart';
 import '../../message_filter/domain/filter_rule.dart';
 import '../../message_filter/domain/name_registry.dart';
 import '../domain/app_settings.dart';
@@ -24,9 +25,15 @@ final class SettingsState extends Equatable {
 }
 
 class SettingsCubit extends Cubit<SettingsState> {
-  SettingsCubit(this._repo, this._refresh) : super(const SettingsState());
+  SettingsCubit(
+    this._repo,
+    this._refresh, {
+    AndroidBridge bridge = const AndroidBridge(),
+  }) : _bridge = bridge,
+       super(const SettingsState());
 
   final SettingsRepository _repo;
+  final AndroidBridge _bridge;
   final Future<void> Function() _refresh;
 
   Future<void> load() async {
@@ -65,6 +72,17 @@ class SettingsCubit extends Cubit<SettingsState> {
 
   Future<void> saveNames(NameRegistry names) =>
       _update((s) => s.copyWith(names: names));
+
+  /// 허용 앱을 저장하고 네이티브 리스너에도 알린다.
+  Future<void> setNotificationPackages(List<String> packages) async {
+    await _update((s) => s.copyWith(notificationPackages: packages));
+    if (state.settings.notificationPackages != packages) return;
+    try {
+      await _bridge.setAllowedPackages(packages);
+    } catch (e, st) {
+      addError(e, st);
+    }
+  }
 
   /// 저장에 실패하면 이전 값을 유지하고 오류 문구를 낸다.
   /// 저장 뒤 갱신이 실패해도 저장은 끝났으므로 새 값을 유지한다.

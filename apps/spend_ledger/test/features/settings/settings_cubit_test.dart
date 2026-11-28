@@ -1,4 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mocktail/mocktail.dart';
+import 'package:spend_ledger/features/ingest/data/android_bridge.dart';
 import 'package:spend_ledger/features/budget/domain/budget_alert.dart';
 import 'package:spend_ledger/features/message_filter/domain/filter_rule.dart';
 import 'package:spend_ledger/features/message_filter/domain/name_registry.dart';
@@ -86,6 +88,8 @@ void main() {
     await c.close();
   });
 
+  bridgeTests();
+
   test('helpers trim and ignore empty', () {
     expect(splitKeywords(' 승인, ,결제 ,'), ['승인', '결제']);
     expect(addName(['가나'], '  '), ['가나']);
@@ -108,4 +112,21 @@ class _FailingSave implements SettingsRepository {
   Future<Set<BudgetAlert>> sentAlerts(String k) => _inner.sentAlerts(k);
   @override
   Future<bool> markSent(String k, BudgetAlert a) => _inner.markSent(k, a);
+}
+
+class MockAndroidBridge extends Mock implements AndroidBridge {}
+
+void bridgeTests() {
+  test('setNotificationPackages saves and pushes to the bridge', () async {
+    final h = await openHarness();
+    final bridge = MockAndroidBridge();
+    when(() => bridge.setAllowedPackages(any())).thenAnswer((_) async {});
+    final c = SettingsCubit(h.deps.settings, () async {}, bridge: bridge);
+    await c.load();
+    await c.setNotificationPackages(['a.b']);
+    expect((await h.deps.settings.load()).notificationPackages, ['a.b']);
+    verify(() => bridge.setAllowedPackages(['a.b'])).called(1);
+    await c.close();
+    await h.close();
+  });
 }

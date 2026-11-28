@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:spend_ledger/app/spend_ledger_app.dart';
@@ -35,15 +36,20 @@ void main() {
   });
 
   testWidgets('shortcut guide lists four steps', (tester) async {
+    debugDefaultTargetPlatformOverride = TargetPlatform.iOS;
     late IngestHarness h;
     await tester.runAsync(() async => h = await openHarness());
     await tester.pumpWidget(SpendLedgerApp(deps: h.deps));
     await _settle(tester);
     await tester.tap(find.byTooltip('설정'));
     await _settle(tester);
+    await tester.pump(const Duration(seconds: 1));
+    await tester.ensureVisible(find.text('단축어 설정 안내'));
     await tester.tap(find.text('단축어 설정 안내'));
     await _settle(tester);
+    await tester.pump(const Duration(seconds: 1));
     expect(find.textContaining('4) 저장'), findsOneWidget);
+    debugDefaultTargetPlatformOverride = null;
     await tester.runAsync(h.close);
   });
 }
