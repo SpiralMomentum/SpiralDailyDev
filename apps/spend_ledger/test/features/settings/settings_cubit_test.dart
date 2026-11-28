@@ -198,6 +198,43 @@ void flakyTests() {
     await cubit.close();
   });
 
+  test('읽기 실패 뒤 다시 읽는 동안 loading이 켜졌다가 오류로 돌아온다', () async {
+    final cubit = SettingsCubit(repo, () async {});
+    final states = <SettingsState>[];
+    final sub = cubit.stream.listen(states.add);
+    await runZonedGuarded(() async {
+      await cubit.load();
+      await cubit.load();
+    }, (_, _) {});
+    await Future<void>.delayed(Duration.zero);
+    expect(states.map((s) => (s.loading, s.loaded, s.error != null)), [
+      (false, false, true),
+      (true, false, false),
+      (false, false, true),
+    ]);
+    await sub.cancel();
+    await cubit.close();
+  });
+
+  test('읽는 중에 닫혀도 emit하지 않는다', () async {
+    repo.failLoad = false;
+    final cubit = SettingsCubit(repo, () async {});
+    final pending = cubit.load();
+    await cubit.close();
+    await pending;
+    expect(cubit.isClosed, isTrue);
+  });
+
+  test('저장 중에 닫혀도 emit하지 않는다', () async {
+    repo.failLoad = false;
+    final cubit = SettingsCubit(repo, () async {});
+    await cubit.load();
+    final pending = cubit.setTheme(AppThemeId.beige);
+    await cubit.close();
+    await pending;
+    expect((await h.deps.settings.load()).themeId, AppThemeId.beige);
+  });
+
   test('읽기 실패 뒤 load가 성공하면 실제 설정 위에 저장한다', () async {
     final cubit = SettingsCubit(repo, () async {});
     await runZonedGuarded(cubit.load, (_, _) {});

@@ -60,6 +60,10 @@ void main() {
     late AppSettings saved;
     await tester.runAsync(() async => saved = await h.deps.settings.load());
     expect(saved.themeId, AppThemeId.beige);
+    // 저장 뒤 갱신이 위젯 저장소에도 새 테마 색을 쓴다.
+    final widgetEntries = h.widgets.last!;
+    expect(widgetEntries['color.primary.light'], '#FF9A5230');
+    expect(widgetEntries['theme.mode'], 'system');
     await tester.runAsync(h.close);
   });
 

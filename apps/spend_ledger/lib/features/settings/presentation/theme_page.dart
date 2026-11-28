@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../theme/domain/palette.dart';
 import 'settings_cubit.dart';
+import 'settings_load_error.dart';
 
 /// 밝기 선택지의 화면 문구.
 String themeModeLabel(AppThemeMode mode) => switch (mode) {
@@ -22,6 +23,11 @@ class ThemePage extends StatelessWidget {
       appBar: AppBar(title: const Text('테마')),
       body: BlocBuilder<SettingsCubit, SettingsState>(
         builder: (context, state) {
+          if (!state.loaded) {
+            return state.loading
+                ? const Center(child: CircularProgressIndicator())
+                : const SettingsLoadError();
+          }
           final s = state.settings;
           return ListView(
             padding: const EdgeInsets.all(16),

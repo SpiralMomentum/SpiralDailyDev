@@ -200,6 +200,7 @@ class _ProgressBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
+    final warning = Theme.of(context).extension<SpendColors>()!.warning;
     final used = (budgetRatio ?? 0).clamp(0.0, 1.0);
     final over = budgetRatio != null && budgetRatio! > elapsedRatio;
     return SizedBox(
@@ -212,7 +213,7 @@ class _ProgressBar extends StatelessWidget {
                 value: used,
                 minHeight: 12,
                 borderRadius: BorderRadius.circular(6),
-                color: over ? scheme.error : scheme.primary,
+                color: over ? warning : scheme.primary,
               ),
             ),
             Positioned(

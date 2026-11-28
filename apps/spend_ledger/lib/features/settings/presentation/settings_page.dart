@@ -11,6 +11,7 @@ import '../../parsing/presentation/parse_test_page.dart';
 import 'filters_page.dart';
 import 'names_page.dart';
 import 'settings_cubit.dart';
+import 'settings_load_error.dart';
 import 'theme_page.dart';
 
 /// 앱 최상단의 [SettingsCubit]을 읽어 쓴다.
@@ -72,7 +73,8 @@ class _SettingsView extends StatelessWidget {
   Widget build(BuildContext context) => Scaffold(
     appBar: AppBar(title: const Text('설정')),
     body: BlocConsumer<SettingsCubit, SettingsState>(
-      listenWhen: (a, b) => b.error != null && a.error != b.error,
+      // 읽기 실패는 본문의 오류 화면이 알리므로 저장 실패만 띄운다.
+      listenWhen: (a, b) => b.loaded && b.error != null && a.error != b.error,
       listener: (context, state) => ScaffoldMessenger.of(
         context,
       ).showSnackBar(SnackBar(content: Text(state.error!))),
@@ -80,6 +82,7 @@ class _SettingsView extends StatelessWidget {
         if (state.loading) {
           return const Center(child: CircularProgressIndicator());
         }
+        if (!state.loaded) return const SettingsLoadError();
         final s = state.settings;
         final cubit = context.read<SettingsCubit>();
         return ListView(

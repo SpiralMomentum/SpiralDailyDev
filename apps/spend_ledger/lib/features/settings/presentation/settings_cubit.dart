@@ -12,17 +12,21 @@ final class SettingsState extends Equatable {
   const SettingsState({
     this.settings = const AppSettings(),
     this.loading = true,
+    this.loaded = false,
     this.error,
   });
 
   final AppSettings settings;
   final bool loading;
 
+  /// 저장소에서 설정을 한 번이라도 읽었는지. false면 [settings]는 실제 값이 아닌 기본값이다.
+  final bool loaded;
+
   /// 마지막 읽기·저장이 실패했을 때 보여 줄 문구. 설정값은 이전 값을 유지한다.
   final String? error;
 
   @override
-  List<Object?> get props => [settings, loading, error];
+  List<Object?> get props => [settings, loading, loaded, error];
 }
 
 class SettingsCubit extends Cubit<SettingsState> {
@@ -32,11 +36,10 @@ class SettingsCubit extends Cubit<SettingsState> {
     AndroidBridge bridge = const AndroidBridge(),
     AppSettings? initial,
   }) : _bridge = bridge,
-       _loaded = initial != null,
        super(
          initial == null
              ? const SettingsState()
-             : SettingsState(settings: initial, loading: false),
+             : SettingsState(settings: initial, loading: false, loaded: true),
        );
 
   final SettingsRepository _repo;
@@ -44,22 +47,29 @@ class SettingsCubit extends Cubit<SettingsState> {
   final Future<void> Function() _refresh;
 
   /// 저장소에서 설정을 한 번이라도 읽었는지. 읽기 전에는 기본값을 저장하지 않는다.
-  bool _loaded;
+  bool get _loaded => state.loaded;
 
   /// 설정을 아직 읽지 못했을 때만 다시 읽는다. 화면을 열 때 재시도하는 데 쓴다.
   Future<void> loadIfNeeded() => _loaded ? Future<void>.value() : load();
 
+  /// 아직 읽지 못한 상태면 읽는 동안 [SettingsState.loading]을 켠다.
+  /// 그래서 다시 시도가 또 실패해도 상태가 바뀌어 화면이 오류를 다시 알린다.
   Future<void> load() async {
+    if (!_loaded && !state.loading) {
+      emit(SettingsState(settings: state.settings));
+    }
     try {
       final loaded = await _repo.load();
-      _loaded = true;
-      emit(SettingsState(settings: loaded, loading: false));
+      if (isClosed) return;
+      emit(SettingsState(settings: loaded, loading: false, loaded: true));
     } catch (e, st) {
+      if (isClosed) return;
       addError(e, st);
       emit(
         SettingsState(
           settings: state.settings,
           loading: false,
+          loaded: _loaded,
           error: '설정을 불러오지 못했어요',
         ),
       );
@@ -114,23 +124,26 @@ class SettingsCubit extends Cubit<SettingsState> {
   Future<bool> _update(AppSettings Function(AppSettings) change) async {
     if (!_loaded) {
       await load();
-      if (!_loaded) return false;
+      if (isClosed || !_loaded) return false;
     }
     final next = change(state.settings);
     try {
       await _repo.save(next);
     } catch (e, st) {
+      if (isClosed) return false;
       addError(e, st);
       emit(
         SettingsState(
           settings: state.settings,
           loading: false,
+          loaded: true,
           error: '저장하지 못했어요. 다시 시도해 주세요.',
         ),
       );
       return false;
     }
-    emit(SettingsState(settings: next, loading: false));
+    if (isClosed) return true;
+    emit(SettingsState(settings: next, loading: false, loaded: true));
     try {
       await _refresh();
     } catch (e, st) {

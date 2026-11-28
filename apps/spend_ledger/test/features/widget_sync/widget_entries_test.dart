@@ -90,7 +90,7 @@ void main() {
     expect(m['total'], '120,000원');
   });
 
-  test('색 키 13개와 값', () {
+  test('밝기 키 1개와 색 키 12개와 값', () {
     final e = widgetEntries(
       summary,
       hideAmounts: false,
@@ -102,6 +102,21 @@ void main() {
     expect(e['color.primary.light'], '#FF9A5230');
     expect(e['color.primary.dark'], '#FFF0A77A');
     expect(e['color.widgetBackground.light'], '#FFFFFDF9');
+    // Kotlin WIDGET_COLOR_KEYS와 같은 문자열이어야 한다.
+    expect(e.keys.where((k) => k.startsWith('color.')).toSet(), {
+      'color.widgetBackground.light',
+      'color.widgetBackground.dark',
+      'color.onSurface.light',
+      'color.onSurface.dark',
+      'color.subtle.light',
+      'color.subtle.dark',
+      'color.primary.light',
+      'color.primary.dark',
+      'color.track.light',
+      'color.track.dark',
+      'color.warning.light',
+      'color.warning.dark',
+    });
     expect(e.keys.where((k) => k.startsWith('color.')).length, 12);
   });
 
