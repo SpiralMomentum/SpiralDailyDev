@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart';
+
 import '../../budget/domain/summary.dart';
 import '../../ledger/domain/money_format.dart';
 
@@ -10,6 +12,7 @@ String _named(String name, int amount, bool hide) =>
 Map<String, String> widgetEntries(
   LedgerSummary s, {
   required bool hideAmounts,
+  required DateTime asOf,
 }) {
   String money(int? v) => hideAmounts || v == null ? '' : formatWon(v);
   final ratio = s.budgetRatio;
@@ -30,5 +33,6 @@ Map<String, String> widgetEntries(
     for (var i = 0; i < 3; i++) 'top${i + 1}': topAt(i),
     for (var i = 0; i < 3; i++) 'recent${i + 1}': recentAt(i),
     'pending': s.pendingCount.toString(),
+    'asOf': DateFormat('M/d HH:mm').format(asOf),
   };
 }

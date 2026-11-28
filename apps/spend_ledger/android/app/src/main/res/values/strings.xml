@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="widget_small_description">이번 기간 지출 합계와 예산 사용률</string>
+    <string name="widget_medium_description">지출 합계, 오늘 지출, 하루 권장액</string>
+    <string name="widget_large_description">지출 합계, 많이 쓴 곳, 최근 거래</string>
+</resources>

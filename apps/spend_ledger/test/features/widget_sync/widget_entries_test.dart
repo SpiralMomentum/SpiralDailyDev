@@ -27,7 +27,7 @@ void main() {
   final summary = summarize(txs: txs, now: now, startDay: 1, budget: 300000);
 
   test('widget total equals summary total', () {
-    final m = widgetEntries(summary, hideAmounts: false);
+    final m = widgetEntries(summary, hideAmounts: false, asOf: now);
     expect(m['total'], formatWon(summary.periodTotal));
     expect(m['total'], '120,000원');
     expect(m['today'], '6,500원');
@@ -43,7 +43,7 @@ void main() {
   });
 
   test('widget hides amounts keeps ratio', () {
-    final m = widgetEntries(summary, hideAmounts: true);
+    final m = widgetEntries(summary, hideAmounts: true, asOf: now);
     expect(m['total'], '');
     expect(m['today'], '');
     expect(m['daily'], '');
@@ -58,8 +58,18 @@ void main() {
     final m = widgetEntries(
       summarize(txs: txs, now: now, startDay: 1),
       hideAmounts: false,
+      asOf: now,
     );
     expect(m['ratio'], '');
     expect(m['daily'], '');
+  });
+  test('asOf is M/d HH:mm', () {
+    final m = widgetEntries(
+      summary,
+      hideAmounts: false,
+      asOf: DateTime(2026, 11, 28, 9, 5),
+    );
+    expect(m['asOf'], '11/28 09:05');
+    expect(m['total'], '120,000원');
   });
 }

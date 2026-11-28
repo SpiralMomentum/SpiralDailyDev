@@ -1,6 +1,9 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:home_widget/home_widget.dart';
 
 import '../features/budget/presentation/home_page.dart';
 import '../features/ingest/domain/ingest.dart';
@@ -16,13 +19,65 @@ final GlobalKey<NavigatorState> appNavigatorKey = GlobalKey<NavigatorState>();
 void openEditPage(String id) =>
     appNavigatorKey.currentState?.pushNamed(AppRoutes.edit, arguments: id);
 
-class SpendLedgerApp extends StatelessWidget {
-  const SpendLedgerApp({super.key, required this.deps, this.initialEditId});
+/// 위젯 탭 URI가 가리키는 라우트. 홈이거나 모르는 주소면 null(이미 홈이다).
+String? routeForWidgetUri(Uri? uri) =>
+    uri?.host == 'candidates' ? AppRoutes.candidates : null;
+
+void _openWidgetUri(Uri? uri) {
+  final route = routeForWidgetUri(uri);
+  if (route != null) appNavigatorKey.currentState?.pushNamed(route);
+}
+
+class SpendLedgerApp extends StatefulWidget {
+  const SpendLedgerApp({
+    super.key,
+    required this.deps,
+    this.initialEditId,
+    this.listenWidgetClicks = false,
+  });
 
   final IngestDeps deps;
 
   /// 알림을 눌러 앱이 시작됐을 때 홈 위에 열 거래 id.
   final String? initialEditId;
+
+  /// 위젯 탭을 받을지. 테스트에서는 플랫폼 채널이 없어 끈다.
+  final bool listenWidgetClicks;
+
+  @override
+  State<SpendLedgerApp> createState() => _SpendLedgerAppState();
+}
+
+class _SpendLedgerAppState extends State<SpendLedgerApp> {
+  StreamSubscription<Uri?>? _clicks;
+
+  @override
+  void initState() {
+    super.initState();
+    if (!widget.listenWidgetClicks) return;
+    _clicks = HomeWidget.widgetClicked.listen(
+      _openWidgetUri,
+      onError: (Object e) =>
+          debugPrint('widget click failed: ${e.runtimeType}'),
+    );
+    // 첫 프레임 뒤에 연다. 앱이 위젯 탭으로 시작된 경우다.
+    HomeWidget.initiallyLaunchedFromHomeWidget().then(
+      (uri) => WidgetsBinding.instance.addPostFrameCallback(
+        (_) => _openWidgetUri(uri),
+      ),
+      onError: (Object e) =>
+          debugPrint('initial widget uri failed: ${e.runtimeType}'),
+    );
+  }
+
+  @override
+  void dispose() {
+    _clicks?.cancel();
+    super.dispose();
+  }
+
+  IngestDeps get deps => widget.deps;
+  String? get initialEditId => widget.initialEditId;
 
   @override
   Widget build(BuildContext context) => RepositoryProvider<IngestDeps>.value(

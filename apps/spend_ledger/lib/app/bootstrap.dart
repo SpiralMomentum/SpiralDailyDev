@@ -15,6 +15,7 @@ import '../features/ledger/data/ledger_database.dart';
 import '../features/ledger/data/sql_ledger_repository.dart';
 import '../features/parsing/data/sql_format_hint_repository.dart';
 import '../features/settings/data/sql_settings_repository.dart';
+import '../features/widget_sync/data/home_widget_gateway.dart';
 import 'ingest_entry.dart';
 
 final FlutterLocalNotificationsPlugin _notifications =
@@ -51,7 +52,9 @@ Future<IngestDeps> _build() async {
     hints: SqlFormatHintRepository(db),
     seen: SqlSeenRepository(db),
     notifier: LocalConfirmNotifier(_notifications),
-    widgets: const NoopWidgetGateway(),
+    widgets: defaultTargetPlatform == TargetPlatform.android
+        ? HomeWidgetGateway()
+        : const NoopWidgetGateway(),
     now: DateTime.now,
     newId: () =>
         '${DateTime.now().microsecondsSinceEpoch}-'

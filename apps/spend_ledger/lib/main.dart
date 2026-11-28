@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 
 import 'app/bootstrap.dart';
@@ -8,7 +9,13 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   try {
     final (deps, initialEditId) = await bootstrap();
-    runApp(SpendLedgerApp(deps: deps, initialEditId: initialEditId));
+    runApp(
+      SpendLedgerApp(
+        deps: deps,
+        initialEditId: initialEditId,
+        listenWidgetClicks: defaultTargetPlatform == TargetPlatform.android,
+      ),
+    );
   } catch (e) {
     debugPrint('bootstrap failed: ${e.runtimeType}');
     runApp(StartupErrorApp(error: e));

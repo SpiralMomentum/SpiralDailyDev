@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:spend_ledger/app/routes.dart';
 import 'package:spend_ledger/app/spend_ledger_app.dart';
 import 'package:spend_ledger/features/ingest/domain/ingest.dart';
 
@@ -8,6 +9,15 @@ import '../support/failing_ledger.dart';
 import '../support/fakes.dart';
 
 void main() {
+  test('routeForWidgetUri maps candidates only', () {
+    expect(
+      routeForWidgetUri(Uri.parse('spendledger://candidates')),
+      AppRoutes.candidates,
+    );
+    expect(routeForWidgetUri(Uri.parse('spendledger://home')), isNull);
+    expect(routeForWidgetUri(null), isNull);
+  });
+
   testWidgets('app shows home total', (tester) async {
     late IngestHarness h;
     await tester.runAsync(() async {
