@@ -107,7 +107,20 @@ Future<Map<String, Object?>> _onIngestCall(MethodCall call) async {
 Future<Map<String, Object?>> handleIngestCall(
   MethodCall call,
   IngestDeps deps,
-) async {
+) => _serialized(() => _dispatch(call, deps));
+
+/// 앞선 호출이 끝난 뒤에 다음 호출을 실행한다. 연달아 온 호출의 중복 판정(읽기)과
+/// 저장(쓰기)이 섞여 같은 결제가 두 번 대기로 저장되는 것을 막는다.
+Future<void> _tail = Future<void>.value();
+
+Future<T> _serialized<T>(Future<T> Function() task) {
+  final result = _tail.then((_) => task());
+  // 실패해도 다음 호출은 이어서 실행한다.
+  _tail = result.then<void>((_) {}, onError: (Object _) {});
+  return result;
+}
+
+Future<Map<String, Object?>> _dispatch(MethodCall call, IngestDeps deps) async {
   switch (call.method) {
     case 'ingest':
       return _handleIngest(call, deps);

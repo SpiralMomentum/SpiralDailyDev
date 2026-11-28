@@ -101,4 +101,11 @@ class NotificationExtractionTest {
         assertFalse(shouldHandle("com.kakao.talk", allowed))
         assertFalse(shouldHandle(pkg, emptySet()))
     }
+
+    @Test
+    fun preferredTimeUsesWhenOnlyWhenPositive() {
+        assertEquals(5_000L, preferredTimeMs(5_000L, 9_000L))
+        assertEquals(9_000L, preferredTimeMs(0L, 9_000L))
+        assertEquals(9_000L, preferredTimeMs(-1L, 9_000L))
+    }
 }

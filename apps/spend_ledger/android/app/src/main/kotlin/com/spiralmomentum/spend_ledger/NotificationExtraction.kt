@@ -47,3 +47,6 @@ fun extractMessage(f: NotificationFields): ExtractedMessage? {
 
 /** 허용 목록에 있는 앱의 알림만 엔진으로 넘긴다. */
 fun shouldHandle(packageName: String, allowed: Set<String>): Boolean = packageName in allowed
+
+/** 알림의 `when`이 0보다 크면 그것을, 아니면 게시 시각을 쓴다. 다시 게시돼도 시각이 안정적이다. */
+fun preferredTimeMs(whenMs: Long, postTimeMs: Long): Long = if (whenMs > 0) whenMs else postTimeMs

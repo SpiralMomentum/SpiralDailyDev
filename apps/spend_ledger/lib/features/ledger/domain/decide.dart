@@ -160,7 +160,7 @@ LedgerDecision decide({
 
 /// 취소 원거래가 될 수 있는 거래. 확인 대기·포함 거래, 또는 취소·중복이 아닌 선불 사용.
 /// 확인이 필요하거나(needsReview) 분류를 모르는 거래는 대상이 아니다.
-/// `LedgerRepository.saveIncoming`의 취소의 조건과 같아야 한다.
+/// `LedgerRepository.saveIncoming`의 취소 조건과 같아야 한다.
 bool cancellableOriginal(Transaction t) {
   if (t.needsReview || t.category == SpendCategory.unknown) return false;
   final live = t.status != TxStatus.cancelled && t.status != TxStatus.duplicate;

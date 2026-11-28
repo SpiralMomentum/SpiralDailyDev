@@ -26,10 +26,10 @@ class PaymentNotificationListener : NotificationListenerService() {
         if (dateReceiver != null) return
         val receiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context, intent: Intent) {
-                if (intent.action == Intent.ACTION_DATE_CHANGED) IngestEngineHost.refresh(context)
+                if (intent.action in REFRESH_ACTIONS) IngestEngineHost.refresh(context)
             }
         }
-        val filter = IntentFilter(Intent.ACTION_DATE_CHANGED)
+        val filter = IntentFilter().apply { REFRESH_ACTIONS.forEach(::addAction) }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             registerReceiver(receiver, filter, Context.RECEIVER_NOT_EXPORTED)
         } else {
@@ -86,6 +86,13 @@ class PaymentNotificationListener : NotificationListenerService() {
     companion object {
         private const val TAG = "PaymentListener"
 
+        /** 날짜가 바뀌거나 시각·시간대가 바뀌면 위젯 요약을 다시 계산한다. */
+        private val REFRESH_ACTIONS = setOf(
+            Intent.ACTION_DATE_CHANGED,
+            Intent.ACTION_TIME_CHANGED,
+            Intent.ACTION_TIMEZONE_CHANGED,
+        )
+
         fun toFields(sbn: StatusBarNotification): NotificationFields {
             val n = sbn.notification
             val extras = n.extras ?: Bundle.EMPTY
@@ -97,7 +104,7 @@ class PaymentNotificationListener : NotificationListenerService() {
                 text = extras.getCharSequence(Notification.EXTRA_TEXT)?.toString(),
                 bigText = extras.getCharSequence(Notification.EXTRA_BIG_TEXT)?.toString(),
                 messages = messages(extras),
-                postTimeMs = sbn.postTime,
+                postTimeMs = preferredTimeMs(n.`when`, sbn.postTime),
             )
         }
 

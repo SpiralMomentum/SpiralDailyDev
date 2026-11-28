@@ -50,7 +50,12 @@ abstract class SpendWidget(private val layout: Int) : HomeWidgetProvider() {
     }
 }
 
-class SmallSpendWidget : SpendWidget(R.layout.widget_small)
+class SmallSpendWidget : SpendWidget(R.layout.widget_small) {
+    override fun fill(v: RemoteViews, t: WidgetTexts) {
+        super.fill(v, t)
+        v.setTextViewText(R.id.widget_as_of, t.asOf)
+    }
+}
 
 class MediumSpendWidget : SpendWidget(R.layout.widget_medium) {
     override fun fill(v: RemoteViews, t: WidgetTexts) {

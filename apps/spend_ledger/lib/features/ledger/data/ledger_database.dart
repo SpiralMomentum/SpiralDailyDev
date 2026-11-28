@@ -68,6 +68,9 @@ Future<Database> openLedgerDatabase(String path, String key) =>
     cipher.openDatabase(
       path,
       password: key,
+      // 기본값(true)은 같은 프로세스의 엔진들이 네이티브 연결 하나를 공유해 트랜잭션이
+      // 섞인다. 엔진마다 연결을 따로 열고 WAL과 busy_timeout으로 동시 접근을 처리한다.
+      singleInstance: false,
       version: ledgerSchemaVersion,
       onConfigure: configureLedgerDatabase,
       onCreate: (db, _) => createLedgerSchema(db),

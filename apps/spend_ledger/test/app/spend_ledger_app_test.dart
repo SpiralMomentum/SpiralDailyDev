@@ -9,12 +9,13 @@ import '../support/failing_ledger.dart';
 import '../support/fakes.dart';
 
 void main() {
-  test('routeForWidgetUri maps candidates only', () {
+  test('routeForWidgetUri maps candidates and home', () {
     expect(
       routeForWidgetUri(Uri.parse('spendledger://candidates')),
       AppRoutes.candidates,
     );
-    expect(routeForWidgetUri(Uri.parse('spendledger://home')), isNull);
+    expect(routeForWidgetUri(Uri.parse('spendledger://home')), AppRoutes.home);
+    expect(routeForWidgetUri(Uri.parse('spendledger://other')), isNull);
     expect(routeForWidgetUri(null), isNull);
   });
 
@@ -60,6 +61,31 @@ void main() {
 
     expect(find.text('스타벅스'), findsWidgets);
     expect(appNavigatorKey.currentState!.canPop(), isTrue);
+
+    await tester.runAsync(h.close);
+  });
+
+  testWidgets('widget home tap pops back to home', (tester) async {
+    late IngestHarness h;
+    late String id;
+    await tester.runAsync(() async {
+      h = await openHarness();
+      final (_, a) = await h.ingest(kbApproval);
+      id = a!.id;
+    });
+
+    await tester.pumpWidget(
+      SpendLedgerApp(
+        deps: h.deps,
+        initialEditId: id,
+        initialWidgetUri: () async => Uri.parse('spendledger://home'),
+      ),
+    );
+    await _settle(tester);
+    await tester.pump(const Duration(seconds: 1));
+
+    expect(appNavigatorKey.currentState!.canPop(), isFalse);
+    expect(find.text('거래 수정'), findsNothing);
 
     await tester.runAsync(h.close);
   });

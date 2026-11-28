@@ -19,13 +19,22 @@ final GlobalKey<NavigatorState> appNavigatorKey = GlobalKey<NavigatorState>();
 void openEditPage(String id) =>
     appNavigatorKey.currentState?.pushNamed(AppRoutes.edit, arguments: id);
 
-/// 위젯 탭 URI가 가리키는 라우트. 홈이거나 모르는 주소면 null(이미 홈이다).
-String? routeForWidgetUri(Uri? uri) =>
-    uri?.host == 'candidates' ? AppRoutes.candidates : null;
+/// 위젯 탭 URI가 가리키는 라우트. 모르는 주소면 null(아무것도 하지 않는다).
+String? routeForWidgetUri(Uri? uri) => switch (uri?.host) {
+  'candidates' => AppRoutes.candidates,
+  'home' => AppRoutes.home,
+  _ => null,
+};
 
 void _openWidgetUri(Uri? uri) {
   final route = routeForWidgetUri(uri);
-  if (route != null) appNavigatorKey.currentState?.pushNamed(route);
+  final nav = appNavigatorKey.currentState;
+  if (route == null || nav == null) return;
+  if (route == AppRoutes.home) {
+    nav.popUntil((r) => r.isFirst);
+  } else {
+    nav.pushNamed(route);
+  }
 }
 
 class SpendLedgerApp extends StatefulWidget {

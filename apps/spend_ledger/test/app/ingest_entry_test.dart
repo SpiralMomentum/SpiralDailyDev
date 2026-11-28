@@ -358,6 +358,24 @@ void _androidIngestTests() {
     expect((await handleIngestCall(c, h.deps))['result'], 'stored');
   });
 
+  test('concurrent duplicate ingests end as pending plus duplicate', () async {
+    final results = await Future.wait([
+      handleIngestCall(call(), h.deps),
+      handleIngestCall(
+        call(
+          package: 'com.kbcard.cxh.appcard',
+          at: posted.add(const Duration(minutes: 1)),
+        ),
+        h.deps,
+      ),
+    ]);
+
+    expect(results.map((r) => r['result']), ['stored', 'stored']);
+    final all = await h.deps.ledger.since(DateTime(2000));
+    expect(all.where((t) => t.status == TxStatus.pending), hasLength(1));
+    expect(all.where((t) => t.status == TxStatus.duplicate), hasLength(1));
+  });
+
   test('refresh refreshes outputs', () async {
     final r = await handleIngestCall(const MethodCall('refresh'), h.deps);
 

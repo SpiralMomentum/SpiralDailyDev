@@ -10,5 +10,6 @@
     <TextView android:id="@+id/widget_total" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxLines="1" android:textColor="#111111" android:textSize="20sp" android:textStyle="bold" />
     <TextView android:id="@+id/widget_ratio" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="#00796B" android:textSize="14sp" />
     <TextView android:id="@+id/widget_today" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxLines="1" android:textColor="#444444" android:textSize="12sp" />
+    <TextView android:id="@+id/widget_as_of" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxLines="1" android:textColor="#888888" android:textSize="10sp" />
     <TextView android:id="@+id/widget_pending" android:layout_width="wrap_content" android:layout_height="wrap_content" android:paddingTop="4dp" android:textColor="#D84315" android:textSize="12sp" android:visibility="gone" />
 </LinearLayout>
