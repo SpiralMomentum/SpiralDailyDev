@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:spend_ledger/features/ingest/data/android_bridge.dart';
@@ -14,6 +16,7 @@ import 'package:spend_ledger/features/settings/presentation/settings_cubit.dart'
 import '../../support/fakes.dart';
 
 void main() {
+  group('읽기 실패', flakyTests);
   late IngestHarness h;
   late int refreshes;
   late SettingsCubit cubit;
@@ -143,5 +146,66 @@ void bridgeTests() {
     verify(() => bridge.setAllowedPackages(['a.b'])).called(1);
     await c.close();
     await h.close();
+  });
+}
+
+class _FlakyRepo implements SettingsRepository {
+  _FlakyRepo(this.inner);
+  final SettingsRepository inner;
+  bool failLoad = true;
+  int saves = 0;
+
+  @override
+  Future<AppSettings> load() async {
+    if (failLoad) throw const FormatException('bad');
+    return inner.load();
+  }
+
+  @override
+  Future<void> save(AppSettings s) {
+    saves++;
+    return inner.save(s);
+  }
+
+  @override
+  Future<Set<BudgetAlert>> sentAlerts(String periodKey) =>
+      inner.sentAlerts(periodKey);
+
+  @override
+  Future<bool> markSent(String periodKey, BudgetAlert a) =>
+      inner.markSent(periodKey, a);
+}
+
+void flakyTests() {
+  late IngestHarness h;
+  late _FlakyRepo repo;
+
+  setUp(() async {
+    h = await openHarness(settings: const AppSettings(budget: 500000));
+    repo = _FlakyRepo(h.deps.settings);
+  });
+  tearDown(() => h.close());
+
+  test('읽기 실패 뒤 setTheme은 저장하지 않고 오류를 낸다', () async {
+    final cubit = SettingsCubit(repo, () async {}, initial: null);
+    await runZonedGuarded(() async {
+      await cubit.load();
+      await cubit.setTheme(AppThemeId.beige);
+    }, (_, _) {});
+    expect(repo.saves, 0);
+    expect(cubit.state.error, isNotNull);
+    expect((await h.deps.settings.load()).budget, 500000);
+    await cubit.close();
+  });
+
+  test('읽기 실패 뒤 load가 성공하면 실제 설정 위에 저장한다', () async {
+    final cubit = SettingsCubit(repo, () async {});
+    await runZonedGuarded(cubit.load, (_, _) {});
+    repo.failLoad = false;
+    await cubit.setTheme(AppThemeId.beige);
+    final saved = await h.deps.settings.load();
+    expect(saved.themeId, AppThemeId.beige);
+    expect(saved.budget, 500000);
+    await cubit.close();
   });
 }

@@ -14,8 +14,20 @@ import 'settings_cubit.dart';
 import 'theme_page.dart';
 
 /// 앱 최상단의 [SettingsCubit]을 읽어 쓴다.
-class SettingsPage extends StatelessWidget {
+class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
+
+  @override
+  State<SettingsPage> createState() => _SettingsPageState();
+}
+
+class _SettingsPageState extends State<SettingsPage> {
+  @override
+  void initState() {
+    super.initState();
+    // 앞서 읽기에 실패했다면 화면을 열 때 다시 시도한다.
+    context.read<SettingsCubit>().loadIfNeeded();
+  }
 
   @override
   Widget build(BuildContext context) => const _SettingsView();

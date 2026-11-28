@@ -32,6 +32,7 @@ class SettingsCubit extends Cubit<SettingsState> {
     AndroidBridge bridge = const AndroidBridge(),
     AppSettings? initial,
   }) : _bridge = bridge,
+       _loaded = initial != null,
        super(
          initial == null
              ? const SettingsState()
@@ -42,9 +43,17 @@ class SettingsCubit extends Cubit<SettingsState> {
   final AndroidBridge _bridge;
   final Future<void> Function() _refresh;
 
+  /// 저장소에서 설정을 한 번이라도 읽었는지. 읽기 전에는 기본값을 저장하지 않는다.
+  bool _loaded;
+
+  /// 설정을 아직 읽지 못했을 때만 다시 읽는다. 화면을 열 때 재시도하는 데 쓴다.
+  Future<void> loadIfNeeded() => _loaded ? Future<void>.value() : load();
+
   Future<void> load() async {
     try {
-      emit(SettingsState(settings: await _repo.load(), loading: false));
+      final loaded = await _repo.load();
+      _loaded = true;
+      emit(SettingsState(settings: loaded, loading: false));
     } catch (e, st) {
       addError(e, st);
       emit(
@@ -87,8 +96,10 @@ class SettingsCubit extends Cubit<SettingsState> {
 
   /// 허용 앱을 저장하고 네이티브 리스너에도 알린다.
   Future<void> setNotificationPackages(List<String> packages) async {
-    await _update((s) => s.copyWith(notificationPackages: packages));
-    if (state.settings.notificationPackages != packages) return;
+    final saved = await _update(
+      (s) => s.copyWith(notificationPackages: packages),
+    );
+    if (!saved) return;
     try {
       await _bridge.setAllowedPackages(packages);
     } catch (e, st) {
@@ -98,7 +109,13 @@ class SettingsCubit extends Cubit<SettingsState> {
 
   /// 저장에 실패하면 이전 값을 유지하고 오류 문구를 낸다.
   /// 저장 뒤 갱신이 실패해도 저장은 끝났으므로 새 값을 유지한다.
-  Future<void> _update(AppSettings Function(AppSettings) change) async {
+  /// 설정을 읽지 못한 상태에서는 기본값으로 저장소를 덮어쓰지 않도록 저장하지 않는다.
+  /// 저장했으면 true.
+  Future<bool> _update(AppSettings Function(AppSettings) change) async {
+    if (!_loaded) {
+      await load();
+      if (!_loaded) return false;
+    }
     final next = change(state.settings);
     try {
       await _repo.save(next);
@@ -111,7 +128,7 @@ class SettingsCubit extends Cubit<SettingsState> {
           error: '저장하지 못했어요. 다시 시도해 주세요.',
         ),
       );
-      return;
+      return false;
     }
     emit(SettingsState(settings: next, loading: false));
     try {
@@ -119,5 +136,6 @@ class SettingsCubit extends Cubit<SettingsState> {
     } catch (e, st) {
       addError(e, st);
     }
+    return true;
   }
 }

@@ -33,7 +33,10 @@ void main() {
     );
     await tester.pump();
     expect(cubit.state.settings.themeMode, AppThemeMode.dark);
-    await tester.runAsync(h.close);
+    await tester.runAsync(() async {
+      await cubit.close();
+      await h.close();
+    });
   });
 
   testWidgets('선택된 테마 카드에 체크 표시', (tester) async {
@@ -52,7 +55,10 @@ void main() {
       ),
       findsOneWidget,
     );
-    await tester.runAsync(h.close);
+    await tester.runAsync(() async {
+      await cubit.close();
+      await h.close();
+    });
   });
 
   testWidgets('테마 카드를 누르면 테마가 바뀐다', (tester) async {
@@ -63,6 +69,9 @@ void main() {
     );
     await tester.pump();
     expect(cubit.state.settings.themeId, AppThemeId.beige);
-    await tester.runAsync(h.close);
+    await tester.runAsync(() async {
+      await cubit.close();
+      await h.close();
+    });
   });
 }

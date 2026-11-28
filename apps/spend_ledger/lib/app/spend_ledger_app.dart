@@ -48,7 +48,7 @@ class SpendLedgerApp extends StatefulWidget {
     this.initialEditId,
     this.listenWidgetClicks = false,
     this.initialWidgetUri,
-    this.initialSettings = const AppSettings(),
+    this.initialSettings,
   });
 
   final IngestDeps deps;
@@ -63,7 +63,8 @@ class SpendLedgerApp extends StatefulWidget {
   final Future<Uri?> Function()? initialWidgetUri;
 
   /// 첫 프레임부터 저장된 테마로 그리기 위한 시작 설정.
-  final AppSettings initialSettings;
+  /// 읽지 못했으면 null. 기본값으로 그리고 설정을 다시 읽는다.
+  final AppSettings? initialSettings;
 
   @override
   State<SpendLedgerApp> createState() => _SpendLedgerAppState();
@@ -80,6 +81,7 @@ class _SpendLedgerAppState extends State<SpendLedgerApp> {
   @override
   void initState() {
     super.initState();
+    if (widget.initialSettings == null) _settings.load();
     if (widget.listenWidgetClicks) {
       _clicks = HomeWidget.widgetClicked.listen(
         _openWidgetUri,
