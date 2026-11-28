@@ -1,0 +1,189 @@
+import '../../message_filter/domain/name_registry.dart';
+import '../../message_filter/domain/raw_message.dart';
+import '../../parsing/domain/parsed_message.dart';
+import 'merchant_match.dart';
+import 'transaction.dart';
+
+class LedgerDecision {
+  const LedgerDecision({
+    required this.incoming,
+    required this.updated,
+    required this.notify,
+  });
+
+  final Transaction incoming;
+  final List<Transaction> updated;
+  final bool notify;
+}
+
+const Duration _duplicateWindow = Duration(minutes: 5);
+
+LedgerDecision decide({
+  required RawMessage raw,
+  required ParsedMessage parsed,
+  required NameRegistry names,
+  required List<Transaction> recent,
+  required String newId,
+}) {
+  final amount = parsed.amount;
+  Transaction build(
+    int signed,
+    SpendCategory category,
+    TxStatus status, {
+    bool needsReview = false,
+    String? linkedId,
+  }) => Transaction(
+    id: newId,
+    amount: signed,
+    counterparty: parsed.counterparty,
+    occurredAt: parsed.occurredAt,
+    receivedAt: raw.receivedAt,
+    kind: parsed.kind,
+    category: category,
+    status: status,
+    linkedId: linkedId,
+    rawText: raw.text,
+    sender: raw.sender,
+    needsReview: needsReview,
+    signature: parsed.signature,
+  );
+
+  // 1. 금액 없음 또는 종류 불명(예: 입금): 사용자 확인 필요, 집계 제외.
+  if (amount == null || parsed.kind == MessageKind.unknown) {
+    return LedgerDecision(
+      incoming: build(
+        amount ?? 0,
+        SpendCategory.unknown,
+        TxStatus.pending,
+        needsReview: true,
+      ),
+      updated: const [],
+      notify: false,
+    );
+  }
+
+  bool mentions(List<String> list) =>
+      list.any((n) => n.isNotEmpty && raw.text.contains(n));
+  bool counterpartyIs(List<String> list) =>
+      list.any((n) => merchantMatches(parsed.counterparty, n));
+
+  // 2. 취소/환불
+  if (parsed.kind == MessageKind.cancel || parsed.kind == MessageKind.refund) {
+    final repeated = recent.any(
+      (t) =>
+          t.category == SpendCategory.refund &&
+          t.amount.abs() == amount &&
+          sameCounterpartyForDuplicate(t.counterparty, parsed.counterparty) &&
+          t.receivedAt.difference(raw.receivedAt).abs() <= _duplicateWindow,
+    );
+    if (repeated) {
+      return LedgerDecision(
+        incoming: build(-amount, SpendCategory.refund, TxStatus.duplicate),
+        updated: const [],
+        notify: false,
+      );
+    }
+    final original = _findOriginal(recent, parsed, amount);
+    if (original != null) {
+      return LedgerDecision(
+        incoming: build(
+          -amount,
+          SpendCategory.refund,
+          TxStatus.excluded,
+          linkedId: original.id,
+        ),
+        updated: [original.copyWith(status: TxStatus.cancelled)],
+        notify: false,
+      );
+    }
+    final prepaid = mentions(names.prepaidMoneys);
+    return LedgerDecision(
+      incoming: build(
+        -amount,
+        SpendCategory.refund,
+        prepaid ? TxStatus.excluded : TxStatus.pending,
+      ),
+      updated: const [],
+      notify: !prepaid,
+    );
+  }
+
+  // 4/5. 분류
+  final (category, classifiedStatus, classifiedNotify) = _classify(
+    parsed.kind,
+    mentions,
+    counterpartyIs,
+    names,
+  );
+
+  // 3. 중복: 분류는 그대로, 상태만 duplicate
+  final isDuplicate = recent.any(
+    (t) =>
+        t.status != TxStatus.duplicate &&
+        t.status != TxStatus.cancelled &&
+        t.amount == amount &&
+        (t.receivedAt.difference(raw.receivedAt)).abs() <= _duplicateWindow &&
+        sameCounterpartyForDuplicate(t.counterparty, parsed.counterparty),
+  );
+
+  return LedgerDecision(
+    incoming: build(
+      amount,
+      category,
+      isDuplicate ? TxStatus.duplicate : classifiedStatus,
+    ),
+    updated: const [],
+    notify: isDuplicate ? false : classifiedNotify,
+  );
+}
+
+(SpendCategory, TxStatus, bool) _classify(
+  MessageKind kind,
+  bool Function(List<String>) mentions,
+  bool Function(List<String>) counterpartyIs,
+  NameRegistry names,
+) {
+  if (kind == MessageKind.approval) {
+    return mentions(names.prepaidMoneys)
+        ? (SpendCategory.prepaidUse, TxStatus.excluded, false)
+        : (SpendCategory.spend, TxStatus.pending, true);
+  }
+  // withdrawal / transfer
+  if (counterpartyIs(names.chargeTargets)) {
+    return (SpendCategory.prepaidCharge, TxStatus.pending, true);
+  }
+  if (counterpartyIs(names.selfNames)) {
+    return (SpendCategory.internal, TxStatus.excluded, false);
+  }
+  return (SpendCategory.transferOut, TxStatus.pending, true);
+}
+
+/// 취소 원거래가 될 수 있는 거래. 확인 대기·포함 거래, 또는 취소·중복이 아닌 선불 사용.
+/// 확인이 필요하거나(needsReview) 분류를 모르는 거래는 대상이 아니다.
+/// `LedgerRepository.saveIncoming`의 취소 조건과 같아야 한다.
+bool cancellableOriginal(Transaction t) {
+  if (t.needsReview || t.category == SpendCategory.unknown) return false;
+  final live = t.status != TxStatus.cancelled && t.status != TxStatus.duplicate;
+  return t.status == TxStatus.included ||
+      t.status == TxStatus.pending ||
+      (t.category == SpendCategory.prepaidUse && live);
+}
+
+/// 취소 대상 원거래. 같은 금액·상대 중 가장 최근 것.
+Transaction? _findOriginal(
+  List<Transaction> recent,
+  ParsedMessage parsed,
+  int amount,
+) {
+  Transaction? best;
+  for (final t in recent) {
+    if (!cancellableOriginal(t) ||
+        t.amount != amount ||
+        !merchantMatches(t.counterparty, parsed.counterparty) ||
+        t.occurredAt.isAfter(parsed.occurredAt)) {
+      continue;
+    }
+    if (best == null || t.occurredAt.isAfter(best.occurredAt)) best = t;
+  }
+  return best;
+}

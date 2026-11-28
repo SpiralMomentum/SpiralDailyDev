@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 위젯 진행 막대의 채움. level(0..10000)만큼 왼쪽부터 보인다. 색은 setColorFilter로 바꾸며 이 색은 기본(남색 밝음 primary). -->
+<clip xmlns:android="http://schemas.android.com/apk/res/android"
+    android:clipOrientation="horizontal"
+    android:gravity="left">
+    <shape android:shape="rectangle">
+        <solid android:color="#FF2F4A7A" />
+        <corners android:radius="3dp" />
+    </shape>
+</clip>

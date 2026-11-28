@@ -1,0 +1,78 @@
+import 'package:flutter/foundation.dart' show debugPrint;
+import 'package:sqflite_common/sqlite_api.dart';
+import 'package:sqflite_sqlcipher/sqflite.dart' as cipher;
+
+const int ledgerSchemaVersion = 2;
+
+/// v2에서 추가된 재게시 중복 거르기 기록.
+Future<void> _createSeenTable(DatabaseExecutor db) => db.execute(
+  'CREATE TABLE seen_notifications('
+  'fingerprint TEXT PRIMARY KEY, at INTEGER NOT NULL)',
+);
+
+/// 새 DB에 [version]까지의 스키마를 만든다. 테스트가 옛 버전을 재현할 때 낮춘다.
+Future<void> createLedgerSchema(
+  Database db, {
+  int version = ledgerSchemaVersion,
+}) async {
+  await db.execute('''
+CREATE TABLE transactions(
+  id TEXT PRIMARY KEY,
+  amount INTEGER NOT NULL,
+  counterparty TEXT NOT NULL,
+  occurredAt INTEGER NOT NULL,
+  receivedAt INTEGER NOT NULL,
+  kind TEXT NOT NULL,
+  category TEXT NOT NULL,
+  status TEXT NOT NULL,
+  linkedId TEXT,
+  rawText TEXT,
+  sender TEXT,
+  needsReview INTEGER NOT NULL,
+  signature TEXT NOT NULL
+)''');
+  await db.execute(
+    'CREATE INDEX idx_transactions_occurredAt ON transactions(occurredAt)',
+  );
+  await db.execute(
+    'CREATE INDEX idx_transactions_status ON transactions(status)',
+  );
+  await db.execute(
+    'CREATE TABLE format_hints(signature TEXT PRIMARY KEY, json TEXT NOT NULL)',
+  );
+  await db.execute(
+    'CREATE TABLE kv(key TEXT PRIMARY KEY, value TEXT NOT NULL)',
+  );
+  if (version >= 2) await _createSeenTable(db);
+}
+
+Future<void> upgradeLedgerSchema(Database db, int from, int to) async {
+  if (from < 2 && to >= 2) await _createSeenTable(db);
+}
+
+/// 메인 isolate와 알림 백그라운드 isolate가 같은 파일을 동시에 연다.
+/// 잠금 충돌 시 바로 실패하지 않고 최대 5초 기다리며, WAL로 읽기와 쓰기가 서로 막지 않게 한다.
+/// PRAGMA는 결과 행을 돌려주므로 rawQuery로 실행한다.
+/// WAL 전환이 실패해도(다른 isolate의 잠금, 네이티브 미지원 등) DB는 열려야 하므로 기록만 한다.
+Future<void> configureLedgerDatabase(DatabaseExecutor db) async {
+  await db.rawQuery('PRAGMA busy_timeout = 5000');
+  try {
+    await db.rawQuery('PRAGMA journal_mode = WAL');
+  } catch (e) {
+    debugPrint('journal_mode WAL failed: ${e.runtimeType}');
+  }
+}
+
+/// 운영용 암호화 DB. 테스트에서는 사용하지 않는다(test/support/memory_db.dart).
+Future<Database> openLedgerDatabase(String path, String key) =>
+    cipher.openDatabase(
+      path,
+      password: key,
+      // 기본값(true)은 같은 프로세스의 엔진들이 네이티브 연결 하나를 공유해 트랜잭션이
+      // 섞인다. 엔진마다 연결을 따로 열고 WAL과 busy_timeout으로 동시 접근을 처리한다.
+      singleInstance: false,
+      version: ledgerSchemaVersion,
+      onConfigure: configureLedgerDatabase,
+      onCreate: (db, _) => createLedgerSchema(db),
+      onUpgrade: upgradeLedgerSchema,
+    );
