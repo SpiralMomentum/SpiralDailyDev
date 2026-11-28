@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../ingest/data/android_bridge.dart';
 import '../../message_filter/domain/filter_rule.dart';
 import '../../message_filter/domain/name_registry.dart';
+import '../../theme/domain/palette.dart';
 import '../domain/app_settings.dart';
 import '../domain/settings_repository.dart';
 
@@ -66,6 +67,12 @@ class SettingsCubit extends Cubit<SettingsState> {
 
   Future<void> setHideAmounts(bool v) =>
       _update((s) => s.copyWith(hideAmounts: v));
+
+  Future<void> setTheme(AppThemeId id) =>
+      _update((s) => s.copyWith(themeId: id));
+
+  Future<void> setThemeMode(AppThemeMode mode) =>
+      _update((s) => s.copyWith(themeMode: mode));
 
   Future<void> saveFilters(List<FilterRule> filters) =>
       _update((s) => s.copyWith(filters: filters));

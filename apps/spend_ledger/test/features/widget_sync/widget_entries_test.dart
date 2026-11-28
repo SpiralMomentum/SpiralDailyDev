@@ -3,6 +3,7 @@ import 'package:spend_ledger/features/budget/domain/summary.dart';
 import 'package:spend_ledger/features/ledger/domain/money_format.dart';
 import 'package:spend_ledger/features/ledger/domain/transaction.dart';
 import 'package:spend_ledger/features/parsing/domain/parsed_message.dart';
+import 'package:spend_ledger/features/theme/domain/palette.dart';
 import 'package:spend_ledger/features/widget_sync/domain/widget_entries.dart';
 
 Transaction tx(String id, int amount, DateTime at, String name) => Transaction(
@@ -27,7 +28,13 @@ void main() {
   final summary = summarize(txs: txs, now: now, startDay: 1, budget: 300000);
 
   test('widget total equals summary total', () {
-    final m = widgetEntries(summary, hideAmounts: false, asOf: now);
+    final m = widgetEntries(
+      summary,
+      hideAmounts: false,
+      asOf: now,
+      themeId: AppThemeId.navy,
+      themeMode: AppThemeMode.system,
+    );
     expect(m['total'], formatWon(summary.periodTotal));
     expect(m['total'], '120,000원');
     expect(m['today'], '6,500원');
@@ -43,7 +50,13 @@ void main() {
   });
 
   test('widget hides amounts keeps ratio', () {
-    final m = widgetEntries(summary, hideAmounts: true, asOf: now);
+    final m = widgetEntries(
+      summary,
+      hideAmounts: true,
+      asOf: now,
+      themeId: AppThemeId.navy,
+      themeMode: AppThemeMode.system,
+    );
     expect(m['total'], '');
     expect(m['today'], '');
     expect(m['daily'], '');
@@ -59,6 +72,8 @@ void main() {
       summarize(txs: txs, now: now, startDay: 1),
       hideAmounts: false,
       asOf: now,
+      themeId: AppThemeId.navy,
+      themeMode: AppThemeMode.system,
     );
     expect(m['ratio'], '');
     expect(m['daily'], '');
@@ -68,8 +83,40 @@ void main() {
       summary,
       hideAmounts: false,
       asOf: DateTime(2026, 11, 28, 9, 5),
+      themeId: AppThemeId.navy,
+      themeMode: AppThemeMode.system,
     );
     expect(m['asOf'], '11/28 09:05');
     expect(m['total'], '120,000원');
   });
+
+  test('색 키 13개와 값', () {
+    final e = widgetEntries(
+      summary,
+      hideAmounts: false,
+      asOf: now,
+      themeId: AppThemeId.beige,
+      themeMode: AppThemeMode.dark,
+    );
+    expect(e['theme.mode'], 'dark');
+    expect(e['color.primary.light'], '#FF9A5230');
+    expect(e['color.primary.dark'], '#FFF0A77A');
+    expect(e['color.widgetBackground.light'], '#FFFFFDF9');
+    expect(e.keys.where((k) => k.startsWith('color.')).length, 12);
+  });
+
+  test('금액 숨김과 색 키가 함께 들어간다', () {
+    final e = widgetEntries(
+      summary,
+      hideAmounts: true,
+      asOf: now,
+      themeId: AppThemeId.navy,
+      themeMode: AppThemeMode.system,
+    );
+    expect(e['total'], '');
+    expect(e['color.onSurface.dark'], '#FFE0E3EC');
+    expect(e['theme.mode'], 'system');
+  });
+
+  test('argbHex', () => expect(argbHex(0xFF2F4A7A), '#FF2F4A7A'));
 }

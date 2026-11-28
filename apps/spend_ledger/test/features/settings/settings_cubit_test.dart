@@ -5,6 +5,7 @@ import 'package:spend_ledger/features/budget/domain/budget_alert.dart';
 import 'package:spend_ledger/features/message_filter/domain/filter_rule.dart';
 import 'package:spend_ledger/features/message_filter/domain/name_registry.dart';
 import 'package:spend_ledger/features/settings/domain/app_settings.dart';
+import 'package:spend_ledger/features/theme/domain/palette.dart';
 import 'package:spend_ledger/features/settings/domain/settings_repository.dart';
 import 'package:spend_ledger/features/settings/presentation/filters_page.dart';
 import 'package:spend_ledger/features/settings/presentation/names_page.dart';
@@ -37,6 +38,20 @@ void main() {
     expect(cubit.state.settings.startDay, 25);
     expect((await h.deps.settings.load()).startDay, 25);
     expect(refreshes, 1);
+  });
+
+  test('setTheme은 저장 후 refresh를 부른다', () async {
+    await cubit.setTheme(AppThemeId.beige);
+    expect((await h.deps.settings.load()).themeId, AppThemeId.beige);
+    expect(refreshes, 1);
+    expect(cubit.state.settings.themeId, AppThemeId.beige);
+  });
+
+  test('setThemeMode는 저장 후 refresh를 부른다', () async {
+    await cubit.setThemeMode(AppThemeMode.dark);
+    expect((await h.deps.settings.load()).themeMode, AppThemeMode.dark);
+    expect(refreshes, 1);
+    expect(cubit.state.settings.themeMode, AppThemeMode.dark);
   });
 
   test('budget set and cleared', () async {

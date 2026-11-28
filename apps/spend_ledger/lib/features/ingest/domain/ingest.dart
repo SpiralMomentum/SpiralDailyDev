@@ -181,7 +181,13 @@ Future<LedgerSummary> refreshOutputs(IngestDeps d) async {
     budget: settings.budget,
   );
   await d.widgets.save(
-    widgetEntries(summary, hideAmounts: settings.hideAmounts, asOf: now),
+    widgetEntries(
+      summary,
+      hideAmounts: settings.hideAmounts,
+      asOf: now,
+      themeId: settings.themeId,
+      themeMode: settings.themeMode,
+    ),
   );
   final alert = nextBudgetAlert(
     summary,
