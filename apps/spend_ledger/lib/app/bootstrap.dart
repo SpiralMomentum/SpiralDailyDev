@@ -7,6 +7,8 @@ import 'package:path/path.dart' show join;
 import 'package:sqflite_sqlcipher/sqflite.dart' show getDatabasesPath;
 
 import '../features/confirm_notification/data/local_confirm_notifier.dart';
+import '../features/ingest/data/android_bridge.dart';
+import '../features/ingest/data/sql_seen_repository.dart';
 import '../features/ingest/domain/ingest.dart';
 import '../features/ledger/data/db_key.dart';
 import '../features/ledger/data/ledger_database.dart';
@@ -47,6 +49,7 @@ Future<IngestDeps> _build() async {
     ledger: SqlLedgerRepository(db),
     settings: SqlSettingsRepository(db),
     hints: SqlFormatHintRepository(db),
+    seen: SqlSeenRepository(db),
     notifier: LocalConfirmNotifier(_notifications),
     widgets: const NoopWidgetGateway(),
     now: DateTime.now,
@@ -62,6 +65,7 @@ Future<(IngestDeps, String?)> bootstrap() async {
   final deps = await buildIngestDeps();
   await _requestNotificationPermission();
   await drainIosInbox(deps);
+  await _syncAllowedPackages(deps);
   return (deps, await _launchEditId());
 }
 
@@ -89,4 +93,17 @@ Future<String?> _launchEditId() async {
     return null;
   }
   return isConfirmAction(response.actionId) ? null : response.payload;
+}
+
+/// Android 리스너가 쓸 허용 앱 목록을 네이티브에 맞춘다. 실패는 기록만 한다.
+Future<void> _syncAllowedPackages(IngestDeps deps) async {
+  if (defaultTargetPlatform != TargetPlatform.android) return;
+  try {
+    final settings = await deps.settings.load();
+    await const AndroidBridge().setAllowedPackages(
+      settings.notificationPackages,
+    );
+  } catch (e) {
+    debugPrint('setAllowedPackages failed: ${e.runtimeType}');
+  }
 }

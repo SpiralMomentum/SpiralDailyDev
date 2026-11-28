@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 
+import '../../ingest/domain/android_sources.dart';
 import '../../message_filter/domain/filter_rule.dart';
 import '../../message_filter/domain/name_registry.dart';
 
@@ -11,6 +12,7 @@ class AppSettings extends Equatable {
     this.hideAmounts = false,
     this.filters = defaultFilterRules,
     this.names = const NameRegistry.empty(),
+    this.notificationPackages = defaultNotificationPackages,
   });
 
   factory AppSettings.fromJson(Map<String, dynamic> json) => AppSettings(
@@ -27,6 +29,9 @@ class AppSettings extends Equatable {
     names: json['names'] == null
         ? const NameRegistry.empty()
         : NameRegistry.fromJson(json['names'] as Map<String, dynamic>),
+    notificationPackages: json['notificationPackages'] == null
+        ? defaultNotificationPackages
+        : [for (final p in json['notificationPackages'] as List) p as String],
   );
 
   final int startDay;
@@ -35,6 +40,9 @@ class AppSettings extends Equatable {
   final bool hideAmounts;
   final List<FilterRule> filters;
   final NameRegistry names;
+
+  /// Android에서 알림을 수집할 앱 패키지.
+  final List<String> notificationPackages;
 
   /// 예산을 지우려면 [clearBudget]을 true로 지정한다.
   AppSettings copyWith({
@@ -45,6 +53,7 @@ class AppSettings extends Equatable {
     bool? hideAmounts,
     List<FilterRule>? filters,
     NameRegistry? names,
+    List<String>? notificationPackages,
   }) => AppSettings(
     startDay: startDay ?? this.startDay,
     budget: clearBudget ? null : (budget ?? this.budget),
@@ -52,6 +61,7 @@ class AppSettings extends Equatable {
     hideAmounts: hideAmounts ?? this.hideAmounts,
     filters: filters ?? this.filters,
     names: names ?? this.names,
+    notificationPackages: notificationPackages ?? this.notificationPackages,
   );
 
   Map<String, dynamic> toJson() => {
@@ -61,6 +71,7 @@ class AppSettings extends Equatable {
     'hideAmounts': hideAmounts,
     'filters': [for (final f in filters) f.toJson()],
     'names': names.toJson(),
+    'notificationPackages': notificationPackages,
   };
 
   @override
@@ -71,5 +82,6 @@ class AppSettings extends Equatable {
     hideAmounts,
     filters,
     names,
+    notificationPackages,
   ];
 }

@@ -6,7 +6,7 @@ Future<Database> openMemoryDb() {
   return databaseFactoryFfi.openDatabase(
     inMemoryDatabasePath,
     options: OpenDatabaseOptions(
-      version: 1,
+      version: ledgerSchemaVersion,
       onCreate: (db, _) => createLedgerSchema(db),
     ),
   );

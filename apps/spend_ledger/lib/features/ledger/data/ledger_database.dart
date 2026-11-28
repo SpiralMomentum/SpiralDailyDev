@@ -2,7 +2,19 @@ import 'package:flutter/foundation.dart' show debugPrint;
 import 'package:sqflite_common/sqlite_api.dart';
 import 'package:sqflite_sqlcipher/sqflite.dart' as cipher;
 
-Future<void> createLedgerSchema(Database db) async {
+const int ledgerSchemaVersion = 2;
+
+/// v2에서 추가된 재게시 중복 거르기 기록.
+Future<void> _createSeenTable(DatabaseExecutor db) => db.execute(
+  'CREATE TABLE seen_notifications('
+  'fingerprint TEXT PRIMARY KEY, at INTEGER NOT NULL)',
+);
+
+/// 새 DB에 [version]까지의 스키마를 만든다. 테스트가 옛 버전을 재현할 때 낮춘다.
+Future<void> createLedgerSchema(
+  Database db, {
+  int version = ledgerSchemaVersion,
+}) async {
   await db.execute('''
 CREATE TABLE transactions(
   id TEXT PRIMARY KEY,
@@ -31,6 +43,11 @@ CREATE TABLE transactions(
   await db.execute(
     'CREATE TABLE kv(key TEXT PRIMARY KEY, value TEXT NOT NULL)',
   );
+  if (version >= 2) await _createSeenTable(db);
+}
+
+Future<void> upgradeLedgerSchema(Database db, int from, int to) async {
+  if (from < 2 && to >= 2) await _createSeenTable(db);
 }
 
 /// 메인 isolate와 알림 백그라운드 isolate가 같은 파일을 동시에 연다.
@@ -51,7 +68,8 @@ Future<Database> openLedgerDatabase(String path, String key) =>
     cipher.openDatabase(
       path,
       password: key,
-      version: 1,
+      version: ledgerSchemaVersion,
       onConfigure: configureLedgerDatabase,
       onCreate: (db, _) => createLedgerSchema(db),
+      onUpgrade: upgradeLedgerSchema,
     );

@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:spend_ledger/features/budget/domain/budget_alert.dart';
+import 'package:spend_ledger/features/ingest/domain/android_sources.dart';
 import 'package:spend_ledger/features/message_filter/domain/filter_rule.dart';
 import 'package:spend_ledger/features/message_filter/domain/name_registry.dart';
 import 'package:spend_ledger/features/settings/data/sql_settings_repository.dart';
@@ -69,5 +70,28 @@ void main() {
       isTrue,
     );
     expect(await repo.markSent('2026-12-01', BudgetAlert.actualOver), isTrue);
+  });
+
+  test('notificationPackages default, roundtrip and missing key', () async {
+    expect(
+      (await repo.load()).notificationPackages,
+      defaultNotificationPackages,
+    );
+    const s = AppSettings(notificationPackages: ['com.kbcard.cxh.appcard']);
+    await repo.save(s);
+    expect((await repo.load()).notificationPackages, [
+      'com.kbcard.cxh.appcard',
+    ]);
+    expect(
+      const AppSettings().copyWith(notificationPackages: ['x']),
+      isNot(const AppSettings()),
+    );
+    expect(
+      AppSettings.fromJson(const <String, dynamic>{}).notificationPackages,
+      defaultNotificationPackages,
+    );
+    expect(AppSettings.fromJson(s.toJson()).notificationPackages, [
+      'com.kbcard.cxh.appcard',
+    ]);
   });
 }

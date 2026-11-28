@@ -11,6 +11,7 @@ import '../../parsing/domain/format_hint_repository.dart';
 import '../../parsing/domain/parser.dart';
 import '../../parsing/domain/signature.dart';
 import '../../settings/domain/settings_repository.dart';
+import 'seen_repository.dart';
 import '../../widget_sync/domain/widget_entries.dart';
 
 abstract interface class ConfirmNotifier {
@@ -40,6 +41,7 @@ class IngestDeps {
     required this.widgets,
     required this.now,
     required this.newId,
+    this.seen = const NoSeenFilter(),
   });
 
   final LedgerRepository ledger;
@@ -49,6 +51,9 @@ class IngestDeps {
   final WidgetGateway widgets;
   final DateTime Function() now;
   final String Function() newId;
+
+  /// 재게시된 알림을 거르는 기록. 기본은 거르지 않는다.
+  final SeenRepository seen;
 }
 
 enum IngestResult { filtered, stored }

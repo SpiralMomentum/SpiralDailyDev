@@ -25,6 +25,7 @@ NotificationResponse _response({String? actionId, String? payload}) =>
 void main() {
   group('handleNotificationAction', _notificationActionTests);
   group('handleIngestCall', _ingestCallTests);
+  group('android ingest', _androidIngestTests);
   group('drainIosInbox', _drainInboxTests);
 }
 
@@ -285,6 +286,100 @@ void _drainInboxTests() {
   });
 }
 
+void _androidIngestTests() {
+  late IngestHarness h;
+  const sms = 'com.samsung.android.messaging';
+  final posted = DateTime(2026, 11, 28, 9, 30);
+
+  setUp(() async => h = await openHarness());
+  tearDown(() => h.close());
+
+  MethodCall call({String package = sms, DateTime? at}) =>
+      MethodCall('ingest', {
+        'text': kbApproval,
+        'sender': 'KB',
+        'package': package,
+        'postedAtMs': (at ?? posted).millisecondsSinceEpoch,
+      });
+
+  test('stores with postedAtMs as receivedAt', () async {
+    final r = await handleIngestCall(call(), h.deps);
+
+    expect(r['result'], 'stored');
+    final tx = await h.deps.ledger.byId(r['txId']! as String);
+    expect(tx!.receivedAt, posted);
+    expect(tx.sender, 'KB');
+  });
+
+  test('without postedAtMs uses now', () async {
+    final r = await handleIngestCall(
+      const MethodCall('ingest', {'text': kbApproval, 'package': sms}),
+      h.deps,
+    );
+    final tx = await h.deps.ledger.byId(r['txId']! as String);
+    expect(tx!.receivedAt, harnessStart);
+  });
+
+  test('same call twice is seen the second time', () async {
+    await handleIngestCall(call(), h.deps);
+    final r = await handleIngestCall(call(), h.deps);
+
+    expect(r['result'], 'seen');
+    expect(r['notified'], isFalse);
+    expect(r['dartMs'], isA<int>());
+    expect(r.containsKey('txId'), isFalse);
+    expect(await h.deps.ledger.since(DateTime(2000)), hasLength(1));
+  });
+
+  test('different package is not seen', () async {
+    await handleIngestCall(call(), h.deps);
+    final r = await handleIngestCall(
+      call(package: 'com.kbcard.cxh.appcard'),
+      h.deps,
+    );
+    expect(r['result'], 'stored');
+  });
+
+  test('failed ingest releases the claim', () async {
+    _captureLogs();
+    final ledger = FailingLedger(h.deps.ledger)..failWrites = true;
+    final failing = _withLedger(h.deps, ledger);
+
+    final first = await handleIngestCall(call(), failing);
+    expect(first['result'], 'error');
+
+    final retry = await handleIngestCall(call(), h.deps);
+    expect(retry['result'], 'stored');
+  });
+
+  test('ios call without package ignores seen', () async {
+    final c = MethodCall('ingest', {'text': kbApproval, 'sender': 'KB'});
+    expect((await handleIngestCall(c, h.deps))['result'], 'stored');
+    expect((await handleIngestCall(c, h.deps))['result'], 'stored');
+  });
+
+  test('refresh refreshes outputs', () async {
+    final r = await handleIngestCall(const MethodCall('refresh'), h.deps);
+
+    expect(r['result'], 'refreshed');
+    expect(r['dartMs'], isA<int>());
+    expect(h.widgets.last, isNotNull);
+  });
+
+  test('refresh failure is reported as error type', () async {
+    _captureLogs();
+    final ledger = FailingLedger(h.deps.ledger)..failReads = true;
+
+    final r = await handleIngestCall(
+      const MethodCall('refresh'),
+      _withLedger(h.deps, ledger),
+    );
+
+    expect(r['result'], 'error');
+    expect(r['error'], 'StateError');
+  });
+}
+
 List<String> _captureLogs() {
   final logs = <String>[];
   debugPrint = (message, {wrapWidth}) => logs.add(message ?? '');
@@ -296,6 +391,7 @@ IngestDeps _withLedger(IngestDeps d, LedgerRepository ledger) => IngestDeps(
   ledger: ledger,
   settings: d.settings,
   hints: d.hints,
+  seen: d.seen,
   notifier: d.notifier,
   widgets: d.widgets,
   now: d.now,

@@ -1,5 +1,6 @@
 import 'package:spend_ledger/features/budget/domain/budget_alert.dart';
 import 'package:spend_ledger/features/budget/domain/summary.dart';
+import 'package:spend_ledger/features/ingest/data/sql_seen_repository.dart';
 import 'package:spend_ledger/features/ingest/domain/ingest.dart';
 import 'package:spend_ledger/features/ledger/data/sql_ledger_repository.dart';
 import 'package:spend_ledger/features/ledger/domain/transaction.dart';
@@ -106,6 +107,7 @@ Future<IngestHarness> openHarness({
     ledger: SqlLedgerRepository(db),
     settings: settingsRepo,
     hints: SqlFormatHintRepository(db),
+    seen: SqlSeenRepository(db),
     notifier: notifier,
     widgets: widgets,
     now: clock.call,

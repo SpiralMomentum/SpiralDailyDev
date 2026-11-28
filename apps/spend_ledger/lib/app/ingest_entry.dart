@@ -9,6 +9,7 @@ import '../features/budget/domain/budget_alert.dart';
 import '../features/budget/domain/summary.dart';
 import '../features/confirm_notification/domain/notification_text.dart';
 import '../features/ingest/data/ios_bridge.dart';
+import '../features/ingest/domain/android_sources.dart';
 import '../features/ingest/domain/ingest.dart';
 import '../features/ledger/domain/ledger_repository.dart';
 import '../features/ledger/domain/transaction.dart';
@@ -60,7 +61,13 @@ const MethodChannel ingestChannel = MethodChannel('spend_ledger/ingest');
 /// 의존성을 미리 만들고 핸들러를 등록한 뒤 `ready`로 Swift에 준비를 알린다.
 /// 의존성 생성에 실패해도 준비 신호는 보내, 호출마다 오류 결과로 빨리 답하게 한다.
 @pragma('vm:entry-point')
-Future<void> iosIngestMain() async {
+Future<void> iosIngestMain() => _ingestMain();
+
+/// Android 알림 리스너 서비스가 띄우는 헤드리스 엔진의 진입점. iOS와 같은 동작이다.
+@pragma('vm:entry-point')
+Future<void> androidIngestMain() => _ingestMain();
+
+Future<void> _ingestMain() async {
   WidgetsFlutterBinding.ensureInitialized();
   DartPluginRegistrant.ensureInitialized();
   try {
@@ -89,8 +96,11 @@ Future<Map<String, Object?>> _onIngestCall(MethodCall call) async {
   return handleIngestCall(call, deps);
 }
 
-/// `ingest` 호출 `{text, sender?}`을 단축어 문자로 저장하고 결과를 돌려준다.
-/// `{result: filtered|stored|error, txId?, notified, notifyError?, error?, dartMs}`
+/// `ingest` 호출 `{text, sender?, package?, postedAtMs?}`을 저장하고 결과를 돌려준다.
+/// `{result: filtered|stored|seen|error, txId?, notified, notifyError?, error?, dartMs}`
+/// `package`가 있으면(Android) 같은 `(패키지, 원문)`이 10분 안에 다시 오면 `seen`으로
+/// 저장하지 않고, 저장 전에 실패하면 기록을 풀어 다음 재게시 때 다시 처리한다.
+/// `refresh`는 요약·위젯을 다시 계산한다 `{result: refreshed|error, error?, dartMs}`.
 /// 예외는 던지지 않는다. 저장 뒤의 실패(알림 등)는 `stored`에 `notifyError`로,
 /// 저장 전의 실패만 `error`로 알린다. Swift는 `error`일 때만 대체 경로로 간다.
 /// 오류는 원문이 섞이지 않도록 예외 타입 이름만 담는다.
@@ -98,18 +108,51 @@ Future<Map<String, Object?>> handleIngestCall(
   MethodCall call,
   IngestDeps deps,
 ) async {
-  if (call.method != 'ingest') {
-    throw MissingPluginException('unsupported method ${call.method}');
+  switch (call.method) {
+    case 'ingest':
+      return _handleIngest(call, deps);
+    case 'refresh':
+      return _handleRefresh(deps);
+    default:
+      throw MissingPluginException('unsupported method ${call.method}');
   }
+}
+
+const Duration _seenWindow = Duration(minutes: 10);
+
+Future<Map<String, Object?>> _handleRefresh(IngestDeps deps) async {
+  final watch = Stopwatch()..start();
+  try {
+    await refreshOutputs(deps);
+    return {'result': 'refreshed', 'dartMs': watch.elapsedMilliseconds};
+  } catch (e) {
+    debugPrint('refresh failed: ${e.runtimeType}');
+    return {
+      'result': 'error',
+      'error': _errorType(e),
+      'dartMs': watch.elapsedMilliseconds,
+    };
+  }
+}
+
+Future<Map<String, Object?>> _handleIngest(
+  MethodCall call,
+  IngestDeps deps,
+) async {
   final watch = Stopwatch()..start();
   final RawMessage raw;
+  final String? package;
   try {
     final args = call.arguments as Map<Object?, Object?>;
+    package = args['package'] as String?;
+    final postedAtMs = args['postedAtMs'] as num?;
     raw = RawMessage(
       text: args['text']! as String,
       sender: args['sender'] as String?,
-      receivedAt: deps.now(),
-      source: MessageSource.iosShortcut,
+      receivedAt: postedAtMs == null
+          ? deps.now()
+          : DateTime.fromMillisecondsSinceEpoch(postedAtMs.toInt()),
+      source: sourceForPackage(package),
     );
   } catch (e) {
     debugPrint('bad ingest call: ${e.runtimeType}');
@@ -120,10 +163,36 @@ Future<Map<String, Object?>> handleIngestCall(
       'dartMs': watch.elapsedMilliseconds,
     };
   }
-  return {
-    ...await _ingestReport(raw, deps),
-    'dartMs': watch.elapsedMilliseconds,
-  };
+  String? fingerprint;
+  if (package != null) {
+    fingerprint = notificationFingerprint(package, raw.text);
+    try {
+      if (!await deps.seen.claim(fingerprint, raw.receivedAt, _seenWindow)) {
+        return {
+          'result': 'seen',
+          'notified': false,
+          'dartMs': watch.elapsedMilliseconds,
+        };
+      }
+    } catch (e) {
+      debugPrint('seen claim failed: ${e.runtimeType}');
+      return {
+        'result': 'error',
+        'error': _errorType(e),
+        'notified': false,
+        'dartMs': watch.elapsedMilliseconds,
+      };
+    }
+  }
+  final report = await _ingestReport(raw, deps);
+  if (fingerprint != null && report['result'] == 'error') {
+    try {
+      await deps.seen.release(fingerprint);
+    } catch (e) {
+      debugPrint('seen release failed: ${e.runtimeType}');
+    }
+  }
+  return {...report, 'dartMs': watch.elapsedMilliseconds};
 }
 
 /// iOS 대체 경로가 쌓아 둔 문자를 받은 시각·보낸 사람 그대로 저장한다.
@@ -175,6 +244,7 @@ Future<Map<String, Object?>> _ingestReport(
     ledger: ledger,
     settings: deps.settings,
     hints: deps.hints,
+    seen: deps.seen,
     notifier: notifier,
     widgets: deps.widgets,
     now: deps.now,

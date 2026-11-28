@@ -58,6 +58,7 @@ IngestDeps withLedger(IngestDeps d, LedgerRepository ledger) => IngestDeps(
   ledger: ledger,
   settings: d.settings,
   hints: d.hints,
+  seen: d.seen,
   notifier: d.notifier,
   widgets: d.widgets,
   now: d.now,
