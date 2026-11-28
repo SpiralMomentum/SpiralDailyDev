@@ -168,12 +168,19 @@ void main() {
     expect(await repo.byId('p'), edited.copyWith(clearRawText: true));
   });
 
-  group('markCancelled', () {
+  group('saveIncoming', () {
     Transaction live(String id, TxStatus status, {SpendCategory? category}) =>
         tx(id, status: status).copyWith(
           category: category ?? SpendCategory.spend,
           needsReview: false,
         );
+
+    Transaction refund() => tx('refund', status: TxStatus.excluded);
+
+    Future<bool> cancel(String id, {bool clear = false}) async =>
+        (await repo.saveIncoming(refund(), [
+          id,
+        ], clearRawText: clear)).contains(id);
 
     test('cancels pending, included and live prepaidUse only', () async {
       await repo.upsertAll([
@@ -191,7 +198,7 @@ void main() {
 
       final results = {
         for (final id in ['p', 'i', 'e', 'c', 'd', 'pe', 'pd', 'pc', 'u', 'r'])
-          id: await repo.markCancelled(id, clearRawText: false),
+          id: await cancel(id),
       };
 
       expect(results, {
@@ -209,17 +216,59 @@ void main() {
       expect((await repo.byId('p'))!.status, TxStatus.cancelled);
       expect((await repo.byId('p'))!.rawText, '원문');
       expect((await repo.byId('e'))!.status, TxStatus.excluded);
-      expect(await repo.markCancelled('zzz', clearRawText: true), isFalse);
+      expect(await cancel('zzz', clear: true), isFalse);
     });
 
     test('clears raw text when asked', () async {
       await repo.upsertAll([live('i', TxStatus.included)]);
 
-      expect(await repo.markCancelled('i', clearRawText: true), isTrue);
+      expect(await cancel('i', clear: true), isTrue);
 
       final i = await repo.byId('i');
       expect(i!.status, TxStatus.cancelled);
       expect(i.rawText, isNull);
+    });
+
+    test('stores incoming and cancels matching original in one call', () async {
+      await repo.upsertAll([live('orig', TxStatus.included)]);
+
+      final cancelled = await repo.saveIncoming(refund(), [
+        'orig',
+      ], clearRawText: true);
+
+      expect(cancelled, {'orig'});
+      final orig = await repo.byId('orig');
+      expect(orig!.status, TxStatus.cancelled);
+      expect(orig.rawText, isNull);
+      expect(await repo.byId('refund'), refund());
+    });
+
+    test('skips originals no longer cancellable but stores incoming', () async {
+      await repo.upsertAll([live('orig', TxStatus.excluded)]);
+
+      final cancelled = await repo.saveIncoming(refund(), [
+        'orig',
+      ], clearRawText: true);
+
+      expect(cancelled, isEmpty);
+      expect(await repo.byId('orig'), live('orig', TxStatus.excluded));
+      expect(await repo.byId('refund'), isNotNull);
+    });
+
+    test('rolls back incoming when a cancel update fails', () async {
+      await repo.upsertAll([live('orig', TxStatus.included)]);
+      await db.execute(
+        'CREATE TRIGGER fail_cancel BEFORE UPDATE ON transactions '
+        "WHEN OLD.id = 'orig' BEGIN SELECT RAISE(ABORT, 'boom'); END",
+      );
+
+      await expectLater(
+        repo.saveIncoming(refund(), ['orig'], clearRawText: false),
+        throwsA(isA<DatabaseException>()),
+      );
+
+      expect(await repo.byId('refund'), isNull);
+      expect((await repo.byId('orig'))!.status, TxStatus.included);
     });
   });
 }

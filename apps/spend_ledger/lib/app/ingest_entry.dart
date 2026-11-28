@@ -256,8 +256,19 @@ class _UpsertRecorder implements LedgerRepository {
   }) => _inner.resolvePending(id, status, clearRawText: clearRawText);
 
   @override
-  Future<bool> markCancelled(String id, {required bool clearRawText}) =>
-      _inner.markCancelled(id, clearRawText: clearRawText);
+  Future<Set<String>> saveIncoming(
+    Transaction incoming,
+    List<String> cancelIds, {
+    required bool clearRawText,
+  }) async {
+    final cancelled = await _inner.saveIncoming(
+      incoming,
+      cancelIds,
+      clearRawText: clearRawText,
+    );
+    upserted.add(incoming.id);
+    return cancelled;
+  }
 
   @override
   Future<bool> updateEditable(

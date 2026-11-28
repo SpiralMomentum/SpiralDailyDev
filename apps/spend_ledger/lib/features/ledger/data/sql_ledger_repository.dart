@@ -71,28 +71,41 @@ class SqlLedgerRepository implements LedgerRepository {
     return count == 1;
   }
 
-  /// decide의 `cancellableOriginal`과 같은 조건: 확인 필요·분류 불명이 아니고,
+  /// 취소 조건은 decide의 `cancellableOriginal`과 같다: 확인 필요·분류 불명이 아니고,
   /// 대기·포함이거나 취소·중복이 아닌 선불 사용.
   @override
-  Future<bool> markCancelled(String id, {required bool clearRawText}) async {
-    final count = await _db.rawUpdate(
-      'UPDATE transactions SET status = ?'
-      '${clearRawText ? ', rawText = NULL' : ''}'
-      ' WHERE id = ? AND needsReview = 0 AND category != ?'
-      ' AND (status IN (?, ?) OR (category = ? AND status NOT IN (?, ?)))',
-      [
-        TxStatus.cancelled.name,
-        id,
-        SpendCategory.unknown.name,
-        TxStatus.pending.name,
-        TxStatus.included.name,
-        SpendCategory.prepaidUse.name,
-        TxStatus.cancelled.name,
-        TxStatus.duplicate.name,
-      ],
+  Future<Set<String>> saveIncoming(
+    Transaction incoming,
+    List<String> cancelIds, {
+    required bool clearRawText,
+  }) => _db.transaction((txn) async {
+    await txn.insert(
+      'transactions',
+      _toRow(incoming),
+      conflictAlgorithm: ConflictAlgorithm.replace,
     );
-    return count == 1;
-  }
+    final cancelled = <String>{};
+    for (final id in cancelIds) {
+      final count = await txn.rawUpdate(
+        'UPDATE transactions SET status = ?'
+        '${clearRawText ? ', rawText = NULL' : ''}'
+        ' WHERE id = ? AND needsReview = 0 AND category != ?'
+        ' AND (status IN (?, ?) OR (category = ? AND status NOT IN (?, ?)))',
+        [
+          TxStatus.cancelled.name,
+          id,
+          SpendCategory.unknown.name,
+          TxStatus.pending.name,
+          TxStatus.included.name,
+          SpendCategory.prepaidUse.name,
+          TxStatus.cancelled.name,
+          TxStatus.duplicate.name,
+        ],
+      );
+      if (count == 1) cancelled.add(id);
+    }
+    return cancelled;
+  });
 
   @override
   Future<bool> updateEditable(

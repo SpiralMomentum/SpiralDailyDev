@@ -305,11 +305,15 @@ class _ResolveBeforeCancel implements LedgerRepository {
   final String _id;
 
   @override
-  Future<bool> markCancelled(String id, {required bool clearRawText}) async {
-    if (id == _id) {
-      await _inner.resolvePending(id, TxStatus.excluded, clearRawText: false);
+  Future<Set<String>> saveIncoming(
+    Transaction incoming,
+    List<String> cancelIds, {
+    required bool clearRawText,
+  }) async {
+    if (cancelIds.contains(_id)) {
+      await _inner.resolvePending(_id, TxStatus.excluded, clearRawText: false);
     }
-    return _inner.markCancelled(id, clearRawText: clearRawText);
+    return _inner.saveIncoming(incoming, cancelIds, clearRawText: clearRawText);
   }
 
   @override

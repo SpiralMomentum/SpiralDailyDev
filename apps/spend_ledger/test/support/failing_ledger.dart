@@ -36,10 +36,13 @@ class FailingLedger implements LedgerRepository {
       : _inner.resolvePending(id, status, clearRawText: clearRawText);
 
   @override
-  Future<bool> markCancelled(String id, {required bool clearRawText}) =>
-      failWrites
+  Future<Set<String>> saveIncoming(
+    Transaction incoming,
+    List<String> cancelIds, {
+    required bool clearRawText,
+  }) => failWrites
       ? _fail()
-      : _inner.markCancelled(id, clearRawText: clearRawText);
+      : _inner.saveIncoming(incoming, cancelIds, clearRawText: clearRawText);
 
   @override
   Future<bool> updateEditable(

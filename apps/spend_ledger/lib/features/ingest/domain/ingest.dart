@@ -84,15 +84,12 @@ Future<(IngestResult, Transaction?)> ingestMessage(
   final incoming = clearRaw && decision.incoming.status != TxStatus.pending
       ? decision.incoming.copyWith(clearRawText: true)
       : decision.incoming;
-  await d.ledger.upsertAll([incoming]);
-  // 원거래는 읽어 둔 스냅샷으로 덮어쓰지 않고, 아직 취소 대상일 때만 조건부로 바꾼다.
-  // 그 사이 사용자가 확정해 대상이 아니게 됐으면 그 결정을 남긴다(환불은 이미 제외로 저장됨).
-  final cancelled = <String>{};
-  for (final t in decision.updated) {
-    if (await d.ledger.markCancelled(t.id, clearRawText: clearRaw)) {
-      cancelled.add(t.id);
-    }
-  }
+  // 거래 저장과 원거래 취소는 한 트랜잭션이다. 원거래는 읽어 둔 스냅샷으로 덮어쓰지 않고
+  // 아직 취소 대상일 때만 조건부로 바꾼다. 그 사이 사용자가 확정해 대상이 아니게 됐으면
+  // 그 결정을 남긴다(환불은 이미 제외로 저장됨).
+  final cancelled = await d.ledger.saveIncoming(incoming, [
+    for (final t in decision.updated) t.id,
+  ], clearRawText: clearRaw);
   await _notifyThenRefresh(d, () async {
     if (decision.notify) await d.notifier.askConfirm(incoming);
     for (final id in _withdrawnPending(recent, cancelled)) {

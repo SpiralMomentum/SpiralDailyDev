@@ -309,8 +309,11 @@ class _RejectingLedger extends FailingLedger {
   final String reject;
 
   @override
-  Future<void> upsertAll(List<Transaction> txs) =>
-      txs.any((t) => t.rawText == reject)
+  Future<Set<String>> saveIncoming(
+    Transaction incoming,
+    List<String> cancelIds, {
+    required bool clearRawText,
+  }) => incoming.rawText == reject
       ? Future.error(StateError('db failed'))
-      : super.upsertAll(txs);
+      : super.saveIncoming(incoming, cancelIds, clearRawText: clearRawText);
 }
