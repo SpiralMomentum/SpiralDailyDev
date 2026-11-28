@@ -41,6 +41,29 @@ void main() {
     await tester.runAsync(h.close);
   });
 
+  testWidgets('cold start from widget candidates tap opens candidates', (
+    tester,
+  ) async {
+    late IngestHarness h;
+    await tester.runAsync(() async {
+      h = await openHarness();
+      await h.ingest(kbApproval);
+    });
+
+    await tester.pumpWidget(
+      SpendLedgerApp(
+        deps: h.deps,
+        initialWidgetUri: () async => Uri.parse('spendledger://candidates'),
+      ),
+    );
+    await _settle(tester);
+
+    expect(find.text('스타벅스'), findsWidgets);
+    expect(appNavigatorKey.currentState!.canPop(), isTrue);
+
+    await tester.runAsync(h.close);
+  });
+
   testWidgets('initial edit id opens edit page over home', (tester) async {
     late IngestHarness h;
     late String id;

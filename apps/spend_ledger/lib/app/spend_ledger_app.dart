@@ -34,6 +34,7 @@ class SpendLedgerApp extends StatefulWidget {
     required this.deps,
     this.initialEditId,
     this.listenWidgetClicks = false,
+    this.initialWidgetUri,
   });
 
   final IngestDeps deps;
@@ -43,6 +44,9 @@ class SpendLedgerApp extends StatefulWidget {
 
   /// 위젯 탭을 받을지. 테스트에서는 플랫폼 채널이 없어 끈다.
   final bool listenWidgetClicks;
+
+  /// 위젯 탭으로 시작됐는지 알려 주는 원천. 비우면 [listenWidgetClicks]일 때 home_widget을 쓴다.
+  final Future<Uri?> Function()? initialWidgetUri;
 
   @override
   State<SpendLedgerApp> createState() => _SpendLedgerAppState();
@@ -54,20 +58,35 @@ class _SpendLedgerAppState extends State<SpendLedgerApp> {
   @override
   void initState() {
     super.initState();
-    if (!widget.listenWidgetClicks) return;
-    _clicks = HomeWidget.widgetClicked.listen(
-      _openWidgetUri,
-      onError: (Object e) =>
-          debugPrint('widget click failed: ${e.runtimeType}'),
-    );
-    // 첫 프레임 뒤에 연다. 앱이 위젯 탭으로 시작된 경우다.
-    HomeWidget.initiallyLaunchedFromHomeWidget().then(
-      (uri) => WidgetsBinding.instance.addPostFrameCallback(
-        (_) => _openWidgetUri(uri),
-      ),
+    if (widget.listenWidgetClicks) {
+      _clicks = HomeWidget.widgetClicked.listen(
+        _openWidgetUri,
+        onError: (Object e) =>
+            debugPrint('widget click failed: ${e.runtimeType}'),
+      );
+    }
+    final initial =
+        widget.initialWidgetUri ??
+        (widget.listenWidgetClicks
+            ? HomeWidget.initiallyLaunchedFromHomeWidget
+            : null);
+    // 앱이 위젯 탭으로 시작된 경우다.
+    initial?.call().then(
+      _openWhenReady,
       onError: (Object e) =>
           debugPrint('initial widget uri failed: ${e.runtimeType}'),
     );
+  }
+
+  /// 내비게이터가 있으면 바로, 없으면 다음 프레임에 연다(프레임을 예약한다).
+  void _openWhenReady(Uri? uri) {
+    if (!mounted) return;
+    if (appNavigatorKey.currentState != null) {
+      _openWidgetUri(uri);
+      return;
+    }
+    WidgetsBinding.instance.addPostFrameCallback((_) => _openWidgetUri(uri));
+    WidgetsBinding.instance.scheduleFrame();
   }
 
   @override

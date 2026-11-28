@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:home_widget/home_widget.dart';
 
 import '../../ingest/domain/ingest.dart';
@@ -28,13 +29,18 @@ class HomeWidgetGateway implements WidgetGateway {
   final Future<void> Function(String key, String value) _save;
   final Future<void> Function(String qualifiedName) _update;
 
+  /// 위젯 갱신 실패는 기록만 하고 삼킨다. 저장·알림 흐름을 막지 않는다.
   @override
   Future<void> save(Map<String, String> entries) async {
-    for (final e in entries.entries) {
-      await _save(e.key, e.value);
-    }
-    for (final name in _providers) {
-      await _update(name);
+    try {
+      for (final e in entries.entries) {
+        await _save(e.key, e.value);
+      }
+      for (final name in _providers) {
+        await _update(name);
+      }
+    } catch (e) {
+      debugPrint('widget save failed: ${e.runtimeType}');
     }
   }
 }
