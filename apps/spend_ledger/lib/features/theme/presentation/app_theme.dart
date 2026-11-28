@@ -30,6 +30,11 @@ class SpendColors extends ThemeExtension<SpendColors> {
 ThemeData buildAppTheme(AppThemeId id, Brightness brightness) {
   final colors = themeColors(id);
   final p = brightness == Brightness.dark ? colors.dark : colors.light;
+  final card = Color(p.card);
+  final track = Color(p.track);
+  final onSurface = Color(p.onSurface);
+  // 시드에서 자동으로 만든 컨테이너 색은 시안과 색조가 달라(베이지가 분홍빛),
+  // 화면에 보이는 컨테이너 역할은 모두 색 표 값으로 덮는다.
   final scheme =
       ColorScheme.fromSeed(
         seedColor: Color(p.primary),
@@ -37,10 +42,17 @@ ThemeData buildAppTheme(AppThemeId id, Brightness brightness) {
       ).copyWith(
         primary: Color(p.primary),
         surface: Color(p.background),
-        onSurface: Color(p.onSurface),
+        onSurface: onSurface,
         onSurfaceVariant: Color(p.subtle),
-        surfaceContainer: Color(p.card),
-        surfaceContainerHighest: Color(p.track),
+        surfaceContainerLowest: card,
+        surfaceContainerLow: card,
+        surfaceContainer: card,
+        surfaceContainerHigh: card,
+        surfaceContainerHighest: track,
+        primaryContainer: track,
+        onPrimaryContainer: onSurface,
+        secondaryContainer: track,
+        onSecondaryContainer: onSurface,
       );
   return ThemeData(
     useMaterial3: true,

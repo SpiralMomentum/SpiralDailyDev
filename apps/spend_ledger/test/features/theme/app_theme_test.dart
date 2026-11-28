@@ -16,4 +16,28 @@ void main() {
     expect(t.extension<SpendColors>()!.warning, Color(p.warning));
     expect(t.extension<SpendColors>()!.track, Color(p.track));
   });
+
+  test('자동 생성 보조 색 대신 색 표 값을 쓴다(카드·컨테이너·진행 막대 바탕)', () {
+    for (final id in AppThemeId.values) {
+      for (final b in Brightness.values) {
+        final t = buildAppTheme(id, b);
+        final c = themeColors(id);
+        final p = b == Brightness.dark ? c.dark : c.light;
+        final s = t.colorScheme;
+        for (final card in [
+          s.surfaceContainerLowest,
+          s.surfaceContainerLow,
+          s.surfaceContainer,
+          s.surfaceContainerHigh,
+        ]) {
+          expect(card, Color(p.card), reason: '$id $b');
+        }
+        expect(s.surfaceContainerHighest, Color(p.track), reason: '$id $b');
+        expect(s.secondaryContainer, Color(p.track), reason: '$id $b');
+        expect(s.primaryContainer, Color(p.track), reason: '$id $b');
+        expect(s.onPrimaryContainer, Color(p.onSurface), reason: '$id $b');
+        expect(s.onSecondaryContainer, Color(p.onSurface), reason: '$id $b');
+      }
+    }
+  });
 }
