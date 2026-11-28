@@ -6,6 +6,7 @@ import '../../ingest/domain/ingest.dart';
 import '../../ledger/domain/money_format.dart';
 import '../../ledger/presentation/tx_tile.dart';
 import '../domain/summary.dart';
+import '../../theme/presentation/app_theme.dart';
 import 'home_cubit.dart';
 
 class HomePage extends StatelessWidget {

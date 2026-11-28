@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 
+import '../../theme/presentation/app_theme.dart';
 import '../domain/money_format.dart';
 import '../domain/transaction.dart';
 import 'tx_labels.dart';
-
-const TextStyle tabularFigures = TextStyle(
-  fontFeatures: [FontFeature.tabularFigures()],
-);
 
 /// 거래 한 줄. 상대·일시·분류와 금액을 보여 준다.
 class TxTile extends StatelessWidget {

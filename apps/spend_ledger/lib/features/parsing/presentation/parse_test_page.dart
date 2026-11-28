@@ -6,10 +6,10 @@ import '../../ingest/domain/ingest.dart';
 import '../../ledger/domain/decide.dart';
 import '../../ledger/domain/money_format.dart';
 import '../../ledger/presentation/tx_labels.dart';
-import '../../ledger/presentation/tx_tile.dart';
 import '../../message_filter/domain/filter.dart';
 import '../../message_filter/domain/raw_message.dart';
 import '../../settings/domain/app_settings.dart';
+import '../../theme/presentation/app_theme.dart';
 import '../domain/parsed_message.dart';
 import '../domain/parser.dart';
 

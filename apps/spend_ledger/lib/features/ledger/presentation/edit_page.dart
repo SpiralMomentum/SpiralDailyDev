@@ -4,9 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../ingest/domain/ingest.dart';
 import '../domain/transaction.dart';
+import '../../theme/presentation/app_theme.dart';
 import 'edit_cubit.dart';
 import 'tx_labels.dart';
-import 'tx_tile.dart';
 
 /// 거래 수정 화면. 거래를 id로 읽은 뒤 수정 폼을 연다.
 class EditPage extends StatefulWidget {
